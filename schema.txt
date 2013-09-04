@@ -1,0 +1,27 @@
+~clock
+  tempo change knob (needs to have validation to ensure isn't twiddled by accident!)
+
+~synthesis_functions
+  return either a group or a synth itself
+  logical layer over synthesis
+  not involved in scheduling
+
+~task_master
+  user input
+    to repeat or not to repeat, that is all
+  knows where we are in the form of a given jam
+  automates the scheduling of synthesis_function instantiation, pausing, and release
+  stores attributes for current jam i.e.
+    current_tempo
+    current_chord
+    current_key
+    current_autosynths
+
+~jams
+  has many autosynths: // just playbufs for now?
+    measure they should be instantiated, measure they should be released
+  has measures_schema
+    specifies the meter for each measure, chords, timesignature
+  
+~setlist
+  array of jams in a specified order
