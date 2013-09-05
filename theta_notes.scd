@@ -99,7 +99,3 @@ chain = PV_Whiten(chain, trackbuf, relax / (BufSamples.kr(fftbuf) * 0.5), floor,
 		out = BFEncodeSter.ar(revl + l, revr + r);
 		Out.ar(outbus, out);
 		}),
-
-
-
-	
