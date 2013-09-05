@@ -1,5 +1,5 @@
 (
-var	docpath, startup_gui, startup_info, start_but, sg_but;
+var	startup_gui, startup_info, start_but, sg_but;
 
 ~maindir = "~/Documents/sound projects/Current/EB/Main/".standardizePath;
 sg_but = IdentityDictionary[];
@@ -40,7 +40,7 @@ start_but = Button(startup_gui, Rect(50, start_but, 80, 30) )
 
 		// load instrument-specific config files
 		sg_but.keysValuesDo {arg key, value;
-			if(value.value == 1, {(~maindir++key++".scd").load});
+			if(value.value == 1, {(~maindir++"instr/"++key++".scd").load});
 		};
 
 		CmdPeriod.doOnce {

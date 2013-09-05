@@ -1,7 +1,7 @@
 (
 	var uid = ~mSrc[\drums], drum_trig;
 
-	load(~maindir ++ "/drum_sample_map.scd");
+	load(~maindir ++ "/instr/drum_sample_map.scd");
 
 	~drum_funcs = IdentityDictionary[
 		\basic_sample -> {|action|
