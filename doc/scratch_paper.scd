@@ -46,3 +46,9 @@ a = NoteOnResponder({|src, chan, note, vel|
 	"working!".postln;
 }, nil, nil, nil, nil)
 )
+(
+currentEnvironment.keysValuesDo {|k, v|
+	postln("key: " ++ k);
+	postln("value: " ++ v);
+};
+)

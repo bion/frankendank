@@ -9,5 +9,4 @@
 		~com_bufs.add( name.asSymbol -> Buffer.read(s, path) );
 		name.postln;
 	};
-
 )

@@ -1,7 +1,8 @@
 (
   var docpath = thisProcess.nowExecutingPath,
   // metranome
-    met_sfd = (~maindir ++ "met_sfs/*").pathMatch, // natural numbers
+		met_sfd_path = ~maindir ++ "met_sfs/*",
+    met_sfd = (met_sfd_path).pathMatch, // natural numbers
     met_bufs = Array.newClear(met_sfd.size),
     met_outbus = 1,
     playing = IdentityDictionary[],
@@ -75,7 +76,12 @@
 		~buss.put(name, Bus.control(s, 1) );
 	};
 
-	met_sfd.do {arg path, i; met_bufs[i] = Buffer.read(s, path) };
+	if(met_sfd.size == 0, {
+		var mes = "No metranome files found at %, where are they?".format(met_sfd_path);
+		Error(mes).throw;
+		}, {
+		met_sfd.do {arg path, i; met_bufs[i] = Buffer.read(s, path) };
+	});
 
 	s.sync(~cond);
 

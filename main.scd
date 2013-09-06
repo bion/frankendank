@@ -1,7 +1,7 @@
 (
 var	startup_gui, startup_info, start_but, sg_but;
 
-~maindir = "~/Documents/sound projects/Current/EB/Main/".standardizePath;
+~maindir = "~/Documents/sound projects/Current/EB/main/".standardizePath;
 sg_but = IdentityDictionary[];
 
 MIDIClient.init;
@@ -33,7 +33,7 @@ start_but = Button(startup_gui, Rect(50, start_but, 80, 30) )
 
 		load(~maindir ++ "SD.scd");
 		load(~maindir ++ "looping.scd");
-		load(~maindir ++ "com_sample_map.scd");
+		load(~maindir ++ "instr/" ++ "com_sample_map.scd");
 		load(~maindir ++ "jams.scd");
 		load(~maindir ++ "task_master.scd");
 		load(~maindir ++ "core.scd");
@@ -58,6 +58,6 @@ start_but = Button(startup_gui, Rect(50, start_but, 80, 30) )
 		startup_gui.close;
 	});
 });
-
+Environment
 startup_gui.front;
 )
