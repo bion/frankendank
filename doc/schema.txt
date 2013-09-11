@@ -6,6 +6,17 @@
   logical layer over synthesis
   not involved in scheduling
 
+~com_synth_groups
+  each group is an IdentityDictionary[
+    \uses_chords -> true/false,
+    \chord_synths -> [Synth, Synth, Synth],
+    \synth_name -> \symbol_of_synthdef_name,
+    // DOES NOT INCLUDE \freq ARGUMENT
+    \args -> [\outbus, ~buss[\outbus], \dur, 19.23324, etc...], 
+    \target -> target,
+    \add_message -> \add_before or whatev
+  ];
+
 ~task_master
   user input
     to repeat or not to repeat, that is all

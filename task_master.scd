@@ -15,9 +15,11 @@
 
 		upcoming_jam[\measures].do {|measure, i|
 
-			// 0.1 beat before each measure, update ~chord and ~bass
-			~clock.sched(~clock.timeToNextBeat + beat_of_measure - 0.1,
-				~create_chord_fxn.(measure[1]));
+			// s.latency beat before each measure, update ~chord and ~bass
+			~clock.sched(
+				~clock.timeToNextBeat + beat_of_measure - (s.latency / ~clock.beatDur),
+				~set_chord_fxn.(measure[1])
+			);
 
 			// break if no events to schedule for this measure
 			if(measure[2].notNil, {
@@ -39,12 +41,10 @@
 		nil;
 	};
 
-	~create_chord_fxn = {|chord|
-		{
-			~current_chord = chord;
-			// ~update_playing_chord_synths.(chord);
-		}
-	};
+	~set_chord_fxn = {|chord| {
+		~current_chord = chord;
+		~update_synths_with_chord.(chord);
+	}}; 
 
 	~create_scheduled_fxn = IdentityDictionary[
 		\playbuf -> {|action|
