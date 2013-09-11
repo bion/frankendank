@@ -31,7 +31,7 @@
 				};
 			});
 
-			beat_of_measure = measure[0] + beat_of_measure;
+			beat_of_measure = (measure[0] / 2) + beat_of_measure;
 		};
 
 		~clock.playNextBar({ ~current_jam = upcoming_jam });

@@ -53,7 +53,7 @@
 
 	~update_synths_with_chord = {|chord|
 		~com_synths_groups.do {|group| if(group[\uses_chord], {
-			synths = group[\chord_synths];
+			var synths = group[\chord_synths];
 			chord.do {|pitch_class, i|
 				if(synths[i].notNil, {
 					synths[i].set(\freq, pitch_class.freq);
@@ -71,7 +71,7 @@
 					};
 				});
 			};
-		}};
+		})};
 	};
 
 	/* ____________________________ groups, busses, buffers */
