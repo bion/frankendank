@@ -54,6 +54,7 @@ start_but = Button(startup_gui, Rect(50, start_but, 80, 30) )
 			"loop freed".postln;
 			MIDIdef.freeAll;
 			"MIDIdefs freed".postln;
+			s.quit;
 		};
 
 		startup_gui.close;
