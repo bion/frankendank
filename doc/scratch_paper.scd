@@ -52,3 +52,12 @@ currentEnvironment.keysValuesDo {|k, v|
 	postln("value: " ++ v);
 };
 )
+~loop_this_jam = false;
+
+~clock.sched(~clock.timeToNextBeat, ~scheduler);
+
+(
+	a = Environment.make({~two = 2; ~one = 1});
+	a.removeAll;
+	a;
+)

@@ -7,10 +7,6 @@
 		[2] == array of events, each event has its own properties as well as:
 			\beat == the beat in the measure that event happens on
 			\action_type == the action in ~clock_functions for receiving the event
-	
-	TODO haromic information. schema'd such that
-		could be read continuously by controlling synth for glissing between notes
-		could use splines and splinegen to do this
 */
 
 (
@@ -18,24 +14,29 @@
 		\blank_two_measures -> IdentityDictionary[
 			\loop -> true,
 			\measures -> [
-				[8, [PC(\a, 4)]], [8, [PC(\a, 4)]]
+				[8,
+					[PC(\a, 4)]], [8, [PC(\a, 4)]]
 			];
 		],
 
 		\test_1 -> IdentityDictionary[
 			\loop -> false,
 			\measures -> [
-				[8, [PC(\a, 4)]], [8, [PC(\a, 4)]], [8, [PC(\a, 4)],
-					[(beat: 0, action_type: \playbuf, buf: \test_buf)]],
-				[8, [PC(\a, 4)]], [8, [PC(\a, 4)]], [8, [PC(\a, 4)]]
+				[8,
+					[PC(\a, 4)]], [8, [PC(\a, 4)]], [8, [PC(\a, 4)],
+					[(beat: 0, action_type: \playbuf, buf: \bob)]],
+				[8,
+					[PC(\a, 4)]], [8, [PC(\a, 4)]], [8, [PC(\a, 4)]]
 			];
 		],
 
 		\test_2 -> IdentityDictionary[
 			\loop -> true,
 			\measures -> [
-				[4, [PC(\a, 4)], [(beat: 0, action_type: \post, message: "test action")]],
-				[4, [PC(\a, 4)]]
+				[4,
+					[PC(\a, 4)], [(beat: 0, action_type: \post, message: "test action")]],
+				[4,
+					[PC(\a, 4)]]
 			];
 		]
 	];

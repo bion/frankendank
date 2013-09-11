@@ -58,6 +58,6 @@ start_but = Button(startup_gui, Rect(50, start_but, 80, 30) )
 		startup_gui.close;
 	});
 });
-Environment
+
 startup_gui.front;
 )
