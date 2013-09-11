@@ -36,12 +36,13 @@ start_but = Button(startup_gui, Rect(50, start_but, 80, 30) )
 		load(~maindir ++ "instr/" ++ "com_sample_map.scd");
 		load(~maindir ++ "jams.scd");
 		load(~maindir ++ "task_master.scd");
-		load(~maindir ++ "core.scd");
 
 		// load instrument-specific config files
 		sg_but.keysValuesDo {arg key, value;
 			if(value.value == 1, {(~maindir++"instr/"++key++".scd").load});
 		};
+
+		load(~maindir ++ "core.scd");
 
 		CmdPeriod.doOnce {
 			s.freeAll;

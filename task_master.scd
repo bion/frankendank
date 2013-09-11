@@ -1,6 +1,11 @@
 (
 	~current_jam = ~setlist[0];
 	~current_chord = [];
+	~loop_this_jam = true;
+
+	~toggle_loop_jam = {
+		if(~loop_this_jam, {~loop_this_jam = false}, {~loop_this_jam = true});
+	};
 
 	~scheduler = {
 		var upcoming_jam, beat_of_measure=0;
@@ -28,6 +33,7 @@
 
 		~current_jam = upcoming_jam;
 		~clock.sched(beat_of_measure + ~clock.timeToNextBeat - 1, ~scheduler);
+		"SCHEDULER RAN & RESCHEDULED".postln;
 		nil;
 	};
 

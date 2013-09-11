@@ -133,5 +133,6 @@
 			[\inbus, ~buss[\one_out], \outbus, 0], ~out_g)
 	);
 
+	~scheduler.();
 	"CORE LOADED".postln;
 )
