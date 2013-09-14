@@ -24,7 +24,7 @@ start_but = Button(startup_gui, Rect(50, start_but, 80, 30) )
 		{source.device == "Breath Controller"} {~mSrc[\breath] = source.uid}
 		{source.device == "FCB1010"} {~mSrc[\fcb] = source.uid}
 		{source.device == "USB2.0-MIDI"} {~mSrc[\fcb] = source.uid}
-		{source.device == "drumz"} {~mSrc[\drums] = source.uid};
+		{source.device == "ControlPad"} { ~mSrc[\drums] = ~mSrc[\drums] ? source.uid};
 	};
 
   s.waitForBoot({

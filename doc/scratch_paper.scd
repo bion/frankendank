@@ -40,7 +40,7 @@ MIDIdef.program(\whodunnit, {arg ...args; args.postln; "this one".postln;}, 0, -
 MIDIdef.program(\whodunnsit, {arg ...args; "that one".postln;}, 0, -1815496440, {arg val; val.postln; true});
 MIDIdef.all;
 MIDIdef.freeAll;
-
+~mSrc[\drums]
 (
 a = NoteOnResponder({|src, chan, note, vel|
 	Synth(\buf1, [\bufnum, ~buf]);
@@ -61,4 +61,10 @@ currentEnvironment.keysValuesDo {|k, v|
 	a = Environment.make({~two = 2; ~one = 1});
 	a.removeAll;
 	a;
+)
+(
+	MIDIdef.freeAll
+a = MIDIFunc.noteOn({arg ...args; args.postln});
+b = MIDIFunc.program({arg ...args; args.postln});
+MIDIClient.sources[0].port
 )
