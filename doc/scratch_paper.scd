@@ -2,24 +2,25 @@
 ~loops
 ~path = "/Users/bionjohnson/Documents/sound projects/Current/EB/Main/";
 (~path ++ "main.scd").load;
-
+TempoClock
+s.queryAllNodes
 ~loop_touch.(IdentityDictionary[\inst -> \sax, \num -> 0]);
 ~loops[\sax][0]
-
+~toggle_loop_jam.()
 (
 AbstractResponderFunc.allEnabled.keysValuesDo {|key, value|
 	postln("key: " ++ key);
 	postln("value: " ++ value);
 }
 )
-
+~com_bufs
 ~loops[\sax][0]
 ~h_filt.(\sax_f1)
 ~h_synth.(\sax_s1)
 
 ~maindir = "/Users/bionjohnson/Documents/sound projects/Current/EB/Main";
 
-MIDIClient.sources;
+MIDIClient.sources[0].uid;
 MIDIClient.init;
 MIDIIn.connectAll;
 s.boot

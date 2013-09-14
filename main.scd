@@ -21,6 +21,7 @@ start_but = Button(startup_gui, Rect(50, start_but, 80, 30) )
 .mouseDownAction_({
 	MIDIClient.sources.do {arg source;
 		case
+		{source.device == "Breath Controller"} {~mSrc[\breath] = source.uid}
 		{source.device == "FCB1010"} {~mSrc[\fcb] = source.uid}
 		{source.device == "USB2.0-MIDI"} {~mSrc[\fcb] = source.uid}
 		{source.device == "drumz"} {~mSrc[\drums] = source.uid};
@@ -46,6 +47,7 @@ start_but = Button(startup_gui, Rect(50, start_but, 80, 30) )
 
 		CmdPeriod.doOnce {
 			s.freeAll;
+			~clock.clear.stop;
 			~buss.keysValuesDo {|key, value| value.free };
 			"busses freed".postln;
 			OSCFunc.allEnabled.do {|func| func.free};

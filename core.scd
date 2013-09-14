@@ -97,7 +97,7 @@
 		~buss.put(name, Bus.control(s, 4) );
 	};
 
-	[ \sax_v, \sax_p, \tub_v, \tub_p ].do {arg name;
+	[ \breath_p, \sax_v, \sax_p, \tub_v, \tub_p ].do {arg name;
 		~buss.put(name, Bus.control(s, 1) );
 	};
 
@@ -123,6 +123,9 @@
 
 	/* ________________________________ persistent synths */
 	~p_synths.add(
+		\breath_p -> Synth(\p_control,
+			[\outbus, ~buss[\breath_p], \param, 0], ~in_g),
+
 		\sax_v -> Synth(\v_control, 
 			[\outbus, ~buss[\sax_v], \amp, 0], ~in_g),
 		\tub_v -> Synth(\v_control, 
