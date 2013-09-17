@@ -1,7 +1,9 @@
 (
-var	startup_gui, startup_info, start_but, sg_but;
+var	startup_gui, startup_info, start_but, sg_but,
+	tempo_box, tempo_slider, tempo_spec;
 
 ~maindir = "~/Documents/sound projects/Current/EB/main/".standardizePath;
+~tempo = 220/60;
 sg_but = IdentityDictionary[];
 
 MIDIClient.init;
@@ -16,9 +18,22 @@ startup_gui = Window("EDE Startup", Rect(200, 200, 400, 250));
 	start_but = i*40+50;
 };
 
+tempo_box = NumberBox(startup_gui, Rect(150, 30, 50, 30));
+StaticText(startup_gui, Rect(150, 10, 50, 20)).align_(\center).string_("tempo:");
+tempo_spec = ControlSpec(50, 220, \linear, 1);
+tempo_slider = Slider(startup_gui, Rect(120, 60, 160, 40))
+								.value_(~tempo)
+								.action_({
+									var val = tempo_spec.map(tempo_slider.value);
+									tempo_box.value_(val);
+									~tempo = val/60;
+								});
+tempo_box.value_(tempo_spec.map(tempo_slider.value));
+
 start_but = Button(startup_gui, Rect(50, start_but, 80, 30) )
 .states_([["BOOM!", Color.black, Color.red]])
 .mouseDownAction_({
+	~tempo = tempo_spec.map(tempo_slider.value)/60;
 	MIDIClient.sources.do {arg source;
 		case
 		{source.device == "Breath Controller"}	{~mSrc[\breath] = source.uid}
@@ -27,11 +42,10 @@ start_but = Button(startup_gui, Rect(50, start_but, 80, 30) )
 		{source.device == "USB2.0-MIDI"}				{~mSrc[\fcb] = source.uid}
 		{source.device == "ControlPad"}					{ ~mSrc[\drums] = ~mSrc[\drums] ? source.uid};
 	};
-
   s.waitForBoot({
     ~cond = Condition.new;
 
-		~clock = TempoClock(70/60);
+		~clock = TempoClock(~tempo);
 
 		load(~maindir ++ "SD.scd");
 		load(~maindir ++ "looping.scd");
