@@ -21,11 +21,24 @@
 
 		upcoming_jam[\measures].do {|measure, i|
 
+			/* --------------------------- metranome ---------------------- */
+			// measure[0] = num eigths in measure
+			(measure[0] / 2).floor.do {|i|
+				var beats_away = beat_of_measure + i + ~clock.timeToNextBeat;
+				~clock.sched(beats_away - (s.latency * ~clock.beatDur), {
+					Synth(\playbuf_simple, [\outbus, ~met_outbus, 
+																\buf, ~met_bufs.wrapAt(i)], ~playbuf_g);
+					postln("BEAT IS " ++ ~clock.beats);
+				});
+			};
+
+			/* --------------------------- chords ---------------------- */
 			~clock.sched(
 				~clock.timeToNextBeat + beat_of_measure - (s.latency / ~clock.beatDur),
 				~set_chord_fxn.(measure[1])
 			);
 
+			/* --------------------------- measure actions ---------------------- */
 			if(measure[2].notNil, {
 				measure[2].do {|action|
 					var beat_of_action, beats_to_wait;

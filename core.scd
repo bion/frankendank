@@ -3,13 +3,15 @@
   // metranome
 		met_sfd_path = ~maindir ++ "met_sfs/*",
     met_sfd = (met_sfd_path).pathMatch, // natural numbers
-    met_bufs = Array.newClear(met_sfd.size),
-    met_outbus = 1,
     playing = IdentityDictionary[],
 		id_bus_map = IdentityDictionary[
 			\sax -> 8,
 			\tub -> 9,
 		];
+
+	~met_bufs = Array.newClear(met_sfd.size);
+	~met_outbus = 1;
+
   // persistent synths
   ~p_synths = IdentityDictionary[];
 
@@ -105,21 +107,10 @@
 		var mes = "No metranome files found at %, where are they?".format(met_sfd_path);
 		Error(mes).throw;
 		}, {
-		met_sfd.do {arg path, i; met_bufs[i] = Buffer.read(s, path) };
+		met_sfd.do {arg path, i; ~met_bufs[i] = Buffer.read(s, path) };
 	});
 
 	s.sync(~cond);
-
-	/* ________________________________ metranome */
-	~clock.sched(0, {
-		~clock.beatsPerBar.do {arg beat, i;
-			~clock.sched(beat, {
-				Synth(\playbuf_simple, [\outbus, met_outbus, 
-																\buf, met_bufs.wrapAt(i)], ~playbuf_g);
-			});
-		};
-		~clock.nextBar - ~clock.beats + 0.00001;
-	});
 
 	/* ________________________________ persistent synths */
 	~p_synths.add(
