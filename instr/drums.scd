@@ -1,5 +1,8 @@
 (
 	var uid = ~mSrc[\drums], drum_trig;
+	var switch_uid = ~mSrc[\drum_switch], 
+
+	~current_set = 0;
 
 	load(~maindir ++ "/instr/drum_sample_map.scd");
 
@@ -24,14 +27,22 @@
 		]
 	];
 
-	drum_trig = {|pad_midi_number|
+	drum_trig = {arg pad_midi_number;
 		var action_id, action;
-			action_id = ~sample_sets[0][pad_midi_number]; // TODO foot switch to select sample set
+			action_id = ~sample_sets[~current_set][pad_midi_number];
 			postln("ACTION ID: " ++ action_id);
 			action = ~drums[action_id];
 			postln("ACTION: " ++ action).postln;
 		~drum_funcs[action[\function]].(action);
 	};
+
+	MIDIdef.program(\drum_sample_set, {arg val;
+			~current_set=val;
+			postln("CURRENT_SAMPLE_SET: " ++ ~current_set);
+		},
+		0,
+		switch_uid
+	);
 
 	127.do {|i|
 		MIDIdef.noteOn(i.asSymbol,

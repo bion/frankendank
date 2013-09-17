@@ -39,10 +39,12 @@
 		var bus = ~buss[(id[\inst].asString ++ "_agg").asSymbol];
 		var loop_instance = ~loops[id[\inst]][id[\num]];
 		loop_instance[\dur] = ~clock.beats;
-		loop_instance[\recording] = Synth(\recordbuf_mono,
-			[ \inbus, bus, \startpos, offset * s.sampleRate,
-				\buf, loop_instance[\buffer] ],
-			~record_g);
+		s.bundle(0.025, {
+			loop_instance[\recording] = Synth(\recordbuf_mono,
+				[ \inbus, bus, \startpos, offset * s.sampleRate,
+					\buf, loop_instance[\buffer] ],
+				~record_g);
+		});
 		loop_instance[\next_action] = stop_recording;
 		postln("STARTED " ++ id ++ " RECORDING, OFFSET: " ++ offset);
 	};
@@ -73,13 +75,15 @@
 
 	add_loop_synth = {arg id, offset=0;
 		var loop_instance = ~loops[id[\inst]][id[\num]];
-		var synth = Synth(\playbuf_mono,
+		var synth;
+		s.makeBundle(0.025, { synth = Synth(\playbuf_mono,
 			[ \outbus, 0,
 				\amp, 1,
 				\buf, loop_instance[\buffer], 
 				\dur, loop_instance[\dur] * ~clock.beatDur - offset - 0.05,
 				\startpos, offset * s.sampleRate],
 			~playbuf_g).onFree({loop_instance[\synth] = nil});
+		});
 		loop_instance.putAll(IdentityDictionary[
 			\synth -> synth,
 			\responder -> OSCFunc(
