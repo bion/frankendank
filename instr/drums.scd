@@ -8,10 +8,13 @@
 
 	~drum_funcs = IdentityDictionary[
 		\basic_sample -> {|action|
-			Synth(\playbuf_simple,
-				[ \buf, action[\buffer],
-					\bus, ~buss[action[\register]] ],
-				~playbuf_g )},
+			s.makeBundle(0.025, {
+				Synth(\playbuf_simple,
+					[ \buf, action[\buffer],
+						\bus, ~buss[action[\register]] ],
+					~playbuf_g )
+				})
+			},
 	];
 
 	~sample_sets = [

@@ -68,7 +68,8 @@ a = MIDIFunc.noteOn({arg ...args; args.postln});
 b = MIDIFunc.program({arg ...args; args.postln});
 MIDIClient.sources[0].port
 )
-
+d = IdentityDictionary[];
 (
-	s.makeBundle(0.025, { a = Synth(\default) });
+	s.makeBundle(0.025, { b = Synth(\default) });
+	d[\one] = b;
 )
