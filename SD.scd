@@ -47,16 +47,16 @@
 	}),
 
 	SynthDef(\sax_eq, {
-		arg inbus, outbus, vbus;
+		arg inbus, outbus;
 		var in, out;
 		in = In.ar(inbus, 1);
-		Out.ar(outbus, in*In.kr(vbus));
+		Out.ar(outbus, in);
 	}),
 	SynthDef(\tub_eq, {
 		arg inbus, outbus, vbus;
 		var in, out;
 		in = In.ar(inbus, 1);
-		Out.ar(outbus, in*In.kr(vbus));
+		Out.ar(outbus, in);
 	}),
 
 	SynthDef(\agg, {

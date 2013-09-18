@@ -2,12 +2,13 @@
 
 That's 'Electrostep Dunk Ensemble' to the proletariat.
 
-### I/O channel mappings:
+### I(gain)/O channel mappings:
 
-* sax: 1 (2?) / [0, 1]
-* tuba: 0 / [0, 1]
-* drums: 3 - 7 / [0, 1]
-* com: n/a / [0, 1]
+* sax: 1, 2 (3.5) / 0
+* tuba: 0 / 0
+* drums: n/a / 0
+* com: n/a / 0
+* met: n/a / 1
 
 ## Practice
 

@@ -83,7 +83,8 @@
 	~synth_g = Group(~in_g, \addAfter);
 	~filt_g = Group(~synth_g, \addAfter);
 	~eq_g = Group(~filt_g, \addAfter);
-	~out_g = Group(~eq_g, \addAfter);
+	~agg_g = Group(~eq_g, \addAfter);
+	~out_g = Group(~agg_g, \addAfter);
 	~record_g = Group(~playbuf_g, \addAfter);
 
 	~buss = IdentityDictionary[];
@@ -138,15 +139,13 @@
 			[\inbus, id_bus_map[\tub], \outbus, ~buss[\tub_eq] ], ~in_g),
 
 		\sax_eq -> Synth(\sax_eq, 
-			[\inbus, ~buss[\sax_eq], \outbus, ~buss[\sax_agg],
-				\vbus, \sax_v], ~eq_g),
+			[\inbus, ~buss[\sax_eq], \outbus, ~buss[\sax_agg]], ~eq_g),
 		\tub_eq -> Synth(\tub_eq, 
-			[\inbus, ~buss[\tub_eq], \outbus, ~buss[\tub_agg],
-				\vbus, \tub_v], ~eq_g),
+			[\inbus, ~buss[\tub_eq], \outbus, ~buss[\tub_agg]], ~eq_g),
 
 		\agg -> Synth(\agg,
 			[\saxbus, ~buss[\sax_agg], \tubbus, ~buss[\tub_agg],
-			\outbus, ~buss[\one_out]], ~out_g);
+			\outbus, ~buss[\one_out]], ~agg_g);
 
 		\out_left -> Synth(\route_mono, 
 			[\inbus, ~buss[\one_out], \outbus, 0], ~out_g)
