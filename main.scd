@@ -31,7 +31,7 @@ tempo_slider = Slider(startup_gui, Rect(120, 60, 160, 40))
 tempo_box.value_(tempo_spec.map(tempo_slider.value));
 
 start_but = Button(startup_gui, Rect(50, start_but, 80, 30) )
-.states_([["BOOM!", Color.black, Color.red]])
+	.states_([["BOOM!", Color.black, Color.red]])
 .mouseDownAction_({
 	~tempo = tempo_spec.map(tempo_slider.value)/60;
 	MIDIClient.sources.do {arg source;
@@ -42,6 +42,8 @@ start_but = Button(startup_gui, Rect(50, start_but, 80, 30) )
 		{source.device == "USB2.0-MIDI"}				{~mSrc[\fcb] = source.uid}
 		{source.device == "ControlPad"}					{ ~mSrc[\drums] = ~mSrc[\drums] ? source.uid};
 	};
+
+	s.latency = 0.075;
   s.waitForBoot({
     ~cond = Condition.new;
 

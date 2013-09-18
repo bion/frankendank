@@ -25,7 +25,7 @@
 			// measure[0] = num eigths in measure
 			(measure[0] / 2).floor.do {|i|
 				var beats_away = beat_of_measure + i + ~clock.timeToNextBeat;
-				~clock.sched(beats_away - (s.latency * ~clock.beatDur), {
+				~clock.sched(beats_away - (s.latency / ~clock.beatDur), {
 					Synth(\playbuf_simple, [\outbus, ~met_outbus, 
 																\buf, ~met_bufs.wrapAt(i)], ~playbuf_g);
 					postln("BEAT IS " ++ ~clock.beats);
@@ -52,7 +52,7 @@
 		};
 
 		~clock.playNextBar({ ~current_jam = upcoming_jam });
-		~clock.sched(beat_of_measure + ~clock.timeToNextBeat - 1, ~scheduler);
+		~clock.schedAbs(~clock.nextBar + beat_of_measure - 0.5, ~scheduler);
 		postln("SCHEDULED SETLIST INDEX " ++ upcoming_jam[\index]);
 		nil;
 	};
