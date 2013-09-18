@@ -1,5 +1,7 @@
 # EDE Project
 
+That's 'Electrostep Dunk Ensemble' to the proletariat.
+
 ### I/O channel mappings:
 
 * sax: 1 (2?) / [0, 1]
