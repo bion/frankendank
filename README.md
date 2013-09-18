@@ -24,6 +24,7 @@ cd ~/Documents/EDE/code
 git clone https://github.com/bion/frankendank.git
 enter your username and password
 ```
+
 ### Running this fucker
 
 1. Go to the directory you cloned everything into in setup (with finder, not the terminal).
