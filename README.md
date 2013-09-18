@@ -35,7 +35,7 @@ enter your username and password
 
 4. A bunch of stuff will load, then a window should pop up. Select your instrument, a tempo, press 'Boom!' and go to town.
 
-5. Stop everything with ```shift .```
+5. Stop everything with ```cmd .```
 
 6. If something breaks copy everything from the Post window and send it to me in an email, please.
 
