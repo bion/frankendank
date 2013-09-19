@@ -118,31 +118,6 @@
 		\breath_p -> Synth(\p_control,
 			[\outbus, ~buss[\breath_p], \param, 0], ~in_g),
 
-		\sax_v -> Synth(\v_control, 
-			[\outbus, ~buss[\sax_v], \amp, 0], ~in_g),
-		\tub_v -> Synth(\v_control, 
-			[\outbus, ~buss[\tub_v], \amp, 0], ~in_g),
-
-		\sax_p -> Synth(\p_control, 
-			[\outbus, ~buss[\sax_p], \param, 0], ~in_g),
-		\tub_p -> Synth(\p_control, 
-			[\outbus, ~buss[\tub_p], \param, 0], ~in_g),
-
-		\sax_info -> Synth(\horninfo,
-			[\inbus, id_bus_map[\sax], \outbus, ~buss[\sax_info] ], ~in_g),
-		\tub_info -> Synth(\horninfo,
-			[\inbus, id_bus_map[\tub], \outbus, ~buss[\tub_info] ], ~in_g),
-
-		\sax_in -> Synth(\route_mono,
-			[\inbus, id_bus_map[\sax], \outbus, ~buss[\sax_eq] ], ~in_g),
-		\tub_in -> Synth(\route_mono,
-			[\inbus, id_bus_map[\tub], \outbus, ~buss[\tub_eq] ], ~in_g),
-
-		\sax_eq -> Synth(\sax_eq, 
-			[\inbus, ~buss[\sax_eq], \outbus, ~buss[\sax_agg]], ~eq_g),
-		\tub_eq -> Synth(\tub_eq, 
-			[\inbus, ~buss[\tub_eq], \outbus, ~buss[\tub_agg]], ~eq_g),
-
 		\agg -> Synth(\agg,
 			[\saxbus, ~buss[\sax_agg], \tubbus, ~buss[\tub_agg],
 			\outbus, ~buss[\one_out]], ~agg_g);

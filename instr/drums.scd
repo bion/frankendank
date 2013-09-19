@@ -1,7 +1,6 @@
 (
 	var uid = ~mSrc[\drums], drum_trig;
-	var switch_uid = ~mSrc[\drum_switch], 
-	switch_uid = -829224884;
+	var switch_uid = ~mSrc[\drum_switch];
 
 	~current_set = 0;
 
@@ -71,10 +70,10 @@
 				{ prog == 5 } { ~current_set = 5; postln("CURRENT_SAMPLE_SET: " ++ ~current_set);}
 				{ prog == 6 } { ~current_set = 6; postln("CURRENT_SAMPLE_SET: " ++ ~current_set);}
 				{ prog == 7 } { ~current_set = 7; postln("CURRENT_SAMPLE_SET: " ++ ~current_set);}
-				{ prog == 7 } { ~current_set = 8; postln("CURRENT_SAMPLE_SET: " ++ ~current_set);}
-				{ prog == 7 } { ~current_set = 9; postln("CURRENT_SAMPLE_SET: " ++ ~current_set);}
-				{ prog == 7 } { ~current_set = 10; postln("CURRENT_SAMPLE_SET: " ++ ~current_set);}
-				{ prog == 8 } { ~current_set = 11; postln("CURRENT_SAMPLE_SET: " ++ ~current_set);};
+				{ prog == 8 } { ~current_set = 8; postln("CURRENT_SAMPLE_SET: " ++ ~current_set);}
+				{ prog == 9 } { ~current_set = 9; postln("CURRENT_SAMPLE_SET: " ++ ~current_set);}
+				{ prog == 10 } { ~current_set = 10; postln("CURRENT_SAMPLE_SET: " ++ ~current_set);}
+				{ prog == 11 } { ~current_set = 11; postln("CURRENT_SAMPLE_SET: " ++ ~current_set);};
 		});
 	};
 

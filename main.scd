@@ -2,7 +2,7 @@
 var	startup_gui, startup_info, start_but, sg_but,
 	tempo_box, tempo_slider, tempo_spec;
 
-~maindir = "~/Documents/sound projects/Current/EB/main/".standardizePath;
+~maindir = "~/Documents/EDE/code/frankendank/".standardizePath;
 ~tempo = 220/60;
 sg_but = IdentityDictionary[];
 

@@ -20,7 +20,7 @@ AbstractResponderFunc.allEnabled.keysValuesDo {|key, value|
 
 ~maindir = "/Users/bionjohnson/Documents/sound projects/Current/EB/Main";
 
-MIDIClient.sources[0].uid;
+MIDIClient.sources
 MIDIClient.init;
 MIDIIn.connectAll;
 s.boot
