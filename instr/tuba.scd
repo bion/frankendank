@@ -22,7 +22,7 @@ var toggle_filt, ints_to_names = Array.newClear(100),
 
 // two dimensional array stores button# and function pairings
 // loop over pairs to instantiate MIDIFuncs using uid
-
+[
 	[0, {arg ...args; args.postln; ~loop_touch.(map_dic.(0));}],
 	[1, {~loop_touch.(map_dic.(1));}],
 	[2, {~loop_touch.(map_dic.(2));}],
