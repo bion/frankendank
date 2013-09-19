@@ -49,6 +49,8 @@ start_but = Button(startup_gui, Rect(50, start_but, 80, 30) )
 
 		~clock = TempoClock(~tempo);
 
+		load(~maindir ++ "core.scd");
+
 		load(~maindir ++ "SD.scd");
 		load(~maindir ++ "looping.scd");
 		load(~maindir ++ "instr/" ++ "com_sample_map.scd");
@@ -59,8 +61,6 @@ start_but = Button(startup_gui, Rect(50, start_but, 80, 30) )
 		sg_but.keysValuesDo {arg key, value;
 			if(value.value == 1, {(~maindir++"instr/"++key++".scd").load});
 		};
-
-		load(~maindir ++ "core.scd");
 
 		CmdPeriod.doOnce {
 			s.freeAll;
@@ -77,6 +77,7 @@ start_but = Button(startup_gui, Rect(50, start_but, 80, 30) )
 		};
 
 		startup_gui.close;
+		~scheduler.();
 	});
 });
 

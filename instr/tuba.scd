@@ -2,6 +2,7 @@
 var uid = ~mSrc[\jons_board];
 var toggle_filt, ints_to_names = Array.newClear(100);
 
+postln("WWWWWWWWWWWWWWWWWW");
 ~p_synths.add(
 	\tub_v -> Synth(\v_control, 
 		[\outbus, ~buss[\tub_v], \amp, 0], ~in_g),
@@ -18,6 +19,7 @@ var toggle_filt, ints_to_names = Array.newClear(100);
 	\tub_eq -> Synth(\tub_eq, 
 		[\inbus, ~buss[\tub_eq], \outbus, ~buss[\tub_agg]], ~eq_g),
 	);
+postln("WWWWWWWWWWWWWWWWWW");
 
 // two dimensional array stores button# and function pairings
 // loop over pairs to instantiate MIDIFuncs using uid
