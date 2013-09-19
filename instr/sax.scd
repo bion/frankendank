@@ -25,10 +25,10 @@ var toggle_filt, ints_to_names = Array.newClear(100),
 			[\outbus, ~buss[\sax_p], \param, 0], ~in_g),
 
 		\sax_info -> Synth(\horninfo,
-			[\inbus, id_bus_map[\sax], \outbus, ~buss[\sax_info] ], ~in_g),
+			[\inbus, ~id_bus_map[\sax], \outbus, ~buss[\sax_info] ], ~in_g),
 
 		\sax_in -> Synth(\route_mono,
-			[\inbus, id_bus_map[\sax], \outbus, ~buss[\sax_eq] ], ~in_g),
+			[\inbus, ~id_bus_map[\sax], \outbus, ~buss[\sax_eq] ], ~in_g),
 
 		\sax_eq -> Synth(\sax_eq, 
 			[\inbus, ~buss[\sax_eq], \outbus, ~buss[\sax_agg]], ~eq_g),

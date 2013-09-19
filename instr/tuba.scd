@@ -10,10 +10,10 @@ var toggle_filt, ints_to_names = Array.newClear(100);
 		[\outbus, ~buss[\tub_p], \param, 0], ~in_g),
 
 	\tub_info -> Synth(\horninfo,
-		[\inbus, id_bus_map[\tub], \outbus, ~buss[\tub_info] ], ~in_g),
+		[\inbus, ~id_bus_map[\tub], \outbus, ~buss[\tub_info] ], ~in_g),
 
 	\tub_in -> Synth(\route_mono,
-		[\inbus, id_bus_map[\tub], \outbus, ~buss[\tub_eq] ], ~in_g),
+		[\inbus, ~id_bus_map[\tub], \outbus, ~buss[\tub_eq] ], ~in_g),
 
 	\tub_eq -> Synth(\tub_eq, 
 		[\inbus, ~buss[\tub_eq], \outbus, ~buss[\tub_agg]], ~eq_g),

@@ -4,7 +4,7 @@
 		met_sfd_path = ~maindir ++ "met_sfs/*",
     met_sfd = (met_sfd_path).pathMatch, // natural numbers
     playing = IdentityDictionary[],
-		id_bus_map = IdentityDictionary[
+		~id_bus_map = IdentityDictionary[
 			\sax -> 8,
 			\tub -> 9,
 		];
