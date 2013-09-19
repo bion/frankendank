@@ -37,6 +37,7 @@ start_but = Button(startup_gui, Rect(50, start_but, 80, 30) )
 	MIDIClient.sources.do {arg source;
 		case
 		{source.device == "Breath Controller"}	{~mSrc[\breath] = source.uid}
+		{source.device == "USB2.0-MIDI"}				{~mSrc[\jons_board] = source.uid}
 		{source.device == "USB2.0-MIDI"}				{~mSrc[\drum_switch] = source.uid}
 		{source.device == "FCB1010"}						{~mSrc[\fcb] = source.uid}
 		{source.device == "USB2.0-MIDI"}				{~mSrc[\fcb] = source.uid}

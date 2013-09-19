@@ -39,7 +39,7 @@
 		var bus = ~buss[(id[\inst].asString ++ "_agg").asSymbol];
 		var loop_instance = ~loops[id[\inst]][id[\num]];
 		loop_instance[\dur] = ~clock.beats;
-		s.bundle(0.025, {
+		s.makeBundle(0.025, {
 			loop_instance[\recording] = Synth(\recordbuf_mono,
 				[ \inbus, bus, \startpos, offset * s.sampleRate,
 					\buf, loop_instance[\buffer] ],
