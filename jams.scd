@@ -25,7 +25,11 @@
 			\loop -> false,
 			\measures -> [
 				[8,
-					[PC(\a, 4)]], [8, [PC(\a, 4)]], [8, [PC(\a, 4)],
+					[PC(\a, 4)]],
+				[8,
+					[PC(\a, 4)]],
+				[8,
+					[PC(\a, 4)],
 					[(beat: 0, action_type: \playbuf, buf: \bob)]],
 				[8,
 					[PC(\a, 4)]], [8, [PC(\a, 4)]], [8, [PC(\a, 4)]]
