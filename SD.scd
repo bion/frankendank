@@ -72,8 +72,37 @@
 	/* ------------------------ com --------------------------- */
 
 	SynthDef(\dandan, {
-		arg outbus, amp, freq, freqMul;
-		var waat;
+		arg outbus, amp, freq, // harmAmpArray
+			gp, trigOverlap, trigLFOfreq, trigLFOrange, trigLFOmul,
+			indexLFOfreq, indexLFOlo, indexLFOhi,
+			harmLFOlo, harmLFOfreq,
+			harmAmps, harmAmpLFOs;
+		var vibrato, trig, index, harmAmps, harmAmpsLFOs, grains;
+
+		vibrato = SinOsc.kr(7 + LFDNoise3.kr(2).range(0.9, 1.1), 0, 0.0125) + 1;
+
+		trig = Impulse.kr(
+			(gp.reciprocal * trigOverlap) * (
+				LFNoise2.kr(trigLFOfreq)
+					.range(trigLFOrange / 2 * 0.01.neg, trigLFOrange / 2 * 0.01)
+					* trigLFOmul + 1
+				)
+			);
+
+		index = LFNoise2.kr(indexLFOfreq).range(indexLFOlo, indexLFOhi);
+
+		harmAmps = Control.names(\harmAmpArray).kr(7.collect { 0 } );
+		harmAmpsLFOs = 7.collect { LFNoise2.kr(harmLFOfreq).range(harmLFOlo.dbamp, 1) };
+
+		grains = GrainFM.ar(1, trig, gp,
+			freq * vibrato * (1 .. 7),
+			freq * vibrato * (1 .. 7),
+			index,
+			0 /* panning */, -1 /* envbuf */, 128 /* num overlaps*/,
+			harmAmps * harmAmpLFOs ).mean;
+
+		grains = LeakDC.ar(grains);
+		Out.ar(outbus, amp * grains);
 	}),
 
 	/* ------------------------ tuba --------------------------- */
