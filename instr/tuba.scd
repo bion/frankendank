@@ -1,5 +1,5 @@
 (
-var uid = ~mSrc[\jons_board];
+var uid = ~mSrc[\tuba];
 var toggle_filt, ints_to_names = Array.newClear(100),
 	map_dic = {|num| IdentityDictionary[\inst -> \tub, \num -> num] };
 

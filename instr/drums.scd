@@ -1,6 +1,6 @@
 (
-	var uid = ~mSrc[\drums], drum_trig;
-	var switch_uid = ~mSrc[\drum_switch];
+	var uid = ~mSrc[\drum_pad], drum_trig;
+	var switch_uid = ~mSrc[\drums];
 
 	~current_set = 0;
 
