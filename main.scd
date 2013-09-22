@@ -1,6 +1,6 @@
 (
 var	startup_gui, startup_info, start_but, sg_but,
-	tempo_box, tempo_slider, tempo_spec, tempo_coord;
+	tempo_box, tempo_slider, tempo_spec, tempo_coord, midi_stati;
 
 ~maindir = "~/Documents/EDE/code/frankendank/".standardizePath;
 ~tempo = 220/60;
@@ -12,24 +12,27 @@ MIDIIn.connectAll;
 
 startup_gui = Window("EDE Startup", Rect(200, 200, 400, 250));
 
+midi_stati = IdentityDictionary[];
 [\sax, \tuba, \drums, \com].do {arg name, i;
 	var responder;
 	sg_but.put(name,
 		Button(startup_gui, Rect(10, 10+(i*40), 80, 30))
 			.states_([[name ++ " off"], [name ++ " on"]])
 			.mouseDownAction_({
-				var status = StaticText(startup_gui, Rect(90, 10+(i*40), 80, 30));
+				if(midi_stati[name].notNil, {midi_stati[name].remove});
+				midi_stati[name] = StaticText(startup_gui, Rect(100, 10+(i*40), 80, 30));
 				if(responder.isNil, {
-					status.stringColor_(Color.red).string_("Awaiting input");
+					midi_stati[name].stringColor_(Color.red).string_("Awaiting input");
 					responder = MIDIFunc.program({
 						arg num, chan, source;
 						~mSrc[name] = source;
-						status.stringColor_(Color.green).string_("Device found");
+						midi_stati[name].stringColor_(Color.green).string_("Device found");
 						responder.free;
 					});
 				}, {
+					midi_stati[name] = nil;
 					responder.free;
-					status.stringColor_(Color.black).string_("MIDI device not initiated");
+					responder = nil;
 				});
 			})
 	);
