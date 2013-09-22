@@ -14,25 +14,26 @@ startup_gui = Window("EDE Startup", Rect(200, 200, 400, 250));
 
 midi_stati = IdentityDictionary[];
 [\sax, \tuba, \drums, \com].do {arg name, i;
-	var responder;
+	midi_stati[name] = IdentityDictionary[];
+
 	sg_but.put(name,
 		Button(startup_gui, Rect(10, 10+(i*40), 80, 30))
 			.states_([[name ++ " off"], [name ++ " on"]])
 			.mouseDownAction_({
-				if(midi_stati[name].notNil, {midi_stati[name].remove});
-				midi_stati[name] = StaticText(startup_gui, Rect(100, 10+(i*40), 80, 30));
-				if(responder.isNil, {
-					midi_stati[name].stringColor_(Color.red).string_("Awaiting input");
-					responder = MIDIFunc.program({
+				if(midi_stati[name][\status].notNil, {midi_stati[name][\status].remove});
+				midi_stati[name][\status] = StaticText(startup_gui, Rect(100, 10+(i*40), 80, 30));
+				if(midi_stati[name][\responder].isNil && ~mSrc[name].isNil, {
+					midi_stati[name][\status].stringColor_(Color.red).string_("Awaiting input");
+					midi_stati[name][\responder] = MIDIFunc.program({
 						arg num, chan, source;
 						~mSrc[name] = source;
-						midi_stati[name].stringColor_(Color.green).string_("Device found");
-						responder.free;
+						midi_stati[name][\status].stringColor_(Color.green).string_("Device found");
+						midi_stati[name][\responder].free;
 					});
 				}, {
-					midi_stati[name] = nil;
-					responder.free;
-					responder = nil;
+					midi_stati[name][\responder].free;
+					midi_stati[name][\status] = nil;
+					midi_stati[name][\responder] = nil;
 				});
 			})
 	);
@@ -78,7 +79,6 @@ start_but = Button(startup_gui, Rect(50, start_but, 80, 30) )
 		load(~maindir ++ "jams.scd");
 		load(~maindir ++ "task_master.scd");
 
-		// load instrument-specific config files
 		sg_but.keysValuesDo {arg key, value;
 			if(value.value == 1, {(~maindir++"instr/"++key++".scd").load});
 		};
