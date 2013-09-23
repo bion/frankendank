@@ -70,40 +70,42 @@
 	}),
 
 	/* ------------------------ com --------------------------- */
+	[
+		[1, 0.5, 0.25, 0.15, 0.09, 0.05], // 0
+		[1, 0.5, 0.25, 0.15, 0.09, 0.05].squared, // 1
+		Array.geom(6, 1, 0.5) // 2
+	].collect {|harmAmps, i|
+		SynthDef(("dandan" ++ i).asSymbol, {
+			arg outbus,
+				amp, freq,
+				gp, trigOverlap, trigLFOfreq,
+				indexLFOfreq, indexLFOlo, indexLFOhi,
+				harmLFOlo, harmLFOfreq;
+			var vibrato, trig, index, harmAmpLFOs, grains;
 
-	SynthDef(\dandan, {
-		arg outbus, amp, freq, // harmAmpArray
-			gp, trigOverlap, trigLFOfreq, trigLFOrange, trigLFOmul,
-			indexLFOfreq, indexLFOlo, indexLFOhi,
-			harmLFOlo, harmLFOfreq,
-			harmAmps, harmAmpLFOs;
-		var vibrato, trig, index, harmAmps, harmAmpsLFOs, grains;
+			vibrato = SinOsc.kr(7 + LFDNoise3.kr(2).range(0.9, 1.1), 0, 0.0125) + 1;
 
-		vibrato = SinOsc.kr(7 + LFDNoise3.kr(2).range(0.9, 1.1), 0, 0.0125) + 1;
+			trig = Impulse.kr( (gp.reciprocal * trigOverlap) * LFNoise2.kr(trigLFOfreq).range(0.9, 1.1));
 
-		trig = Impulse.kr(
-			(gp.reciprocal * trigOverlap) * (
-				LFNoise2.kr(trigLFOfreq)
-					.range(trigLFOrange / 2 * 0.01.neg, trigLFOrange / 2 * 0.01)
-					* trigLFOmul + 1
-				)
-			);
+			index = LFNoise2.kr(indexLFOfreq).range(indexLFOlo, indexLFOhi);
 
-		index = LFNoise2.kr(indexLFOfreq).range(indexLFOlo, indexLFOhi);
+			harmAmpLFOs = 6.collect { LFNoise2.kr(harmLFOfreq).range(harmLFOlo.dbamp, 1) };
 
-		harmAmps = Control.names(\harmAmpArray).kr(7.collect { 0 } );
-		harmAmpsLFOs = 7.collect { LFNoise2.kr(harmLFOfreq).range(harmLFOlo.dbamp, 1) };
+			grains = 0;
+			[ 0.998345, 1, 1.01323 ].do {|offset|
+				grains = grains + 
+					GrainFM.ar(1, trig, gp,
+						offset * freq * vibrato * (1 .. 6),
+						offset * freq * vibrato * (1 .. 6),
+						index,
+						0 /* panning */, -1 /* envbuf */, 128 /* num overlaps*/,
+						harmAmps * harmAmpLFOs ).mean;
+			};
 
-		grains = GrainFM.ar(1, trig, gp,
-			freq * vibrato * (1 .. 7),
-			freq * vibrato * (1 .. 7),
-			index,
-			0 /* panning */, -1 /* envbuf */, 128 /* num overlaps*/,
-			harmAmps * harmAmpLFOs ).mean;
-
-		grains = LeakDC.ar(grains);
-		Out.ar(outbus, amp * grains);
-	}),
+			grains = LeakDC.ar(grains).softclip(0.1);
+			Out.ar(outbus, amp * grains);
+		})
+	},
 
 	/* ------------------------ tuba --------------------------- */
 
@@ -159,5 +161,5 @@
 		XOut.ar(bus, Linen.kr(gate, 0.05, releaseTime: 0.05, doneAction: 2), chain);
 	}),
 
-].do(_.add);
+].flat.do(_.add);
 )

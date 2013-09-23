@@ -1,5 +1,7 @@
 # EDE Project
 
+http://i.imgur.com/X1CpdP4.jpg
+
 That's 'Electrostep Dunk Ensemble' to the proletariat.
 
 ### I(gain)/O channel mappings:

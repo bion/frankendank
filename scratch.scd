@@ -38,3 +38,21 @@ SynthDef(\dandan, {
 	grains = LeakDC.ar(grains);
 	OffsetOut.ar(outBus, env * amp * grains);
 }),
+
+(
+	Synth(\dandan0,
+		[
+			\outus, 0,
+			\amp, 1,
+			\freq, 1020,
+			\gp, 0.3,
+			\trigOverlap, 4,
+			\trigLFOfreq, 10,
+			\indexLFOfreq, 10,
+			\indexLFOlo, 0.01,
+			\indexLFOhi, 0.1,
+			\harmLFOlo, -16,
+			\harmLFOfreq, 10
+		]
+	);
+)
