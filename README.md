@@ -1,6 +1,6 @@
 # EDE Project
 
-http://i.imgur.com/X1CpdP4.jpg
+![oh yes](http://i.imgur.com/X1CpdP4.jpg)
 
 That's 'Electrostep Dunk Ensemble' to the proletariat.
 
