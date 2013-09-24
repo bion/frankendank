@@ -1,12 +1,4 @@
 (
-	~shaper_buf_1 = CtkBuffer.new(size:1024)
-		.fillWithEnv(env:
-			Env(
-				[-1, -0.1, -0.8, 0, 0.8, 0.1, 1],
-				[1, 1, 1, 1, 1, 1].normalizeSum,
-				[-3, 3, 6, -6, 1, -1]),
-				wavetable: 1
-			).load;
 [
 	/* ---------------------------------------- main ---------------------------------------- */
 
@@ -93,20 +85,28 @@
 	/* ------------------------ com --------------------------- */
 
 	SynthDef(\dirty_rhode, {
-		arg freq, bus, amp_bus, gate=1;
-		var sig, vib;
-		sig = Saw.ar(freq * [0.998, 1, 1.003]).mean +
+		arg freq, bus, amp_bus, gate=1,
+			vib_rate = 11, vib_width = 0.0125;
+		var sig, vib, amp;
+		vib_rate = vib_rate * LFDNoise3.kr(2).range(0.9, 1.1);
+		vib = SinOsc.kr(vib_rate, 0, vib_width) + LFNoise2.kr(1/vib_rate, vib_width/2) + 1;
+		freq = freq * vib;
+		amp = In.kr(amp_bus, 1);
+		sig = Pulse.ar(
+			freq * [SinOsc.kr(vib_rate).range(0.98342, 1), 1, SinOsc.kr(vib_rate).range(1, 1.020057)],
+			[
+				SinOsc.kr(vib_rate).range(0.2, 0.3),
+				SinOsc.kr(vib_rate).range(0.4, 0.5),
+				SinOsc.kr(vib_rate).range(0.1, 0.2)
+			]
+		).mean +
 			SinOsc.ar(-7.midiratio*freq, 0, -8.dbamp) +
 			SinOsc.ar(2*freq, 0, -8.dbamp);
-		sig = Resonz.ar(sig,
-			200/[200, 400, 800, 1400, 3200, 5000, 8000],
-			[200, 400, 800, 1400, 3200, 5000, 8000]).mean;
 
-		sig = MoogFF.ar(sig, freq * 4 * SinOsc.kr(6.5).range(0.5, 1.5), 3.2, mul: 2) + sig;
+		sig = MoogFF.ar(sig, freq * 4 * SinOsc.kr(vib_rate).range(0.5, 1.5), 3.2, mul: 2);
+		
+		sig = sig * amp;
 
-		// sig = (1.5 * sig).softclip;
-
-		sig = sig * In.kr(amp_bus, 1);
 		Out.ar(bus, sig*Linen.kr(gate, 0.05, releaseTime: 0.05, doneAction: 2));
 	}),
 
@@ -240,4 +240,12 @@
 	})
 
 ].do(_.add);
+~shaper_buf_1 = CtkBuffer.new(size:1024)
+	.fillWithEnv(env:
+		Env(
+			[-1, -0.1, -0.8, 0, 0.8, 0.1, 1],
+			[1, 1, 1, 1, 1, 1].normalizeSum,
+			[-3, 3, 6, -6, 1, -1]),
+			wavetable: 1
+		).load;
 )

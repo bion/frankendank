@@ -8,15 +8,25 @@
 	synth = \dirty_rhode;
 
 	chord = [
-		PC(\df, 3), // 7
-		PC(\ef, 3), // 1
-		PC(\g, 3), // 3
-		PC(\bf, 3), // 5
+		PC(\bf, 3),
+		PC(\df, 4), // 7
+		PC(\ef, 4), // 1
+		PC(\g,  4), // 3
+		PC(\bf, 4), // 5
+		PC(\ef, 5)
 	];
 
 	amp = Env(
-		[0, 1, 0.2, 0, 0, 1, 0] * (-2.dbamp),
-		[0.06, 0.2, 0.1, 0.5, 1, 2],
+		[0,
+			1, 0.1, 0, 0,
+			1, 0, 0,
+			1, 0.2, 0,
+			0, 1, 0] * (-2.dbamp),
+		[
+			0.03, 0.1, 0.1, 0.9,
+			0.03, 0.7, 0.9,
+			0.1, 0.35, 1.75,
+			0.5, 6, 10],
 		\sin
 	);
 
@@ -45,7 +55,7 @@
 		});
 
 		s.makeBundle(0.4, {
-			// Synth(\general_chorus, [\bus, stereo_bus], filt_group);
+			Synth(\general_chorus, [\bus, stereo_bus], filt_group);
 			// Synth(\shaper, [\bus, stereo_bus, \buf, ~shaper_buf_1], filt_group, \addToTail);
 
 			Synth(\control_env_testing, [\env, amp, \outbus, amp_bus], amp_group);
