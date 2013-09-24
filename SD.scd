@@ -1,4 +1,12 @@
 (
+	~shaper_buf_1 = CtkBuffer.new(size:1024)
+		.fillWithEnv(env:
+			Env(
+				[-1, -0.1, -0.8, 0, 0.8, 0.1, 1],
+				[1, 1, 1, 1, 1, 1].normalizeSum,
+				[-3, 3, 6, -6, 1, -1]),
+				wavetable: 1
+			).load;
 [
 	/* ---------------------------------------- main ---------------------------------------- */
 
@@ -93,9 +101,12 @@
 		sig = Resonz.ar(sig,
 			200/[200, 400, 800, 1400, 3200, 5000, 8000],
 			[200, 400, 800, 1400, 3200, 5000, 8000]).mean;
-		sig = MoogFF.ar(sig, freq * 4, 3.2);
+
+		sig = MoogFF.ar(sig, freq * 4 * SinOsc.kr(6.5).range(0.5, 1.5), 3.2, mul: 2) + sig;
+
+		// sig = (1.5 * sig).softclip;
+
 		sig = sig * In.kr(amp_bus, 1);
-		sig = sig.distort;
 		Out.ar(bus, sig*Linen.kr(gate, 0.05, releaseTime: 0.05, doneAction: 2));
 	}),
 
@@ -193,6 +204,40 @@
 		);
 		XOut.ar(bus, Linen.kr(gate, 0.05, releaseTime: 0.05, doneAction: 2), chain);
 	}),
+
+	/* ------------------------------- general filters --------------------------------- */
+
+	SynthDef(\general_chorus, {
+		arg pbus, bus, gate=1;
+		var in, chain, control, noise=LFNoise2.kr(4.dup(3));
+		in = In.ar(bus, 1);
+		chain = PitchShift.ar(in, 0.15, noise.range(0.999, 1.001), 0, 0.005);
+		chain = ([in]++chain).mean;
+		XOut.ar(bus, Linen.kr(gate, 0.05, releaseTime: 0.05, doneAction: 2), chain);
+	}),
+
+	SynthDef(\shaper, {
+		arg bus, buf, gate=1;
+		var in, chain;
+		in = In.ar(bus, 1);
+		chain = Shaper.ar(buf, in);
+		XOut.ar(bus, Linen.kr(gate, 0.05, releaseTime: 0.05, doneAction: 2), chain);
+	}),
+
+	SynthDef(\dissonance, {
+		arg bus, diss=1, gate=1;
+		var in, chain;
+		in = In.ar(bus, 1);
+		chain = Array.fill(24, {
+			arg i;
+			var centerFreq = (36+(i*4)).midicps,
+				modFreq = 2.27*(centerFreq**4.77);
+				((1.0-diss) + (diss*SinOsc.kr(modFreq*0.5, 2pi.rand)))*BPF.ar(in, centerFreq, 0.29)
+		}).sum;
+		chain = LeakDC.ar(chain);
+		chain = Compander.ar(chain, chain, -4.dbamp, 1, 1/3, 0.002, 0.04);
+		XOut.ar(bus, Linen.kr(gate, 0.05, releaseTime: 0.05, doneAction: 2), chain);
+	})
 
 ].do(_.add);
 )
