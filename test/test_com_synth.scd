@@ -56,7 +56,6 @@
 
 		s.makeBundle(0.4, {
 			Synth(\general_chorus, [\bus, stereo_bus], filt_group);
-			// Synth(\shaper, [\bus, stereo_bus, \buf, ~shaper_buf_1], filt_group, \addToTail);
 
 			Synth(\control_env_testing, [\env, amp, \outbus, amp_bus], amp_group);
 			Synth(\route_m2s_free_on_silence,

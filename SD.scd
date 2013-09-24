@@ -92,8 +92,7 @@
 		vib = SinOsc.kr(vib_rate, 0, vib_width) + LFNoise2.kr(1/vib_rate, vib_width/2) + 1;
 		freq = freq * vib;
 		amp = In.kr(amp_bus, 1);
-		sig = Pulse.ar(
-			freq * [SinOsc.kr(vib_rate).range(0.98342, 1), 1, SinOsc.kr(vib_rate).range(1, 1.020057)],
+		sig = Pulse.ar(freq,
 			[
 				SinOsc.kr(vib_rate).range(0.2, 0.3),
 				SinOsc.kr(vib_rate).range(0.4, 0.5),
@@ -103,7 +102,8 @@
 			SinOsc.ar(-7.midiratio*freq, 0, -8.dbamp) +
 			SinOsc.ar(2*freq, 0, -8.dbamp);
 
-		sig = MoogFF.ar(sig, freq * 4 * SinOsc.kr(vib_rate).range(0.5, 1.5), 3.2, mul: 2);
+		sig = MoogFF.ar(sig, freq * 4 * SinOsc.kr(vib_rate).range(0.5, 1.5), 3.2, mul: 2) +
+			(sig * (-4.dbamp));
 		
 		sig = sig * amp;
 
