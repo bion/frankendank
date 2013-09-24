@@ -5,6 +5,12 @@
 	SynthDef(\v_control, {arg outbus, amp; Out.kr(outbus, LinExp.kr(amp, 0, 127, -60.dbamp, 1)) }),
 	SynthDef(\p_control, {arg outbus, param; Out.kr(outbus, param.lag3(0.03) )}),
 
+	SynthDef(\control_env_testing, {arg outbus;
+		var env;
+		env = Control.names([\env]).kr(Env.newClear(64));
+		Out.kr(outbus, EnvGen.kr(env, doneAction: 14));
+	}),
+
 	SynthDef(\playbuf_mono, {
 		arg outbus, buf, dur, startpos=0, amp=1, gate=1;
 		Out.ar(outbus,
@@ -33,6 +39,13 @@
 	SynthDef(\route_m2s, {
 		arg inbus, outbus;
 		Out.ar(outbus, In.ar(inbus, 1) !2)
+	}),
+
+	SynthDef(\route_m2s_free_on_silence, {
+		arg inbus, outbus;
+		var in = In.ar(inbus, 1);
+		DetectSilence.ar(in, time: 1.0, doneAction: 14);
+		Out.ar(outbus, in ! 2)
 	}),
 
 	SynthDef(\horninfo, {
@@ -72,7 +85,7 @@
 	/* ------------------------ com --------------------------- */
 
 	SynthDef(\dirty_rhode, {
-		arg freq, bus, amp=0, gate=1;
+		arg freq, bus, amp_bus, gate=1;
 		var sig, vib;
 		sig = Saw.ar(freq * [0.998, 1, 1.003]).mean +
 			SinOsc.ar(-7.midiratio*freq, 0, -8.dbamp) +
@@ -81,15 +94,8 @@
 			200/[200, 400, 800, 1400, 3200, 5000, 8000],
 			[200, 400, 800, 1400, 3200, 5000, 8000]).mean;
 		sig = MoogFF.ar(sig, freq * 4, 3.2);
-		sig = FFT(buf, sig);
-		sig = PV_MagSquared(sig);
-		sig = PV_LocalMax(sig, 31);
-		sig = IFFT(sig);
-		sig = XFade2.ar(
-			Shaper.ar(~shaper_buf_1, sig),
-			sig,
-			// TODO: degree shaped varies with spikes in amplitude
-		);
+		sig = sig * In.kr(amp_bus, 1);
+		sig = sig.distort;
 		Out.ar(bus, sig*Linen.kr(gate, 0.05, releaseTime: 0.05, doneAction: 2));
 	}),
 
@@ -171,7 +177,7 @@
 		chain = DelayN.ar(in, 0.14, noise.range(0.075, 0.13));
 		chain = PitchShift.ar(chain, 0.15, noise.range(0.99, 1.01), 0, 0.005);
 		chain = ([in]++chain).mean;
-		XOut.ar(bus, chain*Linen.kr(gate, 0.05, releasetime: 0.05, doneAction: 2), chain);
+		XOut.ar(bus, chain*Linen.kr(gate, 0.05, releaseTime: 0.05, doneAction: 2), chain);
 	}),
 
 	SynthDef(\sax_comp, {
