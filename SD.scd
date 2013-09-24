@@ -70,42 +70,28 @@
 	}),
 
 	/* ------------------------ com --------------------------- */
-	[
-		[1, 0.5, 0.25, 0.15, 0.09, 0.05], // 0
-		[1, 0.5, 0.25, 0.15, 0.09, 0.05].squared, // 1
-		Array.geom(6, 1, 0.5) // 2
-	].collect {|harmAmps, i|
-		SynthDef(("dandan" ++ i).asSymbol, {
-			arg outbus,
-				amp, freq,
-				gp, trigOverlap, trigLFOfreq,
-				indexLFOfreq, indexLFOlo, indexLFOhi,
-				harmLFOlo, harmLFOfreq;
-			var vibrato, trig, index, harmAmpLFOs, grains;
 
-			vibrato = SinOsc.kr(7 + LFDNoise3.kr(2).range(0.9, 1.1), 0, 0.0125) + 1;
-
-			trig = Impulse.kr( (gp.reciprocal * trigOverlap) * LFNoise2.kr(trigLFOfreq).range(0.9, 1.1));
-
-			index = LFNoise2.kr(indexLFOfreq).range(indexLFOlo, indexLFOhi);
-
-			harmAmpLFOs = 6.collect { LFNoise2.kr(harmLFOfreq).range(harmLFOlo.dbamp, 1) };
-
-			grains = 0;
-			[ 0.998345, 1, 1.01323 ].do {|offset|
-				grains = grains + 
-					GrainFM.ar(1, trig, gp,
-						offset * freq * vibrato * (1 .. 6),
-						offset * freq * vibrato * (1 .. 6),
-						index,
-						0 /* panning */, -1 /* envbuf */, 128 /* num overlaps*/,
-						harmAmps * harmAmpLFOs ).mean;
-			};
-
-			grains = LeakDC.ar(grains).softclip(0.1);
-			Out.ar(outbus, amp * grains);
-		})
-	},
+	SynthDef(\dirty_rhode, {
+		arg freq, bus, amp=0, gate=1;
+		var sig, vib;
+		sig = Saw.ar(freq * [0.998, 1, 1.003]).mean +
+			SinOsc.ar(-7.midiratio*freq, 0, -8.dbamp) +
+			SinOsc.ar(2*freq, 0, -8.dbamp);
+		sig = Resonz.ar(sig,
+			200/[200, 400, 800, 1400, 3200, 5000, 8000],
+			[200, 400, 800, 1400, 3200, 5000, 8000]).mean;
+		sig = MoogFF.ar(sig, freq * 4, 3.2);
+		sig = FFT(buf, sig);
+		sig = PV_MagSquared(sig);
+		sig = PV_LocalMax(sig, 31);
+		sig = IFFT(sig);
+		sig = XFade2.ar(
+			Shaper.ar(~shaper_buf_1, sig),
+			sig,
+			// TODO: degree shaped varies with spikes in amplitude
+		);
+		Out.ar(bus, sig*Linen.kr(gate, 0.05, releaseTime: 0.05, doneAction: 2));
+	}),
 
 	/* ------------------------ tuba --------------------------- */
 
@@ -133,6 +119,22 @@
 		Out.ar(bus, synth*Linen.kr(gate, 0.05, releaseTime: 0.05, doneAction: 2));
 	}),
 
+	/* ------------------------------- tuba filters --------------------------------- */
+
+	SynthDef(\tub_comp, {
+		arg bus, gate=1;
+		var chain;
+		chain = In.ar(bus, 1);
+		chain = Compander.ar(chain, chain,
+			thresh: -16.dbamp,
+			slopeBelow: 1,
+			slopeAbove: 0.25,
+			clampTime: 0.05,
+			relaxTime: 0.05
+		);
+		XOut.ar(bus, Linen.kr(gate, 0.05, releaseTime: 0.05, doneAction: 2), chain);
+	}),
+
 	/* ------------------------ sax --------------------------- */
 
 	SynthDef(\sax_s1, {
@@ -149,7 +151,7 @@
 		Out.ar(bus, chain*Linen.kr(gate, 0.05, releaseTime: 0.05, doneAction: 2));
 	}),
 
-	/* ---------------------------------------- filters ---------------------------------------- */
+	/* ------------------------------- sax filters --------------------------------- */
 
 	// sax wahwahwah
 	SynthDef(\sax_f1, {
@@ -161,5 +163,30 @@
 		XOut.ar(bus, Linen.kr(gate, 0.05, releaseTime: 0.05, doneAction: 2), chain);
 	}),
 
-].flat.do(_.add);
+	// sax chorus
+	SynthDef(\sax_f2, {
+		arg pbus, bus, gate=1;
+		var in, chain, control, noise=LFNoise2.kr(4.dup(3));
+		in = In.ar(bus, 1);
+		chain = DelayN.ar(in, 0.14, noise.range(0.075, 0.13));
+		chain = PitchShift.ar(chain, 0.15, noise.range(0.99, 1.01), 0, 0.005);
+		chain = ([in]++chain).mean;
+		XOut.ar(bus, chain*Linen.kr(gate, 0.05, releasetime: 0.05, doneAction: 2), chain);
+	}),
+
+	SynthDef(\sax_comp, {
+		arg bus, gate=1;
+		var chain;
+		chain = In.ar(bus, 1);
+		chain = Compander.ar(chain, chain,
+			thresh: -16.dbamp,
+			slopeBelow: 1,
+			slopeAbove: 0.25,
+			clampTime: 0.05,
+			relaxTime: 0.05
+		);
+		XOut.ar(bus, Linen.kr(gate, 0.05, releaseTime: 0.05, doneAction: 2), chain);
+	}),
+
+].do(_.add);
 )

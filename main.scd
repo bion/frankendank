@@ -65,6 +65,7 @@ start_but = Button(startup_gui, Rect(50, start_but, 80, 30) )
 		{source.device == "ControlPad"}					{ ~mSrc[\drum_pad] = ~mSrc[\drum_pad] ? source.uid};
 	};
 
+	Server.default = s = Server.local;
 	s.latency = 0.075;
   s.waitForBoot({
     ~cond = Condition.new;

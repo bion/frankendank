@@ -28,7 +28,7 @@ mkdir -p ~/Documents/EDE/code
 cd ~/Documents/EDE/code
 git clone https://github.com/bion/frankendank.git
 enter your username and password
-```
+``
 
 ### Running this fucker
 

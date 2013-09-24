@@ -73,3 +73,15 @@ d = IdentityDictionary[];
 	s.makeBundle(0.025, { b = Synth(\default) });
 	d[\one] = b;
 )
+
+
+(
+
+	play{
+		a = LFNoise2.ar(100.dup(3));
+		b = a.range(-1, 1);
+		c = a.range(-1, 1);
+		b.mean + c.mean
+	}
+
+)
