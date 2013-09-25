@@ -45,6 +45,7 @@
 		arg inbus, outbus;
 		var in = In.ar(inbus, 1);
 		DetectSilence.ar(in, time: 1.0, doneAction: 14);
+		in = Compander.ar(in, in, 0.5, 1.0, 0.05, 0.002, 0.01);
 		Out.ar(outbus, in ! 2)
 	}),
 
@@ -84,7 +85,26 @@
 
 	/* ------------------------ com --------------------------- */
 
-	SynthDef(\dirty_rhode, {
+	SynthDef(\dirt_rhode, {
+		arg freq, bus, amp_bus, gate=1,
+			vib_rate = 6.5, vib_width = 0.005;
+		var sig, env, vib;
+
+		vib_rate = vib_rate * LFDNoise3.kr(2).range(0.9, 1.1);
+		vib = SinOsc.kr(vib_rate, 0, vib_width) + LFNoise2.kr(1/vib_rate, vib_width/2) + 1;
+
+		freq = freq * vib;
+		sig = Pulse.ar(freq*[1, 33.5.midiratio], [0.2, 0.1, 7.midiratio], [0.7, 0.3, 0.1]).mean;
+		sig = MoogFF.ar(sig, freq * 5.75, 3.1);
+
+		sig = sig * In.kr(amp_bus, 1);
+		sig = Shaper.ar(~shaper_buf_1, sig);
+
+		sig = sig * 0.2;
+		Out.ar(bus, sig * Linen.kr(gate, 0.05, releaseTime: 0.05, doneAction: 2));
+	}),
+
+	SynthDef(\fank, {
 		arg freq, bus, amp_bus, gate=1,
 			vib_rate = 11, vib_width = 0.0125;
 		var sig, vib, amp;
@@ -105,7 +125,7 @@
 		sig = MoogFF.ar(sig, freq * 4 * SinOsc.kr(vib_rate).range(0.5, 1.5), 3.2, mul: 2) +
 			(sig * (-4.dbamp));
 		
-		sig = sig * amp;
+		sig = sig * amp * 0.5;
 
 		Out.ar(bus, sig*Linen.kr(gate, 0.05, releaseTime: 0.05, doneAction: 2));
 	}),
@@ -213,6 +233,18 @@
 		in = In.ar(bus, 1);
 		chain = PitchShift.ar(in, 0.15, noise.range(0.999, 1.001), 0, 0.005);
 		chain = ([in]++chain).mean;
+		XOut.ar(bus, Linen.kr(gate, 0.05, releaseTime: 0.05, doneAction: 2), chain);
+	}),
+
+	SynthDef(\chorus_compress, {
+		arg bus, gate=1;
+		var in = In.ar(bus, 1), chain;
+		chain = Array.fill(4, {
+			var max_delay = rrand(0.01, 0.03);
+			DelayC.ar(in, max_delay, LFDNoise3.kr(Rand(0.1, 0.6), 0.25 * max_delay, 0.75 * max_delay));
+		});
+		chain = Compander.ar(4 * (in + chain), in, 0.4, 1, 8);
+		chain = chain * 0.125;
 		XOut.ar(bus, Linen.kr(gate, 0.05, releaseTime: 0.05, doneAction: 2), chain);
 	}),
 
