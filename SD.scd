@@ -211,16 +211,25 @@
 		XOut.ar(bus, chain*Linen.kr(gate, 0.05, releaseTime: 0.05, doneAction: 2), chain);
 	}),
 
+	SynthDef(\sax_shaper, {
+		arg bus, buf, gate=1;
+		var in, chain;
+		in = In.ar(bus, 1);
+		chain = Shaper.ar(buf, in*2);
+		chain = chain * 0.25;
+		XOut.ar(bus, Linen.kr(gate, 0.05, releaseTime: 0.05, doneAction: 2), chain);
+	}),
+
 	SynthDef(\sax_comp, {
 		arg bus, gate=1;
 		var chain;
 		chain = In.ar(bus, 1);
 		chain = Compander.ar(chain, chain,
 			thresh: -16.dbamp,
-			slopeBelow: 1,
-			slopeAbove: 0.25,
-			clampTime: 0.05,
-			relaxTime: 0.05
+			slopeBelow: 0.5,
+			slopeAbove: 4,
+			clampTime: 0.002,
+			relaxTime: 0.01
 		);
 		XOut.ar(bus, Linen.kr(gate, 0.05, releaseTime: 0.05, doneAction: 2), chain);
 	}),
@@ -249,6 +258,14 @@
 	}),
 
 	SynthDef(\shaper, {
+		arg bus, buf, gate=1;
+		var in, chain;
+		in = In.ar(bus, 1);
+		chain = Shaper.ar(buf, in);
+		XOut.ar(bus, Linen.kr(gate, 0.05, releaseTime: 0.05, doneAction: 2), chain);
+	}),
+
+	SynthDef(\distort, {
 		arg bus, buf, gate=1;
 		var in, chain;
 		in = In.ar(bus, 1);
