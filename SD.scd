@@ -133,12 +133,13 @@
 				SinOsc.kr(vib_rate).range(0.2, 0.3),
 				SinOsc.kr(vib_rate).range(0.4, 0.5),
 				SinOsc.kr(vib_rate).range(0.1, 0.2)
-			]
+			],
+			mul: 0.2
 		).mean +
-			SinOsc.ar(-7.midiratio*freq, 0, -8.dbamp) +
-			SinOsc.ar(2*freq, 0, -8.dbamp);
+			SinOsc.ar(-7.midiratio * freq, 0, -8.dbamp * 0.2) +
+			SinOsc.ar(2 * freq, 0, -8.dbamp * 0.2);
 
-		sig = MoogFF.ar(sig, freq * LinExp.kr(amp, 1, 0, 0.5, 10), 0.2, mul: 2) + sig;
+		sig = MoogFF.ar(sig, freq * LinExp.kr(amp, 0, 1, 0.5, 10), 0.2, mul: 2) + sig;
 		
 		sig = sig * amp * 0.5;
 
