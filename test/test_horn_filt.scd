@@ -25,7 +25,8 @@
 
 	cond = Condition.new;
 
-	Server.default = s = Server.local;
+	Server.default = s = Server.internal;
+
 	s.waitForBoot {
 		parent_group = Group(s);
 		synth_group = Group(parent_group);
@@ -43,13 +44,16 @@
 
 			Synth(\sax_comp, [\bus, stereo_bus], filt_group, \addToHead);
 
-			Synth(\sax_shaper, [\bus, stereo_bus, \buf, ~shaper_buf_1], filt_group, \addToTail);
+			Synth(\chorus_compress, [\bus, stereo_bus], filt_group);
 
-			Synth(\sax_chorus, [\bus, stereo_bus], filt_group, \addToTail);
+			Synth(\cynk_lo, [\bus, stereo_bus], filt_group, \addToTail);
 
 			Synth(\control_env_testing, [\env, param, \outbus, param_bus], param_group);
 			Synth(\route_m2s_free_on_silence,
 				[\inbus, stereo_bus, \outbus, 0], parent_group, \addToTail);
-		}, bundles);
+			},
+			bundles
+		);
+
 	};
 )

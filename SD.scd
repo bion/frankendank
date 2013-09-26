@@ -1,4 +1,13 @@
 (
+~shaper_buf_1 = CtkBuffer.new(size:1024)
+	.fillWithEnv(env:
+		Env(
+			[-1, -0.1, -0.8, 0, 0.8, 0.1, 1],
+			[1, 1, 1, 1, 1, 1].normalizeSum,
+			[-3, 3, 6, -6, 1, -1]),
+			wavetable: 1
+		).load;
+
 [
 	/* ---------------------------------------- main ---------------------------------------- */
 
@@ -88,17 +97,24 @@
 	SynthDef(\dirt_rhode, {
 		arg freq, bus, amp_bus, gate=1,
 			vib_rate = 6.5, vib_width = 0.005;
-		var sig, env, vib;
+		var sig, env, vib, warm = LFNoise2.kr(vib_rate).range(0.9, 1.1);
 
 		vib_rate = vib_rate * LFDNoise3.kr(2).range(0.9, 1.1);
 		vib = SinOsc.kr(vib_rate, 0, vib_width) + LFNoise2.kr(1/vib_rate, vib_width/2) + 1;
 
 		freq = freq * vib;
-		sig = Pulse.ar(freq*[1, 33.5.midiratio], [0.2, 0.1, 7.midiratio], [0.7, 0.3, 0.1]).mean;
-		sig = MoogFF.ar(sig, freq * 5.75, 3.1);
+		sig = Pulse.ar(
+			freq * [1, 33.5.midiratio],
+			[0.2, 0.1, 0.5]*warm,
+			[0.7, 0.3, 0.1]
+			).mean;
+		sig = MoogFF.ar(sig, freq * 5.75 * warm, 3.1);
 
 		sig = sig * In.kr(amp_bus, 1);
 		sig = Shaper.ar(~shaper_buf_1, sig);
+
+		sig = GrainIn.ar(1, Impulse.kr(vib_rate * LFNoise2.kr(2).range(0.9, 1.1)),
+			vib_rate.reciprocal * (vib_width.reciprocal * 0.0075), sig);
 
 		sig = sig * 0.2;
 		Out.ar(bus, sig * Linen.kr(gate, 0.05, releaseTime: 0.05, doneAction: 2));
@@ -110,7 +126,7 @@
 		var sig, vib, amp;
 		vib_rate = vib_rate * LFDNoise3.kr(2).range(0.9, 1.1);
 		vib = SinOsc.kr(vib_rate, 0, vib_width) + LFNoise2.kr(1/vib_rate, vib_width/2) + 1;
-		freq = freq * vib;
+		freq = freq + vib;
 		amp = In.kr(amp_bus, 1);
 		sig = Pulse.ar(freq,
 			[
@@ -122,8 +138,7 @@
 			SinOsc.ar(-7.midiratio*freq, 0, -8.dbamp) +
 			SinOsc.ar(2*freq, 0, -8.dbamp);
 
-		sig = MoogFF.ar(sig, freq * 4 * SinOsc.kr(vib_rate).range(0.5, 1.5), 3.2, mul: 2) +
-			(sig * (-4.dbamp));
+		sig = MoogFF.ar(sig, freq * LinExp.kr(amp, 1, 0, 0.5, 10), 0.2, mul: 2) + sig;
 		
 		sig = sig * amp * 0.5;
 
@@ -200,15 +215,14 @@
 		XOut.ar(bus, Linen.kr(gate, 0.05, releaseTime: 0.05, doneAction: 2), chain);
 	}),
 
-	// sax chorus
-	SynthDef(\sax_f2, {
+	SynthDef(\sax_chorus, {
 		arg pbus, bus, gate=1;
 		var in, chain, control, noise=LFNoise2.kr(4.dup(3));
 		in = In.ar(bus, 1);
 		chain = DelayN.ar(in, 0.14, noise.range(0.075, 0.13));
 		chain = PitchShift.ar(chain, 0.15, noise.range(0.99, 1.01), 0, 0.005);
 		chain = ([in]++chain).mean;
-		XOut.ar(bus, chain*Linen.kr(gate, 0.05, releaseTime: 0.05, doneAction: 2), chain);
+		XOut.ar(bus, Linen.kr(gate, 0.05, releaseTime: 0.05, doneAction: 2), chain);
 	}),
 
 	SynthDef(\sax_shaper, {
@@ -235,6 +249,37 @@
 	}),
 
 	/* ------------------------------- general filters --------------------------------- */
+
+	SynthDef(\cynk_broad, {
+		arg bus, gate=1;
+		var layer1, layer2, in, chain;
+		in = In.ar(bus, 1);
+		chain = Fb({|fb|
+			PitchShift.ar(fb * 0.9 + in, 0.15, [-24, -12, -5, 0, 7, 12, 24].midiratio, 0, 0.004).mean;
+		}, 0.02);
+		XOut.ar(bus, Linen.kr(gate, 0.05, releaseTime: 0.05, doneAction: 2), chain);
+	}),
+
+	SynthDef(\cynk_hi, {
+		arg bus, gate=1;
+		var layer1, layer2, in, chain;
+		in = In.ar(bus, 1);
+		chain = Fb({|fb|
+			PitchShift.ar(fb * 0.9 + in, 0.15, [0, 7, 12, 24].midiratio, 0, 0.004).mean;
+		}, 0.02);
+		XOut.ar(bus, Linen.kr(gate, 0.05, releaseTime: 0.05, doneAction: 2), chain);
+	}),
+
+	SynthDef(\cynk_lo, {
+		arg bus, gate=1;
+		var layer1, layer2, in, chain;
+		in = In.ar(bus, 1);
+		chain = Fb({|fb|
+			PitchShift.ar(fb * 0.9 + in, 0.15, [-24, -12, -7, 0].midiratio, 0, 0.004).mean;
+		}, 0.02);
+		XOut.ar(bus, Linen.kr(gate, 0.05, releaseTime: 0.05, doneAction: 2), chain);
+	}),
+
 
 	SynthDef(\general_chorus, {
 		arg pbus, bus, gate=1;
@@ -289,12 +334,4 @@
 	})
 
 ].do(_.add);
-~shaper_buf_1 = CtkBuffer.new(size:1024)
-	.fillWithEnv(env:
-		Env(
-			[-1, -0.1, -0.8, 0, 0.8, 0.1, 1],
-			[1, 1, 1, 1, 1, 1].normalizeSum,
-			[-3, 3, 6, -6, 1, -1]),
-			wavetable: 1
-		).load;
 )
