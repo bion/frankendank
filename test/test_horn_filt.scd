@@ -7,7 +7,6 @@
 		bundles, cond;
 
 	source_path = "~/Documents/EDE/test_samples/scott testing.aiff".standardizePath;
-	filt = \shaper;
 
 	param = Env(
 		[0,
@@ -46,7 +45,7 @@
 
 			Synth(\chorus_compress, [\bus, stereo_bus], filt_group);
 
-			Synth(\cynk_lo, [\bus, stereo_bus], filt_group, \addToTail);
+			Synth(\cynk_broad, [\bus, stereo_bus], filt_group, \addToTail);
 
 			Synth(\control_env_testing, [\env, param, \outbus, param_bus], param_group);
 			Synth(\route_m2s_free_on_silence,

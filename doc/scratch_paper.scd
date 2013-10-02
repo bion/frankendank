@@ -20,6 +20,13 @@ AbstractResponderFunc.allEnabled.keysValuesDo {|key, value|
 
 ~maindir = "/Users/bionjohnson/Documents/sound projects/Current/EB/Main";
 
+MIDIFunc.trace(true)
+MIDIFunc.trace(false)
+(
+MIDIFunc.cc({arg num, chan, src;
+	[num, chan, src].postln;
+})
+)
 MIDIClient.sources
 MIDIClient.init;
 MIDIIn.connectAll;

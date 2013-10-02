@@ -12,6 +12,12 @@ That's 'Electrostep Dunk Ensemble' to the proletariat.
 * com: n/a / 0
 * met: n/a / 1
 
+### Saffire settings
+
+* Sample Rate set to 44.1 kHz
+* Settings -> Firewire Driver Latency -> Short
+* Routing Prest -> DAW tracking
+
 ## Practice
 
 For practicing on your own.

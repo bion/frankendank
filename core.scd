@@ -116,9 +116,6 @@
 
 	/* ________________________________ persistent synths */
 	~p_synths.add(
-		\breath_p -> Synth(\p_control,
-			[\outbus, ~buss[\breath_p], \param, 0], ~in_g),
-
 		\agg -> Synth(\agg,
 			[\saxbus, ~buss[\sax_agg], \tubbus, ~buss[\tub_agg],
 			\outbus, ~buss[\one_out]], ~agg_g);

@@ -7,7 +7,15 @@
 			[-3, 3, 6, -6, 1, -1]),
 			wavetable: 1
 		).load;
-
+~expoatt_buf_1 = CtkBuffer.new(size:1024)
+	.fillWithEnv(env:
+		Env(
+			[0, 1, 0],
+			[0.05, 0.95],
+			\sin
+		),
+		wavetable: 1
+	).load;
 [
 	/* ---------------------------------------- main ---------------------------------------- */
 
@@ -53,7 +61,7 @@
 	SynthDef(\route_m2s_free_on_silence, {
 		arg inbus, outbus;
 		var in = In.ar(inbus, 1);
-		DetectSilence.ar(in, time: 1.0, doneAction: 14);
+		DetectSilence.ar(in, time: 2.0, doneAction: 14);
 		in = Compander.ar(in, in, 0.5, 1.0, 0.05, 0.002, 0.01);
 		Out.ar(outbus, in ! 2)
 	}),
@@ -96,7 +104,7 @@
 
 	SynthDef(\dirt_rhode, {
 		arg freq, bus, amp_bus, gate=1,
-			vib_rate = 6.5, vib_width = 0.005;
+			vib_rate = 11, vib_width = 0.005;
 		var sig, env, vib, warm = LFNoise2.kr(vib_rate).range(0.9, 1.1);
 
 		vib_rate = vib_rate * LFDNoise3.kr(2).range(0.9, 1.1);
@@ -110,13 +118,14 @@
 			).mean;
 		sig = MoogFF.ar(sig, freq * 5.75 * warm, 3.1);
 
-		sig = sig * In.kr(amp_bus, 1);
-		sig = Shaper.ar(~shaper_buf_1, sig);
+		sig = GrainIn.ar(1, Impulse.kr(vib_rate * 1.5 * warm),
+			vib_rate.reciprocal,
+			sig, envbufnum: ~expoatt_buf_1);
 
-		sig = GrainIn.ar(1, Impulse.kr(vib_rate * LFNoise2.kr(2).range(0.9, 1.1)),
-			vib_rate.reciprocal * (vib_width.reciprocal * 0.0075), sig);
+		sig = Integrator.ar(sig, 0.8);
 
-		sig = sig * 0.2;
+		sig = sig * In.kr(amp_bus, 1) * 4;
+
 		Out.ar(bus, sig * Linen.kr(gate, 0.05, releaseTime: 0.05, doneAction: 2));
 	}),
 

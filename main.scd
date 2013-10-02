@@ -27,7 +27,9 @@ midi_stati = IdentityDictionary[];
 					midi_stati[name][\responder] = MIDIFunc.program({
 						arg num, chan, source;
 						~mSrc[name] = source;
-						midi_stati[name][\status].stringColor_(Color.green).string_("Device found");
+						AppClock.sched(0, {
+							midi_stati[name][\status].stringColor_(Color.green).string_("Device found");
+						});
 						midi_stati[name][\responder].free;
 					});
 				}, {

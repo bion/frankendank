@@ -8,14 +8,9 @@
 	synth = \fank;
 
 	chord = [
-		PC(\g,  2), // 3
-		PC(\bf, 2), // 5
-		PC(\ef, 3),
-		PC(\g,  3), // 3
-		PC(\bf, 3), // 5
-		PC(\g,  4), // 3
-		PC(\bf, 4), // 5
-		PC(\ef, 4),
+		PC(\g, 2),
+		PC(\c, 3),
+		PC(\e, 3)
 	];
 
 	amp = Env(
@@ -57,8 +52,11 @@
 		});
 
 		s.makeBundle(0.4, {
-		//	Synth(\chorus_compress, [\bus, stereo_bus], filt_group);
-		// Synth(\general_chorus, [\bus, stereo_bus], filt_group, \addToTail);
+			// Synth(\chorus_compress, [\bus, stereo_bus], filt_group);
+
+			// Synth(\cynk_broad, [\bus, stereo_bus], filt_group);
+
+			Synth(\general_chorus, [\bus, stereo_bus], filt_group, \addToTail);
 
 			Synth(\control_env_testing, [\env, amp, \outbus, amp_bus], amp_group);
 			Synth(\route_m2s_free_on_silence,
