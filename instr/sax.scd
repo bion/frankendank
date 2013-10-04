@@ -38,7 +38,7 @@ var toggle_filt, ints_to_names = Array.newClear(100),
 // loop over pairs to instantiate MIDIFuncs using uid
 [
 	// looping
-	[0, {arg ...args; args.postln; ~loop_touch.(map_dic.(0));}],
+	[0, {~loop_touch.(map_dic.(0));}],
 	[1, {~loop_touch.(map_dic.(1));}],
 	[2, {~loop_touch.(map_dic.(2));}],
 	[3, {~loop_touch.(map_dic.(3));}],
@@ -48,6 +48,11 @@ var toggle_filt, ints_to_names = Array.newClear(100),
 	// other
 	[5, { ~h_filt.(\sax_f1) }],
 	[6, { ~h_synth.(\sax_s1) }],
+	[7, {
+		~h_filt.(\sax_chorus);
+		~h_filt.(\sax_shaper);
+		~h_filt.(\sax_comp);
+	}],
 ].do {arg pair;
 	MIDIdef.program(
 		("sax_"++pair[0]).asSymbol,

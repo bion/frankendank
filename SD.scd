@@ -220,7 +220,7 @@
 		arg pbus, bus, gate=1;
 		var chain, control;
 		chain = In.ar(bus, 1);
-		control = LinExp.kr(In.kr(pbus), 0, 127, 80, 20000);
+		control = LinExp.kr(In.kr(pbus).lag3(0.03), 0, 127, 80, 20000);
 		chain = MoogFF.ar(chain, control, 3.2);
 		XOut.ar(bus, Linen.kr(gate, 0.05, releaseTime: 0.05, doneAction: 2), chain);
 	}),

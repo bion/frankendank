@@ -1,6 +1,6 @@
 (
-
-	/* each group is an IdentityDictionary[
+	/* each group is an
+	IdentityDictionary[
 		\uses_chord -> boolean,
 		\chord_synths -> [synth, synth, synth],
 		\fx_synths -> [one, two, three]
