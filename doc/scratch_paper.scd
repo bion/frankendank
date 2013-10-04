@@ -1,3 +1,5 @@
+s.boot
+play{SinOsc.ar*0.1}
 ~clear_loop.(\sax)
 ~loops
 ~path = "/Users/bionjohnson/Documents/sound projects/Current/EB/Main/";

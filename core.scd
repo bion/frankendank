@@ -1,5 +1,6 @@
 (
   var docpath = thisProcess.nowExecutingPath,
+		add_chord_synth,
   // metranome
 		met_sfd_path = ~maindir ++ "met_sfs/*",
     met_sfd = (met_sfd_path).pathMatch, // natural numbers
@@ -57,6 +58,7 @@
 	~update_synths_with_chord = {|chord|
 		~com_synths_groups.do {|group| if(group[\uses_chord], {
 			var synths = group[\chord_synths], bundle;
+			var pitch =1;
 			chord.do {|pitch_class, i|
 				if(synths[i].notNil, {
 					synths[i].set(\freq, pitch_class.freq);
