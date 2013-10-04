@@ -19,24 +19,24 @@
 
 	~sample_sets = [
 		IdentityDictionary[ // 0
-			\drum_0 -> \kick_synth_1,
-			\drum_1 -> \kick_synth_2,
-			\drum_2 -> \snare_1,
-			\drum_3 -> \snare_2,
-			\drum_4 -> \clap_1,
-			\drum_5 -> \pop_1,
-			\drum_6 -> \snick_1,
-			\drum_7 -> \snick_2
+			\drum_0 -> \Kick1,
+			\drum_1 -> \Kick2,
+			\drum_2 -> \Snare1,
+			\drum_3 -> \Clap1,
+			\drum_4 -> \Whip,
+			\drum_5 -> \Hat1,
+			\drum_6 -> \Hat2,
+			\drum_7 -> \Bell
 		],
 		IdentityDictionary[ // 1
-			\drum_0 -> \kick_synth_1,
-			\drum_1 -> \kick_synth_2,
-			\drum_2 -> \snare_1,
-			\drum_3 -> \snare_2,
-			\drum_4 -> \clap_1,
-			\drum_5 -> \pop_1,
-			\drum_6 -> \snick_1,
-			\drum_7 -> \snick_2
+			\drum_0 -> \Kick3,
+			\drum_1 -> \Kick4,
+			\drum_2 -> \Clap2,
+			\drum_3 -> \Snap1,
+			\drum_4 -> \Whip,
+			\drum_5 -> \Snare1,
+			\drum_6 -> \Hat3,
+			\drum_7 -> \Bell
 		]
 	];
 
