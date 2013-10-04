@@ -216,7 +216,7 @@
 	/* ------------------------------- sax filters --------------------------------- */
 
 	// sax wahwahwah
-	SynthDef(\sax_f1, {
+	SynthDef(\sax_wah, {
 		arg pbus, bus, gate=1;
 		var chain, control;
 		chain = In.ar(bus, 1);
@@ -289,7 +289,6 @@
 		}, 0.02);
 		XOut.ar(bus, Linen.kr(gate, 0.05, releaseTime: 0.05, doneAction: 2), chain);
 	}),
-
 
 	SynthDef(\general_chorus, {
 		arg pbus, bus, gate=1;

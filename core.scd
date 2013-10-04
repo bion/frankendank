@@ -56,7 +56,7 @@
 
 	~update_synths_with_chord = {|chord|
 		~com_synths_groups.do {|group| if(group[\uses_chord], {
-			var synths = group[\chord_synths];
+			var synths = group[\chord_synths], bundle;
 			chord.do {|pitch_class, i|
 				if(synths[i].notNil, {
 					synths[i].set(\freq, pitch_class.freq);
@@ -73,8 +73,24 @@
 						synths.removeAt(chord.size + i - 1).free;
 					};
 				});
+				if(group.size < chord.size, {
+					(chord.size - group.size).do {|i|
+						var index = i + chord.size;
+						synths.add( Synth(
+																group[\synth_name],
+																group[\args] ++ [\freq, pitch],
+																group[\target],
+																group[\add_message]
+															);
+						);
+					};
+				});
 			};
 		})};
+	};
+
+	add_chord_synth = {|group, pitch|
+
 	};
 
 	/* ____________________________ groups, busses, buffers */
@@ -101,7 +117,7 @@
 		~buss.put(name, Bus.control(s, 4) );
 	};
 
-	[ \breath_p, \sax_v, \sax_p, \tub_v, \tub_p ].do {arg name;
+	[ \breath_v, \sax_v, \sax_p, \tub_v, \tub_p ].do {arg name;
 		~buss.put(name, Bus.control(s, 1) );
 	};
 

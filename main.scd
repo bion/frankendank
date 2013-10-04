@@ -23,15 +23,20 @@ midi_stati = IdentityDictionary[];
 				if(midi_stati[name][\status].notNil, {midi_stati[name][\status].remove});
 				midi_stati[name][\status] = StaticText(startup_gui, Rect(100, 10+(i*40), 80, 30));
 				if(midi_stati[name][\responder].isNil && ~mSrc[name].isNil, {
+					var responder_type; 
+					if(name != \com, {responder_type = \program}, {responder_type = \noteOn});
 					midi_stati[name][\status].stringColor_(Color.red).string_("Awaiting input");
-					midi_stati[name][\responder] = MIDIFunc.program({
+					midi_stati[name][\responder] = MIDIFunc(
+						func: {
 						arg num, chan, source;
 						~mSrc[name] = source;
 						AppClock.sched(0, {
 							midi_stati[name][\status].stringColor_(Color.green).string_("Device found");
 						});
 						midi_stati[name][\responder].free;
-					});
+						},
+						msgType: responder_type
+					);
 				}, {
 					midi_stati[name][\responder].free;
 					midi_stati[name][\status] = nil;

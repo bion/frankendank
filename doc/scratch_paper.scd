@@ -81,14 +81,14 @@ d = IdentityDictionary[];
 	d[\one] = b;
 )
 
-
 (
+	a = s.makeBundle(false, {
+		Synth(\default);
+	});
 
-	play{
-		a = LFNoise2.ar(100.dup(3));
-		b = a.range(-1, 1);
-		c = a.range(-1, 1);
-		b.mean + c.mean
-	}
+	a = s.makeBundle(false, {
+		Synth(\default);
+	}, a);
+	a = s.makeBundle(0.025, { }, a);
 
 )
