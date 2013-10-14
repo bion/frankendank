@@ -115,11 +115,15 @@
 		~buss.put(name, Bus.audio(s, 1) );
 	};
 
+	[ \drums_mon, \sax_mon, \tub_mon, \com_mon].do {arg name;
+		~buss.put(name, Bus.audio(s, 5);
+	};
+
 	[ \sax_i, \tub_i].do {arg name;
 		~buss.put(name, Bus.control(s, 4) );
 	};
 
-	[ \breath_v, \sax_v, \sax_p, \tub_v, \tub_p ].do {arg name;
+	[ \breath_v, \sax_v, \sax_p, \tub_v, \tub_p, \tub_relax ].do {arg name;
 		~buss.put(name, Bus.control(s, 1) );
 	};
 
@@ -135,8 +139,20 @@
 	/* ________________________________ persistent synths */
 	~p_synths.add(
 		\agg -> Synth(\agg,
-			[\saxbus, ~buss[\sax_agg], \tubbus, ~buss[\tub_agg],
-			\outbus, ~buss[\one_out]], ~agg_g);
+			[
+				\saxbus,				~buss[\sax_agg],
+				\tubbus,				~buss[\tub_agg],
+				\d_low_bus,			~buss[\d_low_bus],
+				\d_med_bus,			~buss[\d_med_bus],
+				\d_hi_bus,			~buss[\d_hi_bus],
+				\drums_mon_bus, ~buss[\drums_mon],
+				\tub_mon_bus,		~buss[\tub_mon],
+				\sax_mon_bus,		~buss[\sax_mon],
+				\com_mon_bus,		~buss[\com_mon],
+				\outbus,				~buss[\one_out],
+			],
+			~agg_g
+		);
 
 		\out_left -> Synth(\route_mono, 
 			[\inbus, ~buss[\one_out], \outbus, 0], ~out_g)

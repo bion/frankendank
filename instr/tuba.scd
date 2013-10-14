@@ -1,7 +1,8 @@
 (
 var uid = ~mSrc[\tuba];
 var toggle_filt, ints_to_names = Array.newClear(100),
-	map_dic = {|num| IdentityDictionary[\inst -> \tub, \num -> num] };
+	map_dic = {|num| IdentityDictionary[\inst -> \tub, \num -> num] },
+	toggle_relax;
 
 ~p_synths.add(
 	\tub_v -> Synth(\v_control, 
@@ -33,6 +34,8 @@ var toggle_filt, ints_to_names = Array.newClear(100),
 	// synths
 	[5, { ~h_synth.(\tub_s1) }],
 	[6, { ~h_synth.(\tub_s2) }],
+
+	[11,{ toggle_relax.() }]
 ].do {arg pair;
 	MIDIdef.program(
 		("tub_"++pair[0]).asSymbol,
@@ -45,5 +48,21 @@ var toggle_filt, ints_to_names = Array.newClear(100),
 
 MIDIdef.cc(\tub_volume, {arg val; ~p_synths[\tub_v].set(\amp, val) }, 7, 0, uid);
 MIDIdef.cc(\tub_param, {arg val; ~p_synths[\tub_p].set(\param, val) }, 27, 0, uid);
+
+toggle_relax = {
+	var responder = MIDIdef(\tub_relax);
+	if(responder.enabled, { 
+		responder.disable;
+		MIDIdef(\tub_param).enable;
+	}, {
+		responder.enable;
+		MIDIdef(\tub_param).disable;
+	});
+};
+
+MIDIdef.cc(\tub_relax, {arg val;
+	var relax = val * 127.reciprocal * ~tempo;
+	~p_synths[\agg].set(\tub_relax, relax);
+	}, 27, 0, uid).disable;
 
 )

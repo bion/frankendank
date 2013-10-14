@@ -12,6 +12,13 @@ That's 'Electrostep Dunk Ensemble' to the proletariat.
 * com: n/a / 0
 * met: n/a / 1
 
+### Monitor channel mappings:
+
+* sax: 8
+* drums: 7
+* tub: 6
+* com: 5
+
 ### Saffire settings
 
 * Sample Rate set to 44.1 kHz
