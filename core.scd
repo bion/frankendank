@@ -92,7 +92,6 @@
 	};
 
 	add_chord_synth = {|group, pitch|
-
 	};
 
 	/* ____________________________ groups, busses, buffers */

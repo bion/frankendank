@@ -12,6 +12,16 @@
 	*/
 
 	~p_synths.add(
+
+		\com_mon -> Synth(\mon,
+			[
+				\drum_scale, 1,
+				\sax_scale, 1,
+				\tub_scale, 1,
+				\com_scale, 1,
+			],
+			~out_g ),
+
 		\breath_p -> Synth(\v_control,
 			[\outbus, ~buss[\breath_v], \param, 0], ~in_g)
 	);

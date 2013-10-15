@@ -115,6 +115,16 @@
 		};
 	}),
 
+	SynthDef(\mon, {
+		arg inbus, outbus,
+			drum_scale=1, sax_scale=1, tub_scale=1, com_scale=1;
+		var drum, sax, tub, com, out;
+		#drum, tub, sax, com = In.ar(inbus, 5);
+
+		out = (drum * drum_scale) + (tub * tub_scale) + (sax * sax_scale) + (com * com_scale);
+		Out.ar(outbus, out);
+	}),
+
 	/* ------------------------ com --------------------------- */
 
 	SynthDef(\dirt_rhode, {

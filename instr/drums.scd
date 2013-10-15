@@ -6,6 +6,10 @@
 
 	load(~maindir ++ "/instr/drum_sample_map.scd");
 
+	~p_synths.add(
+
+	);
+
 	~drum_funcs = IdentityDictionary[
 		\basic_sample -> {|action|
 			s.makeBundle(0.025, {

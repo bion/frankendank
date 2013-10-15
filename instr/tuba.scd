@@ -5,6 +5,15 @@ var toggle_filt, ints_to_names = Array.newClear(100),
 	toggle_relax;
 
 ~p_synths.add(
+	\tub_mon -> Synth(\mon,
+		[
+			\drum_scale, 1,
+			\sax_scale, 1,
+			\tub_scale, 1,
+			\com_scale, 1,
+		],
+		~out_g ),
+
 	\tub_v -> Synth(\v_control, 
 		[\outbus, ~buss[\tub_v], \amp, 0], ~in_g),
 

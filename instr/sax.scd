@@ -17,21 +17,30 @@ var toggle_filt, ints_to_names = Array.newClear(100),
 	map_dic = {|num| IdentityDictionary[\inst -> \sax, \num -> num] };
 
 ~p_synths.add(
+	
+	\sax_mon -> Synth(\mon,
+		[
+			\drum_scale, 1,
+			\sax_scale, 1,
+			\tub_scale, 1,
+			\com_scale, 1,
+		],
+		~out_g ),
 
-		\sax_v -> Synth(\v_control, 
-			[\outbus, ~buss[\sax_v], \amp, 0], ~in_g),
+	\sax_v -> Synth(\v_control, 
+		[\outbus, ~buss[\sax_v], \amp, 0], ~in_g),
 
-		\sax_p -> Synth(\p_control, 
-			[\outbus, ~buss[\sax_p], \param, 0], ~in_g),
+	\sax_p -> Synth(\p_control, 
+		[\outbus, ~buss[\sax_p], \param, 0], ~in_g),
 
-		\sax_info -> Synth(\horninfo,
-			[\inbus, ~id_bus_map[\sax], \outbus, ~buss[\sax_info] ], ~in_g),
+	\sax_info -> Synth(\horninfo,
+		[\inbus, ~id_bus_map[\sax], \outbus, ~buss[\sax_info] ], ~in_g),
 
-		\sax_in -> Synth(\route_mono,
-			[\inbus, ~id_bus_map[\sax], \outbus, ~buss[\sax_eq] ], ~in_g),
+	\sax_in -> Synth(\route_mono,
+		[\inbus, ~id_bus_map[\sax], \outbus, ~buss[\sax_eq] ], ~in_g),
 
-		\sax_eq -> Synth(\sax_eq, 
-			[\inbus, ~buss[\sax_eq], \outbus, ~buss[\sax_agg]], ~eq_g),
+	\sax_eq -> Synth(\sax_eq, 
+		[\inbus, ~buss[\sax_eq], \outbus, ~buss[\sax_agg]], ~eq_g),
 );
 
 // two dimensional array stores button# and function pairings
