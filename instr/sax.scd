@@ -24,6 +24,10 @@ var toggle_filt, ints_to_names = Array.newClear(100),
 			\sax_scale, 1,
 			\tub_scale, 1,
 			\com_scale, 1,
+			\met_scale, 1,
+			\metranome_bus, ~buss[\metranome],
+			\inbus, ~buss[\sax_mon],
+			\outbus, 3,
 		],
 		~out_g ),
 
@@ -40,7 +44,7 @@ var toggle_filt, ints_to_names = Array.newClear(100),
 		[\inbus, ~id_bus_map[\sax], \outbus, ~buss[\sax_eq] ], ~in_g),
 
 	\sax_eq -> Synth(\sax_eq, 
-		[\inbus, ~buss[\sax_eq], \outbus, ~buss[\sax_agg]], ~eq_g),
+		[\inbus, ~buss[\sax_eq], \outbus, ~buss[\sax_agg] ], ~eq_g),
 );
 
 // two dimensional array stores button# and function pairings

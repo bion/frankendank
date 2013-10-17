@@ -14,10 +14,10 @@ That's 'Electrostep Dunk Ensemble' to the proletariat.
 
 ### Monitor channel mappings:
 
-* sax: 8
-* drums: 7
-* tub: 6
-* com: 5
+* sax: 3
+* tub: 4
+* drums: 5
+* com: 7
 
 ### Saffire settings
 

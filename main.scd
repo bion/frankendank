@@ -73,23 +73,30 @@ start_but = Button(startup_gui, Rect(50, start_but, 80, 30) )
 	};
 
 	Server.default = s = Server.local;
-	s.latency = 0.075;
+	s.latency = 0.02;
+	s.options = ServerOptions.new.hardwareBufferSize = 256;
   s.waitForBoot({
     ~cond = Condition.new;
 
 		~clock = TempoClock(~tempo);
 
-		load(~maindir ++ "core.scd");
-
-		load(~maindir ++ "SD.scd");
-		load(~maindir ++ "looping.scd");
-		load(~maindir ++ "instr/" ++ "com_sample_map.scd");
-		load(~maindir ++ "jams.scd");
-		load(~maindir ++ "task_master.scd");
+		[
+			"SD.scd",
+			"core.scd",
+			"looping.scd",
+			"instr/com_sample_map.scd",
+			"jams.scd",
+			"task_master.scd"
+		].do {|file|
+			(~maindir ++ file).load;
+			s.sync;
+		};
 
 		sg_but.keysValuesDo {arg key, value;
 			if(value.value == 1, {(~maindir++"instr/"++key++".scd").load});
 		};
+
+		s.sync(~cond);
 
 		CmdPeriod.doOnce {
 			s.freeAll;

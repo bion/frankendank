@@ -10,6 +10,22 @@
 
 	);
 
+	~p_synths.add(
+		\drums_mon -> Synth(\mon,
+			[
+				\drum_scale, 1,
+				\sax_scale, 1,
+				\tub_scale, 1,
+				\com_scale, 1,
+				\met_scale, 1,
+				\metranome_bus, ~buss[\metranome],
+				\inbus, ~buss[\drums_mon],
+				\outbus, 5,
+			],
+			~out_g ),
+
+	);
+
 	~drum_funcs = IdentityDictionary[
 		\basic_sample -> {|action|
 			s.makeBundle(0.025, {

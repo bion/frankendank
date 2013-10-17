@@ -19,6 +19,10 @@
 				\sax_scale, 1,
 				\tub_scale, 1,
 				\com_scale, 1,
+				\met_scale, 1,
+				\metranome_bus, ~buss[\metranome],
+				\inbus, ~buss[\sax_mon],
+				\outbus, 7,
 			],
 			~out_g ),
 

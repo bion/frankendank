@@ -93,7 +93,8 @@
 	SynthDef(\agg, {
 		arg sax_bus, tub_bus, out_bus,
 			d_low_bus, d_med_bus, d_hi_bus,
-			drums_mon_bus, tub_mon_bus, sax_mon_bus, com_mon_bus;
+			drums_mon_bus, tub_mon_bus, sax_mon_bus, com_mon_bus,
+			metranome_bus;
 		var sax, tub, out,
 			d_low, d_med, d_hi;
 
@@ -116,12 +117,16 @@
 	}),
 
 	SynthDef(\mon, {
-		arg inbus, outbus,
-			drum_scale=1, sax_scale=1, tub_scale=1, com_scale=1;
+		arg inbus, outbus, metranome_bus,
+			drum_scale=1, sax_scale=1, tub_scale=1, com_scale=1, met_scale=1;
 		var drum, sax, tub, com, out;
 		#drum, tub, sax, com = In.ar(inbus, 5);
 
-		out = (drum * drum_scale) + (tub * tub_scale) + (sax * sax_scale) + (com * com_scale);
+		out = (drum * drum_scale)
+			+ (tub * tub_scale)
+			+ (sax * sax_scale)
+			+ (com * com_scale)
+			+ (In.ar(metranome_bus, 1) * met_scale;
 		Out.ar(outbus, out);
 	}),
 

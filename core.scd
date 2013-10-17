@@ -12,7 +12,6 @@
 	];
 
 	~met_bufs = Array.newClear(met_sfd.size);
-	~met_outbus = 1;
 
   // persistent synths
   ~p_synths = IdentityDictionary[];
@@ -109,13 +108,14 @@
 	[ \sax_eq, \tub_eq, \dru_eq, \com_eq,
 		\one_out, \two_out, \three_out,
 		\sax_agg, \tub_agg,
-		\low, \med, \hi // drum busses
+		\low, \med, \hi, // drum busses
+		\metranome
 	].do {arg name;
 		~buss.put(name, Bus.audio(s, 1) );
 	};
 
 	[ \drums_mon, \sax_mon, \tub_mon, \com_mon].do {arg name;
-		~buss.put(name, Bus.audio(s, 5);
+		~buss.put(name, Bus.audio(s, 5) );
 	};
 
 	[ \sax_i, \tub_i].do {arg name;
@@ -139,8 +139,8 @@
 	~p_synths.add(
 		\agg -> Synth(\agg,
 			[
-				\saxbus,				~buss[\sax_agg],
-				\tubbus,				~buss[\tub_agg],
+				\sax_bus,				~buss[\sax_agg],
+				\tub_bus,				~buss[\tub_agg],
 				\d_low_bus,			~buss[\d_low_bus],
 				\d_med_bus,			~buss[\d_med_bus],
 				\d_hi_bus,			~buss[\d_hi_bus],
@@ -148,6 +148,7 @@
 				\tub_mon_bus,		~buss[\tub_mon],
 				\sax_mon_bus,		~buss[\sax_mon],
 				\com_mon_bus,		~buss[\com_mon],
+				\metranome_bus, ~buss[\metranome],
 				\outbus,				~buss[\one_out],
 			],
 			~agg_g
