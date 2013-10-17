@@ -36,12 +36,12 @@ For practicing on your own.
 2. Download and install [Git](http://git-scm.com/).
 
 3. Open a Terminal and navigate to the folder where you want to keep the code for this project, then clone this repository with git. For example, to store it in a directory in ```YourUserName/Documents/EDE/code/``` (capitilization matters!):
-```shell
+```bash
 mkdir -p ~/Documents/EDE/code
 cd ~/Documents/EDE/code
 git clone https://github.com/bion/frankendank.git
 enter your username and password
-``
+```
 
 ### Running this fucker
 
