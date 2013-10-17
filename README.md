@@ -1,8 +1,8 @@
 # her
 
 this kid sucks at tetris
+
 ![sucks at tetris](http://i.imgur.com/ncpRJfp.gif)
-That's 'Electrostep Dunk Ensemble' to the proletariat.
 
 ### I(gain)/O channel mappings:
 
