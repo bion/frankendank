@@ -28,7 +28,6 @@
 				~clock.sched(beats_away - (s.latency / ~clock.beatDur), {
 					Synth(\playbuf_simple, [\outbus, ~buss[\metranome], 
 																\buf, ~met_bufs.wrapAt(i)], ~playbuf_g);
-					postln("BEAT IS " ++ ~clock.beats);
 				});
 			};
 
