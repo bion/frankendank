@@ -94,3 +94,12 @@ d = IdentityDictionary[];
 	a = s.makeBundle(0.025, { }, a);
 
 )
+
+/* ___________________________________________ horn MIDI spoof */
+
+(
+	~h_filt.(\sax_wah);
+	~p_synths[\sax_v].set(\amp, 127)
+	~p_synths
+	s.queryAllNodes;
+)

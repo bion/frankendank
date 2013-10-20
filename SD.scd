@@ -126,7 +126,7 @@
 			+ (tub * tub_scale)
 			+ (sax * sax_scale)
 			+ (com * com_scale)
-			+ (In.ar(metranome_bus, 1) * met_scale;
+			+ (In.ar(metranome_bus, 1) * met_scale);
 		Out.ar(outbus, out);
 	}),
 
@@ -285,6 +285,16 @@
 			clampTime: 0.002,
 			relaxTime: 0.01
 		);
+		XOut.ar(bus, Linen.kr(gate, 0.05, releaseTime: 0.05, doneAction: 2), chain);
+	}),
+
+	SynthDef(\sax_cynk_broad, {
+		arg bus, gate=1;
+		var layer1, layer2, in, chain;
+		in = In.ar(bus, 1);
+		chain = Fb({|fb|
+			PitchShift.ar(fb * 0.9 + in, 0.15, [-24, -12, -5, 0, 7, 12, 24].midiratio, 0, 0.004).mean;
+		}, 0.02);
 		XOut.ar(bus, Linen.kr(gate, 0.05, releaseTime: 0.05, doneAction: 2), chain);
 	}),
 

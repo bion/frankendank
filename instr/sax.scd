@@ -16,9 +16,8 @@ var uid = ~mSrc[\sax];
 var toggle_filt, ints_to_names = Array.newClear(100),
 	map_dic = {|num| IdentityDictionary[\inst -> \sax, \num -> num] };
 
-~p_synths.add(
-	
-	\sax_mon -> Synth(\mon,
+[
+	[\sax_mon, Synth(\mon,
 		[
 			\drum_scale, 1,
 			\sax_scale, 1,
@@ -29,23 +28,19 @@ var toggle_filt, ints_to_names = Array.newClear(100),
 			\inbus, ~buss[\sax_mon],
 			\outbus, 3,
 		],
-		~out_g ),
+		~out_g )],
 
-	\sax_v -> Synth(\v_control, 
-		[\outbus, ~buss[\sax_v], \amp, 0], ~in_g),
+	[\sax_v, Synth(\v_control, [\outbus, ~buss[\sax_v], \amp, 0], ~in_g)],
 
-	\sax_p -> Synth(\p_control, 
-		[\outbus, ~buss[\sax_p], \param, 0], ~in_g),
+	[\sax_p, Synth(\p_control, [\outbus, ~buss[\sax_p], \param, 0], ~in_g)],
 
-	\sax_info -> Synth(\horninfo,
-		[\inbus, ~id_bus_map[\sax], \outbus, ~buss[\sax_info] ], ~in_g),
+	[\sax_info, Synth(\horninfo, [\inbus, ~id_bus_map[\sax], \outbus, ~buss[\sax_info] ], ~in_g)],
 
-	\sax_in -> Synth(\route_mono,
-		[\inbus, ~id_bus_map[\sax], \outbus, ~buss[\sax_eq] ], ~in_g),
+	[\sax_in, Synth(\route_mono, [\inbus, ~id_bus_map[\sax], \outbus, ~buss[\sax_eq] ], ~in_g)],
 
-	\sax_eq -> Synth(\sax_eq, 
-		[\inbus, ~buss[\sax_eq], \outbus, ~buss[\sax_agg] ], ~eq_g),
-);
+	[\sax_eq, Synth(\sax_eq, [\inbus, ~buss[\sax_eq], \outbus, ~buss[\sax_agg] ], ~eq_g)]
+
+].do {|pair| ~p_synths.add(pair[0] -> pair[1]) };
 
 // two dimensional array stores button# and function pairings
 // loop over pairs to instantiate MIDIFuncs using uid
@@ -66,7 +61,7 @@ var toggle_filt, ints_to_names = Array.newClear(100),
 		~h_filt.(\sax_shaper);
 		~h_filt.(\sax_comp);
 	}],
-	[8, { ~h_synth.(\cynk_broad) }],
+	[8, { ~h_synth.(\sax_cynk_broad) }],
 ].do {arg pair;
 	MIDIdef.program(
 		("sax_"++pair[0]).asSymbol,

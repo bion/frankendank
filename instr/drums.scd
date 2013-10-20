@@ -7,10 +7,6 @@
 	load(~maindir ++ "/instr/drum_sample_map.scd");
 
 	~p_synths.add(
-
-	);
-
-	~p_synths.add(
 		\drums_mon -> Synth(\mon,
 			[
 				\drum_scale, 1,
@@ -23,7 +19,6 @@
 				\outbus, 5,
 			],
 			~out_g ),
-
 	);
 
 	~drum_funcs = IdentityDictionary[

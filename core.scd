@@ -23,7 +23,7 @@
     var instr = id.asString[0 .. 2];
     if(node.isNil, {
       node = Synth(id,
-        [	\hornDataBus, ~buss[(instr++"_i").asSymbol], 
+        [	\hornDataBus, ~buss[(instr++"_info").asSymbol],
 					\bus, ~buss[(instr++"_eq").asSymbol],
           \pbus, ~buss[(instr++"_p").asSymbol]],
         ~filt_g);
@@ -36,18 +36,18 @@
 
   ~h_synth = {arg id;
     var node = playing[id];
-    var instr = id[\inst].asString;
+    var instr = id.asString[0 .. 2];
     if(node.isNil, {
       node = Synth(id,
-        [ \hornDataBus, ~buss[(instr++"_i").asSymbol], 
+        [ \hornDataBus, ~buss[(instr++"_info").asSymbol],
 					\bus, ~buss[(instr++"_eq").asSymbol],
           \pbus, ~buss[(instr++"_p").asSymbol]],
         ~synth_g);
-      ~p_synths[id[\inst]].set(\amp, 0);
+      ~p_synths[(instr ++ "_in").asSymbol].set(\amp, 0);
       }, {
         node.set(\gate, 0);
         node = nil;
-        ~p_synths[id[\inst]].set(\amp, 1);
+				~p_synths[(instr ++ "_in").asSymbol].set(\amp, 1);
     });
     playing[id] = node;
   };
@@ -118,7 +118,7 @@
 		~buss.put(name, Bus.audio(s, 5) );
 	};
 
-	[ \sax_i, \tub_i].do {arg name;
+	[ \sax_info, \tub_info].do {arg name;
 		~buss.put(name, Bus.control(s, 4) );
 	};
 
@@ -136,8 +136,8 @@
 	s.sync(~cond);
 
 	/* ________________________________ persistent synths */
-	~p_synths.add(
-		\agg -> Synth(\agg,
+	[
+		[\agg, Synth(\agg,
 			[
 				\sax_bus,				~buss[\sax_agg],
 				\tub_bus,				~buss[\tub_agg],
@@ -152,11 +152,10 @@
 				\outbus,				~buss[\one_out],
 			],
 			~agg_g
-		);
+		)],
 
-		\out_left -> Synth(\route_mono, 
-			[\inbus, ~buss[\one_out], \outbus, 0], ~out_g)
-	);
+		[\out_left, Synth(\route_mono, [\inbus, ~buss[\one_out], \outbus, 0], ~out_g)]
+	].do {|pair| ~p_synths.add(pair[0] -> pair[1]) };
 
 	"CORE LOADED".postln;
 )

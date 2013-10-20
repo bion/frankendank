@@ -11,9 +11,8 @@
 	]
 	*/
 
-	~p_synths.add(
-
-		\com_mon -> Synth(\mon,
+	[
+		[\com_mon, Synth(\mon,
 			[
 				\drum_scale, 1,
 				\sax_scale, 1,
@@ -24,11 +23,11 @@
 				\inbus, ~buss[\sax_mon],
 				\outbus, 7,
 			],
-			~out_g ),
+			~out_g )],
 
-		\breath_p -> Synth(\v_control,
-			[\outbus, ~buss[\breath_v], \param, 0], ~in_g)
-	);
+		[\breath_p, Synth(\v_control, [\outbus, ~buss[\breath_v], \param, 0], ~in_g])
+
+	].do {|pair| ~p_synths.add(pair[0] -> pair[1]) };
 
 	~com_synths_groups = [];
 	~current_breath_synth = nil;
