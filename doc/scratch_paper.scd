@@ -98,8 +98,8 @@ d = IdentityDictionary[];
 /* ___________________________________________ horn MIDI spoof */
 
 (
-	~h_synth.(\tub_s1);
-	~p_synths[\tub_v].set(\amp, 1);
+	~h_synth.(\tub_s2);
+	~p_synths[\tub_v].set(\amp, 127);
 	s.queryAllNodes;
 	s.boot
 	s.quit

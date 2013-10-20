@@ -203,7 +203,7 @@
 			SinOsc.kr(0.1).range(0.3, 0.7), [1, 0.5, 0.5, 0.25]).mean.tanh;
 		synth = synth * (amp > 0);
 		control = LinExp.kr(amp.ampdb, -32, -10, pitch * 0.75, 20000).max(160);
-		synth = MoogFF.ar(synth, control, 3.32, mul: 8);
+		synth = MoogFF.ar(synth, control, 3.32);
 		synth = LeakDC.ar(synth);
 		out_amp = In.kr(pedal_amp_bus, 1);
 		out = out_amp * synth;
@@ -215,9 +215,10 @@
 		var pitch, hasPitch, amp, onset, control, synth, out_amp, out;
 		#pitch, hasPitch, amp, onset = In.kr(hornDataBus, 4);
 		control = LinExp.kr(amp.ampdb, -32, -10, 0, 1).max(160);
-		synth = VarSaw.ar(pitch, width: control.range(0.4, 0.6)) + SinOsc.ar(pitch/2);
+		synth = VarSaw.ar(pitch, width: control.range(0.4, 0.6)) + SinOsc.ar(pitch * 0.5);
+		synth = synth * (amp > 0);
 		synth = Decimator.ar(synth, 20000, control.range(1.2, 8));
-		synth = MoogLadder.ar(synth, control.range(pitch, 25000), control.range(0.03, 0.1), mul: 0.5);
+		synth = MoogLadder.ar(synth, control.range(pitch, 20000), control.range(0.03, 0.1), mul: 0.5);
 		out_amp = In.kr(pedal_amp_bus, 1);
 		out = out_amp * synth;
 		Out.ar(bus, out * Linen.kr(gate, 0.05, releaseTime: 0.05, doneAction: 2));

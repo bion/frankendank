@@ -18,7 +18,7 @@ var toggle_filt, ints_to_names = Array.newClear(100),
 		],
 		~out_g )],
 
-	[\tub_v, Synth(\v_control, [\outbus, ~buss[\tub_v], \amp, 0], ~in_g)],
+	[\tub_v, Synth(\v_control, [\outbus, ~buss[\tub_v], \amp, 127], ~in_g)],
 
 	[\tub_p, Synth(\p_control, [\outbus, ~buss[\tub_p], \param, 0], ~in_g)],
 
