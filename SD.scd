@@ -67,7 +67,7 @@
 	}),
 
 	SynthDef(\horninfo, {
-		arg inbus, outbus, lag=0.02;
+		arg inbus, outbus, lag=0.005;
 		var in, pitch, hasPitch, amp, onset;
 		in = In.ar(inbus, 1);
 		#pitch, hasPitch = Tartini.kr(in).lag3(lag);
@@ -197,28 +197,30 @@
 
 	SynthDef(\tub_s1, {
 		arg hornDataBus, pedal_amp_bus, bus, gate=1;
-		var pitch, hasPitch, amp, onset, control, synth, out_amp;
+		var pitch, hasPitch, amp, onset, control, synth, out_amp, out;
 		#pitch, hasPitch, amp, onset = In.kr(hornDataBus, 4);
 		synth = Pulse.ar(pitch*[1, 1.01, 0.985, 7.midiratio],
-			SinOsc.kr(0.1).range(0.3, 0.7), onset.lag3(0.01)*[1, 0.5, 0.5, 0.25]).mean.tanh;
+			SinOsc.kr(0.1).range(0.3, 0.7), [1, 0.5, 0.5, 0.25]).mean.tanh;
 		synth = synth * (amp > 0);
-		control = LinExp.kr(amp.ampdb, -32, -10, pitch*0.75, 20000).max(160);
-		synth = MoogFF.ar(synth, control, 3.32);
+		control = LinExp.kr(amp.ampdb, -32, -10, pitch * 0.75, 20000).max(160);
+		synth = MoogFF.ar(synth, control, 3.32, mul: 8);
 		synth = LeakDC.ar(synth);
 		out_amp = In.kr(pedal_amp_bus, 1);
-		Out.ar(bus, out_amp * synth * Linen.kr(gate, 0.05, releaseTime: 0.05, doneAction: 2));
+		out = out_amp * synth;
+		Out.ar(bus, out * Linen.kr(gate, 0.05, releaseTime: 0.05, doneAction: 2));
 	}),
 
 	SynthDef(\tub_s2, {
 		arg hornDataBus, pedal_amp_bus, bus, gate=1;
-		var pitch, hasPitch, amp, onset, control, synth, out_amp;
+		var pitch, hasPitch, amp, onset, control, synth, out_amp, out;
 		#pitch, hasPitch, amp, onset = In.kr(hornDataBus, 4);
 		control = LinExp.kr(amp.ampdb, -32, -10, 0, 1).max(160);
 		synth = VarSaw.ar(pitch, width: control.range(0.4, 0.6)) + SinOsc.ar(pitch/2);
 		synth = Decimator.ar(synth, 20000, control.range(1.2, 8));
 		synth = MoogLadder.ar(synth, control.range(pitch, 25000), control.range(0.03, 0.1), mul: 0.5);
 		out_amp = In.kr(pedal_amp_bus, 1);
-		Out.ar(bus, out_amp * synth * Linen.kr(gate, 0.05, releaseTime: 0.05, doneAction: 2));
+		out = out_amp * synth;
+		Out.ar(bus, out * Linen.kr(gate, 0.05, releaseTime: 0.05, doneAction: 2));
 	}),
 
 	/* ------------------------------- tuba filters --------------------------------- */

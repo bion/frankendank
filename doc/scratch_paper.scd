@@ -101,6 +101,8 @@ d = IdentityDictionary[];
 	~h_synth.(\tub_s1);
 	~p_synths[\tub_v].set(\amp, 1);
 	s.queryAllNodes;
-	play { In.ar(9) }
+	s.boot
+	s.quit
+	play { LinExp.kr(SinOsc.kr.range(0, 0.7), -32, -10, .max(160).poll }
 	~p_synths;
 )
