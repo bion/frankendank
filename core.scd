@@ -40,6 +40,7 @@
     if(node.isNil, {
       node = Synth(id,
         [ \hornDataBus, ~buss[(instr++"_info").asSymbol],
+					\pedal_amp_bus, ~buss[(instr++"_v").asSymbol],
 					\bus, ~buss[(instr++"_eq").asSymbol],
           \pbus, ~buss[(instr++"_p").asSymbol]],
         ~synth_g);

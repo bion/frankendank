@@ -99,6 +99,8 @@ d = IdentityDictionary[];
 
 (
 	~h_synth.(\tub_s1);
+	~p_synths[\tub_v].set(\amp, 1);
 	s.queryAllNodes;
+	play { In.ar(9) }
 	~p_synths;
 )
