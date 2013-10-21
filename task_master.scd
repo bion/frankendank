@@ -99,7 +99,7 @@
 		})};
 	};
 
-	add_chord_synth = {|group, pitch|
+	~add_chord_synth = {|group, pitch|
 	};
 
 	~create_scheduled_fxn = IdentityDictionary[

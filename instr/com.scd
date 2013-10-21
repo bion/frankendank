@@ -25,7 +25,7 @@
 			],
 			~out_g )],
 
-		[\breath_p, Synth(\v_control, [\outbus, ~buss[\breath_v], \param, 0], ~in_g])
+		[\breath_p, Synth(\v_control, [\outbus, ~buss[\breath_v], \param, 0], ~in_g)]
 
 	].do {|pair| ~p_synths.add(pair[0] -> pair[1]) };
 
@@ -55,11 +55,11 @@
 				\add_message -> \addToTail
 			];
 		);
-		~current_breath_synth = \synth_name;
+		~current_breath_synth = synth_name;
+		~update_synths_with_chord.(~current_chord);
 	};
 
-	MIDIdef.cc(\breath_p, {
-		arg num;
+	MIDIdef.cc(\breath_p, {|num|
 		~p_synths[\breath_p].set(\param, num);
 	}, srcID: ~mSrc[\breath]);
 

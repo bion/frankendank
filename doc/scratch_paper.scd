@@ -99,6 +99,7 @@ d = IdentityDictionary[];
 
 (
 	~h_synth.(\tub_s2);
+	~h_filt.(\sax_cynk_broad);
 	~p_synths[\tub_v].set(\amp, 127);
 	s.queryAllNodes;
 	s.boot

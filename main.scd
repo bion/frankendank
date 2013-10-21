@@ -38,9 +38,6 @@ midi_stati = IdentityDictionary[];
 						msgType: responder_type
 					);
 				}, {
-					AppClock.sched(0, {
-						midi_stati[name][\status].stringColor_(Color.green).string_("Device found");
-					});
 					midi_stati[name][\responder].free;
 					midi_stati[name][\status] = nil;
 					midi_stati[name][\responder] = nil;

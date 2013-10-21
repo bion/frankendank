@@ -61,7 +61,7 @@ var toggle_filt, ints_to_names = Array.newClear(100),
 		~h_filt.(\sax_shaper);
 		~h_filt.(\sax_comp);
 	}],
-	[8, { ~h_synth.(\sax_cynk_broad) }],
+	[8, { ~h_filt.(\sax_cynk_broad) }],
 ].do {arg pair;
 	MIDIdef.program(
 		("sax_"++pair[0]).asSymbol,
