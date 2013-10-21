@@ -56,10 +56,51 @@
 		nil;
 	};
 
+	/* ____________________________ synth updating */
+
 	~set_chord_fxn = {|chord| {
 		~current_chord = chord;
 		~update_synths_with_chord.(chord);
 	}}; 
+
+	~update_synths_with_chord = {|chord|
+		~com_synths_groups.do {|group| if(group[\uses_chord], {
+			var synths = group[\chord_synths], bundle;
+			var pitch =1;
+			chord.do {|pitch_class, i|
+				if(synths[i].notNil, {
+					synths[i].set(\freq, pitch_class.freq);
+				},{
+					synths[i] = Synth(
+															group[\synth_name],
+															group[\args] ++ [\freq, pitch_class.freq],
+															group[\target],
+															group[\add_message]
+														);
+				});
+				if(group.size > chord.size, {
+						(group.size - chord.size).do {|i|
+						synths.removeAt(chord.size + i - 1).free;
+					};
+				});
+				if(group.size < chord.size, {
+					(chord.size - group.size).do {|i|
+						var index = i + chord.size;
+						synths.add( Synth(
+																group[\synth_name],
+																group[\args] ++ [\freq, pitch],
+																group[\target],
+																group[\add_message]
+															);
+						);
+					};
+				});
+			};
+		})};
+	};
+
+	add_chord_synth = {|group, pitch|
+	};
 
 	~create_scheduled_fxn = IdentityDictionary[
 		\playbuf -> {|action|
