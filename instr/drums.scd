@@ -26,6 +26,7 @@
 			s.makeBundle(0.025, {
 				Synth(\playbuf_simple,
 					[ \buf, action[\buffer],
+						\amp, 0.5,
 						\bus, ~buss[action[\register]] ],
 					~playbuf_g )
 				})

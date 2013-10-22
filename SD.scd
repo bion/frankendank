@@ -191,7 +191,7 @@
 		arg inbus, outbus, amp=1;
 		var in = In.ar(inbus, 1), out;
 		out = Compander.ar(in, in, 0.2, 1, 0.25, 0.05, 0.05);
-		out = PitchShift.ar(out, 0.15, 0.5, 0, 0.02, 2);
+		// out = PitchShift.ar(out, 0.05, 0.5, 0, 0.02, 2);
 		Out.ar(outbus, amp * out );
 	}),
 
@@ -199,11 +199,11 @@
 		arg hornDataBus, pedal_amp_bus, bus, gate=1;
 		var pitch, hasPitch, amp, onset, control, synth, out_amp, out;
 		#pitch, hasPitch, amp, onset = In.kr(hornDataBus, 4);
-		synth = Pulse.ar(pitch*[1, 1.01, 0.985, 7.midiratio],
-			SinOsc.kr(0.1).range(0.3, 0.7), [1, 0.5, 0.5, 0.25]).mean.tanh;
+		synth = Pulse.ar(pitch.lag3(0.06)*[1, 1.003, 0.995, 7.midiratio] * 0.5,
+			SinOsc.kr(0.1).range(0.3, 0.7), [1, 0.5, 0.5, 0.25]).mean;
 		synth = synth * (amp > 0);
-		control = LinExp.kr(amp.ampdb, -32, -10, pitch * 0.75, 20000).max(160);
-		synth = MoogFF.ar(synth, control, 3.32);
+		control = LinExp.kr(amp.ampdb, -32, -10, pitch * 1.5, 10000).max(160);
+		synth = MoogFF.ar(synth, control, 1.32);
 		synth = LeakDC.ar(synth);
 		out_amp = In.kr(pedal_amp_bus, 1);
 		out = out_amp * synth;
@@ -259,7 +259,7 @@
 	/* ------------------------------- sax filters --------------------------------- */
 
 	SynthDef(\sax_in, {
-		arg inbus, outbus, amp=1;
+		arg inbus, outbus, amp=4;
 		Out.ar(outbus, amp * In.ar(inbus, 1) );
 	}),
 
@@ -268,8 +268,8 @@
 		arg pbus, bus, gate=1;
 		var chain, control;
 		chain = In.ar(bus, 1);
-		control = LinExp.kr(In.kr(pbus).lag3(0.03), 0, 127, 80, 20000);
-		chain = MoogFF.ar(chain, control, 3.2);
+		control = LinExp.kr(In.kr(pbus).lag3(0.01), 0, 127, 200, 2000);
+		chain = MoogFF.ar(chain, control, 1.2);
 		XOut.ar(bus, Linen.kr(gate, 0.05, releaseTime: 0.05, doneAction: 2), chain);
 	}),
 
@@ -277,8 +277,8 @@
 		arg pbus, bus, gate=1;
 		var in, chain, control, noise=LFNoise2.kr(4.dup(3));
 		in = In.ar(bus, 1);
-		chain = DelayN.ar(in, 0.14, noise.range(0.075, 0.13));
-		chain = PitchShift.ar(chain, 0.15, noise.range(0.99, 1.01), 0, 0.005);
+		chain = DelayN.ar(in, 0.14, noise.range(0.0075, 0.013));
+		chain = PitchShift.ar(chain, 0.15, noise.range(0.998, 1.001), 0, 0.005);
 		chain = ([in]++chain).mean;
 		XOut.ar(bus, Linen.kr(gate, 0.05, releaseTime: 0.05, doneAction: 2), chain);
 	}),
@@ -312,7 +312,7 @@
 		in = In.ar(bus, 1);
 		chain = Fb({|fb|
 			PitchShift.ar(fb * 0.9 + in, 0.15, [-24, -12, -5, 0, 7, 12, 24].midiratio, 0, 0.004).mean;
-		}, 0.02);
+		}, 0.01);
 		XOut.ar(bus, Linen.kr(gate, 0.05, releaseTime: 0.05, doneAction: 2), chain);
 	}),
 
