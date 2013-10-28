@@ -31,7 +31,7 @@ For practicing on your own.
 
 3. Open a Terminal and navigate to the folder where you want to keep the code for this project, then clone this repository with git. For example, to store it in a directory in ```YourUserName/Documents/EDE/code/``` (capitilization matters!):
 ```bash
-mkdir -p ~/Documents/EDE/code
+mkdir -p ~/dev/frankendank
 cd ~/Documents/EDE/code
 git clone https://github.com/bion/frankendank.git
 enter your username and password
