@@ -1,9 +1,3 @@
-# her
-
-this kid sucks at tetris
-
-![sucks at tetris](http://distilleryimage7.ak.instagram.com/4bcc7fc2381f11e3844022000a1f9adf_8.jpg)
-
 ### I(gain)/O channel mappings:
 
 * sax: 1, 2 (3.5) / 0

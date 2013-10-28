@@ -44,7 +44,7 @@ var toggle_filt, ints_to_names = Array.newClear(100),
 	[5, { ~h_synth.(\tub_s1) }],
 	[6, { ~h_synth.(\tub_s2) }],
 
-	[11,{ toggle_relax.() }]
+	[9,{ toggle_relax.() }]
 ].do {arg pair;
 	MIDIdef.program(
 		("tub_"++pair[0]).asSymbol,
