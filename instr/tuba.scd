@@ -60,13 +60,13 @@ MIDIdef.cc(\tub_param, {arg val; ~p_synths[\tub_p].set(\param, val) }, 27, 0, ui
 
 toggle_relax = {
 	var responder = MIDIdef(\tub_relax);
-	if(responder.enabled, { 
+	if (responder.enabled) { 
 		responder.disable;
 		MIDIdef(\tub_param).enable;
-	}, {
+	} {
 		responder.enable;
 		MIDIdef(\tub_param).disable;
-	});
+	};
 };
 
 MIDIdef.cc(\tub_relax, {arg val;

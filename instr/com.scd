@@ -33,16 +33,16 @@
 	~current_breath_synth = nil;
 
 	~change_breath_synth = {|synth_name, args|
-		remove_these = [];
+		var remove_these = [];
 		~com_synths_groups.do {|synth_dict, i|
-			if(synth_dict[\uses_chord], {
+			if (synth_dict[\uses_chord]) {
 				synth_dict[\chord_synths].do {_.free};
 				synth_dict[\fx_synths].do {_.free};
 				remove_these.add(i);
-			});
+			};
 		};
 
-		remove_these.do {|i| ~com_synths_groups.removeAt(index) };
+		remove_these.do {|i| ~com_synths_groups.removeAt(i) };
 
 		~com_synths_groups.add(
 			IdentityDictionary[

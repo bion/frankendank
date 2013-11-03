@@ -76,7 +76,7 @@
 	*/
 
 	MIDIIn.program = {|src, chan, prog|
-		if(src == switch_uid, {
+		if (src == switch_uid) {
 			case
 				{ prog == 0 } { ~current_set = 0; postln("CURRENT_SAMPLE_SET: " ++ ~current_set);}
 				{ prog == 1 } { ~current_set = 1; postln("CURRENT_SAMPLE_SET: " ++ ~current_set);}
@@ -90,7 +90,7 @@
 				{ prog == 9 } { ~current_set = 9; postln("CURRENT_SAMPLE_SET: " ++ ~current_set);}
 				{ prog == 10 } { ~current_set = 10; postln("CURRENT_SAMPLE_SET: " ++ ~current_set);}
 				{ prog == 11 } { ~current_set = 11; postln("CURRENT_SAMPLE_SET: " ++ ~current_set);};
-		});
+		};
 	};
 
 	127.do {|i|

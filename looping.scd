@@ -6,33 +6,32 @@
 
 	~clear_loop = {arg id;
 		postln("CLEAR LOOP " ++ id);
-		if(clear_loop[id],
-			{clear_loop[id] = false}, {clear_loop[id] = true});
+		if (clear_loop[id]) {clear_loop[id] = false} {clear_loop[id] = true};
 	};
 
 	~loop_touch = {arg id; block {|break|
 		var offset = ~clock.beats - ~clock.beats.round * ~clock.beatDur;
 		var loop_instance = ~loops[id[\inst]][id[\num]];
 		postln("LOOP TOUCH " ++ id);
-		if(clear_loop[id[\inst]], {
-			if(loop_instance[\synth].notNil, { stop_loop.(id) });
+		if (clear_loop[id[\inst]]) {
+			if (loop_instance[\synth].notNil) { stop_loop.(id) };
 			loop_instance[\next_action] = record;
 			loop_instance[\dur] = 0.0;
 			clear_loop[id[\inst]] = false;
 			("LOOP " ++ id ++ " CLEARED").postln;
 			break.value;
-		});
+		};
 		loop_instance[\next_action].(id, offset);
 	}};
 
 	record = {arg id, offset;
-		if(offset < 0, {
+		if (offset < 0) {
 			fork{
 				offset.abs.wait;
 				add_record_synth.(id);
-			}}, {
+			}} {
 				add_record_synth.(id, offset);
-		});
+		};
 	};
 
 	add_record_synth = {arg id, offset=0;
@@ -53,7 +52,7 @@
 		var dur, record_surplus = 0;
 		var loop_instance = ~loops[id[\inst]][id[\num]];
 		fork{
-			if(offset < 0.0, {offset.abs.wait; offset=0.0});
+			if (offset < 0.0) {offset.abs.wait; offset=0.0};
 			dur = ~clock.beats - loop_instance[\dur];
 			loop_instance[\dur] = dur.round;
 			loop_instance[\recording].set(\gate, -1.01);
@@ -64,13 +63,13 @@
 	};
 
 	play_loop = {arg id, offset;
-		if(offset < 0, {
+		if (offset < 0) {
 			fork {
 				offset.abs.wait;
 				add_loop_synth.(id);
-			}}, {
+			}} {
 				add_loop_synth.(id, offset);
-		});
+		};
 	};
 
 	add_loop_synth = {arg id, offset=0;

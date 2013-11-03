@@ -20,11 +20,11 @@ midi_stati = IdentityDictionary[];
 		Button(startup_gui, Rect(10, 10+(i*40), 80, 30))
 			.states_([[name ++ " off"], [name ++ " on"]])
 			.mouseDownAction_({
-				if(midi_stati[name][\status].notNil, {midi_stati[name][\status].remove});
+				if (midi_stati[name][\status].notNil) {midi_stati[name][\status].remove};
 				midi_stati[name][\status] = StaticText(startup_gui, Rect(100, 10+(i*40), 80, 30));
-				if(midi_stati[name][\responder].isNil && ~mSrc[name].isNil, {
+				if (midi_stati[name][\responder].isNil && ~mSrc[name].isNil) {
 					var responder_type; 
-					if(name != \com, {responder_type = \program}, {responder_type = \noteOn});
+					if (name != \com) {responder_type = \program} {responder_type = \noteOn};
 					midi_stati[name][\status].stringColor_(Color.red).string_("Awaiting input");
 					midi_stati[name][\responder] = MIDIFunc(
 						func: {
@@ -37,11 +37,11 @@ midi_stati = IdentityDictionary[];
 						},
 						msgType: responder_type
 					);
-				}, {
+				} {
 					midi_stati[name][\responder].free;
 					midi_stati[name][\status] = nil;
 					midi_stati[name][\responder] = nil;
-				});
+				};
 			})
 	);
 	start_but = i*40+50;
@@ -93,7 +93,7 @@ start_but = Button(startup_gui, Rect(50, start_but, 80, 30) )
 		};
 
 		sg_but.keysValuesDo {arg key, value;
-			if(value.value == 1, {(~maindir++"instr/"++key++".scd").load});
+			if (value.value == 1) {(~maindir++"instr/"++key++".scd").load};
 		};
 
 		s.sync(~cond);

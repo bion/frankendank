@@ -21,23 +21,23 @@
   ~h_filt = {arg id;
     var node = playing[id];
     var instr = id.asString[0 .. 2];
-    if(node.isNil, {
+    if (node.isNil) {
       node = Synth(id,
         [	\hornDataBus, ~buss[(instr++"_info").asSymbol],
 					\bus, ~buss[(instr++"_eq").asSymbol],
           \pbus, ~buss[(instr++"_p").asSymbol]],
         ~filt_g);
-      }, {
+      } {
         node.set(\gate, 0);
         node = nil;
-    });
+    };
     playing[id] = node;
   };
 
   ~h_synth = {arg id;
     var node = playing[id];
     var instr = id.asString[0 .. 2];
-    if(node.isNil, {
+    if (node.isNil) {
       node = Synth(id,
         [ \hornDataBus, ~buss[(instr++"_info").asSymbol],
 					\pedal_amp_bus, ~buss[(instr++"_v").asSymbol],
@@ -45,11 +45,11 @@
           \pbus, ~buss[(instr++"_p").asSymbol]],
         ~synth_g);
       ~p_synths[(instr ++ "_in").asSymbol].set(\amp, 0);
-      }, {
+      } {
         node.set(\gate, 0);
         node = nil;
 				~p_synths[(instr ++ "_in").asSymbol].set(\amp, 1);
-    });
+    };
     playing[id] = node;
   };
 
@@ -86,12 +86,12 @@
 		~buss.put(name, Bus.control(s, 1) );
 	};
 
-	if(met_sfd.size == 0, {
+	if (met_sfd.size == 0) {
 		var mes = "No metranome files found at %, where are they?".format(met_sfd_path);
 		Error(mes).throw;
-		}, {
+		} {
 		met_sfd.do {arg path, i; ~met_bufs[i] = Buffer.read(s, path) };
-	});
+	};
 
 	s.sync(~cond);
 
