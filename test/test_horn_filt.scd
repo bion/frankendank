@@ -3,10 +3,12 @@
 		test_buf, source_path,
 		param_bus = Bus.control(s, 1),
 		stereo_bus = Bus.audio(s, 1),
+                info_in_bus = Bus.audio(s, 1),
+                info_out_bus = Bus.control(s, 4),
 		parent_group, synth_group, param_group, filt_group,
 		bundles, cond;
 
-	source_path = "~/Documents/EDE/test_samples/scott testing.aiff".standardizePath;
+  source_path = "~/Dropbox/electric_band_shared_music/raw_horn_samples/tuba_1.aiff".standardizePath;
 
 	param = Env(
 		[0,
@@ -34,20 +36,17 @@
 
 		test_buf = Buffer.read(s, source_path);
 
-		"~/Documents/EDE/code/frankendank/SD.scd".standardizePath.load;
+		"~/dev/frankendank/SD.scd".standardizePath.load;
 
 		s.sync(cond);
 
 		s.makeBundle(0.4, {
-			Synth(\playbuf_simple, [\outbus, stereo_bus, \buf, test_buf], synth_group);
+			Synth(\playbuf_simple, [\outbus, info_in_bus, \buf, test_buf], parent_group);
+      Synth(\horninfo, [\inbus, info_in_bus, \outbus, info_out_bus], synth_group);
+      Synth(\control_stub, [\bus, param_bus, \value, 1], synth_group);
 
-			Synth(\sax_comp, [\bus, stereo_bus], filt_group, \addToHead);
+      Synth(\tub_s1, [\hornDataBus, info_out_bus], filt_group);
 
-			Synth(\chorus_compress, [\bus, stereo_bus], filt_group);
-
-			Synth(\cynk_broad, [\bus, stereo_bus], filt_group, \addToTail);
-
-			Synth(\control_env_testing, [\env, param, \outbus, param_bus], param_group);
 			Synth(\route_m2s_free_on_silence,
 				[\inbus, stereo_bus, \outbus, 0], parent_group, \addToTail);
 			},
@@ -55,4 +54,5 @@
 		);
 
 	};
+        s.queryAllNodes;
 )

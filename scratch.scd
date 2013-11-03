@@ -15,3 +15,6 @@ s.gui
 s.queryAllNodes
 MIDIClient.init
 MIDIdef.trace(true);
+CtkBuffer
+Quarks.gui
+CmdPeriod.run

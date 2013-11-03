@@ -10,7 +10,7 @@ MIDIClient.init;
 MIDIIn.connectAll;
 ~mSrc = IdentityDictionary[];
 
-startup_gui = Window("EDE Startup", Rect(200, 200, 400, 250));
+startup_gui = Window("her Startup", Rect(200, 200, 400, 250));
 
 midi_stati = IdentityDictionary[];
 [\sax, \tuba, \drums, \com].do {arg name, i;

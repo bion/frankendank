@@ -67,12 +67,12 @@
 	}),
 
 	SynthDef(\horninfo, {
-		arg inbus, outbus, lag=0.005;
+		arg inbus, outbus, lag=0.05;
 		var in, pitch, hasPitch, amp, onset;
 		in = In.ar(inbus, 1);
 		#pitch, hasPitch = Tartini.kr(in).lag3(lag);
 		amp = Amplitude.kr(in).lag3(lag);
-		amp = amp * (amp > 0.025);
+		amp = amp * (amp > -40.dbamp);
 		onset = Coyote.kr(in);
 		Out.kr(outbus, [pitch, hasPitch, amp, onset]);
 	}),
@@ -199,10 +199,10 @@
 		arg hornDataBus, pedal_amp_bus, bus, gate=1;
 		var pitch, hasPitch, amp, onset, control, synth, out_amp, out;
 		#pitch, hasPitch, amp, onset = In.kr(hornDataBus, 4);
-		synth = Pulse.ar(pitch.lag3(0.06)*[1, 1.003, 0.995, 7.midiratio] * 0.5,
+		synth = Pulse.ar(pitch * [1, 1.003, 0.995, 7.midiratio] * 0.5,
 			SinOsc.kr(0.1).range(0.3, 0.7), [1, 0.5, 0.5, 0.25]).mean;
 		synth = synth * (amp > 0);
-		control = LinExp.kr(amp.ampdb, -32, -10, pitch * 1.5, 10000).max(160);
+		control = LinExp.kr(amp.ampdb, -36, -6, pitch * 1.5, 10000).max(160);
 		synth = MoogFF.ar(synth, control, 1.32);
 		synth = LeakDC.ar(synth);
 		out_amp = In.kr(pedal_amp_bus, 1);
@@ -212,13 +212,15 @@
 
 	SynthDef(\tub_s2, {
 		arg hornDataBus, pedal_amp_bus, bus, gate=1;
-		var pitch, hasPitch, amp, onset, control, synth, out_amp, out;
+		var pitch, hasPitch, amp, onset, control, synth, out_amp, out, lowpass_control;
 		#pitch, hasPitch, amp, onset = In.kr(hornDataBus, 4);
-		control = LinExp.kr(amp.ampdb, -32, -10, 0, 1).max(160);
-		synth = VarSaw.ar(pitch, width: control.range(0.4, 0.6)) + SinOsc.ar(pitch * 0.5);
-		synth = synth * (amp > 0);
-		synth = Decimator.ar(synth, 20000, control.range(1.2, 8));
-		synth = MoogLadder.ar(synth, control.range(pitch, 20000), control.range(0.03, 0.1), mul: 0.5);
+    control = LinExp.kr(amp.ampdb, -32, -10, 1, 10).lag3(0.2);
+		synth = VarSaw.ar(pitch, 0, width: control.lag3(0.1).range(0.45, 0.55)) + SinOsc.ar(pitch * 0.5);
+		synth = synth * (amp > 0).lag3(0.05);
+		synth = Decimator.ar(synth, 20000, control.range(4, 12));
+    lowpass_control = LinExp.kr(amp.ampdb, -32, -10, pitch * 1.5, 10000).max(160).lag3(0.2);
+		synth = MoogLadder.ar(synth, control.range(pitch, 20000), control.range(0.03, 0.1));
+    synth = DelayC.ar(synth, 1, control.range(0, 0.0012));
 		out_amp = In.kr(pedal_amp_bus, 1);
 		out = out_amp * synth;
 		Out.ar(bus, out * Linen.kr(gate, 0.05, releaseTime: 0.05, doneAction: 2));
@@ -398,7 +400,13 @@
 		chain = LeakDC.ar(chain);
 		chain = Compander.ar(chain, chain, -4.dbamp, 1, 1/3, 0.002, 0.04);
 		XOut.ar(bus, Linen.kr(gate, 0.05, releaseTime: 0.05, doneAction: 2), chain);
-	})
+	}),
+
+	/* ------------------------------- test ugens --------------------------------- */
+
+  SynthDef(\mouse_x_out, {|outbus, lo, hi, warp=0| Out.kr(outbus, MouseX.kr(lo, hi, warp))}),
+
+  SynthDef(\control_stub, {|bus, value| Out.kr(bus, value) })
 
 ].do(_.add);
 )
