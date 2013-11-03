@@ -199,8 +199,12 @@
 		arg hornDataBus, pedal_amp_bus, bus, gate=1;
 		var pitch, hasPitch, amp, onset, control, synth, out_amp, out;
 		#pitch, hasPitch, amp, onset = In.kr(hornDataBus, 4);
-		synth = Pulse.ar(pitch * [1, 1.003, 0.995, 7.midiratio] * 0.5,
-			SinOsc.kr(0.1).range(0.3, 0.7), [1, 0.5, 0.5, 0.25]).mean;
+		synth = Pulse.ar(
+        pitch * [1, 1.003, 0.995, 7.midiratio] * 0.5,
+        SinOsc.kr(0.1).range(0.3, 0.7),
+        [1, 0.5, 0.5, 0.25]
+      ) ++ [SinOsc.ar(pitch*0.5, 0, 1)];
+    synth = synth.mean;
 		synth = synth * (amp > 0);
 		control = LinExp.kr(amp.ampdb, -36, -6, pitch * 1.5, 10000).max(160);
 		synth = MoogFF.ar(synth, control, 1.32);
