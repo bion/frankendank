@@ -189,9 +189,9 @@
 
 	SynthDef(\tuba_in, {
 		arg inbus, outbus, amp=1;
-		var in = In.ar(inbus, 1), out;
+		var in = In.ar(inbus, 1), out, chain;
 		out = Compander.ar(in, in, 0.2, 1, 0.25, 0.05, 0.05);
-		// out = PitchShift.ar(out, 0.05, 0.5, 0, 0.02, 2);
+		// out = PitchShift.ar(out, 0.3, 0.5, 0.0001, 0.002, 2);
 		Out.ar(outbus, amp * out );
 	}),
 
@@ -330,7 +330,7 @@
 		in = In.ar(bus, 1);
 		chain = Fb({|fb|
 			PitchShift.ar(fb * 0.9 + in, 0.15, [-24, -12, -5, 0, 7, 12, 24].midiratio, 0, 0.004).mean;
-		}, 0.02);
+		}, 0.005);
 		XOut.ar(bus, Linen.kr(gate, 0.05, releaseTime: 0.05, doneAction: 2), chain);
 	}),
 
@@ -350,7 +350,7 @@
 		in = In.ar(bus, 1);
 		chain = Fb({|fb|
 			PitchShift.ar(fb * 0.9 + in, 0.15, [-24, -12, -7, 0].midiratio, 0, 0.004).mean;
-		}, 0.02);
+		}, 0.002);
 		XOut.ar(bus, Linen.kr(gate, 0.05, releaseTime: 0.05, doneAction: 2), chain);
 	}),
 

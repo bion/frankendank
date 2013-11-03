@@ -54,5 +54,4 @@
 		);
 
 	};
-        s.queryAllNodes;
 )
