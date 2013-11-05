@@ -12,7 +12,9 @@ play{SoundIn.ar}
 s.gui
 ~h_synth.(\tub_s1)
 ~h_filt.(\sax_s1)
+
 s.queryAllNodes
+
 MIDIClient.init
 MIDIdef.trace(true);
 CtkBuffer

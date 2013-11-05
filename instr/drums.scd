@@ -23,10 +23,11 @@
 
 	~drum_funcs = IdentityDictionary[
 		\basic_sample -> {|action|
+			~buss[action[\register]].postln;
 			s.makeBundle(0.025, {
 				Synth(\playbuf_simple,
 					[ \buf, action[\buffer],
-						\amp, 0.5,
+						\amp, 0.175,
 						\bus, ~buss[action[\register]] ],
 					~playbuf_g )
 				})

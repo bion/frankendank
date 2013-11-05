@@ -72,9 +72,9 @@
 		in = In.ar(inbus, 1);
 		#pitch, hasPitch = Tartini.kr(in);
 		amp = Amplitude.kr(in);
-		amp = amp * (amp > -40.dbamp);
+		amp = amp * (amp > -28.dbamp);
 		onset = Coyote.kr(in);
-		Out.kr(outbus, [pitch.lag3(lag), hasPitch, amp.lag3(lag), onset]);
+		Out.kr(outbus, [pitch.lag3(lag), hasPitch, amp.lag3(0.015), onset]);
 	}),
 
 	SynthDef(\sax_eq, {
@@ -105,7 +105,7 @@
 		d_med = In.ar(d_med_bus, 1);
 		d_hi = In.ar(d_hi_bus, 1);
 
-		tub = Compander.ar(tub, d_low, 0.75, 1, 1/10, 0.002, \tub_relax.kr(0.02, 0.03));
+		tub = Compander.ar(tub, d_low, 0.10, 1, 1/10, 0.002, \tub_relax.kr(0.02, 0.03));
 		sax = Compander.ar(sax, d_med+d_hi, 0.75, 1, 1/10, 0.002, 0.02);
 
 		out = [tub, sax, d_low, d_med, d_hi];
@@ -221,7 +221,7 @@
 		#pitch, hasPitch, amp, onset = In.kr(hornDataBus, 4);
     control = LinExp.kr(amp.ampdb, -32, -10, 1, 10).lag3(0.2);
 		synth = VarSaw.ar(pitch, 0, width: control.lag3(0.1).range(0.45, 0.55)) + SinOsc.ar(pitch * 0.5);
-		synth = synth * (amp > 0).lag3(0.05);
+		synth = synth * (amp > 0).lag3(0.01);
 		synth = Decimator.ar(synth, 20000, control.range(4, 12));
     lowpass_control = LinExp.kr(amp.ampdb, -32, -10, pitch * 1.5, 10000).max(160).lag3(0.2);
 		synth = MoogLadder.ar(synth, control.range(pitch, 20000), control.range(0.03, 0.1));
@@ -255,6 +255,26 @@
     chain = SinOsc.ar(pitch.lag3(0.1) * 0.5, 0, (hasPitch > 0.9999).lag3(0.03) * 2);
 		XOut.ar(bus, Linen.kr(gate, 0.05, releaseTime: 0.05, doneAction: 2), chain);
   }),
+
+	SynthDef(\tub_cynk_hi, {
+		arg bus, gate=1;
+		var layer1, layer2, in, chain;
+		in = In.ar(bus, 1);
+		chain = Fb({|fb|
+			PitchShift.ar(fb * 0.9 + in, 0.15, [0, 7, 12, 24].midiratio, 0, 0.004).mean;
+		}, 0.005);
+		XOut.ar(bus, Linen.kr(gate, 0.05, releaseTime: 0.05, doneAction: 2), chain);
+	}),
+
+	SynthDef(\tub_cynk_broad, {
+		arg bus, gate=1;
+		var layer1, layer2, in, chain;
+		in = In.ar(bus, 1);
+		chain = Fb({|fb|
+			PitchShift.ar(fb * 0.9 + in, 0.15, [-24, -12, -5, 0, 7, 124].midiratio, 0, 0.004).mean;
+		}, 0.002);
+		XOut.ar(bus, Linen.kr(gate, 0.05, releaseTime: 0.05, doneAction: 2), chain);
+	}),
 
 	/* ------------------------ sax --------------------------- */
 

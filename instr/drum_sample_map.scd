@@ -11,6 +11,7 @@
 		var register = (0: \low, 1: \med, 2: \hi);
 		paths.do {|path|
 			var name = path.findRegexp("([0-9a-zA-Z\_]+)\.aiff")[1][1];
+			register[i].postln;
 			~drums.add(
 				name.asSymbol -> (
 					function: \basic_sample,	
