@@ -18,3 +18,13 @@ MIDIdef.trace(true);
 CtkBuffer
 Quarks.gui
 CmdPeriod.run
+
+[\sax, \tuba, \drums, \com].do {|instr|
+  make button
+  specify states
+  if (~mSrc[instr]) {
+
+  } {
+
+  }
+};

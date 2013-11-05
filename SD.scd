@@ -70,11 +70,11 @@
 		arg inbus, outbus, lag=0.05;
 		var in, pitch, hasPitch, amp, onset;
 		in = In.ar(inbus, 1);
-		#pitch, hasPitch = Tartini.kr(in).lag3(lag);
-		amp = Amplitude.kr(in).lag3(lag);
+		#pitch, hasPitch = Tartini.kr(in);
+		amp = Amplitude.kr(in);
 		amp = amp * (amp > -40.dbamp);
 		onset = Coyote.kr(in);
-		Out.kr(outbus, [pitch, hasPitch, amp, onset]);
+		Out.kr(outbus, [pitch.lag3(lag), hasPitch, amp.lag3(lag), onset]);
 	}),
 
 	SynthDef(\sax_eq, {
@@ -189,9 +189,10 @@
 
 	SynthDef(\tuba_in, {
 		arg inbus, outbus, amp=1;
-		var in = In.ar(inbus, 1), out, chain;
-		out = Compander.ar(in, in, 0.2, 1, 0.25, 0.05, 0.05);
-		// out = PitchShift.ar(out, 0.3, 0.5, 0.0001, 0.002, 2);
+		var out = In.ar(inbus, 1), chain;
+    out = LPF.ar(out, 200);
+		out = Compander.ar(out, out, -24.dbamp, 1, 0.25, 0.05, 0.05, 2);
+	//	out = PitchShift.ar(out, 0.2, 0.5, 0, 0.002, 2) + out;
 		Out.ar(outbus, amp * out );
 	}),
 
@@ -245,6 +246,15 @@
 		);
 		XOut.ar(bus, Linen.kr(gate, 0.05, releaseTime: 0.05, doneAction: 2), chain);
 	}),
+
+  SynthDef(\tub_sin, {
+    arg bus, hornDataBus, gate=1;
+    var chain, pitch, hasPitch, amp, onset;
+    chain = In.ar(bus, 1);
+    #pitch, hasPitch, amp, onset = In.kr(hornDataBus, 4);
+    chain = SinOsc.ar(pitch.lag3(0.1) * 0.5, 0, (hasPitch > 0.9999).lag3(0.03) * 2);
+		XOut.ar(bus, Linen.kr(gate, 0.05, releaseTime: 0.05, doneAction: 2), chain);
+  }),
 
 	/* ------------------------ sax --------------------------- */
 

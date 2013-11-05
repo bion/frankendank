@@ -3,6 +3,7 @@
 		test_buf, source_path,
 		param_bus = Bus.control(s, 1),
 		stereo_bus = Bus.audio(s, 1),
+    horn_data_bus = Bus.control(s, 4),
     parent_bus = Bus.audio(s, 1),
 		parent_group, synth_group, param_group, filt_group,
 		bundles, cond;
@@ -42,10 +43,12 @@
 		s.makeBundle(0.4, {
 			Synth(\playbuf_simple, [\outbus, parent_bus, \buf, test_buf], parent_group);
       Synth(\tuba_in, [\inbus, parent_bus, \outbus, stereo_bus], synth_group);
+      Synth(\horninfo, [\inbus, parent_bus, \outbus, horn_data_bus], synth_group);
 
-			Synth(\cynk_lo, [\bus, stereo_bus], filt_group, \addToTail);
+			// Synth(\cynk_lo, [\bus, stereo_bus], filt_group, \addToTail);
+			Synth(\tub_sin, [\bus, stereo_bus, \hornDataBus, horn_data_bus], filt_group, \addToTail);
 
-			Synth(\control_env_testing, [\env, param, \outbus, param_bus], param_group);
+			// Synth(\control_env_testing, [\env, param, \outbus, param_bus], param_group);
 			Synth(\route_m2s_free_on_silence,
 				[\inbus, stereo_bus, \outbus, 0], parent_group, \addToTail);
 			},
