@@ -57,9 +57,8 @@ var toggle_filt, ints_to_names = Array.newClear(100),
 	[5, { ~h_filt.(\sax_wah) }],
 	[6, { ~h_synth.(\sax_s1) }],
 	[7, {
-		~h_filt.(\sax_chorus);
 		~h_filt.(\sax_shaper);
-		~h_filt.(\sax_comp);
+		~h_filt.(\sax_chorus);
 	}],
 	[8, { ~h_filt.(\sax_cynk_broad) }],
 ].do {arg pair;
@@ -74,5 +73,6 @@ var toggle_filt, ints_to_names = Array.newClear(100),
 
 MIDIdef.cc(\sax_volume, {arg val; ~p_synths[\sax_v].set(\amp, val) }, 7, 0, uid);
 MIDIdef.cc(\sax_param, {arg val; ~p_synths[\sax_p].set(\param, val) }, 27, 0, uid);
+
 "SAX LOADED".postln;
 )

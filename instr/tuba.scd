@@ -1,8 +1,7 @@
 (
 var uid = ~mSrc[\tuba];
 var toggle_filt, ints_to_names = Array.newClear(100),
-	map_dic = {|num| IdentityDictionary[\inst -> \tub, \num -> num] },
-	toggle_relax;
+	map_dic = {|num| IdentityDictionary[\inst -> \tub, \num -> num] }, toggle_relax;
 
 [
 	[\tub_mon, Synth(\mon,
@@ -21,7 +20,8 @@ var toggle_filt, ints_to_names = Array.newClear(100),
 	[\tub_v, Synth(\v_control, [\outbus, ~buss[\tub_v], \amp, 127], ~in_g)],
 
 	[\tub_p, Synth(\p_control, [\outbus, ~buss[\tub_p], \param, 0], ~in_g)],
-[\tub_info, Synth(\horninfo, [\inbus, ~id_bus_map[\tub], \outbus, ~buss[\tub_info] ], ~in_g)],
+
+  [\tub_info, Synth(\horninfo, [\inbus, ~id_bus_map[\tub], \outbus, ~buss[\tub_info] ], ~in_g)],
 
 	[\tub_in, Synth(\tuba_in, [\inbus, ~id_bus_map[\tub], \outbus, ~buss[\tub_eq] ], ~in_g)],
 
@@ -55,7 +55,6 @@ var toggle_filt, ints_to_names = Array.newClear(100),
 };
 
 MIDIdef.cc(\tub_volume, {arg val; ~p_synths[\tub_v].set(\amp, val) }, 7, 0, uid);
-// MIDIdef.cc(\tub_param, {arg val; ~p_synths[\tub_p].set(\param, val) }, 27, 0, uid);
 
 toggle_relax = {
 	var responder = MIDIdef(\tub_relax);
@@ -73,4 +72,5 @@ MIDIdef.cc(\tub_relax, {arg val;
 	~p_synths[\agg].set(\tub_relax, relax);
 	}, 27, 0, uid);
 
+"TUBA LOADED".postln;
 )

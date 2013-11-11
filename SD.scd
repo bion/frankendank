@@ -296,8 +296,35 @@
 
 	SynthDef(\sax_in, {
 		arg inbus, outbus, amp=4;
-		Out.ar(outbus, amp * In.ar(inbus, 1) );
+    var in;
+    in = In.ar(inbus, 1);
+    in = HPF.ar(in, 240);
+		Out.ar(outbus, amp * in );
 	}),
+
+  SynthDef(\sax_bladunner, {
+    arg bus, gate=1;
+    var in, chain;
+    in = In.ar(bus, 1);
+    chain = GVerb.ar(in, 16, 0.84, damping: 0.5, inputbw: 0.9, spread: 0,
+      drylevel: -12.dbamp, earlyreflevel: 0.dbamp, taillevel: -6.dbamp).mean;
+    chain = FFT(LocalBuf(2**10), chain, 0.25);
+    chain = PV_SpectralEnhance(chain, 2, 2, 0.4);
+    chain = IFFT(chain);
+    chain = Integrator.ar(chain, 0.8) * (-18.dbamp);
+		XOut.ar(bus, Linen.kr(gate, 0.05, releaseTime: 0.05, doneAction: 2), chain);
+  }),
+
+  SynthDef(\sax_nother, {
+    arg bus, gate=1;
+    var in, chain;
+    in = In.ar(bus, 1);
+    chain = in;
+    chain = FFT(LocalBuf(2**10), chain, 0.25);
+    chain = PV_MagNoise(chain);
+    chain = IFFT(chain);
+		XOut.ar(bus, Linen.kr(gate, 0.05, releaseTime: 0.05, doneAction: 2), chain);
+  }),
 
 	// sax wahwahwah
 	SynthDef(\sax_wah, {
@@ -310,12 +337,14 @@
 	}),
 
 	SynthDef(\sax_chorus, {
-		arg pbus, bus, gate=1;
-		var in, chain, control, noise=LFNoise2.kr(4.dup(3));
+		arg bus, maxdelay=0.05, gate=1;
+		var	in, chorus, chain;
 		in = In.ar(bus, 1);
-		chain = DelayN.ar(in, 0.14, noise.range(0.0075, 0.013));
-		chain = PitchShift.ar(chain, 0.15, noise.range(0.998, 1.001), 0, 0.005);
-		chain = ([in]++chain).mean;
+		chorus = Array.fill(8, {|i|
+			DelayC.ar(in, maxdelay,
+        LFNoise1.kr([0.1, 0.2412, 0.331, 0.46767].wrapAt(i)).range(0.001, maxdelay))
+		});
+		chain = (chorus + in).mean;
 		XOut.ar(bus, Linen.kr(gate, 0.05, releaseTime: 0.05, doneAction: 2), chain);
 	}),
 
@@ -323,7 +352,9 @@
 		arg bus, buf, gate=1;
 		var in, chain;
 		in = In.ar(bus, 1);
-		chain = Shaper.ar(buf, in*2);
+    chain = Compander.ar(in, in, -32.dbamp, 1, 1/10, 0.02, 0.002) * 40;
+//		chain = Shaper.ar(~shaper_buf_1, chain);
+    chain = chain.distort;
 		chain = chain * 0.25;
 		XOut.ar(bus, Linen.kr(gate, 0.05, releaseTime: 0.05, doneAction: 2), chain);
 	}),
@@ -347,8 +378,8 @@
 		var layer1, layer2, in, chain;
 		in = In.ar(bus, 1);
 		chain = Fb({|fb|
-			PitchShift.ar(fb * 0.9 + in, 0.15, [-24, -12, -5, 0, 7, 12, 24].midiratio, 0, 0.004).mean;
-		}, 0.01);
+			PitchShift.ar(fb * 0.9 + in, 0.085, [-24, -12, -5, 0, 7, 12, 24].midiratio, 0, 0.002).mean;
+		}, 0.0005);
 		XOut.ar(bus, Linen.kr(gate, 0.05, releaseTime: 0.05, doneAction: 2), chain);
 	}),
 

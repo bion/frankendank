@@ -21,6 +21,12 @@ CtkBuffer
 Quarks.gui
 CmdPeriod.run
 
+(
+  ~h_filt.(\sax_chorus);
+  ~h_filt.(\sax_shaper);
+  ~h_filt.(\sax_comp);
+)
+
 [\sax, \tuba, \drums, \com].do {|instr|
   make button
   specify states

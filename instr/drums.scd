@@ -96,7 +96,7 @@
 
 	127.do {|i|
 		MIDIdef.noteOn(i.asSymbol,
-			{drum_trig.(("drum_"++i).asSymbol); postln("DRUM TRIGGED "++i)}, i, 0, uid );
+			{drum_trig.("drum_"++i).asSymbol)}, i, 0, uid );
 	};
 
 )
