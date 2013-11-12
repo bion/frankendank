@@ -43,7 +43,7 @@
 			\drum_4 -> \Whip,
 			\drum_5 -> \Hat1,
 			\drum_6 -> \Hat2,
-			\drum_7 -> \Bell
+			\drum_7 -> \Cymbal1
 		],
 		IdentityDictionary[ // 1
 			\drum_0 -> \Kick3,
@@ -53,7 +53,7 @@
 			\drum_4 -> \Whip,
 			\drum_5 -> \Snare1,
 			\drum_6 -> \Hat3,
-			\drum_7 -> \Bell
+			\drum_7 -> \Cymbal1
 		]
 	];
 
