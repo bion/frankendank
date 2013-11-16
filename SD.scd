@@ -95,7 +95,7 @@
 			d_low_bus, d_med_bus, d_hi_bus,
 			drums_mon_bus, tub_mon_bus, sax_mon_bus, com_mon_bus,
 			metranome_bus;
-		var sax, tub, out,
+		var sax, tub, out, metranome,
 			d_low, d_med, d_hi;
 
 		sax = In.ar(sax_bus, 1);
@@ -105,6 +105,9 @@
 		d_med = In.ar(d_med_bus, 1);
 		d_hi = In.ar(d_hi_bus, 1);
 
+		metranome = In.ar(metranome_bus, 1);
+		Out.ar([1, 2, 3], metranome);
+
 		tub = Compander.ar(tub, d_low, 0.10, 1, 1/10, 0.002, \tub_relax.kr(0.02, 0.03));
 		sax = Compander.ar(sax, d_med+d_hi, 0.75, 1, 1/10, 0.002, 0.02);
 
@@ -112,7 +115,7 @@
 		Out.ar(out_bus, out.sum);
 
 		[drums_mon_bus, tub_mon_bus, sax_mon_bus, com_mon_bus].do {|bus|
-			Out.ar(bus, out);
+			Out.ar(bus, out.sum + metranome);
 		};
 	}),
 
@@ -355,7 +358,7 @@
     chain = Compander.ar(in, in, -32.dbamp, 1, 1/10, 0.02, 0.002) * 40;
 //		chain = Shaper.ar(~shaper_buf_1, chain);
     chain = chain.distort;
-		chain = chain * 0.25;
+		chain = chain * 0.125;
 		XOut.ar(bus, Linen.kr(gate, 0.05, releaseTime: 0.05, doneAction: 2), chain);
 	}),
 
@@ -380,6 +383,16 @@
 		chain = Fb({|fb|
 			PitchShift.ar(fb * 0.9 + in, 0.085, [-24, -12, -5, 0, 7, 12, 24].midiratio, 0, 0.002).mean;
 		}, 0.0005);
+		XOut.ar(bus, Linen.kr(gate, 0.05, releaseTime: 0.05, doneAction: 2), chain);
+	}),
+
+	SynthDef(\sax_delay, {
+		arg bus, gate=1, pbus;
+		var in, chain, delay;
+		in = In.ar(bus, 1);
+		delay = In.kr(pbus, 1) / 127 * 4;
+		chain = GVerb.ar(in, 80, delay, 0.5, 0.5, 0, 0)[0] * (delay > 0.2);
+		chain = chain + in;
 		XOut.ar(bus, Linen.kr(gate, 0.05, releaseTime: 0.05, doneAction: 2), chain);
 	}),
 

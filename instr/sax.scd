@@ -28,7 +28,7 @@ var toggle_filt, ints_to_names = Array.newClear(100),
 			\inbus, ~buss[\sax_mon],
 			\outbus, 3,
 		],
-		~out_g )],
+		~out_g, \addAfter )],
 
 	[\sax_v, Synth(\v_control, [\outbus, ~buss[\sax_v], \amp, 0], ~in_g)],
 
@@ -59,8 +59,10 @@ var toggle_filt, ints_to_names = Array.newClear(100),
 	[7, {
 		~h_filt.(\sax_shaper);
 		~h_filt.(\sax_chorus);
+		~h_filt.(\sax_delay);
 	}],
 	[8, { ~h_filt.(\sax_cynk_broad) }],
+	[9, { ~h_filt.(\sax_nother) }]
 ].do {arg pair;
 	MIDIdef.program(
 		("sax_"++pair[0]).asSymbol,
