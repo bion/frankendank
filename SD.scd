@@ -19,7 +19,10 @@
 [
   /* ---------------------------------------- main ---------------------------------------- */
 
-  SynthDef(\v_control, {arg outbus, amp; Out.kr(outbus, LinExp.kr(amp, 0, 127, -60.dbamp, 1)) }),
+  SynthDef(\v_control, {arg outbus, amp;
+    var off = amp > 3;
+    Out.kr(outbus, LinExp.kr(amp, 0, 127, -60.dbamp, 1) * off.lag3(0.01))
+  }),
   SynthDef(\p_control, {arg outbus, param; Out.kr(outbus, param.lag3(0.03) )}),
 
   SynthDef(\control_env_testing, {arg outbus;
