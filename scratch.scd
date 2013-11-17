@@ -42,7 +42,7 @@ CmdPeriod.run
 s.boot
 (
 play{
-	a = In.ar(8, 1);
-	PitchShift.ar(a, 0.12, 11.midiratio, 0.0, 0.0002) + a;
+  a = In.ar(8, 1);
+  PitchShift.ar(a, 0.12, 11.midiratio, 0.0, 0.0002) + a;
 }
 )

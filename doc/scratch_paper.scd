@@ -11,8 +11,8 @@ s.queryAllNodes
 ~toggle_loop_jam.()
 (
 AbstractResponderFunc.allEnabled.keysValuesDo {|key, value|
-	postln("key: " ++ key);
-	postln("value: " ++ value);
+  postln("key: " ++ key);
+  postln("value: " ++ value);
 }
 )
 ~com_bufs
@@ -26,7 +26,7 @@ MIDIFunc.trace(true)
 MIDIFunc.trace(false)
 (
 MIDIFunc.cc({arg num, chan, src;
-	[num, chan, src].postln;
+  [num, chan, src].postln;
 })
 )
 MIDIClient.sources
@@ -36,7 +36,7 @@ s.boot
 ~buf = Buffer.read(s, "/Users/bionjohnson/Documents/sound projects/Current/EB/Main/samples/drum/hi.snick_1.aiff")
 (
 SynthDef(\buf1, {|bufnum|
-	Out.ar([0, 1], PlayBuf.ar(1, bufnum, BufRateScale.ir(bufnum), doneAction: 2));
+  Out.ar([0, 1], PlayBuf.ar(1, bufnum, BufRateScale.ir(bufnum), doneAction: 2));
 }).add;
 )
 Platform.userConfigDir
@@ -52,14 +52,14 @@ MIDIdef.freeAll;
 ~mSrc[\drums]
 (
 a = NoteOnResponder({|src, chan, note, vel|
-	Synth(\buf1, [\bufnum, ~buf]);
-	"working!".postln;
+  Synth(\buf1, [\bufnum, ~buf]);
+  "working!".postln;
 }, nil, nil, nil, nil)
 )
 (
 currentEnvironment.keysValuesDo {|k, v|
-	postln("key: " ++ k);
-	postln("value: " ++ v);
+  postln("key: " ++ k);
+  postln("value: " ++ v);
 };
 )
 ~loop_this_jam = false;
@@ -67,43 +67,43 @@ currentEnvironment.keysValuesDo {|k, v|
 ~clock.sched(~clock.timeToNextBeat, ~scheduler);
 
 (
-	a = Environment.make({~two = 2; ~one = 1});
-	a.removeAll;
-	a;
+  a = Environment.make({~two = 2; ~one = 1});
+  a.removeAll;
+  a;
 )
 (
-	MIDIdef.freeAll
+  MIDIdef.freeAll
 a = MIDIFunc.noteOn({arg ...args; args.postln});
 b = MIDIFunc.program({arg ...args; args.postln});
 MIDIClient.sources[0].port
 )
 d = IdentityDictionary[];
 (
-	s.makeBundle(0.025, { b = Synth(\default) });
-	d[\one] = b;
+  s.makeBundle(0.025, { b = Synth(\default) });
+  d[\one] = b;
 )
 
 (
-	a = s.makeBundle(false, {
-		Synth(\default);
-	});
+  a = s.makeBundle(false, {
+    Synth(\default);
+  });
 
-	a = s.makeBundle(false, {
-		Synth(\default);
-	}, a);
-	a = s.makeBundle(0.025, { }, a);
+  a = s.makeBundle(false, {
+    Synth(\default);
+  }, a);
+  a = s.makeBundle(0.025, { }, a);
 
 )
 
 /* ___________________________________________ horn MIDI spoof */
 
 (
-	~h_synth.(\tub_s2);
-	~h_filt.(\sax_cynk_broad);
-	~p_synths[\tub_v].set(\amp, 127);
-	s.queryAllNodes;
-	s.boot
-	s.quit
-	play { LinExp.kr(SinOsc.kr.range(0, 0.7), -32, -10, .max(160).poll }
-	~p_synths;
+  ~h_synth.(\tub_s2);
+  ~h_filt.(\sax_cynk_broad);
+  ~p_synths[\tub_v].set(\amp, 127);
+  s.queryAllNodes;
+  s.boot
+  s.quit
+  play { LinExp.kr(SinOsc.kr.range(0, 0.7), -32, -10, .max(160).poll }
+  ~p_synths;
 )
