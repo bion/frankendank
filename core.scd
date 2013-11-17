@@ -111,6 +111,7 @@
 				\d_med_bus,			~buss[\d_med_bus],
 				\d_hi_bus,			~buss[\d_hi_bus],
 				\drums_mon_bus, ~buss[\drums_mon],
+        \nugs_mon_bus,  ~buss[\nugs_mon],
 				\tub_mon_bus,		~buss[\tub_mon],
 				\sax_mon_bus,		~buss[\sax_mon],
 				\com_mon_bus,		~buss[\com_mon],

@@ -93,7 +93,7 @@
 	SynthDef(\agg, {
 		arg sax_bus, tub_bus, out_bus,
 			d_low_bus, d_med_bus, d_hi_bus,
-			drums_mon_bus, tub_mon_bus, sax_mon_bus, com_mon_bus,
+			drums_mon_bus, tub_mon_bus, sax_mon_bus, com_mon_bus, nugs_mon_bus,
 			metranome_bus;
 		var sax, tub, out, metranome,
 			d_low, d_med, d_hi;
@@ -113,7 +113,7 @@
 		out = [tub, sax, d_low, d_med, d_hi];
 		Out.ar(out_bus, out.sum);
 
-		[drums_mon_bus, tub_mon_bus, sax_mon_bus, com_mon_bus].do {|bus|
+		[drums_mon_bus, nugs_mon_bus, tub_mon_bus, sax_mon_bus, com_mon_bus].do {|bus|
 			Out.ar(bus, out.sum + metranome);
 		};
 	}),
