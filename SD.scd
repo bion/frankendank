@@ -312,13 +312,18 @@
   }),
 
   SynthDef(\sax_nother, {
-    arg bus, gate=1;
-    var in, chain;
+    arg bus, pbus, gate=1;
+    var in, chain, control;
     in = In.ar(bus, 1);
-    chain = in;
-    chain = FFT(LocalBuf(2**10), chain, 0.25);
+
+    chain = FFT(LocalBuf(2**10), in, 0.25);
     chain = PV_MagNoise(chain);
-    chain = IFFT(chain);
+    chain = IFFT(chain) * 1.5;
+
+    control = In.kr(pbus, 1);
+    control = LinLin.kr(control, 0, 127, -1, 1);
+    chain = XFade2.ar(in, chain, control);
+
     XOut.ar(bus, Linen.kr(gate, 0.05, releaseTime: 0.05, doneAction: 2), chain);
   }),
 
@@ -376,6 +381,7 @@
     chain = Fb({|fb|
       PitchShift.ar(fb * 0.9 + in, 0.085, [-24, -12, -5, 0, 7, 12, 24].midiratio, 0, 0.002).mean;
     }, 0.0005);
+    chain = chain * 2;
     XOut.ar(bus, Linen.kr(gate, 0.05, releaseTime: 0.05, doneAction: 2), chain);
   }),
 
