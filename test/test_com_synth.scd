@@ -36,7 +36,7 @@
     filt_group = Group(synth_group, \addAfter);
     amp_group = Group(synth_group, \addBefore);
 
-    "~/Documents/EDE/code/frankendank/SD.scd".standardizePath.load;
+    "~/dev/frankendank/SD.scd".standardizePath.load;
 
     s.sync(cond);
 

@@ -203,20 +203,24 @@
 
   SynthDef(\tub_s1, {
     arg hornDataBus, pedal_amp_bus, bus, gate=1;
-    var pitch, hasPitch, amp, onset, control, synth, out_amp, out;
+    var pitch, hasPitch, amp, onset, control, synth, out;
     #pitch, hasPitch, amp, onset = In.kr(hornDataBus, 4);
+
     synth = Pulse.ar(
-        pitch * [1, 1.003, 0.995, 7.midiratio] * 0.5,
+        pitch * [1, 1.003, 0.995, 7.midiratio, 2] * 0.5,
         SinOsc.kr(0.1).range(0.3, 0.7),
-        [1, 0.5, 0.5, 0.25]
-      ) ++ [SinOsc.ar(pitch*0.5, 0, 1)];
-    synth = synth.mean;
-    synth = synth * (amp > 0);
+        [1, 0.5, 0.5, 0.25, 0.125]
+      );
+    synth = synth.mean * 4;
+
+    synth = synth * (amp > 0).lag3(0.01);
+
     control = LinExp.kr(amp.ampdb, -36, -6, pitch * 1.5, 10000).max(160);
     synth = MoogFF.ar(synth, control, 1.32);
+
     synth = LeakDC.ar(synth);
-    out_amp = In.kr(pedal_amp_bus, 1);
-    out = out_amp * synth;
+
+    out = synth * In.kr(pedal_amp_bus, 1);
     Out.ar(bus, out * Linen.kr(gate, 0.05, releaseTime: 0.05, doneAction: 2));
   }),
 
@@ -225,14 +229,18 @@
     var pitch, hasPitch, amp, onset, control, synth, out_amp, out, lowpass_control;
     #pitch, hasPitch, amp, onset = In.kr(hornDataBus, 4);
     control = LinExp.kr(amp.ampdb, -32, -10, 1, 10).lag3(0.2);
-    synth = VarSaw.ar(pitch, 0, width: control.lag3(0.1).range(0.45, 0.55)) + SinOsc.ar(pitch * 0.5);
-    synth = synth * (amp > 0).lag3(0.01);
+
+    synth = VarSaw.ar(pitch, 0, width: control.lag3(0.1).range(0.45, 0.55));
     synth = Decimator.ar(synth, 20000, control.range(4, 12));
+
+    synth = synth * (amp > 0).lag3(0.01);
+
     lowpass_control = LinExp.kr(amp.ampdb, -32, -10, pitch * 1.5, 10000).max(160).lag3(0.2);
     synth = MoogLadder.ar(synth, control.range(pitch, 20000), control.range(0.03, 0.1));
+
     synth = DelayC.ar(synth, 1, control.range(0, 0.0012));
-    out_amp = In.kr(pedal_amp_bus, 1);
-    out = out_amp * synth;
+
+    out = synth * In.kr(pedal_amp_bus, 1);
     Out.ar(bus, out * Linen.kr(gate, 0.05, releaseTime: 0.05, doneAction: 2));
   }),
 
