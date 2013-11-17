@@ -54,7 +54,8 @@
 
       Synth(\control_stub, [\bus, param_bus, \value, 1], synth_group);
 
-      Synth(\tub_s1, [\bus, stereo_bus, \hornDataBus, info_out_bus, \pedal_amp_bus, param_bus]);
+      Synth(\tub_s2, [\bus, stereo_bus, \hornDataBus, info_out_bus, \pedal_amp_bus, param_bus]);
+      Synth(\tub_subbass, [\bus, stereo_bus, \hornDataBus, info_out_bus, \pedal_amp_bus, param_bus]);
 //      Synth(\sax_nother, [\bus, stereo_bus], filt_group);
 //      Synth(\sax_chorus, [\bus, stereo_bus], filt_group);
 //      Synth(\sax_shaper, [\bus, stereo_bus, \buf, ~shaper_buf_1], filt_group);

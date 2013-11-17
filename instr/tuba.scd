@@ -40,8 +40,9 @@ var toggle_filt, ints_to_names = Array.newClear(100),
   [4, {~clear_loop.(\tub);}],
 
   // synths
-  [5, { ~h_synth.(\tub_s1) }],
-  [6, { ~h_synth.(\tub_s2) }],
+  [5, { ~h_synth.(\tub_subbass) }],
+  [6, { ~h_synth.(\tub_s1) }],
+  [7, { ~h_synth.(\tub_s2) }],
 
   [9,{ toggle_relax.() }]
 ].do {arg pair;

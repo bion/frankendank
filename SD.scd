@@ -64,7 +64,7 @@
   SynthDef(\route_m2s_free_on_silence, {
     arg inbus, outbus;
     var in = In.ar(inbus, 1);
-    DetectSilence.ar(in, time: 2.0, doneAction: 14);
+    DetectSilence.ar(in, time: 5.0, doneAction: 14);
     in = Compander.ar(in, in, 0.5, 1.0, 0.05, 0.002, 0.01);
     Out.ar(outbus, in ! 2)
   }),
@@ -199,6 +199,19 @@
     out = Compander.ar(out, out, -24.dbamp, 1, 0.25, 0.05, 0.05, 2);
   //  out = PitchShift.ar(out, 0.2, 0.5, 0, 0.002, 2) + out;
     Out.ar(outbus, amp * out );
+  }),
+  
+  SynthDef(\tub_subbass, {
+    arg hornDataBus, pedal_amp_bus, bus, gate=1;
+    var pitch, hasPitch, amp, onset, control, synth, out;
+    #pitch, hasPitch, amp, onset = In.kr(hornDataBus, 4);
+
+    synth = SinOsc.ar(pitch * 0.5, 0, 0.65);
+
+    synth = synth * (amp > 0).lag3(0.01);
+
+    out = synth * In.kr(pedal_amp_bus, 1);
+    Out.ar(bus, out * Linen.kr(gate, 0.05, releaseTime: 0.05, doneAction: 2));
   }),
 
   SynthDef(\tub_s1, {
