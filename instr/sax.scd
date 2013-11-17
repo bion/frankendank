@@ -55,11 +55,10 @@ var toggle_filt, ints_to_names = Array.newClear(100),
 
   // other
   [5, { ~h_filt.(\sax_wah) }],
-  [6, { ~h_synth.(\sax_s1) }],
+  [6, { ~h_synth.(\sax_delay) }],
   [7, {
     ~h_filt.(\sax_shaper);
     ~h_filt.(\sax_chorus);
-    ~h_filt.(\sax_delay);
   }],
   [8, { ~h_filt.(\sax_cynk_broad) }],
   [9, { ~h_filt.(\sax_nother) }]
