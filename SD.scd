@@ -261,8 +261,7 @@
 
   SynthDef(\tub_comp, {
     arg bus, gate=1;
-    var chain;
-    chain = In.ar(bus, 1);
+    var chain = In.ar(bus, 1);
     chain = Compander.ar(chain, chain,
       thresh: -16.dbamp,
       slopeBelow: 1,
@@ -270,35 +269,6 @@
       clampTime: 0.05,
       relaxTime: 0.05
     );
-    XOut.ar(bus, Linen.kr(gate, 0.05, releaseTime: 0.05, doneAction: 2), chain);
-  }),
-
-  SynthDef(\tub_sin, {
-    arg bus, hornDataBus, gate=1;
-    var chain, pitch, hasPitch, amp, onset;
-    chain = In.ar(bus, 1);
-    #pitch, hasPitch, amp, onset = In.kr(hornDataBus, 4);
-    chain = SinOsc.ar(pitch.lag3(0.1) * 0.5, 0, (hasPitch > 0.9999).lag3(0.03) * 2);
-    XOut.ar(bus, Linen.kr(gate, 0.05, releaseTime: 0.05, doneAction: 2), chain);
-  }),
-
-  SynthDef(\tub_cynk_hi, {
-    arg bus, gate=1;
-    var layer1, layer2, in, chain;
-    in = In.ar(bus, 1);
-    chain = Fb({|fb|
-      PitchShift.ar(fb * 0.9 + in, 0.15, [0, 7, 12, 24].midiratio, 0, 0.004).mean;
-    }, 0.005);
-    XOut.ar(bus, Linen.kr(gate, 0.05, releaseTime: 0.05, doneAction: 2), chain);
-  }),
-
-  SynthDef(\tub_cynk_broad, {
-    arg bus, gate=1;
-    var layer1, layer2, in, chain;
-    in = In.ar(bus, 1);
-    chain = Fb({|fb|
-      PitchShift.ar(fb * 0.9 + in, 0.15, [-24, -12, -5, 0, 7, 124].midiratio, 0, 0.004).mean;
-    }, 0.002);
     XOut.ar(bus, Linen.kr(gate, 0.05, releaseTime: 0.05, doneAction: 2), chain);
   }),
 
