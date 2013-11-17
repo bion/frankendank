@@ -13,7 +13,7 @@ var toggle_filt, ints_to_names = Array.newClear(100),
 			\met_scale, 1,
 			\metranome_bus, ~buss[\metranome],
 			\inbus, ~buss[\tub_mon],
-			\outbus, 4,
+			\outbus, ~id_bus_map[\tub_mon_out],
 		],
 		~out_g )],
 

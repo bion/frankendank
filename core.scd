@@ -9,6 +9,12 @@
 	~id_bus_map = IdentityDictionary[
 		\sax -> 8,
 		\tub -> 9,
+
+    \com_mon_out -> 2,
+    \drums_mon_out -> 3,
+    \nugs_mon_out -> 4,
+    \sax_mon_out -> 5,
+    \tub_mon_out -> 6
 	];
 
 	~met_bufs = Array.newClear(met_sfd.size);
@@ -74,7 +80,7 @@
 		~buss.put(name, Bus.audio(s, 1) );
 	};
 
-	[ \drums_mon, \sax_mon, \tub_mon, \com_mon].do {arg name;
+	[ \drums_mon, \nugs_mon, \sax_mon, \tub_mon, \com_mon].do {arg name;
 		~buss.put(name, Bus.audio(s, 5) );
 	};
 

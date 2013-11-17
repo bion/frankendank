@@ -21,7 +21,7 @@
 				\met_scale, 1,
 				\metranome_bus, ~buss[\metranome],
 				\inbus, ~buss[\sax_mon],
-				\outbus, 7,
+				\outbus, ~id_bus_map[\com_mon_out],
 			],
 			~out_g )],
 

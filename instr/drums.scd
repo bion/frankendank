@@ -16,7 +16,7 @@
 				\met_scale, 1,
 				\metranome_bus, ~buss[\metranome],
 				\inbus, ~buss[\drums_mon],
-				\outbus, 5,
+				\outbus, ~id_bus_map[\drums_mon_out],
 			],
 			~out_g ),
 	);

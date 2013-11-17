@@ -26,7 +26,7 @@ var toggle_filt, ints_to_names = Array.newClear(100),
 			\met_scale, 1,
 			\metranome_bus, ~buss[\metranome],
 			\inbus, ~buss[\sax_mon],
-			\outbus, 3,
+			\outbus, ~id_bus_map[\sax_mon_out],
 		],
 		~out_g, \addAfter )],
 
