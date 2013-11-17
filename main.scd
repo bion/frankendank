@@ -1,5 +1,6 @@
 (
-var startup_gui, startup_info, start_but, sg_but,
+var startup_gui, startup_info, start_but, sg_but, reload_but,
+  reload_but_position, load_from_disk,
   tempo_box, tempo_slider, tempo_spec, tempo_coord, midi_stati;
 
 ~maindir = "~/dev/frankendank/".standardizePath;
@@ -8,9 +9,9 @@ sg_but = IdentityDictionary[];
 
 MIDIClient.init;
 MIDIIn.connectAll;
-~mSrc = IdentityDictionary[];
+~mSrc = ~mSrc ?? IdentityDictionary[];
 
-startup_gui = Window("h e r startup", Rect(200, 200, 400, 250));
+startup_gui = Window("h e r startup", Rect(200, 200, 450, 250));
 
 midi_stati = IdentityDictionary[];
 [\sax, \tuba, \drums, \com].do {arg name, i;
@@ -44,15 +45,15 @@ midi_stati = IdentityDictionary[];
         };
       })
   );
-  start_but = i*40+50;
+  reload_but_position = i*40+50;
 };
 
-tempo_coord = [200, 120];
-tempo_box = NumberBox(startup_gui, Rect(tempo_coord[0] + 50, tempo_coord[1] + 25, 50, 30));
-StaticText(startup_gui, Rect(tempo_coord[0], tempo_coord[1] + 30, 50, 20))
+tempo_coord = [200, 10];
+tempo_box = NumberBox(startup_gui, Rect(tempo_coord[0] + 50, tempo_coord[1], 50, 30));
+StaticText(startup_gui, Rect(tempo_coord[0], tempo_coord[1] + 5, 50, 20))
   .align_(\center).string_("tempo:");
 tempo_spec = ControlSpec(50, 220, \linear, 1);
-tempo_slider = Slider(startup_gui, Rect(tempo_coord[0], tempo_coord[1] + 60, 160, 40))
+tempo_slider = Slider(startup_gui, Rect(tempo_coord[0], tempo_coord[1] + 35, 220, 40))
                 .value_(~tempo)
                 .action_({
                   var val = tempo_spec.map(tempo_slider.value);
@@ -61,7 +62,36 @@ tempo_slider = Slider(startup_gui, Rect(tempo_coord[0], tempo_coord[1] + 60, 160
                 });
 tempo_box.value_(tempo_spec.map(tempo_slider.value));
 
-start_but = Button(startup_gui, Rect(50, start_but, 80, 30) )
+reload_but = Button(startup_gui, Rect(10, reload_but_position, 120, 30) )
+  .states_( [ ["Reload MIDI IDs", Color.black], ["None Found", Color.red] ] )
+  .mouseDownAction_({
+    if (~mSrc.isEmpty.not) {
+      ~mSrc.keysValuesDo {|instr, id|
+        AppClock.sched(0, {
+          midi_stati[instr][\status].stringColor_(Color.green).string_("Device found");
+        });
+      };
+      reload_but.destroy;
+      load_from_disk.destroy;
+    };
+});
+
+load_from_disk = Button(startup_gui, Rect(10, reload_but_position + 40, 120, 30) )
+  .states_( [ ["Load From Disk", Color.black], ["No Archive", Color.red] ] )
+  .mouseDownAction_({
+    ~mSrc = Object.readArchive(~maindir ++ "/archive/mSrc");
+    if (~mSrc.notNil) {
+      ~mSrc.keysValuesDo {|instr, id|
+        AppClock.sched(0, {
+          midi_stati[instr][\status].stringColor_(Color.green).string_("Device found");
+        });
+      };
+      reload_but.destroy;
+      load_from_disk.destroy;
+    };
+});
+
+start_but = Button(startup_gui, Rect(360, reload_but_position + 40, 80, 30) )
   .states_([["BOOM!", Color.black, Color.red]])
   .mouseDownAction_({
   ~tempo = tempo_spec.map(tempo_slider.value)/60;
@@ -111,6 +141,7 @@ start_but = Button(startup_gui, Rect(50, start_but, 80, 30) )
       "MIDIdefs freed".postln;
       s.quit;
     };
+    ~mSrc.writeArchive(~maindir ++ "/archive/mSrc");
 
     startup_gui.close;
     ~scheduler.();
