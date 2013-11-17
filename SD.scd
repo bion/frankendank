@@ -110,8 +110,8 @@
 
     metranome = In.ar(metranome_bus, 1);
 
-    tub = Compander.ar(tub, d_low, 0.10, 1, 1/10, 0.002, \tub_relax.kr(0.02, 0.03));
-    sax = Compander.ar(sax, d_med+d_hi, 0.75, 1, 1/10, 0.002, 0.02);
+    tub = Compander.ar(tub, d_low, -42.dbamp, 1, 1/10, 0.002, \tub_relax.kr(0.05, 0.03));
+    sax = Compander.ar(sax, d_med+d_hi, -42.dbamp, 1, 1/10, 0.002, 0.02);
 
     out = [tub, sax, d_low, d_med, d_hi];
     Out.ar(out_bus, out.sum);

@@ -1,6 +1,6 @@
 (
-  var uid = ~mSrc[\drum_pad], drum_trig;
-  var switch_uid = ~mSrc[\drums];
+  var uid = ~mSrc[\drum_pad],
+    switch_uid = ~mSrc[\drums];
 
   ~current_set = 0;
 
@@ -57,24 +57,12 @@
     ]
   ];
 
-  drum_trig = {arg pad_midi_number;
+  ~drum_trig = {arg pad_midi_number;
     var action_id, action;
       action_id = ~sample_sets[~current_set][pad_midi_number];
-      postln("ACTION ID: " ++ action_id);
       action = ~drums[action_id];
-      postln("ACTION: " ++ action).postln;
     ~drum_funcs[action[\function]].(action);
   };
-
-  /*
-  MIDIdef.program(\drum_sample_set, {arg val;
-      ~current_set=val;
-      postln("CURRENT_SAMPLE_SET: " ++ ~current_set);
-    },
-    0,
-    switch_uid
-  );
-  */
 
   MIDIIn.program = {|src, chan, prog|
     if (src == switch_uid) {
@@ -96,7 +84,7 @@
 
   127.do {|i|
     MIDIdef.noteOn(i.asSymbol,
-      {drum_trig.("drum_"++i).asSymbol)}, i, 0, uid );
+      {~drum_trig.(("drum_"++i).asSymbol)}, i, 0, uid );
   };
 
 )
