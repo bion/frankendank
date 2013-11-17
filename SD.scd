@@ -295,6 +295,7 @@
     var in;
     in = In.ar(inbus, 1);
     in = HPF.ar(in, 240);
+    in = in * (Amplitude.kr(in).lag3(0.01) > -52.dbamp);
     Out.ar(outbus, amp * in );
   }),
 
