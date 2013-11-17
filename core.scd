@@ -62,13 +62,13 @@
 	/* ____________________________ groups, busses, buffers */
 
 	~playbuf_g = Group(s);
-	~in_g = Group(s);
+	~in_g = Group(~playbuf_g, \addAfter);
 	~synth_g = Group(~in_g, \addAfter);
 	~filt_g = Group(~synth_g, \addAfter);
 	~eq_g = Group(~filt_g, \addAfter);
 	~agg_g = Group(~eq_g, \addAfter);
 	~out_g = Group(~agg_g, \addAfter);
-	~record_g = Group(~playbuf_g, \addAfter);
+	~record_g = Group(~out_g, \addAfter);
 
 	~buss = IdentityDictionary[];
 	[ \sax_eq, \tub_eq, \dru_eq, \com_eq,
