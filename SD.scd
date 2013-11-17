@@ -20,8 +20,8 @@
   /* ---------------------------------------- main ---------------------------------------- */
 
   SynthDef(\v_control, {arg outbus, amp;
-    var off = amp > 3;
-    Out.kr(outbus, LinExp.kr(amp, 0, 127, -60.dbamp, 1) * off.lag3(0.01))
+    var off = amp > 5;
+    Out.kr(outbus, LinExp.kr(amp, 0, 127, -60.dbamp, 1) * off.lag3(0.01));
   }),
   SynthDef(\p_control, {arg outbus, param; Out.kr(outbus, param.lag3(0.03) )}),
 
