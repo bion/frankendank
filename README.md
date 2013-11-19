@@ -1,3 +1,7 @@
+## Sampling
+
+non-drum samples should be placed in the ```samples/com``` directory and have unique names
+
 ### I(gain)/O channel mappings:
 * sax: 1, 2 (3.5) / 0
 * tuba: 0 / 0
