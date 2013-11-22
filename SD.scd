@@ -20,8 +20,8 @@
   /* ---------------------------------------- main ---------------------------------------- */
 
   SynthDef(\v_control, {arg outbus, amp;
-    var off = amp > 5;
-    Out.kr(outbus, LinExp.kr(amp, 0, 127, -60.dbamp, 1) * off.lag3(0.01));
+    var off = amp < 5;
+    Out.kr(outbus, LinExp.kr(amp, 0, 127, -30.dbamp, 1) * off.lag3(0.01));
   }),
   SynthDef(\p_control, {arg outbus, param; Out.kr(outbus, param.lag3(0.03) )}),
 
@@ -226,7 +226,7 @@
         SinOsc.kr(0.1).range(0.3, 0.7),
         [1, 0.5, 0.5, 0.25, 0.125]
       );
-    synth = synth.mean * 4;
+    synth = synth.mean * 18.dbamp;
 
     synth = synth * (amp > 0).lag3(0.01);
 
@@ -393,7 +393,9 @@
     var in, chain, delay;
     in = In.ar(bus, 1);
     delay = In.kr(pbus, 1) / 127 * 4;
+    delay = LinLin.kr(In.kr(pbus, 1), 0, 127, 0.3, 4);
     chain = GVerb.ar(in, 80, delay, 0.5, 0.5, 0, 0)[0] * (delay > 0.2);
+    chain = chain * (delay > 0.32);
     chain = chain + in;
     XOut.ar(bus, Linen.kr(gate, 0.05, releaseTime: 0.05, doneAction: 2), chain);
   }),
