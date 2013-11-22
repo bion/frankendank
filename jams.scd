@@ -21,6 +21,49 @@
       ]
     ],
 
+		\tango ->  IdentityDictionary[
+      \loop -> true,
+      \measures -> [
+        [8,
+          [PC(\a, 4)],
+          [(beat: 2, action_type: \playbuf, buf: \tango1)]],
+        [8,
+          [PC(\a, 4)]],
+        [8,
+          [PC(\a, 4)]],
+        [8,
+          [PC(\a, 4)]],
+        [8,
+          [PC(\a, 4)]],
+        [8,
+          [PC(\a, 4)]],
+        [8,
+          [PC(\a, 4)]],
+        [8,
+          [PC(\a, 4)]],
+        [8,
+          [PC(\a, 4)]],
+
+
+        [8,
+          [PC(\a, 4)]],
+        [8,
+          [PC(\a, 4)]],
+        [8,
+          [PC(\a, 4)]],
+        [8,
+          [PC(\a, 4)]],
+        [8,
+          [PC(\a, 4)]],
+        [8,
+          [PC(\a, 4)]],
+        [8,
+          [PC(\a, 4)]],
+        [8,
+          [PC(\a, 4)]]
+      ]
+		],
+
     \test_1 -> IdentityDictionary[
       \loop -> false,
       \measures -> [
@@ -61,9 +104,34 @@
 ~setlist = [
   \blank_two_measures,
 
-  \test_1,
-  \test_2,
+	\tango,
 
+	\tango,
+	\tango,
+	\tango,
+	\tango,
+	\tango,
+	\tango,
+	\tango,
+	\tango,
+	\tango,
+	\tango,
+	\tango,
+	\tango,
+	\tango,
+	\tango,
+	\tango,
+	\tango,
+	\tango,
+	\tango,
+	\tango,
+	\tango,
+	\tango,
+	\tango,
+	\tango,
+	\tango,
+	\tango,
+	\tango,
   \quit
 ].collect {|dict, i| jams[dict].dup[0].put(\index, i)};
 "SETLIST LOADED".postln
