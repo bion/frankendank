@@ -13,10 +13,10 @@ MIDIIn.connectAll;
 ~mSrc = ~mSrc ?? IdentityDictionary[];
 
 instr_rows = IdentityDictionary[
-  \sax -> 10,
-  \tuba -> 50,
-  \drums -> 90,
-  \com -> 130
+  \sax -> 10+0,
+  \tuba -> 10+40,
+  \drums -> 10+80,
+  \com -> 10+120
 ];
 
 startup_gui = Window("h e r startup", Rect(200, 200, 450, 250));
@@ -94,7 +94,7 @@ load_from_disk = Button(startup_gui, Rect(10, reload_but_position + 40, 120, 30)
       ~mSrc.keysValuesDo {|instr, id|
         activated_instr.add(instr);
         AppClock.sched(0, {
-          midi_stati[instr][\status] = StaticText(startup_gui, Rect(100, instr_rows[instr], 80, 30));
+          midi_stati[name][\status] = StaticText(startup_gui, Rect(100, instr_rows[instr], 80, 30));
           midi_stati[instr][\status].stringColor_(Color.green).string_("Device found");
         });
       };
