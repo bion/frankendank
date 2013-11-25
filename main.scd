@@ -134,7 +134,8 @@ start_but = Button(startup_gui, Rect(360, reload_but_position + 40, 80, 30) )
       s.sync;
     };
 
-    activated_instr.keysValuesDo {|instr|
+    activated_instr.do {|instr|
+      (~maindir++"instr/"++instr++".scd").postln;
       (~maindir++"instr/"++instr++".scd").load
     };
 

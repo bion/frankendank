@@ -1,10 +1,3 @@
-s.boot
-play{SinOsc.ar*0.1}
-~clear_loop.(\sax)
-~loops
-~path = "/Users/bionjohnson/Documents/sound projects/Current/EB/Main/";
-(~path ++ "main.scd").load;
-TempoClock
 s.queryAllNodes
 ~loop_touch.(IdentityDictionary[\inst -> \sax, \num -> 0]);
 ~loops[\sax][0]
