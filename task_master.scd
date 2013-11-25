@@ -4,16 +4,14 @@
   ~loop_this_jam = true;
 
   ~toggle_loop_jam = {
-    if (~loop_this_jam) {~loop_this_jam = false} {~loop_this_jam = true};
+    ~loop_this_jam = ~loop_this_jam.not;
     postln("LOOP JAM IS " ++ ~loop_this_jam);
   };
 
   ~scheduler = {
     var upcoming_jam, beat_of_measure=0;
     if (~current_jam[\loop] && ~loop_this_jam)
-      {
-        upcoming_jam = ~current_jam
-      }
+      { upcoming_jam = ~current_jam }
       {
         upcoming_jam = ~setlist[~current_jam[\index] + 1];
         ~loop_this_jam = true;
@@ -27,8 +25,7 @@
       (measure[0] / 2).floor.do {|i|
         var beats_away = beat_of_measure + i + ~clock.timeToNextBeat;
         ~clock.sched(beats_away - (s.latency / ~clock.beatDur), {
-          Synth(\playbuf_simple, [\outbus, ~buss[\metranome], 
-                                \buf, ~met_bufs.wrapAt(i)], ~playbuf_g);
+          Synth(\playbuf_simple, [\outbus, ~buss[\metranome], \buf, ~met_bufs.wrapAt(i)], ~playbuf_g);
         });
       };
 

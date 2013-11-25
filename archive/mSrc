@@ -4,10 +4,10 @@ o = [
 ];
 p = [
 	// IdentityDictionary
-	0, [ array: o[1],  size: 1,  
+	0, [ array: o[1],  size: 0,  
 		proto: nil,  parent: nil,  
 		know: false ],  
 	// Array
-	1, [ nil,  nil,  'sax',  2043753152 ]
+	1, [ nil,  nil,  nil,  nil ]
 ];
 prUnarchive(o,p);

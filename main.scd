@@ -120,7 +120,7 @@ start_but = Button(startup_gui, Rect(360, reload_but_position + 40, 80, 30) )
   s.waitForBoot({
     ~cond = Condition.new;
 
-    ~clock = TempoClock(~tempo);
+    ~clock = TempoClock(~tempo, queueSize: 2**10);
 
     [
       "SD.scd",

@@ -3,6 +3,4 @@
 
 not a good balance between electric drums and everything else
 
-fcb switches not working, pedals do. WTF?
-
 looping of the samples WTF?

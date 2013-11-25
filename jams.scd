@@ -44,7 +44,6 @@
         [8,
           [PC(\a, 4)]],
 
-
         [8,
           [PC(\a, 4)]],
         [8,
@@ -106,32 +105,6 @@
 
 	\tango,
 
-	\tango,
-	\tango,
-	\tango,
-	\tango,
-	\tango,
-	\tango,
-	\tango,
-	\tango,
-	\tango,
-	\tango,
-	\tango,
-	\tango,
-	\tango,
-	\tango,
-	\tango,
-	\tango,
-	\tango,
-	\tango,
-	\tango,
-	\tango,
-	\tango,
-	\tango,
-	\tango,
-	\tango,
-	\tango,
-	\tango,
   \quit
 ].collect {|dict, i| jams[dict].dup[0].put(\index, i)};
 "SETLIST LOADED".postln

@@ -8,7 +8,7 @@ AbstractResponderFunc.allEnabled.keysValuesDo {|key, value|
   postln("value: " ++ value);
 }
 )
-~com_bufs
+
 ~loops[\sax][0]
 ~h_filt.(\sax_f1)
 ~h_synth.(\sax_s1)
