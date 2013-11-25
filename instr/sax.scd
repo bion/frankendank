@@ -68,7 +68,7 @@ var toggle_filt, ints_to_names = Array.newClear(100),
     pair[1],
     0,
     uid,
-    {arg val; val==pair[0]}
+    pair[0]
   );
 };
 
