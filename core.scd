@@ -61,14 +61,15 @@
 
   /* ____________________________ groups, busses, buffers */
 
-  ~playbuf_g = Group(s);
-  ~in_g = Group(~playbuf_g, \addAfter);
-  ~synth_g = Group(~in_g, \addAfter);
-  ~filt_g = Group(~synth_g, \addAfter);
-  ~eq_g = Group(~filt_g, \addAfter);
-  ~agg_g = Group(~eq_g, \addAfter);
-  ~out_g = Group(~agg_g, \addAfter);
-  ~record_g = Group(~out_g, \addAfter);
+  ~data_g     = Group(s);
+  ~playbuf_g  = Group(~data_g, \addAfter);
+  ~in_g       = Group(~playbuf_g, \addAfter);
+  ~synth_g    = Group(~in_g, \addAfter);
+  ~filt_g     = Group(~synth_g, \addAfter);
+  ~eq_g       = Group(~filt_g, \addAfter);
+  ~agg_g      = Group(~eq_g, \addAfter);
+  ~out_g      = Group(~agg_g, \addAfter);
+  ~record_g   = Group(~out_g, \addAfter);
 
   ~buss = IdentityDictionary[];
   [ \sax_eq, \tub_eq, \dru_eq, \com_eq,
@@ -88,7 +89,9 @@
     ~buss.put(name, Bus.control(s, 4) );
   };
 
-  [ \breath_v, \sax_v, \sax_p, \tub_v, \tub_p, \tub_relax ].do {arg name;
+  [ \breath_v, \sax_v, \sax_p, \tub_v, \tub_p, \tub_relax,
+    \freq_lag, \tempo
+  ].do {arg name;
     ~buss.put(name, Bus.control(s, 1) );
   };
 
@@ -103,6 +106,8 @@
 
   /* ________________________________ persistent synths */
   [
+    [\beat_dur, Synth(\p_control, [\outbus, ~buss[\beat_dur], \value, ~clock.beatDur], ~data_g],
+
     [\agg, Synth(\agg,
       [
         \sax_bus,       ~buss[\sax_agg],
@@ -122,6 +127,7 @@
     )],
 
     [\out_left, Synth(\route_mono, [\inbus, ~buss[\one_out], \outbus, 0], ~out_g)]
+
   ].do {|pair| ~p_synths.add(pair[0] -> pair[1]) };
 
   "CORE LOADED".postln;

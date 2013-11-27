@@ -11,6 +11,9 @@
   ]
   */
 
+  ~fank_g = Group(~synth_g, \addToHead);
+  ~dirt_rhode_g = Group(~synth_g, \addToHead);
+
   [
     [\com_mon, Synth(\mon,
       [
@@ -25,24 +28,28 @@
       ],
       ~out_g )],
 
-    [\breath_p, Synth(\v_control, [\outbus, ~buss[\breath_v], \param, 0], ~in_g)]
+    [\breath_p, Synth(\v_control, [\outbus, ~buss[\breath_v], \param, 0], ~in_g)],
+
+    [\freq_lag, Synth(\p_control, [\outbus, ~buss[\freq_lag], \param, 0], ~in_g)],
 
   ].do {|pair| ~p_synths.add(pair[0] -> pair[1]) };
 
   ~com_synths_groups = [];
   ~current_breath_synth = nil;
 
-  ~change_breath_synth = {|synth_name, args|
+  ~change_breath_synth = {|synth_name, args, target|
     var remove_these = [];
+
     ~com_synths_groups.do {|synth_dict, i|
-      if (synth_dict[\uses_chord]) {
+
+      if (synth_dict[\uses_chord) {
         synth_dict[\chord_synths].do {_.free};
         synth_dict[\fx_synths].do {_.free};
         remove_these.add(i);
+        ~com_synth_groups.remove(synth_dict);
       };
-    };
 
-    remove_these.do {|i| ~com_synths_groups.removeAt(i) };
+    };
 
     ~com_synths_groups.add(
       IdentityDictionary[
@@ -51,12 +58,14 @@
         \chord_synths -> [],
         \fx_synths -> [],
         \args -> args,
-        \target -> ~synth_g,
+        \target -> target,
         \add_message -> \addToTail
       ];
     );
+
     ~current_breath_synth = synth_name;
     ~update_synths_with_chord.(~current_chord);
+    remove_these.do {|i| ~com_synths_groups.removeAt(i) };
   };
 
   MIDIdef.cc(\breath_p, {|num|
@@ -70,11 +79,17 @@
   MIDIdef.cc(\dirt_rhode, {
     ~change_breath_synth.(
       \dirt_rhode,
-      [\bus, ~buss[\com_eq], \amp_bus, ~buss[\breath_v]]
+      [\bus, ~buss[\com_eq], \amp_bus, ~buss[\breath_v], \freq_lag_bus, ~buss[\freq_lag]],
+      ~dirt_rhode_g
     );
   }, srcID: ~mSrc[\com], ccNum: 50, chan: 9);
 
   MIDIdef.cc(\fank, {
+    ~change_breath_synth.(
+      \fank,
+      [\bus, ~buss[\com_eq], \amp_bus, ~buss[\breath_v], \freq_lag_bus, ~buss[\freq_lag]],
+      ~fank_g
+    );
   }, srcID: ~mSrc[\com], ccNum: 36, chan: 9);
 
 )

@@ -23,7 +23,16 @@
     var off = amp < 5;
     Out.kr(outbus, LinExp.kr(amp, 0, 127, -30.dbamp, 1) * off.lag3(0.01));
   }),
-  SynthDef(\p_control, {arg outbus, param; Out.kr(outbus, param.lag3(0.03) )}),
+
+  SynthDef(\p_control_lag, {arg outbus, param; Out.kr(outbus, param.lag3(0.01) )}),
+
+  SynthDef(\p_control, {arg outbus, param; Out.kr(outbus, param )}),
+
+  SynthDef(\freq_lag, {
+    arg outbus, param, beat_dur_bus;
+    var lag = LinLin.kr(param, 0, 127, 0.01, 2) * In.kr(beat_dur_bus, 1);
+    Out.kr(outbus, lag);
+  }),
 
   SynthDef(\control_env_testing, {arg outbus;
     var env;
@@ -139,15 +148,18 @@
 
   /* ------------------------ com --------------------------- */
 
-  SynthDef(\dirt_rhode, {
-    arg freq, bus, amp_bus, gate=1,
-      vib_rate = 11, vib_width = 0.005;
+  SynthDef(\com_dirt_rhode, {
+    arg freq, bus, amp_bus, freq_lag_bus,
+      vib_rate = 11, vib_width = 0.0125,
+      gate=1;
     var sig, env, vib, warm = LFNoise2.kr(vib_rate).range(0.9, 1.1);
 
     vib_rate = vib_rate * LFDNoise3.kr(2).range(0.9, 1.1);
     vib = SinOsc.kr(vib_rate, 0, vib_width) + LFNoise2.kr(1/vib_rate, vib_width/2) + 1;
 
+    freq = Lag.kr(freq, In.kr(freq_lag_bus, 1));
     freq = freq * vib;
+
     sig = Pulse.ar(
       freq * [1, 33.5.midiratio],
       [0.2, 0.1, 0.5]*warm,
@@ -166,28 +178,33 @@
     Out.ar(bus, sig * Linen.kr(gate, 0.05, releaseTime: 0.05, doneAction: 2));
   }),
 
-  SynthDef(\fank, {
-    arg freq, bus, amp_bus, gate=1,
-      vib_rate = 11, vib_width = 0.0125;
+  SynthDef(\com_fank, {
+    arg freq, bus, amp_bus, freq_lag_bus,
+      vib_rate = 11, vib_width = 0.0125,
+      gate=1;
     var sig, vib, amp;
+
     vib_rate = vib_rate * LFDNoise3.kr(2).range(0.9, 1.1);
     vib = SinOsc.kr(vib_rate, 0, vib_width) + LFNoise2.kr(1/vib_rate, vib_width/2) + 1;
+
+    freq = Lag.kr(freq, In.kr(freq_lag_bus, 1));
     freq = freq + vib;
     amp = In.kr(amp_bus, 1);
+
     sig = Pulse.ar(freq,
       [
         SinOsc.kr(vib_rate).range(0.2, 0.3),
         SinOsc.kr(vib_rate).range(0.4, 0.5),
         SinOsc.kr(vib_rate).range(0.1, 0.2)
       ],
-      mul: 0.2
-    ).mean +
+      mul: 0.2).mean +
+
       SinOsc.ar(-7.midiratio * freq, 0, -8.dbamp * 0.2) +
       SinOsc.ar(2 * freq, 0, -8.dbamp * 0.2);
 
     sig = MoogFF.ar(sig, freq * LinExp.kr(amp, 0, 1, 0.5, 10), 0.2, mul: 2) + sig;
-    
     sig = sig * amp * 0.5;
+
 
     Out.ar(bus, sig*Linen.kr(gate, 0.05, releaseTime: 0.05, doneAction: 2));
   }),

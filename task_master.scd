@@ -32,7 +32,7 @@
       /* --------------------------- chords ---------------------- */
       ~clock.sched(
         ~clock.timeToNextBeat + beat_of_measure - (s.latency / ~clock.beatDur),
-        ~set_chord_fxn.(measure[1])
+        ~set_chord.(measure[1])
       );
 
       /* --------------------------- measure actions ---------------------- */
@@ -56,7 +56,7 @@
 
   /* ____________________________ synth updating */
 
-  ~set_chord_fxn = {|chord| {
+  ~set_chord = {|chord| {
     ~current_chord = chord;
     ~update_synths_with_chord.(chord);
   }}; 
