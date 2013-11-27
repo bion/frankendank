@@ -3,4 +3,12 @@
 
 not a good balance between electric drums and everything else
 
-looping of the samples WTF?
+breath control for synths tracking jam chords
+
+global filter control from axiom
+
+control breath synth from axiom
+
+trigger samples from axiom
+
+resetAll button for FCBs
