@@ -1,6 +1,5 @@
 (
   var docpath = thisProcess.nowExecutingPath,
-    add_chord_synth,
   // metranome
     met_sfd_path = ~maindir ++ "met_sfs/*",
     met_sfd = (met_sfd_path).pathMatch, // natural numbers

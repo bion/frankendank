@@ -76,6 +76,11 @@
     ~toggle_loop_jam.value;
   }, srcID: ~mSrc[\com], ccNum: 20, chan: 0);
 
+  MIDIdef.cc(\freq_lag, {|num|
+    // TODO TODO TODO set a global variable for lag duration as fraction of beat
+    ~p_synths[\freq_lag].set(\param, num);
+  }, srcID: ~mSrc[\com], ccNum: 12, chan: 0);
+
   MIDIdef.cc(\dirt_rhode, {
     ~change_breath_synth.(
       \dirt_rhode,

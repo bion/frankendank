@@ -31,6 +31,7 @@
 
       /* --------------------------- chords ---------------------- */
       ~clock.sched(
+        // TODO TODO TODO schedule this ~freq_lag before each beat
         ~clock.timeToNextBeat + beat_of_measure - (s.latency / ~clock.beatDur),
         ~set_chord.(measure[1])
       );
@@ -64,8 +65,9 @@
   ~update_synths_with_chord = {|chord|
     ~com_synths_groups.do {|group| if (group[\uses_chord]) {
       var synths = group[\chord_synths], bundle;
-      var pitch =1;
+      /* for each pitch in the chord */
       chord.do {|pitch_class, i|
+        /* if there is a synth for the pitch */
         if (synths[i].notNil) {
           synths[i].set(\freq, pitch_class.freq);
         }
@@ -77,28 +79,14 @@
                               group[\add_message]
                             );
         };
+        /* if there are more synths than pitches */
         if (group.size > chord.size) {
             (group.size - chord.size).do {|i|
             synths.removeAt(chord.size + i - 1).free;
           };
         };
-        if (group.size < chord.size) {
-          (chord.size - group.size).do {|i|
-            var index = i + chord.size;
-            synths.add( Synth(
-                                group[\synth_name],
-                                group[\args] ++ [\freq, pitch],
-                                group[\target],
-                                group[\add_message]
-                              );
-            );
-          };
-        };
       };
     }};
-  };
-
-  ~add_chord_synth = {|group, pitch|
   };
 
   ~create_scheduled_fxn = IdentityDictionary[
