@@ -37,21 +37,3 @@ CmdPeriod.run
   // ~h_filt.(\sax_shaper);
   // ~h_filt.(\sax_comp);
 )
-
-[\sax, \tuba, \drums, \com].do {|instr|
-  make button
-  specify states
-  if (~mSrc[instr]) {
-
-  } {
-
-  }
-};
-
-s.boot
-(
-play{
-  a = In.ar(8, 1);
-  PitchShift.ar(a, 0.12, 11.midiratio, 0.0, 0.0002) + a;
-}
-)

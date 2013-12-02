@@ -4,7 +4,7 @@
 not a good balance between electric drums and everything else
 
 breath control for synths tracking jam chords
-- need to schedule chord updating lag beats before every bar
+- 
 
 global filter control from axiom
 

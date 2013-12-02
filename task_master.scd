@@ -31,8 +31,7 @@
 
       /* --------------------------- chords ---------------------- */
       ~clock.sched(
-        // TODO TODO TODO schedule this ~freq_lag before each beat
-        ~clock.timeToNextBeat + beat_of_measure - (s.latency / ~clock.beatDur),
+        ~clock.timeToNextBeat + beat_of_measure - ~freq_lag_dur - (s.latency / ~clock.beatDur),
         ~set_chord.(measure[1])
       );
 

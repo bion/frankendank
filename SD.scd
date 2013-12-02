@@ -30,7 +30,7 @@
 
   SynthDef(\freq_lag, {
     arg outbus, param, beat_dur_bus;
-    var lag = LinLin.kr(param, 0, 127, 0.01, 2) * In.kr(beat_dur_bus, 1);
+    var lag = param * In.kr(beat_dur_bus, 1);
     Out.kr(outbus, lag);
   }),
 

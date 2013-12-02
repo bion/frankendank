@@ -5,6 +5,7 @@ var startup_gui, startup_info, start_but, sg_but, reload_but,
 
 ~maindir = "~/dev/frankendank/".standardizePath;
 ~tempo = 220/60;
+~freq_lag_dur = 0.01;
 sg_but = IdentityDictionary[];
 activated_instr = [];
 
@@ -107,12 +108,6 @@ start_but = Button(startup_gui, Rect(360, reload_but_position + 40, 80, 30) )
   .states_([["BOOM!", Color.black, Color.red]])
   .mouseDownAction_({
   ~tempo = tempo_spec.map(tempo_slider.value)/60;
-
-  MIDIClient.sources.do {arg source;
-    case
-    {source.device == "Breath Controller"}  {~mSrc[\breath] = source.uid}
-    {source.device == "ControlPad"}         { ~mSrc[\drum_pad] = ~mSrc[\drum_pad] ? source.uid};
-  };
 
   Server.default = s = Server.local;
   s.latency = 0.02;

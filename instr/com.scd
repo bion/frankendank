@@ -1,4 +1,5 @@
 (
+  var breath_uid;
   /* each group is an
   IdentityDictionary[
     \synth_name -> \name,
@@ -10,6 +11,10 @@
     \add_message -> \addToTail
   ]
   */
+
+  MIDIClient.sources.do {|source|
+    if (source.device == "Breath Controller") { breath_uid = source.uid };
+  };
 
   ~fank_g = Group(~synth_g, \addToHead);
   ~dirt_rhode_g = Group(~synth_g, \addToHead);
@@ -42,7 +47,7 @@
 
     ~com_synths_groups.do {|synth_dict, i|
 
-      if (synth_dict[\uses_chord) {
+      if (synth_dict[\uses_chord]) {
         synth_dict[\chord_synths].do {_.free};
         synth_dict[\fx_synths].do {_.free};
         remove_these.add(i);
@@ -69,16 +74,16 @@
   };
 
   MIDIdef.cc(\breath_p, {|num|
-    ~p_synths[\breath_p].set(\param, num);
-  }, srcID: ~mSrc[\breath]);
+    ~p_synths[\breath_p].set(\amp, num);
+  }, 2, 0, srcID: breath_uid);
 
   MIDIdef.cc(\next_jam, {
     ~toggle_loop_jam.value;
   }, srcID: ~mSrc[\com], ccNum: 20, chan: 0);
 
   MIDIdef.cc(\freq_lag, {|num|
-    // TODO TODO TODO set a global variable for lag duration as fraction of beat
-    ~p_synths[\freq_lag].set(\param, num);
+    ~freq_lag_dur = num / 127.0 * 2;
+    ~p_synths[\freq_lag].set(\param, ~lag_dur);
   }, srcID: ~mSrc[\com], ccNum: 12, chan: 0);
 
   MIDIdef.cc(\dirt_rhode, {
@@ -97,4 +102,5 @@
     );
   }, srcID: ~mSrc[\com], ccNum: 36, chan: 9);
 
+  "COM LOADED".postln;
 )

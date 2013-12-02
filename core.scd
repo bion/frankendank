@@ -1,8 +1,7 @@
 (
   var docpath = thisProcess.nowExecutingPath,
   // metranome
-    met_sfd_path = ~maindir ++ "met_sfs/*",
-    met_sfd = (met_sfd_path).pathMatch, // natural numbers
+    met_sfd = (~maindir ++ "met_sfs/*").pathMatch, // natural numbers
     playing = IdentityDictionary[];
 
   ~id_bus_map = IdentityDictionary[
@@ -15,8 +14,6 @@
     \sax_mon_out -> 5,
     \tub_mon_out -> 6
   ];
-
-  ~met_bufs = Array.newClear(met_sfd.size);
 
   // persistent synths
   ~p_synths = IdentityDictionary[];
@@ -95,17 +92,20 @@
   };
 
   if (met_sfd.size == 0) {
-    var mes = "No metranome files found at %, where are they?".format(met_sfd_path);
+    var mes = "No metranome files found, where are they?";
     Error(mes).throw;
     } {
-    met_sfd.do {arg path, i; ~met_bufs[i] = Buffer.read(s, path) };
+      ~met_bufs = Array.newClear(met_sfd.size);
+      met_sfd.do {arg path, i;
+      
+      ~met_bufs[i] = Buffer.read(s, path) };
   };
 
   s.sync(~cond);
 
   /* ________________________________ persistent synths */
   [
-    [\beat_dur, Synth(\p_control, [\outbus, ~buss[\beat_dur], \value, ~clock.beatDur], ~data_g],
+    [\beat_dur, Synth(\p_control, [\outbus, ~buss[\beat_dur], \value, ~clock.beatDur], ~data_g)],
 
     [\agg, Synth(\agg,
       [
