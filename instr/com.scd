@@ -2,7 +2,7 @@
   var breath_uid;
   /* each group is an
   IdentityDictionary[
-    \synth_name -> \name,
+    \name -> \some_synth_name,
     \uses_chord -> boolean,
     \chord_synths -> [synth, synth, synth],
     \fx_synths -> [one, two, three],
@@ -36,6 +36,8 @@
     [\breath_p, Synth(\v_control, [\outbus, ~buss[\breath_v], \param, 0], ~in_g)],
 
     [\freq_lag, Synth(\p_control, [\outbus, ~buss[\freq_lag], \param, 0], ~in_g)],
+
+    [\com_eq, Synth(\com_eq, [\inbus, ~buss[\com_eq], \outbus, ~buss[\com_agg] ], ~eq_g)]
 
   ].do {|pair| ~p_synths.add(pair[0] -> pair[1]) };
 
@@ -88,7 +90,7 @@
 
   MIDIdef.cc(\dirt_rhode, {
     ~change_breath_synth.(
-      \dirt_rhode,
+      \com_dirt_rhode,
       [\bus, ~buss[\com_eq], \amp_bus, ~buss[\breath_v], \freq_lag_bus, ~buss[\freq_lag]],
       ~dirt_rhode_g
     );
@@ -96,7 +98,7 @@
 
   MIDIdef.cc(\fank, {
     ~change_breath_synth.(
-      \fank,
+      \com_fank,
       [\bus, ~buss[\com_eq], \amp_bus, ~buss[\breath_v], \freq_lag_bus, ~buss[\freq_lag]],
       ~fank_g
     );

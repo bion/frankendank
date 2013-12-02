@@ -4,7 +4,6 @@
 not a good balance between electric drums and everything else
 
 breath control for synths tracking jam chords
-- 
 
 global filter control from axiom
 

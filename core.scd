@@ -70,7 +70,7 @@
   ~buss = IdentityDictionary[];
   [ \sax_eq, \tub_eq, \dru_eq, \com_eq,
     \one_out, \two_out, \three_out,
-    \sax_agg, \tub_agg,
+    \sax_agg, \tub_agg, \com_agg,
     \low, \med, \hi, // drum busses
     \metranome
   ].do {arg name;
@@ -111,6 +111,7 @@
       [
         \sax_bus,       ~buss[\sax_agg],
         \tub_bus,       ~buss[\tub_agg],
+        \com_bus,       ~buss[\com_agg],
         \d_low_bus,     ~buss[\d_low_bus],
         \d_med_bus,     ~buss[\d_med_bus],
         \d_hi_bus,      ~buss[\d_hi_bus],

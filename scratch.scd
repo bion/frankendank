@@ -27,13 +27,9 @@ CmdPeriod.run
 ~loop_this_jam = false
 ~loop_this_jam = true
 (
-~buss.keysValuesDo {|key, value|
-	key.postln;
-	value.postln;
-};
-)
-(
-  ~h_filt.(\sax_chorus);
-  // ~h_filt.(\sax_shaper);
-  // ~h_filt.(\sax_comp);
+    ~change_breath_synth.(
+      \com_fank,
+      [\bus, ~buss[\com_eq], \amp_bus, ~buss[\breath_v], \freq_lag_bus, ~buss[\freq_lag]],
+      ~dirt_rhode_g
+    );
 )

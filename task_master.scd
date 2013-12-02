@@ -71,16 +71,18 @@
           synths[i].set(\freq, pitch_class.freq);
         }
         {
-          synths[i] = Synth(
-                              group[\synth_name],
-                              group[\args] ++ [\freq, pitch_class.freq],
-                              group[\target],
-                              group[\add_message]
-                            );
+          synths.add(
+            Synth(
+                    group[\name],
+                    group[\args] ++ [\freq, pitch_class.freq],
+                    group[\target],
+                    group[\add_message]
+                  );
+          );
         };
         /* if there are more synths than pitches */
-        if (group.size > chord.size) {
-            (group.size - chord.size).do {|i|
+        if (synths.size > chord.size) {
+            (synths.size - chord.size).do {|i|
             synths.removeAt(chord.size + i - 1).free;
           };
         };

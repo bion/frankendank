@@ -20,8 +20,8 @@
   /* ---------------------------------------- main ---------------------------------------- */
 
   SynthDef(\v_control, {arg outbus, amp;
-    var off = amp < 5;
-    Out.kr(outbus, LinExp.kr(amp, 0, 127, -30.dbamp, 1) * off.lag3(0.01));
+    var off = amp > 2;
+    Out.kr(outbus, (LinExp.kr(amp, 0, 127, -40.dbamp, 1) * off).lag3(0.01));
   }),
 
   SynthDef(\p_control_lag, {arg outbus, param; Out.kr(outbus, param.lag3(0.01) )}),
@@ -95,6 +95,7 @@
     in = In.ar(inbus, 1);
     Out.ar(outbus, in);
   }),
+
   SynthDef(\tub_eq, {
     arg inbus, outbus, vbus;
     var in, out;
@@ -102,16 +103,24 @@
     Out.ar(outbus, in);
   }),
 
+  SynthDef(\com_eq, {
+    arg inbus, outbus, vbus;
+    var in, out;
+    in = In.ar(inbus, 1);
+    Out.ar(outbus, in);
+  }),
+
   SynthDef(\agg, {
-    arg sax_bus, tub_bus, out_bus,
+    arg sax_bus, tub_bus, com_bus, out_bus,
       d_low_bus, d_med_bus, d_hi_bus,
       drums_mon_bus, tub_mon_bus, sax_mon_bus, com_mon_bus, nugs_mon_bus,
       metranome_bus;
-    var sax, tub, out, metranome,
+    var sax, tub, com, out, metranome,
       d_low, d_med, d_hi;
 
     sax = In.ar(sax_bus, 1) * 1.5;
     tub = In.ar(tub_bus, 1) * 2.5;
+    com = In.ar(com_bus, 1) * 1.5;
 
     d_low = In.ar(d_low_bus, 1);
     d_med = In.ar(d_med_bus, 1);
@@ -123,8 +132,9 @@
 
     tub = Compander.ar(tub, d_low, -42.dbamp, 1, 1/5, 0.002, \tub_relax.kr(0.05, 0.03));
     // sax = Compander.ar(sax, d_hi, -42.dbamp, 1, 1/10, 0.002, 0.02);
+    com = Compander.ar(com, d_hi + sax, -42.dbamp, 1, 1/5, 0.002, 0.02);
 
-    out = [tub, sax, d_low, d_med, d_hi];
+    out = [tub, sax, com, d_low, d_med, d_hi];
     Out.ar(out_bus, out.sum);
 
     [drums_mon_bus, nugs_mon_bus, tub_mon_bus, sax_mon_bus, com_mon_bus].do {|bus|
