@@ -2,7 +2,7 @@
   var switch_uid = ~mSrc[\drums], pad_uid;
 
   MIDIClient.sources.do {|source|
-    if (source.device == "ControlPad") { pad_uid = source.uid };
+    if (source.device == "ControlPad") { ~pad_uid = source.uid };
   };
 
   ~current_set = 0;
@@ -62,6 +62,7 @@
 
   ~drum_trig = {arg pad_midi_number;
     var action_id, action;
+			pad_midi_number.postln;
       action_id = ~sample_sets[~current_set][pad_midi_number];
       action = ~drums[action_id];
     ~drum_funcs[action[\function]].(action);
@@ -87,7 +88,7 @@
 
   127.do {|i|
     MIDIdef.noteOn(i.asSymbol,
-      {~drum_trig.(("drum_"++i).asSymbol)}, i, 0, pad_uid );
+      {~drum_trig.(("drum_"++i).asSymbol)}, i, 0,  996100643);
   };
 
 )

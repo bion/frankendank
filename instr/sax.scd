@@ -53,7 +53,7 @@ var toggle_filt, ints_to_names = Array.newClear(100),
   // clear loop id must be a single string char
   [4, {~clear_loop.(\sax);}],
 
-  // other
+ // other
   [5, { ~h_filt.(\sax_wah) }],
   [6, { ~h_synth.(\sax_delay) }],
   [7, {

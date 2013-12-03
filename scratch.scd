@@ -15,12 +15,14 @@ s.gui
 ~h_synth.(\tub_s2)
 ~h_filt.(\sax_s1)
 ~h_filt.(\sax_nother)
+~h_filt.(\sax_nother)
 ~h_filt.(\sax_delay)
 ~h_filt.(\sax_bladunner)
 s.queryAllNodes
 s.makeGui
 MIDIClient.init
 MIDIdef.trace(true);
+MIDIdef.trace(false);
 CtkBuffer
 Quarks.gui
 CmdPeriod.run
@@ -33,3 +35,5 @@ CmdPeriod.run
       ~dirt_rhode_g
     );
 )
+
+j(~maindir++"instr/"++"drums"++".scd").load;
