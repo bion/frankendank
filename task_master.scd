@@ -61,6 +61,7 @@
     ~update_synths_with_chord.(chord);
   }}; 
 
+  // TODO TODO TODO synths not dying off when they should, stacking up
   ~update_synths_with_chord = {|chord|
     ~com_synths_groups.do {|group| if (group[\uses_chord]) {
       var synths = group[\chord_synths], bundle;

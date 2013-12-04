@@ -1,10 +1,6 @@
 (
   var switch_uid = ~mSrc[\drums], pad_uid;
 
-  MIDIClient.sources.do {|source|
-    if (source.device == "ControlPad") { ~pad_uid = source.uid };
-  };
-
   ~current_set = 0;
 
   load(~maindir ++ "/instr/drum_sample_map.scd");
@@ -88,7 +84,7 @@
 
   127.do {|i|
     MIDIdef.noteOn(i.asSymbol,
-      {~drum_trig.(("drum_"++i).asSymbol)}, i, 0,  996100643);
+      {~drum_trig.(("drum_"++i).asSymbol)}, i, 0,  ~mSrc[\drum_pad]);
   };
 
 )

@@ -17,7 +17,30 @@
         [8,
           [PC(\a, 4)]],
         [8,
-          [PC(\a, 4)]]
+          [PC(\a, 3), PC(\c, 4), PC(\e, 4), PC(\g, 3)]]
+      ]
+    ],
+
+    \want_you_back -> IdentityDictionary[
+      \loop -> true,
+      \measures -> [
+        [8,
+          [PC(\c, 2), PC(\g, 2), PC(\bf, 2), PC(\ef, 3)]],
+        [8,
+          [PC(\a, 4)]],
+        [8,
+          [PC(\a, 4)]],
+        [8,
+          [PC(\a, 4)]],
+
+        [8,
+          [PC(\a, 4)]],
+        [8,
+          [PC(\a, 4)]],
+        [8,
+          [PC(\a, 4)]],
+        [8,
+          [PC(\a, 4)]],
       ]
     ],
 

@@ -20,7 +20,7 @@ instr_rows = IdentityDictionary[
   \com -> 130
 ];
 
-startup_gui = Window("h e r startup", Rect(200, 200, 450, 250));
+startup_gui = Window("her we go", Rect(200, 200, 450, 250));
 
 midi_stati = IdentityDictionary[];
 [\sax, \tuba, \drums, \com].do {arg name, i;
@@ -40,7 +40,6 @@ midi_stati = IdentityDictionary[];
             func: {
             arg num, chan, source;
             ~mSrc[name] = source;
-            activated_instr.add(name);
             AppClock.sched(0, {
               midi_stati[name][\status].stringColor_(Color.green).string_("Device found");
             });
@@ -77,7 +76,6 @@ reload_but = Button(startup_gui, Rect(10, reload_but_position, 120, 30) )
   .mouseDownAction_({
     if (~mSrc.isEmpty.not) {
       ~mSrc.keysValuesDo {|instr, id|
-        activated_instr.add(instr);
         AppClock.sched(0, {
           midi_stati[instr][\status].stringColor_(Color.green).string_("Device found");
         });
@@ -93,7 +91,6 @@ load_from_disk = Button(startup_gui, Rect(10, reload_but_position + 40, 120, 30)
     ~mSrc = Object.readArchive(~maindir ++ "/archive/mSrc");
     if (~mSrc.notNil) {
       ~mSrc.keysValuesDo {|instr, id|
-        activated_instr.add(instr);
         AppClock.sched(0, {
           midi_stati[instr][\status] = StaticText(startup_gui, Rect(100, instr_rows[instr], 80, 30));
           midi_stati[instr][\status].stringColor_(Color.green).string_("Device found");
@@ -108,6 +105,12 @@ start_but = Button(startup_gui, Rect(360, reload_but_position + 40, 80, 30) )
   .states_([["BOOM!", Color.black, Color.red]])
   .mouseDownAction_({
   ~tempo = tempo_spec.map(tempo_slider.value)/60;
+
+  MIDIClient.sources.do {arg source;
+    case
+    {source.device == "Breath Controller"}  {~mSrc[\breath] = source.uid}
+    {source.device == "ControlPad"}         { ~mSrc[\drum_pad] = source.uid};
+  };
 
   Server.default = s = Server.local;
   s.latency = 0.02;
@@ -129,9 +132,13 @@ start_but = Button(startup_gui, Rect(360, reload_but_position + 40, 80, 30) )
       s.sync;
     };
 
-
-		(~maindir++"instr/"++"tuba"++".scd").load;
-		(~maindir++"instr/"++"sax"++".scd").load;
+    [\sax, \tuba, \drums].do {|instr|
+      if (~mSrc.includesKey(instr)) {
+        var path = (~maindir++"instr/"++instr++".scd");
+        path.postln;
+        path.load;
+      };
+    };
 
     s.sync(~cond);
 

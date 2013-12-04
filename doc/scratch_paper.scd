@@ -100,3 +100,4 @@ d = IdentityDictionary[];
   play { LinExp.kr(SinOsc.kr.range(0, 0.7), -32, -10, .max(160).poll }
   ~p_synths;
 )
+

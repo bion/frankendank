@@ -1,0 +1,38 @@
+(
+var  activated_instruments = [],
+  instruments = [ \sax, \tuba, \drums, \com ],
+
+  small_btn_length = 80, small_btn_height = 30,
+  instr_btn_left = 10, instr_btn_top = 10;
+
+make_midi_discovery_listener = {|instr|
+  MIDIdef(instr,
+    func: { |num, chan, source|
+      ~mSrc[instr] = source;
+      AppClock.sched(0, 
+    };
+  );
+};
+
+[ \sax, \tuba, \com ].do {|instr|
+  Button(startup_gui,
+    Rect(
+      instr_btn_left,
+      instr_btn_top+(i*(instr_btn_height + 10)),
+      instr_btn_length,
+      instr_btn_height)
+    )
+    .states_([[instr ++ " off"], [name ++ " active"]])
+    .mouseDownAction_({
+      if (activated_instruments[instr])
+      {
+        activated_instruments.remove(instr);
+        this_but_off_status.(instr);
+      }
+      {
+        make_midi_id_listener.(instr);
+        this_but_waiting_status.(instr);
+      };
+  });
+};
+)

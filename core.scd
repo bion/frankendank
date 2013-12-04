@@ -4,20 +4,6 @@
     met_sfd = (~maindir ++ "met_sfs/*").pathMatch, // natural numbers
     playing = IdentityDictionary[];
 
-  ~id_bus_map = IdentityDictionary[
-    \sax -> 8,
-    \tub -> 9,
-
-    \com_mon_out -> 3,
-    \drums_mon_out -> 3,
-    \nugs_mon_out -> 4,
-    \tub_mon_out -> 5,
-    \sax_mon_out -> 6
-  ];
-
-  // persistent synths
-  ~p_synths = IdentityDictionary[];
-
   /* ___________________________________ synth controllers */
 
   ~h_filt = {arg id;
@@ -55,7 +41,7 @@
     playing[id] = node;
   };
 
-  /* ____________________________ groups, busses, buffers */
+  /* ____________________________ groups */
 
   ~data_g     = Group(s);
   ~playbuf_g  = Group(~data_g, \addAfter);
@@ -67,7 +53,11 @@
   ~out_g      = Group(~agg_g, \addAfter);
   ~record_g   = Group(~out_g, \addAfter);
 
+
+  /* ____________________________ busses */
+
   ~buss = IdentityDictionary[];
+
   [ \sax_eq, \tub_eq, \dru_eq, \com_eq,
     \one_out, \two_out, \three_out,
     \sax_agg, \tub_agg, \com_agg,
@@ -91,6 +81,8 @@
     ~buss.put(name, Bus.control(s, 1) );
   };
 
+  /* ____________________________ buffers */
+
   if (met_sfd.size == 0) {
     var mes = "No metranome files found, where are they?";
     Error(mes).throw;
@@ -104,6 +96,20 @@
   s.sync(~cond);
 
   /* ________________________________ persistent synths */
+
+  ~id_bus_map = IdentityDictionary[
+    \sax -> 8,
+    \tub -> 9,
+
+    \com_mon_out -> 3,
+    \drums_mon_out -> 3,
+    \nugs_mon_out -> 4,
+    \tub_mon_out -> 5,
+    \sax_mon_out -> 6
+  ];
+
+  ~p_synths = IdentityDictionary[];
+
   [
     [\beat_dur, Synth(\p_control, [\outbus, ~buss[\beat_dur], \value, ~clock.beatDur], ~data_g)],
 

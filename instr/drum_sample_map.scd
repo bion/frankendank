@@ -2,7 +2,8 @@
   var drum_sample_dir = (~maindir ++ "/samples/drum/"),
     low_sample_paths = (drum_sample_dir ++ "low/*").pathMatch,
     med_sample_paths = (drum_sample_dir ++ "med/*").pathMatch,
-    hi_sample_paths = (drum_sample_dir ++ "hi/*").pathMatch;
+    hi_sample_paths = (drum_sample_dir ++ "hi/*").pathMatch,
+    count=0;
 
   ~drums = IdentityDictionary[];
 
@@ -11,7 +12,6 @@
     var register = (0: \low, 1: \med, 2: \hi);
     paths.do {|path|
       var name = path.findRegexp("([0-9a-zA-Z\_]+)\.aiff")[1][1];
-      register[i].postln;
       ~drums.add(
         name.asSymbol -> (
           function: \basic_sample,  
@@ -19,8 +19,11 @@
           register: register[i]
         )
       );
-      name.postln;
+      count = count + 1;
     };
   };
-  "DRUM SAMPLE MAP LOADED".postln;
+
+  if (count == 0)
+    { Error("LOADED DRUMS BUT NO SAMPLES FOUND").throw }
+    { (count ++ " DRUM SAMPLES LOADED").postln };
 )
