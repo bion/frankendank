@@ -13,12 +13,10 @@ sax synths not turning off
 
 not a good balance between electric drums and everything else
 
+resetAll button for FCBs
+
 breath control for synths tracking jam chords
 
+4 filter drums banks
+
 global filter control from axiom
-
-control breath synth from axiom
-
-trigger samples from axiom
-
-resetAll button for FCBs

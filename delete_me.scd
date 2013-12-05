@@ -3,13 +3,15 @@ var activated_instruments = [], instr_buttons = IdentityDictionary[],
   instruments = [ \sax, \tuba, \drums, \com ],
 
   gui_height = 450, gui_length = 250,
-  startup_gui = Window("her we go", Rect(250, 250, gui_length, gui_height));
+  startup_gui = Window("her we go", Rect(250, 250, gui_length, gui_height)),
 
   btn_length = 80, btn_height = 30,
 
   load_btn,
 
   instr_btn_left = 10, instr_btn_top = 10,
+
+  tempo_slider, tempo_box,
 
   midi_listener,
   make_midi_listener = {|instr|
@@ -31,10 +33,17 @@ var activated_instruments = [], instr_buttons = IdentityDictionary[],
     b.refresh;
   };
 
+// * * * * * * * * * * * * * * * * * * * * * * GLOBALS
+
+~maindir = "~/dev/frankendank/".standardizePath;
+~tempo = 220/60;
+~freq_lag_dur = 0.01;
+
+~mSrc = IdentityDictionary[];
+
 MIDIClient.init;
 MIDIIn.connectAll;
 
-~mSrc = IdentityDictionary[];
 MIDIClient.sources.do {|sources|
   case
   {source.device == "Breath Controller"}  {~mSrc[\breath] = source.uid}
@@ -44,7 +53,7 @@ MIDIClient.sources.do {|sources|
 // * * * * * * * * * * * * * * * * * * * * * * UI
 
 [ \sax, \tuba, \com ].do {|instr|
-  StaticText(startup_gui, Rect(instr_btn_left, instr_btn_top - 10, btn_length, 10));
+  StaticText(startup_gui, Rect(instr_btn_left, instr_btn_top - 10, btn_length, 10))
   .string_(instr.asString);
 
   instr_buttons[instr] = Button(startup_gui, Rect(instr_btn_left,
@@ -100,9 +109,9 @@ tempo_slider = Slider(startup_gui, Rect(tempo_box_left, tempo_box_top+ 35, 220, 
                   tempo_box.value_(val);
                   ~tempo = val/60;
                 });
-tempo_box.value_(TEMpo_spec.map(tempo_slider.value));
+tempo_box.value_(tempo_spec.map(tempo_slider.value));
 
-Button(startup_gui, Rect(360, reload_but_position + 40, 80, 30) )
+Button(startup_gui, Rect(gui_height - 40, gui_length -100, btn_height, btn_length * 1.5) )
   .states_([["BOOM!", Color.black, Color.red]])
   .mouseDownAction_({ run.() });
 
