@@ -1,166 +1,188 @@
 (
-var startup_gui, startup_info, start_but, sg_but, reload_but,
-  reload_but_position, load_from_disk, activated_instr, instr_rows,
-  tempo_box, tempo_slider, tempo_spec, tempo_coord, midi_stati;
+var run, after_boot,
+  activated_instruments = [], instr_buttons = IdentityDictionary[],
+  instruments = [ \sax, \tuba, \drums, \com ],
+
+  gui_height = 350, gui_length = 600,
+  startup_gui = Window("her we go", Rect(250, 250, gui_length, gui_height)),
+
+  btn_length = 80, btn_height = 30,
+
+  load_btn,
+
+  instr_btn_left = 10, instr_btn_top = 10,
+
+  tempo_slider, tempo_box,
+  tempo_box_top = gui_height * 0.25, tempo_box_left = gui_length * 0.5,
+  tempo_box_height = 60, tempo_box_length = 100,
+  tempo_spec,
+
+  midi_listener,
+  make_midi_listener = {|instr|
+    midi_listener = MIDIdef(instr,
+      func: { |num, chan, source|
+        ~mSrc[instr] = source;
+        activated_instruments.add(instr);
+        midi_listener.free;
+        AppClock.sched(0, {
+          update_button.(instr_buttons[instr], instr ++ " active", Color.green)
+        });
+      },
+      msgType: \program
+    );
+  },
+
+  update_button = {|b, string, color=nil|
+    b.states = [[string.asString, Color.black, color]];
+    b.refresh;
+  };
+
+// * * * * * * * * * * * * * * * * * * * * * * GLOBALS
 
 ~maindir = "~/dev/frankendank/".standardizePath;
 ~tempo = 220/60;
 ~freq_lag_dur = 0.01;
-sg_but = IdentityDictionary[];
-activated_instr = [];
+
+~mSrc = IdentityDictionary[];
 
 MIDIClient.init;
 MIDIIn.connectAll;
-~mSrc = ~mSrc ?? IdentityDictionary[];
 
-instr_rows = IdentityDictionary[
-  \sax -> 10,
-  \tuba -> 50,
-  \drums -> 90,
-  \com -> 130
-];
-
-startup_gui = Window("her we go", Rect(200, 200, 450, 250));
-
-midi_stati = IdentityDictionary[];
-[\sax, \tuba, \drums, \com].do {arg name, i;
-  midi_stati[name] = IdentityDictionary[];
-
-  sg_but.put(name,
-    Button(startup_gui, Rect(10, 10+(i*40), 80, 30))
-      .states_([[name ++ " off"], [name ++ " on"]])
-      .mouseDownAction_({
-        if (midi_stati[name][\status].notNil) {midi_stati[name][\status].remove};
-        midi_stati[name][\status] = StaticText(startup_gui, Rect(100, 10+(i*40), 80, 30));
-        if (midi_stati[name][\responder].isNil && ~mSrc[name].isNil) {
-          var responder_type; 
-          if (name != \com) {responder_type = \program} {responder_type = \noteOn};
-          midi_stati[name][\status].stringColor_(Color.red).string_("Awaiting input");
-          midi_stati[name][\responder] = MIDIFunc(
-            func: {
-            arg num, chan, source;
-            ~mSrc[name] = source;
-            AppClock.sched(0, {
-              midi_stati[name][\status].stringColor_(Color.green).string_("Device found");
-            });
-            midi_stati[name][\responder].free;
-            },
-            msgType: responder_type
-          );
-        } {
-          midi_stati[name][\responder].free;
-          midi_stati[name][\status] = nil;
-          midi_stati[name][\responder] = nil;
-        };
-      })
-  );
-  reload_but_position = i*40+50;
+MIDIClient.sources.do {|source|
+  case
+  {source.device == "Breath Controller"}  {~mSrc[\breath] = source.uid}
+  {source.device == "ControlPad"}         { ~mSrc[\drum_pad] = source.uid};
 };
 
-tempo_coord = [200, 10];
-tempo_box = NumberBox(startup_gui, Rect(tempo_coord[0] + 50, tempo_coord[1], 50, 30));
-StaticText(startup_gui, Rect(tempo_coord[0], tempo_coord[1] + 5, 50, 20))
-  .align_(\center).string_("tempo:");
-tempo_spec = ControlSpec(50, 220, \linear, 1);
-tempo_slider = Slider(startup_gui, Rect(tempo_coord[0], tempo_coord[1] + 35, 220, 40))
-                .value_(~tempo)
-                .action_({
+
+// * * * * * * * * * * * * * * * * * * * * * * UI
+
+[ \sax, \tuba, \drums ].do {|instr, i|
+  StaticText(startup_gui, Rect(instr_btn_left, instr_btn_top + 20 + (i*(btn_height + 40)), btn_length, 10))
+  .string_(instr.asString);
+
+  instr_buttons[instr] = Button(startup_gui, Rect(instr_btn_left,
+                                                  instr_btn_top + 40 + (i*(btn_height + 40)),
+                                                  btn_length,
+                                                  btn_height)
+  )
+  .states_([["off"]])
+  .mouseDownAction_({
+    if (instr_buttons[instr].states[0][0] == "active") // shitty
+    {
+      activated_instruments.remove(instr);
+      ("deactiving " ++ instr ++ "...").postln;
+      midi_listener.free;
+      ("removed listener for " ++ midi_listener.key).postln;
+      if (MIDIdef.all != []) { Error("untracked MIDIdef!!!").throw }; 
+      AppClock.sched(0, {
+        update_button.(instr_buttons[instr], "off");
+      });
+    }
+    {
+      make_midi_listener.(instr);
+      ("added listener for " ++ midi_listener.key).postln;
+      AppClock.sched(0, {
+        update_button.(instr_buttons[instr], "active");
+      });
+    };
+  });
+};
+
+load_btn = Button(startup_gui, Rect(instr_btn_left, gui_height - 100, btn_length * 1.5, btn_height * 1.5) )
+  .states_( [ ["Load From Disk", Color.black], ["No Archive", Color.red] ] )
+  .mouseDownAction_({
+    ~mSrc = Object.readArchive(~maindir ++ "/archive/mSrc");
+    ~mSrc.keysValuesDo {|instr, midi_id|
+      postln(instr ++ ": " ++ midi_id);
+      activated_instruments.remove(instr);
+      update_button(instr_buttons[instr], "active", Color.green);
+      load_btn.destroy;
+    };
+  });
+
+tempo_box = NumberBox(startup_gui, Rect(tempo_box_left,
+                                        tempo_box_top,
+                                        tempo_box_length,
+                                        tempo_box_height));
+
+StaticText(startup_gui, Rect(tempo_box_left,
+                             tempo_box_top - 50,
+                             tempo_box_length,
+                             tempo_box_height)).align_(\center).string_("tempo");
+
+tempo_spec = ControlSpec(60, 220, \lin, 1);
+tempo_slider = Slider(startup_gui, Rect(tempo_box_left, tempo_box_top + tempo_box_height + 20, 220, 40))
+                .value_(~tempo) .action_({
                   var val = tempo_spec.map(tempo_slider.value);
                   tempo_box.value_(val);
                   ~tempo = val/60;
                 });
 tempo_box.value_(tempo_spec.map(tempo_slider.value));
 
-reload_but = Button(startup_gui, Rect(10, reload_but_position, 120, 30) )
-  .states_( [ ["Reload MIDI IDs", Color.black], ["None Found", Color.red] ] )
-  .mouseDownAction_({
-    if (~mSrc.isEmpty.not) {
-      ~mSrc.keysValuesDo {|instr, id|
-        AppClock.sched(0, {
-          midi_stati[instr][\status].stringColor_(Color.green).string_("Device found");
-        });
-      };
-      reload_but.destroy;
-      load_from_disk.destroy;
-    };
-});
-
-load_from_disk = Button(startup_gui, Rect(10, reload_but_position + 40, 120, 30) )
-  .states_( [ ["Load From Disk", Color.black], ["No Archive", Color.red] ] )
-  .mouseDownAction_({
-    ~mSrc = Object.readArchive(~maindir ++ "/archive/mSrc");
-    if (~mSrc.notNil) {
-      ~mSrc.keysValuesDo {|instr, id|
-        AppClock.sched(0, {
-          midi_stati[instr][\status] = StaticText(startup_gui, Rect(100, instr_rows[instr], 80, 30));
-          midi_stati[instr][\status].stringColor_(Color.green).string_("Device found");
-        });
-      };
-      reload_but.destroy;
-      load_from_disk.destroy;
-    };
-});
-
-start_but = Button(startup_gui, Rect(360, reload_but_position + 40, 80, 30) )
+Button(startup_gui, Rect(gui_length * 0.5, gui_height - 100, btn_length * 1.5, btn_height * 1.5) )
   .states_([["BOOM!", Color.black, Color.red]])
-  .mouseDownAction_({
-  ~tempo = tempo_spec.map(tempo_slider.value)/60;
+  .mouseDownAction_({ run.() });
 
-  MIDIClient.sources.do {arg source;
-    case
-    {source.device == "Breath Controller"}  {~mSrc[\breath] = source.uid}
-    {source.device == "ControlPad"}         { ~mSrc[\drum_pad] = source.uid};
-  };
+// * * * * * * * * * * * * * * * * * * * * * * RUN
 
+run = {
   Server.default = s = Server.local;
   s.latency = 0.02;
-  s.options = ServerOptions.new.hardwareBufferSize = 256;
-  s.waitForBoot({
-    ~cond = Condition.new;
+  s.options = ServerOptions.new.hardwareBufferSize = 128;
 
-    ~clock = TempoClock(~tempo, queueSize: 2**10);
+  s.waitForBoot({ after_boot.() });
+};
 
-    [
-      "SD.scd",
-      "core.scd",
-      "looping.scd",
-      "instr/com_sample_map.scd",
-      "jams.scd",
-      "task_master.scd"
-    ].do {|file|
-      (~maindir ++ file).load;
-      s.sync;
+after_boot = {
+  var cond = Condition.new;
+
+  ~clock = TempoClock(~tempo, queueSize: 2**10);
+
+  [
+    "SD.scd",
+    "core.scd",
+    "looping.scd",
+    "instr/com_sample_map.scd",
+    "jams.scd",
+    "task_master.scd",
+    "isntr/com.scd"
+  ].do {|file|
+    (~maindir ++ file).load;
+    s.sync;
+  };
+
+  [\sax, \tuba, \drums].do {|instr|
+    if (~mSrc.includesKey(instr)) {
+      var path = (~maindir++"instr/"++instr++".scd");
+      path.postln;
+      path.load;
     };
+  };
 
-    [\sax, \tuba, \drums].do {|instr|
-      if (~mSrc.includesKey(instr)) {
-        var path = (~maindir++"instr/"++instr++".scd");
-        path.postln;
-        path.load;
-      };
-    };
+  s.sync(cond);
 
-    s.sync(~cond);
+  s.queryAllNodes;
 
-    CmdPeriod.doOnce {
-      s.freeAll;
-      ~clock.clear.stop;
-      ~buss.keysValuesDo {|key, value| value.free };
-      "busses freed".postln;
-      OSCFunc.allEnabled.do {|func| func.free};
-      "OSCFuncs freed".postln;
-      ~loops.keysValuesDo {|key, value| value.keysValuesDo {|kk, vv| vv[\buffer].free }; };
-      "loop freed".postln;
-      MIDIdef.freeAll;
-      "MIDIdefs freed".postln;
-      s.quit;
-    };
-    ~mSrc.writeArchive(~maindir ++ "/archive/mSrc");
+  CmdPeriod.doOnce {
+    s.freeAll;
+    ~clock.clear.stop;
+    ~buss.keysValuesDo {|key, value| value.free };
+    "busses freed".postln;
+    OSCFunc.allEnabled.do {|func| func.free};
+    "OSCFuncs freed".postln;
+    ~loops.keysValuesDo {|key, value| value.keysValuesDo {|kk, vv| vv[\buffer].free }; };
+    "loop freed".postln;
+    MIDIdef.freeAll;
+    "MIDIdefs freed".postln;
+    s.quit;
+  };
 
-    startup_gui.close;
-    ~scheduler.();
-  });
-});
+  ~mSrc.writeArchive(~maindir ++ "/archive/mSrc");
+
+  ~scheduler.();
+  startup_gui.close;
+};
 
 startup_gui.front;
 )
