@@ -21,7 +21,7 @@ var toggle_filt, ints_to_names = Array.newClear(100),
 
   [\tub_p, Synth(\p_control_lag, [\outbus, ~buss[\tub_p], \param, 0], ~in_g)],
 
-  [\tub_info, Synth(\horninfo, [\inbus, ~id_bus_map[\tub], \outbus, ~buss[\tub_info] ], ~in_g)],
+  [\tub_info, Synth(\tuba_info, [\inbus, ~id_bus_map[\tub], \outbus, ~buss[\tub_info] ], ~in_g)],
 
   [\tub_in, Synth(\tuba_in, [\inbus, ~id_bus_map[\tub], \outbus, ~buss[\tub_eq] ], ~in_g)],
 

@@ -78,6 +78,29 @@
     Out.ar(outbus, in ! 2)
   }),
 
+  SynthDef(\sax_info, {
+    arg inbus, outbus, lag=0.05;
+    var in, pitch, hasPitch, amp, onset;
+    in = In.ar(inbus, 1);
+    #pitch, hasPitch = Tartini.kr(in);
+    amp = Amplitude.kr(in);
+    amp = amp * (amp > -36.dbamp);
+    onset = Coyote.kr(in);
+    Out.kr(outbus, [pitch.lag3(lag), hasPitch, amp.lag3(0.015), onset]);
+  }),
+
+  SynthDef(\tuba_info, {
+    arg inbus, outbus, lag=0.05;
+    var in, pitch, hasPitch, amp, onset;
+    in = In.ar(inbus, 1);
+    #pitch, hasPitch = Tartini.kr(in);
+    amp = Amplitude.kr(in);
+    amp = amp * (amp > -36.dbamp);
+    onset = Coyote.kr(in);
+    Out.kr(outbus, [pitch.lag3(lag), hasPitch, amp.lag3(0.015), onset]);
+  }),
+
+ // deprecated
   SynthDef(\horninfo, {
     arg inbus, outbus, lag=0.05;
     var in, pitch, hasPitch, amp, onset;
@@ -221,11 +244,10 @@
 
   SynthDef(\tuba_in, {
     arg inbus, outbus, amp=1;
-    var out = In.ar(inbus, 1), chain;
-    out = LPF.ar(out, 200);
+    var out = In.ar(inbus, 1);
+    out = LPF.ar(out, 400);
     out = Compander.ar(out, out, -24.dbamp, 1, 0.25, 0.05, 0.05, 2);
-  //  out = PitchShift.ar(out, 0.2, 0.5, 0, 0.002, 2) + out;
-    Out.ar(outbus, amp * out );
+    Out.ar(outbus, amp * out);
   }),
   
   SynthDef(\tub_subbass, {
@@ -235,7 +257,7 @@
 
     synth = SinOsc.ar(pitch * 0.5, 0, 0.65);
 
-    synth = synth * (amp > 0).lag3(0.01);
+    synth = synth * (amp > 0).lag3(~horn_gate_lag);
 
     out = synth * In.kr(pedal_amp_bus, 1);
     Out.ar(bus, out * Linen.kr(gate, 0.05, releaseTime: 0.05, doneAction: 2));
@@ -253,7 +275,7 @@
       );
     synth = synth.mean * 18.dbamp;
 
-    synth = synth * (amp > 0).lag3(0.01);
+    synth = synth * (amp > 0).lag3(~horn_gate_lag);
 
     control = LinExp.kr(amp.ampdb, -36, -6, pitch * 1.5, 10000).max(160);
     synth = MoogFF.ar(synth, control, 1.32);
@@ -273,7 +295,7 @@
     synth = VarSaw.ar(pitch, 0, width: control.lag3(0.1).range(0.45, 0.55));
     synth = Decimator.ar(synth, 20000, control.range(4, 12));
 
-    synth = synth * (amp > 0).lag3(0.01);
+    synth = synth * (amp > 0).lag3(~horn_gate_lag);
 
     lowpass_control = LinExp.kr(amp.ampdb, -32, -10, pitch * 1.5, 10000).max(160).lag3(0.2);
     synth = MoogLadder.ar(synth, control.range(pitch, 20000), control.range(0.03, 0.1));
@@ -322,7 +344,7 @@
     var in;
     in = In.ar(inbus, 1);
     in = HPF.ar(in, 240);
-    in = in * (Amplitude.kr(in).lag3(0.01) > -52.dbamp);
+    in = in * (Amplitude.kr(in).lag3(~horn_gate_lag) > ~sax_gate_thresh);
     Out.ar(outbus, amp * in );
   }),
 

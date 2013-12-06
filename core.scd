@@ -4,6 +4,8 @@
     met_sfd = (~maindir ++ "met_sfs/*").pathMatch, // natural numbers
     playing = IdentityDictionary[];
 
+  ~clock = TempoClock(~tempo, queueSize: 2**10);
+
   /* ___________________________________ synth controllers */
 
   ~h_filt = {arg id;

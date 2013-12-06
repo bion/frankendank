@@ -39,10 +39,6 @@ var run, after_boot,
 
 // * * * * * * * * * * * * * * * * * * * * * * GLOBALS
 
-~maindir = "~/dev/frankendank/".standardizePath;
-~tempo = 220/60;
-~freq_lag_dur = 0.01;
-
 ~mSrc = IdentityDictionary[];
 
 MIDIClient.init;
@@ -113,7 +109,7 @@ StaticText(startup_gui, Rect(tempo_box_left,
 
 tempo_spec = ControlSpec(60, 220, \lin, 1);
 tempo_slider = Slider(startup_gui, Rect(tempo_box_left, tempo_box_top + tempo_box_height + 20, 220, 40))
-                .value_(~tempo) .action_({
+                .value_(10) .action_({
                   var val = tempo_spec.map(tempo_slider.value);
                   tempo_box.value_(val);
                   ~tempo = val/60;
@@ -137,9 +133,8 @@ run = {
 after_boot = {
   var cond = Condition.new;
 
-  ~clock = TempoClock(~tempo, queueSize: 2**10);
-
   [
+    "settings.scd",
     "SD.scd",
     "core.scd",
     "looping.scd",

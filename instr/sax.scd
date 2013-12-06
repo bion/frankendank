@@ -34,7 +34,7 @@ var toggle_filt, ints_to_names = Array.newClear(100),
 
   [\sax_p, Synth(\p_control_lag, [\outbus, ~buss[\sax_p], \param, 0], ~in_g)],
 
-  [\sax_info, Synth(\horninfo, [\inbus, ~id_bus_map[\sax], \outbus, ~buss[\sax_info] ], ~in_g)],
+  [\sax_info, Synth(\sax_info, [\inbus, ~id_bus_map[\sax], \outbus, ~buss[\sax_info] ], ~in_g)],
 
   [\sax_in, Synth(\sax_in, [\inbus, ~id_bus_map[\sax], \outbus, ~buss[\sax_eq] ], ~in_g)],
 
