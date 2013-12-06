@@ -113,7 +113,7 @@
   if (~spoof_horns) {
     [\sax, \tub].do {|instr|
       var bus = Bus.audio(s, 1);
-      ~buss[(instr ++ "_spoof_in").asSymbol] = bus;
+      ~buss[(instr ++ "_spoof").asSymbol] = bus;
       ~id_bus_map[instr] = bus;
     };
   };

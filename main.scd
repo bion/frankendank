@@ -1,6 +1,6 @@
 (
 var run, after_boot,
-  activated_instruments = [], instr_buttons = IdentityDictionary[],
+  activated_instr = [], instr_buttons = IdentityDictionary[],
   instruments = [ \sax, \tuba, \drums, \com ],
 
   gui_height = 350, gui_length = 600,
@@ -22,7 +22,6 @@ var run, after_boot,
     midi_listener = MIDIdef(instr,
       func: { |num, chan, source|
         ~mSrc[instr] = source;
-        activated_instruments.add(instr);
         midi_listener.free;
         AppClock.sched(0, {
           update_button.(instr_buttons[instr], instr ++ " active", Color.green)
@@ -66,10 +65,9 @@ MIDIClient.sources.do {|source|
   .mouseDownAction_({
     if (instr_buttons[instr].states[0][0] == "active") // shitty
     {
-      activated_instruments.remove(instr);
-      ("deactiving " ++ instr ++ "...").postln;
+      postln("deactiving " ++ instr ++ "...");
       midi_listener.free;
-      ("removed listener for " ++ midi_listener.key).postln;
+      postln("removed listener for " ++ midi_listener.key);
       if (MIDIdef.all != []) { Error("untracked MIDIdef!!!").throw }; 
       AppClock.sched(0, {
         update_button.(instr_buttons[instr], "off");
@@ -77,7 +75,9 @@ MIDIClient.sources.do {|source|
     }
     {
       make_midi_listener.(instr);
-      ("added listener for " ++ midi_listener.key).postln;
+      postln("added listener for " ++ midi_listener.key);
+      activated_instr = activated_instr.add(instr);
+      postln("activated " ++ instr);
       AppClock.sched(0, {
         update_button.(instr_buttons[instr], "active");
       });
@@ -91,7 +91,7 @@ load_btn = Button(startup_gui, Rect(instr_btn_left, gui_height - 100, btn_length
     ~mSrc = Object.readArchive(~maindir ++ "/archive/mSrc");
     ~mSrc.keysValuesDo {|instr, midi_id|
       postln(instr ++ ": " ++ midi_id);
-      activated_instruments.remove(instr);
+      activated_instr = activated_instr.add(instr);
       update_button(instr_buttons[instr], "active", Color.green);
       load_btn.destroy;
     };
@@ -134,19 +134,19 @@ after_boot = {
   var cond = Condition.new;
 
   [
-    "settings.scd",
     "SD.scd",
     "core.scd",
     "looping.scd",
     "instr/com_sample_map.scd",
     "jams.scd",
     "task_master.scd",
-    "isntr/com.scd"
+    "instr/com.scd"
   ].do {|file|
-    (~maindir ++ file).load;
+    load(~maindir ++ file);
     s.sync;
   };
 
+/*
   [\sax, \tuba, \drums].do {|instr|
     if (~mSrc.includesKey(instr)) {
       var path = (~maindir++"instr/"++instr++".scd");
@@ -154,6 +154,9 @@ after_boot = {
       path.load;
     };
   };
+  */
+
+  activated_instr.do {|instr| load(~maindir ++ "instr/" ++ instr ++ ".scd") };
 
   s.sync(cond);
 
@@ -163,13 +166,13 @@ after_boot = {
     s.freeAll;
     ~clock.clear.stop;
     ~buss.keysValuesDo {|key, value| value.free };
-    "busses freed".postln;
+    postln("busses freed");
     OSCFunc.allEnabled.do {|func| func.free};
-    "OSCFuncs freed".postln;
+    postln("OSCFuncs freed");
     ~loops.keysValuesDo {|key, value| value.keysValuesDo {|kk, vv| vv[\buffer].free }; };
-    "loop freed".postln;
+    postln("loop freed");
     MIDIdef.freeAll;
-    "MIDIdefs freed".postln;
+    postln("MIDIdefs freed");
     s.quit;
   };
 

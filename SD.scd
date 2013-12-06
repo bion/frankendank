@@ -67,7 +67,7 @@
 
   SynthDef(\route_m2s, {
     arg inbus, outbus;
-    Out.ar(outbus, In.ar(inbus, 1) !2)
+    Out.ar(outbus, In.ar(inbus, 1) ! 2)
   }),
 
   SynthDef(\route_m2s_free_on_silence, {
