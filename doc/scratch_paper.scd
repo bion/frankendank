@@ -1,5 +1,5 @@
 s.queryAllNodes
-~loop_touch.(IdentityDictionary[\inst -> \sax, \num -> 0]);
+~loop_touch.(IdentityDictionary[\instr -> \sax, \num -> 0]);
 ~loops[\sax][0]
 ~toggle_loop_jam.()
 (

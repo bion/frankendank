@@ -1,7 +1,7 @@
 (
 var uid = ~mSrc[\tuba];
 var toggle_filt, ints_to_names = Array.newClear(100),
-  map_dic = {|num| IdentityDictionary[\inst -> \tub, \num -> num] }, toggle_relax;
+  map_dic = {|num| IdentityDictionary[\instr -> \tub, \num -> num] }, toggle_relax;
 
 [
   [\tub_mon, Synth(\mon,

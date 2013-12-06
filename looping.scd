@@ -11,13 +11,13 @@
 
   ~loop_touch = {arg id; block {|break|
     var offset = ~clock.beats - ~clock.beats.round * ~clock.beatDur;
-    var loop_instance = ~loops[id[\inst]][id[\num]];
+    var loop_instance = ~loops[id[\instr]][id[\num]];
     postln("LOOP TOUCH " ++ id);
-    if (clear_loop[id[\inst]]) {
+    if (clear_loop[id[\instr]]) {
       if (loop_instance[\synth].notNil) { stop_loop.(id) };
       loop_instance[\next_action] = record;
       loop_instance[\dur] = 0.0;
-      clear_loop[id[\inst]] = false;
+      clear_loop[id[\instr]] = false;
       ("LOOP " ++ id ++ " CLEARED").postln;
       break.value;
     };
@@ -35,8 +35,8 @@
   };
 
   add_record_synth = {arg id, offset=0;
-    var bus = ~buss[(id[\inst].asString ++ "_agg").asSymbol];
-    var loop_instance = ~loops[id[\inst]][id[\num]];
+    var bus = ~buss[(id[\instr].asString ++ "_agg").asSymbol];
+    var loop_instance = ~loops[id[\instr]][id[\num]];
     loop_instance[\dur] = ~clock.beats;
     s.makeBundle(0.025, {
       loop_instance[\recording] = Synth(\recordbuf_mono,
@@ -50,7 +50,7 @@
 
   stop_recording = {arg id, offset;
     var dur, record_surplus = 0;
-    var loop_instance = ~loops[id[\inst]][id[\num]];
+    var loop_instance = ~loops[id[\instr]][id[\num]];
     fork{
       if (offset < 0.0) {offset.abs.wait; offset=0.0};
       dur = ~clock.beats - loop_instance[\dur];
@@ -73,7 +73,7 @@
   };
 
   add_loop_synth = {arg id, offset=0;
-    var loop_instance = ~loops[id[\inst]][id[\num]];
+    var loop_instance = ~loops[id[\instr]][id[\num]];
     var synth;
     s.makeBundle(0.025, { synth = Synth(\playbuf_mono,
       [ \outbus, 0,
@@ -95,7 +95,7 @@
   };
 
   stop_loop = {arg id, offset;
-    var loop_instance = ~loops[id[\inst]][id[\num]];
+    var loop_instance = ~loops[id[\instr]][id[\num]];
     loop_instance[\responder].free;
     loop_instance[\synth].set(\gate, -1.03);
     loop_instance.put( \synth -> nil );

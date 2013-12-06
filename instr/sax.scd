@@ -14,7 +14,7 @@ MIDIdef.program(\whodunnit, {arg ...args; args.postln; "this one".postln;}, 0, -
 (
 var uid = ~mSrc[\sax];
 var toggle_filt, ints_to_names = Array.newClear(100),
-  map_dic = {|num| IdentityDictionary[\inst -> \sax, \num -> num] };
+  map_dic = {|num| IdentityDictionary[\instr -> \sax, \num -> num] };
 
 [
   [\sax_mon, Synth(\mon,
