@@ -9,7 +9,7 @@ MIDIFunc.cc args: [val, ccNum, chan, srcID
 
 USB2.0-MIDI notes:
 buttons are type program, for button labeled '1':
-MIDIdef.program(\whodunnit, {arg ...args; args.postln; "this one".postln;}, 0, -1815496440, {arg val; val==0});
+MIDIdef.program(\whodunnit, {|...args| args.postln; "this one".postln;}, 0, -1815496440, {|val| val==0});
 */
 (
 var uid = ~mSrc[\sax];
@@ -62,7 +62,7 @@ var toggle_filt, ints_to_names = Array.newClear(100),
   }],
   [8, { ~h_filt.(\sax_cynk_broad) }],
   [9, { ~h_filt.(\sax_nother) }]
-].do {arg pair;
+].do {|pair|
   MIDIdef.program(
     ("sax_"++pair[0]).asSymbol,
     pair[1],
@@ -72,8 +72,8 @@ var toggle_filt, ints_to_names = Array.newClear(100),
   );
 };
 
-MIDIdef.cc(\sax_volume, {arg val; ~p_synths[\sax_v].set(\amp, val) }, 7, 0, uid);
-MIDIdef.cc(\sax_param, {arg val; ~p_synths[\sax_p].set(\param, val) }, 27, 0, uid);
+MIDIdef.cc(\sax_volume, {|val| ~p_synths[\sax_v].set(\amp, val) }, 7, 0, uid);
+MIDIdef.cc(\sax_param, {|val| ~p_synths[\sax_p].set(\param, val) }, 27, 0, uid);
 
 "SAX LOADED".postln;
 )

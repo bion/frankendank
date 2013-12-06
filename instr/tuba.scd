@@ -45,7 +45,7 @@ var toggle_filt, ints_to_names = Array.newClear(100),
   [7, { ~h_synth.(\tub_s2) }],
 
   [9,{ toggle_relax.() }]
-].do {arg pair;
+].do {|pair|
   MIDIdef.program(
     ("tub_"++pair[0]).asSymbol,
     pair[1],
@@ -55,7 +55,7 @@ var toggle_filt, ints_to_names = Array.newClear(100),
   );
 };
 
-MIDIdef.cc(\tub_volume, {arg val; ~p_synths[\tub_v].set(\amp, val) }, 7, 0, uid);
+MIDIdef.cc(\tub_volume, {|val| ~p_synths[\tub_v].set(\amp, val) }, 7, 0, uid);
 
 toggle_relax = {
   var responder = MIDIdef(\tub_relax);
@@ -68,7 +68,7 @@ toggle_relax = {
   };
 };
 
-MIDIdef.cc(\tub_relax, {arg val;
+MIDIdef.cc(\tub_relax, {|val|
   var relax = val * 127.reciprocal * ~tempo;
   ~p_synths[\agg].set(\tub_relax, relax);
   }, 27, 0, uid);

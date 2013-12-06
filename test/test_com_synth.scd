@@ -40,14 +40,13 @@
 
     s.sync(cond);
 
-    bundles = chord.collect {arg pc;
+    bundles = chord.collect {|pc|
       s.makeBundle(false, {
         Synth(synth, [\freq, pc.freq, \bus, stereo_bus, \amp_bus, amp_bus], synth_group);
       });
     };
 
-    bundles = bundles.inject([], {
-      arg a, b;
+    bundles = bundles.inject([], {|a, b|
       a ++ b;
     });
 

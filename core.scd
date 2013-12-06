@@ -8,7 +8,7 @@
 
   /* ___________________________________ synth controllers */
 
-  ~h_filt = {arg id;
+  ~h_filt = {|id|
     var node = playing[id];
     var instr = id.asString[0 .. 2];
     if (node.isNil) {
@@ -24,7 +24,7 @@
     playing[id] = node;
   };
 
-  ~h_synth = {arg id;
+  ~h_synth = {|id|
     var node = playing[id];
     var instr = id.asString[0 .. 2];
     if (node.isNil) {
@@ -65,21 +65,21 @@
     \sax_agg, \tub_agg, \com_agg,
     \low, \med, \hi, // drum busses
     \metranome
-  ].do {arg name;
+  ].do {|name|
     ~buss.put(name, Bus.audio(s, 1) );
   };
 
-  [ \drums_mon, \nugs_mon, \sax_mon, \tub_mon, \com_mon].do {arg name;
+  [ \drums_mon, \nugs_mon, \sax_mon, \tub_mon, \com_mon].do {|name|
     ~buss.put(name, Bus.audio(s, 1) );
   };
 
-  [ \sax_info, \tub_info].do {arg name;
+  [ \sax_info, \tub_info].do {|name|
     ~buss.put(name, Bus.control(s, 4) );
   };
 
   [ \breath_v, \sax_v, \sax_p, \tub_v, \tub_p, \tub_relax,
     \freq_lag, \tempo
-  ].do {arg name;
+  ].do {|name|
     ~buss.put(name, Bus.control(s, 1) );
   };
 
@@ -90,7 +90,7 @@
     Error(mes).throw;
     } {
       ~met_bufs = Array.newClear(met_sfd.size);
-      met_sfd.do {arg path, i;
+      met_sfd.do {|path, i|
       
       ~met_bufs[i] = Buffer.read(s, path) };
   };

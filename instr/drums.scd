@@ -56,7 +56,7 @@
     ]
   ];
 
-  ~drum_trig = {arg pad_midi_number;
+  ~drum_trig = {|pad_midi_number|
     var action_id, action;
 			pad_midi_number.postln;
       action_id = ~sample_sets[~current_set][pad_midi_number];

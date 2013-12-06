@@ -4,12 +4,12 @@
   add_loop_synth, play_loop, stop_loop,
   clear_loop = IdentityDictionary[\sax -> false, \tub -> false];
 
-  ~clear_loop = {arg id;
+  ~clear_loop = {|id|
     postln("CLEAR LOOP " ++ id);
     if (clear_loop[id]) {clear_loop[id] = false} {clear_loop[id] = true};
   };
 
-  ~loop_touch = {arg id; block {|break|
+  ~loop_touch = {|id| block {|break|
     var offset = ~clock.beats - ~clock.beats.round * ~clock.beatDur;
     var loop_instance = ~loops[id[\instr]][id[\num]];
     postln("LOOP TOUCH " ++ id);
@@ -24,7 +24,7 @@
     loop_instance[\next_action].(id, offset);
   }};
 
-  record = {arg id, offset;
+  record = {|id, offset|
     if (offset < 0) {
       fork{
         offset.abs.wait;
@@ -34,7 +34,7 @@
     };
   };
 
-  add_record_synth = {arg id, offset=0;
+  add_record_synth = {|id, offset=0|
     var bus = ~buss[(id[\instr].asString ++ "_agg").asSymbol];
     var loop_instance = ~loops[id[\instr]][id[\num]];
     loop_instance[\dur] = ~clock.beats;
@@ -48,7 +48,7 @@
     postln("STARTED " ++ id ++ " RECORDING, OFFSET: " ++ offset);
   };
 
-  stop_recording = {arg id, offset;
+  stop_recording = {|id, offset|
     var dur, record_surplus = 0;
     var loop_instance = ~loops[id[\instr]][id[\num]];
     fork{
@@ -62,7 +62,7 @@
     };
   };
 
-  play_loop = {arg id, offset;
+  play_loop = {|id, offset|
     if (offset < 0) {
       fork {
         offset.abs.wait;
@@ -72,7 +72,7 @@
     };
   };
 
-  add_loop_synth = {arg id, offset=0;
+  add_loop_synth = {|id, offset=0|
     var loop_instance = ~loops[id[\instr]][id[\num]];
     var synth;
     s.makeBundle(0.025, { synth = Synth(\playbuf_mono,
@@ -94,7 +94,7 @@
     postln("STARTED LOOPING " ++ id ++ " OFFSET: " ++ offset);
   };
 
-  stop_loop = {arg id, offset;
+  stop_loop = {|id, offset|
     var loop_instance = ~loops[id[\instr]][id[\num]];
     loop_instance[\responder].free;
     loop_instance[\synth].set(\gate, -1.03);
