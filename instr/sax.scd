@@ -28,7 +28,7 @@ var toggle_filt, ints_to_names = Array.newClear(100),
       \inbus, ~buss[\sax_mon],
       \outbus, ~id_bus_map[\sax_mon_out],
     ],
-    ~out_g, \addAfter )],
+    ~out_g )],
 
   [\sax_v, Synth(\v_control, [\outbus, ~buss[\sax_v], \amp, 0], ~in_g)],
 

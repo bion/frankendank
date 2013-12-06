@@ -140,21 +140,12 @@ after_boot = {
     "instr/com_sample_map.scd",
     "jams.scd",
     "task_master.scd",
+    "instr/nugs.scd",
     "instr/com.scd"
   ].do {|file|
     load(~maindir ++ file);
     s.sync;
   };
-
-/*
-  [\sax, \tuba, \drums].do {|instr|
-    if (~mSrc.includesKey(instr)) {
-      var path = (~maindir++"instr/"++instr++".scd");
-      path.postln;
-      path.load;
-    };
-  };
-  */
 
   activated_instr.do {|instr| load(~maindir ++ "instr/" ++ instr ++ ".scd") };
 

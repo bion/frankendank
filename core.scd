@@ -55,34 +55,6 @@
   ~out_g      = Group(~agg_g, \addAfter);
   ~record_g   = Group(~out_g, \addAfter);
 
-
-  /* ____________________________ busses */
-
-  ~buss = IdentityDictionary[];
-
-  [ \sax_eq, \tub_eq, \dru_eq, \com_eq,
-    \one_out, \two_out, \three_out,
-    \sax_agg, \tub_agg, \com_agg,
-    \low, \med, \hi, // drum busses
-    \metranome
-  ].do {|name|
-    ~buss.put(name, Bus.audio(s, 1) );
-  };
-
-  [ \drums_mon, \nugs_mon, \sax_mon, \tub_mon, \com_mon].do {|name|
-    ~buss.put(name, Bus.audio(s, 1) );
-  };
-
-  [ \sax_info, \tub_info].do {|name|
-    ~buss.put(name, Bus.control(s, 4) );
-  };
-
-  [ \breath_v, \sax_v, \sax_p, \tub_v, \tub_p, \tub_relax,
-    \freq_lag, \tempo
-  ].do {|name|
-    ~buss.put(name, Bus.control(s, 1) );
-  };
-
   /* ____________________________ buffers */
 
   if (met_sfd.size == 0) {
@@ -97,7 +69,7 @@
 
   s.sync(~cond);
 
-  /* ________________________________ persistent synths */
+  /* ____________________________ busses */
 
   ~id_bus_map = IdentityDictionary[
     \sax -> 8,
@@ -107,8 +79,48 @@
     \drums_mon_out -> 3,
     \nugs_mon_out -> 4,
     \tub_mon_out -> 5,
-    \sax_mon_out -> 6
+    \sax_mon_out -> 6,
+
+    \main_out_0 -> 0,
+    \main_out_1 -> 1,
+    \main_out_2 -> 2,
+    \main_out_3 -> 3,
+    \main_out_4 -> 4,
+    \main_out_5 -> 5,
+    \main_out_6 -> 6,
+    \main_out_7 -> 7
   ];
+
+  if (~do_bus_map_overrides) {
+    ~bus_map_overrides.keysValuesDo {|key, bus_num|
+      ~id_bus_map[key] = bus_num;
+    };
+  };
+
+  ~buss = IdentityDictionary[];
+
+  [ \sax_eq, \tub_eq, \dru_eq, \com_eq,
+    \one_out, \two_out, \three_out,
+    \sax_agg, \tub_agg, \com_agg,
+    \low, \med, \hi, // drum busses
+    \metranome
+  ].do {|name|
+    ~buss.put(name, Bus.audio(s, 1) );
+  };
+
+  [ \drums_mon, \nugs_mon, \sax_mon, \tub_mon, \com_mon].do {|name|
+    ~buss.put(name, Bus.audio(s, 6) );
+  };
+
+  [ \sax_info, \tub_info].do {|name|
+    ~buss.put(name, Bus.control(s, 4) );
+  };
+
+  [ \breath_v, \sax_v, \sax_p, \tub_v, \tub_p, \tub_relax,
+    \freq_lag, \tempo
+  ].do {|name|
+    ~buss.put(name, Bus.control(s, 1) );
+  };
 
   if (~spoof_horns) {
     [\sax, \tub].do {|instr|
@@ -117,6 +129,8 @@
       ~id_bus_map[instr] = bus;
     };
   };
+
+  /* ________________________________ persistent synths */
 
   ~p_synths = IdentityDictionary[];
 
@@ -142,7 +156,7 @@
       ~agg_g
     )],
 
-    [\out_left, Synth(\route_mono, [\inbus, ~buss[\one_out], \outbus, 0], ~out_g)]
+    [\out_left, Synth(\route_mono, [\inbus, ~buss[\one_out], \outbus, ~id_bus_map[\main_out_0]], ~out_g)]
 
   ].do {|pair| ~p_synths.add(pair[0] -> pair[1]) };
 

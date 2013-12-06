@@ -12,7 +12,7 @@
       \inbus, ~buss[\nugs_mon],
       \outbus, ~id_bus_map[\nugs_mon_out],
     ],
-    ~out_g, \addAfter )],
+    ~out_g )],
 ].do {|pair| ~p_synths.add(pair[0] -> pair[1]) };
 
 "NUGS LOADED".postln;

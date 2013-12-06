@@ -143,21 +143,20 @@
     // sax = Compander.ar(sax, d_hi, -42.dbamp, 1, 1/10, 0.002, 0.02);
     com = Compander.ar(com, d_hi + sax, -42.dbamp, 1, 1/5, 0.002, 0.02);
 
-    out = [tub, sax, com, d_low, d_med, d_hi];
-    Out.ar(out_bus, out.sum);
+    Out.ar(out_bus, [tub, sax, com, d_low, d_med, d_hi].sum);
 
     [drums_mon_bus, nugs_mon_bus, tub_mon_bus, sax_mon_bus, com_mon_bus].do {|bus|
-      Out.ar(bus, out.sum + metranome);
+      Out.ar(bus, [tub, sax, com, d_low + d_med + d_hi]);
     };
   }),
 
   SynthDef(\mon, {
     arg inbus, outbus, metranome_bus,
       drum_scale=1, sax_scale=1, tub_scale=1, com_scale=1, met_scale=1;
-    var drum, sax, tub, com, out;
-    #drum, tub, sax, com = In.ar(inbus, 5);
+    var drums, sax, tub, com, out;
+    #tub, sax, com, drums = In.ar(inbus, 4);
 
-    out = (drum * drum_scale)
+    out = (drums * drum_scale)
       + (tub * tub_scale)
       + (sax * sax_scale)
       + (com * com_scale)
