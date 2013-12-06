@@ -2,8 +2,6 @@ only one instrument loads
 
 metranome only coming out for sax and nugs
 
-lower threshold for jon
-
 drum pad uid not loading properly
 
 sax synths not turning off

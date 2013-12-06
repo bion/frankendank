@@ -84,7 +84,7 @@
     in = In.ar(inbus, 1);
     #pitch, hasPitch = Tartini.kr(in);
     amp = Amplitude.kr(in);
-    amp = amp * (amp > -36.dbamp);
+    amp = amp * (amp > ~sax_gate_thresh).lag3(~horn_gate_lag);
     onset = Coyote.kr(in);
     Out.kr(outbus, [pitch.lag3(lag), hasPitch, amp.lag3(0.015), onset]);
   }),
@@ -95,19 +95,7 @@
     in = In.ar(inbus, 1);
     #pitch, hasPitch = Tartini.kr(in);
     amp = Amplitude.kr(in);
-    amp = amp * (amp > -36.dbamp);
-    onset = Coyote.kr(in);
-    Out.kr(outbus, [pitch.lag3(lag), hasPitch, amp.lag3(0.015), onset]);
-  }),
-
- // deprecated
-  SynthDef(\horninfo, {
-    arg inbus, outbus, lag=0.05;
-    var in, pitch, hasPitch, amp, onset;
-    in = In.ar(inbus, 1);
-    #pitch, hasPitch = Tartini.kr(in);
-    amp = Amplitude.kr(in);
-    amp = amp * (amp > -28.dbamp);
+    amp = amp * (amp > ~tuba_gate_thresh).lag3(~horn_gate_lag);
     onset = Coyote.kr(in);
     Out.kr(outbus, [pitch.lag3(lag), hasPitch, amp.lag3(0.015), onset]);
   }),
