@@ -1,8 +1,9 @@
 (
-var activated_instruments = [], instr_buttons = IdentityDictionary[],
+var run, after_boot,
+  activated_instruments = [], instr_buttons = IdentityDictionary[],
   instruments = [ \sax, \tuba, \drums, \com ],
 
-  gui_height = 450, gui_length = 250,
+  gui_height = 350, gui_length = 600,
   startup_gui = Window("her we go", Rect(250, 250, gui_length, gui_height)),
 
   btn_length = 80, btn_height = 30,
@@ -12,6 +13,9 @@ var activated_instruments = [], instr_buttons = IdentityDictionary[],
   instr_btn_left = 10, instr_btn_top = 10,
 
   tempo_slider, tempo_box,
+  tempo_box_top = gui_height * 0.25, tempo_box_left = gui_length * 0.5,
+  tempo_box_height = 60, tempo_box_length = 100,
+  tempo_spec,
 
   midi_listener,
   make_midi_listener = {|instr|
@@ -44,35 +48,40 @@ var activated_instruments = [], instr_buttons = IdentityDictionary[],
 MIDIClient.init;
 MIDIIn.connectAll;
 
-MIDIClient.sources.do {|sources|
+MIDIClient.sources.do {|source|
   case
   {source.device == "Breath Controller"}  {~mSrc[\breath] = source.uid}
   {source.device == "ControlPad"}         { ~mSrc[\drum_pad] = source.uid};
 };
 
+
 // * * * * * * * * * * * * * * * * * * * * * * UI
 
-[ \sax, \tuba, \com ].do {|instr|
-  StaticText(startup_gui, Rect(instr_btn_left, instr_btn_top - 10, btn_length, 10))
+[ \sax, \tuba, \drums ].do {|instr, i|
+  StaticText(startup_gui, Rect(instr_btn_left, instr_btn_top + 20 + (i*(btn_height + 40)), btn_length, 10))
   .string_(instr.asString);
 
   instr_buttons[instr] = Button(startup_gui, Rect(instr_btn_left,
-                                                  instr_btn_top+(i*(instr_btn_height + 20)),
+                                                  instr_btn_top + 40 + (i*(btn_height + 40)),
                                                   btn_length,
                                                   btn_height)
   )
   .states_([["off"]])
   .mouseDownAction_({
-    if (instr_buttons[instr][0][0] == "on")
+    if (instr_buttons[instr].states[0][0] == "active") // shitty
     {
       activated_instruments.remove(instr);
+      ("deactiving " ++ instr ++ "...").postln;
       midi_listener.free;
+      ("removed listener for " ++ midi_listener.key).postln;
+      if (MIDIdef.all != []) { Error("untracked MIDIdef!!!").throw }; 
       AppClock.sched(0, {
         update_button.(instr_buttons[instr], "off");
       });
     }
     {
       make_midi_listener.(instr);
+      ("added listener for " ++ midi_listener.key).postln;
       AppClock.sched(0, {
         update_button.(instr_buttons[instr], "active");
       });
@@ -80,7 +89,7 @@ MIDIClient.sources.do {|sources|
   });
 };
 
-load_btn = Button(startup_gui, Rect(instr_btn_left, gui_height - 10, btn_height, btn_length) )
+load_btn = Button(startup_gui, Rect(instr_btn_left, gui_height - 100, btn_length * 1.5, btn_height * 1.5) )
   .states_( [ ["Load From Disk", Color.black], ["No Archive", Color.red] ] )
   .mouseDownAction_({
     ~mSrc = Object.readArchive(~maindir ++ "/archive/mSrc");
@@ -92,18 +101,18 @@ load_btn = Button(startup_gui, Rect(instr_btn_left, gui_height - 10, btn_height,
     };
   });
 
-  tempo_box = NumberBox(startup_gui, Rect(tempo_box_left,
-                                          tempo_box_top,
-                                          tempo_box_length,
-                                          tempo_box_height));
+tempo_box = NumberBox(startup_gui, Rect(tempo_box_left,
+                                        tempo_box_top,
+                                        tempo_box_length,
+                                        tempo_box_height));
 
 StaticText(startup_gui, Rect(tempo_box_left,
-                             tempo_box_top,
+                             tempo_box_top - 50,
                              tempo_box_length,
                              tempo_box_height)).align_(\center).string_("tempo");
 
-tempo_spec = ControlSpec(50, 220, \linear, 1);
-tempo_slider = Slider(startup_gui, Rect(tempo_box_left, tempo_box_top+ 35, 220, 40))
+tempo_spec = ControlSpec(60, 220, \lin, 1);
+tempo_slider = Slider(startup_gui, Rect(tempo_box_left, tempo_box_top + tempo_box_height + 20, 220, 40))
                 .value_(~tempo) .action_({
                   var val = tempo_spec.map(tempo_slider.value);
                   tempo_box.value_(val);
@@ -111,7 +120,7 @@ tempo_slider = Slider(startup_gui, Rect(tempo_box_left, tempo_box_top+ 35, 220, 
                 });
 tempo_box.value_(tempo_spec.map(tempo_slider.value));
 
-Button(startup_gui, Rect(gui_height - 40, gui_length -100, btn_height, btn_length * 1.5) )
+Button(startup_gui, Rect(gui_length * 0.5, gui_height - 100, btn_length * 1.5, btn_height * 1.5) )
   .states_([["BOOM!", Color.black, Color.red]])
   .mouseDownAction_({ run.() });
 
@@ -136,7 +145,8 @@ after_boot = {
     "looping.scd",
     "instr/com_sample_map.scd",
     "jams.scd",
-    "task_master.scd"
+    "task_master.scd",
+    "isntr/com.scd"
   ].do {|file|
     (~maindir ++ file).load;
     s.sync;

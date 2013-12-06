@@ -1,16 +1,13 @@
 var o, p;
 o = [
-	IdentityDictionary.prNew,  Array.prNew(16)
+	IdentityDictionary.prNew,  Array.prNew(4)
 ];
 p = [
 	// IdentityDictionary
-	0, [ array: o[1],  size: 3,  
+	0, [ array: o[1],  size: 0,  
 		proto: nil,  parent: nil,  
 		know: false ],  
 	// Array
-	1, [ nil,  nil,  nil,  nil,  
-		'tuba',  1693769451,  'sax',  -549635271,  
-		nil,  nil,  'drums',  -1815496440,  
-		nil,  nil,  nil,  nil ]
+	1, [ nil,  nil,  nil,  nil ]
 ];
 prUnarchive(o,p);
