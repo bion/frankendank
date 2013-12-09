@@ -8,23 +8,17 @@
 ~tuba_gate_thresh = -30.dbamp;
 
 ~spoof_horns = false;
-~do_bus_map_overrides = false;
+~do_bus_map_overrides = true;
 ~bus_map_overrides = IdentityDictionary[
   \main_out_0 -> 3,
 
-  \com_mon_out -> 2,
+  \com_mon_out -> 0,
   \drums_mon_out -> 2,
   \nugs_mon_out -> 2,
   \tub_mon_out -> 2,
-  \sax_mon_out -> 2,
+  \sax_mon_out -> 2
 ];
 
 load(~maindir ++ "main.scd");
 )
-s.queryAllNodes
-~p_synths[\com_mon].free
-~p_synths[\sax_mon].free
-~p_synths[\tub_mon].free
-~p_synths[\nugs_mon].set(\outbus, 2);
-~p_synths[\drums_mon].set(\outbus, 2);
 

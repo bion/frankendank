@@ -137,7 +137,7 @@
     d_med = In.ar(d_med_bus, 1);
     d_hi = In.ar(d_hi_bus, 1);
 
-		metranome = In.ar(metranome_bus);
+    metranome = In.ar(metranome_bus);
 
     tub = Compander.ar(tub, d_low, -42.dbamp, 1, 1/5, 0.002, \tub_relax.kr(0.05, 0.03));
     // sax = Compander.ar(sax, d_hi, -42.dbamp, 1, 1/10, 0.002, 0.02);
@@ -153,14 +153,19 @@
   SynthDef(\mon, {
     arg inbus, outbus, metranome_bus,
       drum_scale=1, sax_scale=1, tub_scale=1, com_scale=1, met_scale=1;
-    var drums, sax, tub, com, out;
-    #tub, sax, com, drums = In.ar(inbus, 4);
+    var drums, sax, tub, com, out, instr, metranome;
 
-    out = (drums * drum_scale)
+    #tub, sax, com, drums = In.ar(inbus, 4);
+    metranome = In.ar(metranome_bus, 1) * met_scale;
+
+    instr = (drums * drum_scale)
       + (tub * tub_scale)
       + (sax * sax_scale)
-      + (com * com_scale)
-      + (In.ar(metranome_bus, 1) * met_scale);
+      + (com * com_scale);
+
+    instr = Compander.ar(instr, metranome, -42.dbamp, 1, 1/5, 0.002, 0.02);
+
+    out = instr + metranome;
     Out.ar(outbus, out);
   }),
 

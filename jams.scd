@@ -117,7 +117,7 @@
       \measures -> [
         [4,
           [PC(\a, 4)],
-          [(beat: 0, action_type: \quit)]
+          [(beat: 1, action_type: \quit)]
         ]
       ]
     ]

@@ -1,92 +1,21 @@
 s.queryAllNodes
-~loop_touch.(IdentityDictionary[\instr -> \sax, \num -> 0]);
-~loops[\sax][0]
-~toggle_loop_jam.()
-(
-AbstractResponderFunc.allEnabled.keysValuesDo {|key, value|
-  postln("key: " ++ key);
-  postln("value: " ++ value);
-}
-)
 
-~loops[\sax][0]
+~toggle_loop_jam.()
+
 ~h_filt.(\sax_f1)
 ~h_synth.(\sax_s1)
 
-~maindir = "/Users/bionjohnson/Documents/sound projects/Current/EB/Main";
-
-MIDIFunc.trace(true)
-MIDIFunc.trace(false)
-(
-MIDIFunc.cc({arg num, chan, src;
-  [num, chan, src].postln;
-})
-)
 MIDIClient.sources
 MIDIClient.init;
 MIDIIn.connectAll;
-s.boot
-~buf = Buffer.read(s, "/Users/bionjohnson/Documents/sound projects/Current/EB/Main/samples/drum/hi.snick_1.aiff")
-(
-SynthDef(\buf1, {|bufnum|
-  Out.ar([0, 1], PlayBuf.ar(1, bufnum, BufRateScale.ir(bufnum), doneAction: 2));
-}).add;
-)
-Platform.userConfigDir
 
-MIDIClient.init;
-MIDIIn.connectAll;
-MIDIClient.sources;
-~uid = MIDIClient.sources[0].uid;
-MIDIdef.program(\whodunnit, {arg ...args; args.postln; "this one".postln;}, 0, -1815496440, {arg val; val==0});
-MIDIdef.program(\whodunnsit, {arg ...args; "that one".postln;}, 0, -1815496440, {arg val; val.postln; true});
 MIDIdef.all;
 MIDIdef.freeAll;
-~mSrc[\drums]
-(
-a = NoteOnResponder({|src, chan, note, vel|
-  Synth(\buf1, [\bufnum, ~buf]);
-  "working!".postln;
-}, nil, nil, nil, nil)
-)
-(
-currentEnvironment.keysValuesDo {|k, v|
-  postln("key: " ++ k);
-  postln("value: " ++ v);
-};
-)
-~loop_this_jam = false;
 
-~clock.sched(~clock.timeToNextBeat, ~scheduler);
+MIDIFunc.trace(true);
+MIDIFunc.trace(false);
 
-(
-  a = Environment.make({~two = 2; ~one = 1});
-  a.removeAll;
-  a;
-)
-(
-  MIDIdef.freeAll
-a = MIDIFunc.noteOn({arg ...args; args.postln});
-b = MIDIFunc.program({arg ...args; args.postln});
-MIDIClient.sources[0].port
-)
-d = IdentityDictionary[];
-(
-  s.makeBundle(0.025, { b = Synth(\default) });
-  d[\one] = b;
-)
-
-(
-  a = s.makeBundle(false, {
-    Synth(\default);
-  });
-
-  a = s.makeBundle(false, {
-    Synth(\default);
-  }, a);
-  a = s.makeBundle(0.025, { }, a);
-
-)
+Platform.userConfigDir;
 
 /* ___________________________________________ horn MIDI spoof */
 
@@ -100,4 +29,3 @@ d = IdentityDictionary[];
   play { LinExp.kr(SinOsc.kr.range(0, 0.7), -32, -10, .max(160).poll }
   ~p_synths;
 )
-
