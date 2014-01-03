@@ -1,5 +1,5 @@
 (
-  var drum_sample_dir = (~maindir ++ "/samples/drum/"),
+  var drum_sample_dir = "./samples/drum/".resolveRelative,
     low_sample_paths = (drum_sample_dir ++ "low/*").pathMatch,
     med_sample_paths = (drum_sample_dir ++ "med/*").pathMatch,
     hi_sample_paths = (drum_sample_dir ++ "hi/*").pathMatch,
@@ -14,7 +14,7 @@
       var name = path.findRegexp("([0-9a-zA-Z\_]+)\.aiff")[1][1];
       ~drums.add(
         name.asSymbol -> (
-          function: \basic_sample,  
+          function: \basic_sample,
           buffer: Buffer.read(s, path),
           register: register[i]
         )

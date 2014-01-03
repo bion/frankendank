@@ -1,7 +1,5 @@
 drum pad uid not loading properly
 
-sax synths not turning off
-
 not a good balance between electric drums and everything else
 
 resetAll button for FCBs

@@ -1,5 +1,5 @@
 /*
-  Each jam has keys for 
+  Each jam has keys for
   loop -> boolean for whether or not it is a loopable jam
   measures -> Array of arrays, each nested array has
     [0] == number of eighth notes in measure
@@ -44,7 +44,7 @@
       ]
     ],
 
-		\tango ->  IdentityDictionary[
+        \tango ->  IdentityDictionary[
       \loop -> true,
       \measures -> [
         [8,
@@ -84,7 +84,7 @@
         [8,
           [PC(\a, 4)]]
       ]
-		],
+        ],
 
     \test_1 -> IdentityDictionary[
       \loop -> false,
@@ -126,7 +126,7 @@
 ~setlist = [
   \blank_two_measures,
 
-	\tango,
+    \tango,
 
   \quit
 ].collect {|dict, i| jams[dict].dup[0].put(\index, i)};

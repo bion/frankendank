@@ -59,7 +59,7 @@ MIDIdef.cc(\tub_volume, {|val| ~p_synths[\tub_v].set(\amp, val) }, 7, 0, uid);
 
 toggle_relax = {
   var responder = MIDIdef(\tub_relax);
-  if (responder.enabled) { 
+  if (responder.enabled) {
     responder.disable;
     MIDIdef(\tub_param).enable;
   } {

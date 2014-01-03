@@ -88,7 +88,7 @@ MIDIClient.sources.do {|source|
 load_btn = Button(startup_gui, Rect(instr_btn_left, gui_height - 100, btn_length * 1.5, btn_height * 1.5) )
   .states_( [ ["Load From Disk", Color.black], ["No Archive", Color.red] ] )
   .mouseDownAction_({
-    ~mSrc = Object.readArchive(~maindir ++ "/archive/mSrc");
+    ~mSrc = Object.readArchive("./archive/mSrc".resolveRelative);
     ~mSrc.keysValuesDo {|instr, midi_id|
       postln(instr ++ ": " ++ midi_id);
       activated_instr = activated_instr.add(instr);
@@ -167,7 +167,7 @@ after_boot = {
     s.quit;
   };
 
-  ~mSrc.writeArchive(~maindir ++ "/archive/mSrc");
+  ~mSrc.writeArchive("./archive/mSrc".resolveRelative);
 
   ~scheduler.();
   startup_gui.close;

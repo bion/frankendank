@@ -241,7 +241,7 @@
     out = Compander.ar(out, out, -24.dbamp, 1, 0.25, 0.05, 0.05, 2);
     Out.ar(outbus, amp * out);
   }),
-  
+
   SynthDef(\tub_subbass, {
     arg hornDataBus, pedal_amp_bus, bus, gate=1;
     var pitch, hasPitch, amp, onset, control, synth, out;

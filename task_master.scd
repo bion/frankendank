@@ -59,7 +59,7 @@
   ~set_chord = {|chord| {
     ~current_chord = chord;
     ~update_synths_with_chord.(chord);
-  }}; 
+  }};
 
   // TODO TODO TODO synths not dying off when they should, stacking up
   ~update_synths_with_chord = {|chord|

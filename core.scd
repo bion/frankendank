@@ -1,7 +1,7 @@
 (
   var docpath = thisProcess.nowExecutingPath,
   // metranome
-    met_sfd = (~maindir ++ "met_sfs/*").pathMatch, // natural numbers
+    met_sfd = "./met_sfs/*".resolveRelative.pathMatch, // natural numbers
     playing = IdentityDictionary[];
 
   ~clock = TempoClock(~tempo, queueSize: 2**10);
@@ -63,7 +63,7 @@
     } {
       ~met_bufs = Array.newClear(met_sfd.size);
       met_sfd.do {|path, i|
-      
+
       ~met_bufs[i] = Buffer.read(s, path) };
   };
 
