@@ -3,7 +3,7 @@
 
   ~current_set = 0;
 
-  load(~maindir ++ "/instr/drum_sample_map.scd");
+  loadRelative("./instr/drum_sample_map.scd");
 
   ~p_synths.add(
     \drums_mon -> Synth(\mon,
@@ -58,7 +58,7 @@
 
   ~drum_trig = {|pad_midi_number|
     var action_id, action;
-			pad_midi_number.postln;
+            pad_midi_number.postln;
       action_id = ~sample_sets[~current_set][pad_midi_number];
       action = ~drums[action_id];
     ~drum_funcs[action[\function]].(action);

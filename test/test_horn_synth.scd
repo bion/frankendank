@@ -39,7 +39,7 @@
 
     test_buf = Buffer.read(s, source_path);
 
-    "~/dev/frankendank/SD.scd".standardizePath.load;
+    loadRelative("./SD.scd");
 
     s.sync(cond);
 

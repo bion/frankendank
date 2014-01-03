@@ -68,7 +68,7 @@ MIDIClient.sources.do {|source|
       postln("deactiving " ++ instr ++ "...");
       midi_listener.free;
       postln("removed listener for " ++ midi_listener.key);
-      if (MIDIdef.all != []) { Error("untracked MIDIdef!!!").throw }; 
+      if (MIDIdef.all != []) { Error("untracked MIDIdef!!!").throw };
       AppClock.sched(0, {
         update_button.(instr_buttons[instr], "off");
       });
@@ -134,20 +134,20 @@ after_boot = {
   var cond = Condition.new;
 
   [
-    "SD.scd",
-    "core.scd",
-    "looping.scd",
-    "instr/com_sample_map.scd",
-    "jams.scd",
-    "task_master.scd",
-    "instr/nugs.scd",
-    "instr/com.scd"
+    "SD",
+    "core",
+    "looping",
+    "instr/com_sample_map",
+    "jams",
+    "task_master",
+    "instr/nugs",
+    "instr/com"
   ].do {|file|
-    load(~maindir ++ file);
+    loadRelative("./" ++ file ++ ".scd");
     s.sync;
   };
 
-  activated_instr.do {|instr| load(~maindir ++ "instr/" ++ instr ++ ".scd") };
+  activated_instr.do {|instr| loadRelative("./instr/" ++ instr ++ ".scd") };
 
   s.sync(cond);
 

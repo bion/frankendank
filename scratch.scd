@@ -36,4 +36,4 @@ CmdPeriod.run
     );
 )
 
-j(~maindir++"instr/"++"drums"++".scd").load;
+loadRelative("./instr/"++"drums"++".scd");
