@@ -84,7 +84,11 @@ MIDIIn.program = {|src, chan, prog|
 
 127.do {|i|
   MIDIdef.noteOn(i.asSymbol,
-    {~drum_trig.(("drum_"++i).asSymbol)}, i, 0,  ~mSrc[\drum_pad]);
+    {
+      | val |
+      ~drum_trig.(("drum_"++i).asSymbol)
+    },
+    i, 0,  ~mSrc[\drum_pad]);
 };
 
 )
