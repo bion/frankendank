@@ -3,7 +3,7 @@ var run, after_boot,
   activated_instr = [], instr_buttons = IdentityDictionary[],
   instruments = [ \sax, \tuba, \drums, \com ],
 
-  gui_height = 350, gui_length = 600,
+  gui_height = 700, gui_length = 900,
   main_window = Window("her we go", Rect(250, 250, gui_length, gui_height)),
 
   btn_length = 80, btn_height = 30,
@@ -93,7 +93,7 @@ MIDIClient.sources.do {|source|
   });
 };
 
-load_btn = Button(main_window, Rect(instr_btn_left, gui_height - 100, btn_length * 1.5, btn_height * 1.5) )
+load_btn = Button(main_window, Rect(instr_btn_left, instr_btn_top + 40 + (3 * (btn_height + 40)), btn_length * 1.5, btn_height * 1.5) )
   .states_( [ ["Load From Disk", Color.black], ["No Archive", Color.red] ] )
   .mouseDownAction_({
     ~mSrc = Object.readArchive("./archive/mSrc".resolveRelative);
@@ -186,7 +186,9 @@ after_boot = {
   ~mSrc.writeArchive("./archive/mSrc".resolveRelative);
 
   ~scheduler.();
-  main_window.close;
+};
+
+main_window.onClose = {
 };
 
 main_window.front;
