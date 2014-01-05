@@ -1,5 +1,6 @@
 (
-var switch_uid = ~mSrc[\drums], pad_uid;
+var switch_uid = ~mSrc[\drums], pad_uid,
+basic_sample;
 
 ~current_set = 0;
 
@@ -20,17 +21,19 @@ loadRelative("./instr/drum_sample_map.scd");
     ~out_g ),
 );
 
+basic_sample = {| action, val |
+  ~buss[action[\register]].postln;
+  s.makeBundle(0.0, {
+    Synth(\playbuf_simple,
+      [ \buf, action[\buffer],
+        \amp, 0.25 * (val / 127.0 + -24.dbamp),
+        \bus, ~buss[action[\register]] ],
+      ~playbuf_g )
+  })
+};
+
 ~drum_funcs = IdentityDictionary[
-  \basic_sample -> {|action|
-    ~buss[action[\register]].postln;
-    s.makeBundle(0.025, {
-      Synth(\playbuf_simple,
-        [ \buf, action[\buffer],
-          \amp, 0.125,
-          \bus, ~buss[action[\register]] ],
-        ~playbuf_g )
-    })
-  },
+  \basic_sample -> basic_sample
 ];
 
 ~sample_sets = [
@@ -61,7 +64,7 @@ loadRelative("./instr/drum_sample_map.scd");
   pad_midi_number.postln;
   action_id = ~sample_sets[~current_set][pad_midi_number];
   action = ~drums[action_id];
-  ~drum_funcs[action[\function]].(action);
+  ~drum_funcs[action[\function]].(action, val);
 };
 
 MIDIIn.program = {|src, chan, prog|
@@ -86,7 +89,7 @@ MIDIIn.program = {|src, chan, prog|
   MIDIdef.noteOn(i.asSymbol,
     {
       | val |
-      ~drum_trig.(("drum_"++i).asSymbol)
+      ~drum_trig.(("drum_"++i).asSymbol, val)
     },
     i, 0,  ~mSrc[\drum_pad]);
 };
