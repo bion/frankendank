@@ -1,0 +1,23 @@
+* Thing that need to be done
+
+** Unplugged
+
+*** TODO resetAll button for FCBs
+
+*** TODO OO horn mgmt
+    group manager object
+    looping?
+    synths?
+    chains?
+
+*** TODO breath control for synths tracking jam chords
+
+*** TODO 4 filter drums banks
+
+*** TODO global filter control from axiom
+
+** Plugged
+
+*** TODO drum pad uid not loading properly
+
+*** TODO not a good balance between electric drums and everything else

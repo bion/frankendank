@@ -1,0 +1,13 @@
+* TESTING!!!!!
+
+** TODO button for performing a `git pull`
+
+** TODO drum basic sample scales usably with velocity
+
+** TODO all horn inputs work
+
+** TODO all horn filters work
+
+** TODO all horn synths works
+
+** TODO plugging in jams
