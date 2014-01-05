@@ -4,7 +4,7 @@ var run, after_boot,
   instruments = [ \sax, \tuba, \drums, \com ],
 
   gui_height = 350, gui_length = 600,
-  startup_gui = Window("her we go", Rect(250, 250, gui_length, gui_height)),
+  main_window = Window("her we go", Rect(250, 250, gui_length, gui_height)),
 
   btn_length = 80, btn_height = 30,
 
@@ -61,10 +61,10 @@ MIDIClient.sources.do {|source|
 // * * * * * * * * * * * * * * * * * * * * * * UI
 
 [ \sax, \tuba, \drums ].do {|instr, i|
-  StaticText(startup_gui, Rect(instr_btn_left, instr_btn_top + 20 + (i*(btn_height + 40)), btn_length, 10))
+  StaticText(main_window, Rect(instr_btn_left, instr_btn_top + 20 + (i*(btn_height + 40)), btn_length, 10))
   .string_(instr.asString);
 
-  instr_buttons[instr] = Button(startup_gui, Rect(instr_btn_left,
+  instr_buttons[instr] = Button(main_window, Rect(instr_btn_left,
                                                   instr_btn_top + 40 + (i*(btn_height + 40)),
                                                   btn_length,
                                                   btn_height)
@@ -93,7 +93,7 @@ MIDIClient.sources.do {|source|
   });
 };
 
-load_btn = Button(startup_gui, Rect(instr_btn_left, gui_height - 100, btn_length * 1.5, btn_height * 1.5) )
+load_btn = Button(main_window, Rect(instr_btn_left, gui_height - 100, btn_length * 1.5, btn_height * 1.5) )
   .states_( [ ["Load From Disk", Color.black], ["No Archive", Color.red] ] )
   .mouseDownAction_({
     ~mSrc = Object.readArchive("./archive/mSrc".resolveRelative);
@@ -105,18 +105,18 @@ load_btn = Button(startup_gui, Rect(instr_btn_left, gui_height - 100, btn_length
     };
   });
 
-tempo_box = NumberBox(startup_gui, Rect(tempo_box_left,
+tempo_box = NumberBox(main_window, Rect(tempo_box_left,
                                         tempo_box_top,
                                         tempo_box_length,
                                         tempo_box_height));
 
-StaticText(startup_gui, Rect(tempo_box_left,
+StaticText(main_window, Rect(tempo_box_left,
                              tempo_box_top - 50,
                              tempo_box_length,
                              tempo_box_height)).align_(\center).string_("tempo");
 
 tempo_spec = ControlSpec(60, 220, \lin, 1);
-tempo_slider = Slider(startup_gui, Rect(tempo_box_left, tempo_box_top + tempo_box_height + 20, 220, 40))
+tempo_slider = Slider(main_window, Rect(tempo_box_left, tempo_box_top + tempo_box_height + 20, 220, 40))
                 .value_(10) .action_({
                   var val = tempo_spec.map(tempo_slider.value);
                   tempo_box.value_(val);
@@ -124,7 +124,7 @@ tempo_slider = Slider(startup_gui, Rect(tempo_box_left, tempo_box_top + tempo_bo
                 });
 tempo_box.value_(tempo_spec.map(tempo_slider.value));
 
-Button(startup_gui, Rect(gui_length * 0.5, gui_height - 100, btn_length * 1.5, btn_height * 1.5) )
+Button(main_window, Rect(gui_length * 0.5, gui_height - 100, btn_length * 1.5, btn_height * 1.5) )
   .states_([["BOOM!", Color.black, Color.red]])
   .mouseDownAction_({ run.() });
 
@@ -186,8 +186,8 @@ after_boot = {
   ~mSrc.writeArchive("./archive/mSrc".resolveRelative);
 
   ~scheduler.();
-  startup_gui.close;
+  main_window.close;
 };
 
-startup_gui.front;
+main_window.front;
 )
