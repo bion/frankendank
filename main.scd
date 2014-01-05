@@ -34,7 +34,15 @@ var run, after_boot,
   update_button = {|b, string, color=nil|
     b.states = [[string.asString, Color.black, color]];
     b.refresh;
-  };
+  },
+
+// unfortunate hack
+// thisProcess.nowExecutingPath binds to nil when the interpreter is run from a GUI
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+thisPath = thisProcess.nowExecutingPath;
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+// end of unfortunate hack
+
 
 // * * * * * * * * * * * * * * * * * * * * * * GLOBALS
 
@@ -123,6 +131,13 @@ Button(startup_gui, Rect(gui_length * 0.5, gui_height - 100, btn_length * 1.5, b
 // * * * * * * * * * * * * * * * * * * * * * * RUN
 
 run = {
+    // unfortunate hack
+    // thisProcess.nowExecutingPath binds to nil when the interpreter is run from a GUI
+    // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+    thisProcess.nowExecutingPath_(thisPath);
+    // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+    // end of unfortunate hack
+
   Server.default = s = Server.local;
   s.latency = 0.02;
   s.options = ServerOptions.new.hardwareBufferSize = 128;
@@ -134,6 +149,7 @@ after_boot = {
   var cond = Condition.new;
 
   [
+    "config/config",
     "SD",
     "core",
     "looping",
