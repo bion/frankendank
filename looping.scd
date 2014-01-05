@@ -103,6 +103,15 @@ stop_loop = {|id, offset|
   postln("KILLED LOOP " ++ id);
 };
 
+~reset_instr = {|instr|
+  ~loops[instr].do {|dict|
+    if (loop_instance[\synth].notNil) { stop_loop.(id) };
+    loop_instance[\next_action] = record;
+    loop_instance[\dur] = 0.0;
+    instr ++ " LOOP RESET";
+  };
+};
+
 ~loops = IdentityDictionary[
   \sax -> Array.newClear(num_loops),
   \tub -> Array.newClear(num_loops)

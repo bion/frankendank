@@ -61,7 +61,7 @@ map_dic = {|num| IdentityDictionary[\instr -> \sax, \num -> num] };
     ~h_filt.(\sax_chorus);
   }],
   [8, { ~h_filt.(\sax_cynk_broad) }],
-  [9, { ~h_filt.(\sax_nother) }]
+  [9, { ~reset_all.(\sax) }]
 ].do {|pair|
   MIDIdef.program(
     ("sax_"++pair[0]).asSymbol,

@@ -8,6 +8,20 @@ playing = IdentityDictionary[];
 
 /* ___________________________________ synth controllers */
 
+~reset_all = {|instr|
+  playing.keysValuesDo {| key, val |
+    if (key.asString[0 .. 2] == key.asString) {
+      val.set(\gate, 0);
+      val = nil;
+      playing[id] = nil;
+    };
+  };
+
+  ~p_synths[(instr ++ "_in").asSymbol].set(\amp, 1);
+
+  ~reset_instr.(instr);
+};
+
 ~h_filt = {|id|
   var node = playing[id];
   var instr = id.asString[0 .. 2];

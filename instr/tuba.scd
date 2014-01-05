@@ -43,8 +43,8 @@ map_dic = {|num| IdentityDictionary[\instr -> \tub, \num -> num] }, toggle_relax
   [5, { ~h_synth.(\tub_subbass) }],
   [6, { ~h_synth.(\tub_s1) }],
   [7, { ~h_synth.(\tub_s2) }],
-
-  [9,{ toggle_relax.() }]
+  [8, { toggle_relax.() }],
+  [9,{ ~reset_all.(\tub) }]
 ].do {|pair|
   MIDIdef.program(
     ("tub_"++pair[0]).asSymbol,
