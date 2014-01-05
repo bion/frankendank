@@ -1,7 +1,7 @@
 (
 var uid = ~mSrc[\tuba];
 var toggle_filt, ints_to_names = Array.newClear(100),
-  map_dic = {|num| IdentityDictionary[\instr -> \tub, \num -> num] }, toggle_relax;
+map_dic = {|num| IdentityDictionary[\instr -> \tub, \num -> num] }, toggle_relax;
 
 [
   [\tub_mon, Synth(\mon,
@@ -71,7 +71,7 @@ toggle_relax = {
 MIDIdef.cc(\tub_relax, {|val|
   var relax = val * 127.reciprocal * ~tempo;
   ~p_synths[\agg].set(\tub_relax, relax);
-  }, 27, 0, uid);
+}, 27, 0, uid);
 
 "TUBA LOADED".postln;
 )

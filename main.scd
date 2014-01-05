@@ -1,40 +1,40 @@
 (
 var run, after_boot,
-  activated_instr = [], instr_buttons = IdentityDictionary[],
-  instruments = [ \sax, \tuba, \drums, \com ],
+activated_instr = [], instr_buttons = IdentityDictionary[],
+instruments = [ \sax, \tuba, \drums, \com ],
 
-  gui_height = 700, gui_length = 900,
-  main_window = Window("her we go", Rect(250, 250, gui_length, gui_height)),
+gui_height = 700, gui_length = 900,
+main_window = Window("her we go", Rect(250, 250, gui_length, gui_height)),
 
-  btn_length = 80, btn_height = 30,
+btn_length = 80, btn_height = 30,
 
-  load_btn,
+load_btn,
 
-  instr_btn_left = 10, instr_btn_top = 10,
+instr_btn_left = 10, instr_btn_top = 10,
 
-  tempo_slider, tempo_box,
-  tempo_box_top = gui_height * 0.25, tempo_box_left = gui_length * 0.5,
-  tempo_box_height = 60, tempo_box_length = 100,
-  tempo_spec,
+tempo_slider, tempo_box,
+tempo_box_top = gui_height * 0.25, tempo_box_left = gui_length * 0.5,
+tempo_box_height = 60, tempo_box_length = 100,
+tempo_spec,
 
-  midi_listener,
-  make_midi_listener = {|instr|
-    midi_listener = MIDIdef(instr,
-      func: { |num, chan, source|
-        ~mSrc[instr] = source;
-        midi_listener.free;
-        AppClock.sched(0, {
-          update_button.(instr_buttons[instr], instr ++ " active", Color.green)
-        });
-      },
-      msgType: \program
-    );
-  },
+midi_listener,
+make_midi_listener = {|instr|
+  midi_listener = MIDIdef(instr,
+    func: { |num, chan, source|
+      ~mSrc[instr] = source;
+      midi_listener.free;
+      AppClock.sched(0, {
+        update_button.(instr_buttons[instr], instr ++ " active", Color.green)
+      });
+    },
+    msgType: \program
+  );
+},
 
-  update_button = {|b, string, color=nil|
-    b.states = [[string.asString, Color.black, color]];
-    b.refresh;
-  },
+update_button = {|b, string, color=nil|
+  b.states = [[string.asString, Color.black, color]];
+  b.refresh;
+},
 
 // unfortunate hack
 // thisProcess.nowExecutingPath binds to nil when the interpreter is run from a GUI
@@ -65,9 +65,9 @@ MIDIClient.sources.do {|source|
   .string_(instr.asString);
 
   instr_buttons[instr] = Button(main_window, Rect(instr_btn_left,
-                                                  instr_btn_top + 40 + (i*(btn_height + 40)),
-                                                  btn_length,
-                                                  btn_height)
+    instr_btn_top + 40 + (i*(btn_height + 40)),
+    btn_length,
+    btn_height)
   )
   .states_([["off"]])
   .mouseDownAction_({
@@ -94,49 +94,49 @@ MIDIClient.sources.do {|source|
 };
 
 load_btn = Button(main_window, Rect(instr_btn_left, instr_btn_top + 40 + (3 * (btn_height + 40)), btn_length * 1.5, btn_height * 1.5) )
-  .states_( [ ["Load From Disk", Color.black], ["No Archive", Color.red] ] )
-  .mouseDownAction_({
-    ~mSrc = Object.readArchive("./archive/mSrc".resolveRelative);
-    ~mSrc.keysValuesDo {|instr, midi_id|
-      postln(instr ++ ": " ++ midi_id);
-      activated_instr = activated_instr.add(instr);
-      update_button(instr_buttons[instr], "active", Color.green);
-      load_btn.destroy;
-    };
-  });
+.states_( [ ["Load From Disk", Color.black], ["No Archive", Color.red] ] )
+.mouseDownAction_({
+  ~mSrc = Object.readArchive("./archive/mSrc".resolveRelative);
+  ~mSrc.keysValuesDo {|instr, midi_id|
+    postln(instr ++ ": " ++ midi_id);
+    activated_instr = activated_instr.add(instr);
+    update_button(instr_buttons[instr], "active", Color.green);
+    load_btn.destroy;
+  };
+});
 
 tempo_box = NumberBox(main_window, Rect(tempo_box_left,
-                                        tempo_box_top,
-                                        tempo_box_length,
-                                        tempo_box_height));
+  tempo_box_top,
+  tempo_box_length,
+  tempo_box_height));
 
 StaticText(main_window, Rect(tempo_box_left,
-                             tempo_box_top - 50,
-                             tempo_box_length,
-                             tempo_box_height)).align_(\center).string_("tempo");
+  tempo_box_top - 50,
+  tempo_box_length,
+  tempo_box_height)).align_(\center).string_("tempo");
 
 tempo_spec = ControlSpec(60, 220, \lin, 1);
 tempo_slider = Slider(main_window, Rect(tempo_box_left, tempo_box_top + tempo_box_height + 20, 220, 40))
-                .value_(10) .action_({
-                  var val = tempo_spec.map(tempo_slider.value);
-                  tempo_box.value_(val);
-                  ~tempo = val/60;
-                });
+.value_(10) .action_({
+  var val = tempo_spec.map(tempo_slider.value);
+  tempo_box.value_(val);
+  ~tempo = val/60;
+});
 tempo_box.value_(tempo_spec.map(tempo_slider.value));
 
 Button(main_window, Rect(gui_length * 0.5, gui_height - 100, btn_length * 1.5, btn_height * 1.5) )
-  .states_([["BOOM!", Color.black, Color.red]])
-  .mouseDownAction_({ run.() });
+.states_([["BOOM!", Color.black, Color.red]])
+.mouseDownAction_({ run.() });
 
 // * * * * * * * * * * * * * * * * * * * * * * RUN
 
 run = {
-    // unfortunate hack
-    // thisProcess.nowExecutingPath binds to nil when the interpreter is run from a GUI
-    // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
-    thisProcess.nowExecutingPath_(thisPath);
-    // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
-    // end of unfortunate hack
+  // unfortunate hack
+  // thisProcess.nowExecutingPath binds to nil when the interpreter is run from a GUI
+  // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+  thisProcess.nowExecutingPath_(thisPath);
+  // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+  // end of unfortunate hack
 
   Server.default = s = Server.local;
   s.latency = 0.02;

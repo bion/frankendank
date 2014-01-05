@@ -1,20 +1,20 @@
 /*
-sax preamp gain: 3
-LOOP CLEAR NOT WORKING
+  sax preamp gain: 3
+  LOOP CLEAR NOT WORKING
 
-FCB1010 notes:
-buttons are type: program, src: big int, chan: 0, num: button#
-pedals are type: control, src: same big int, chan: 0, ccNum: (a: 27, b: 7), val: 0-127
-MIDIFunc.cc args: [val, ccNum, chan, srcID
+  FCB1010 notes:
+  buttons are type: program, src: big int, chan: 0, num: button#
+  pedals are type: control, src: same big int, chan: 0, ccNum: (a: 27, b: 7), val: 0-127
+  MIDIFunc.cc args: [val, ccNum, chan, srcID
 
-USB2.0-MIDI notes:
-buttons are type program, for button labeled '1':
-MIDIdef.program(\whodunnit, {|...args| args.postln; "this one".postln;}, 0, -1815496440, {|val| val==0});
+  USB2.0-MIDI notes:
+  buttons are type program, for button labeled '1':
+  MIDIdef.program(\whodunnit, {|...args| args.postln; "this one".postln;}, 0, -1815496440, {|val| val==0});
 */
 (
 var uid = ~mSrc[\sax];
 var toggle_filt, ints_to_names = Array.newClear(100),
-  map_dic = {|num| IdentityDictionary[\instr -> \sax, \num -> num] };
+map_dic = {|num| IdentityDictionary[\instr -> \sax, \num -> num] };
 
 [
   [\sax_mon, Synth(\mon,
@@ -53,7 +53,7 @@ var toggle_filt, ints_to_names = Array.newClear(100),
   // clear loop id must be a single string char
   [4, {~clear_loop.(\sax);}],
 
- // other
+  // other
   [5, { ~h_filt.(\sax_wah) }],
   [6, { ~h_synth.(\sax_delay) }],
   [7, {
