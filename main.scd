@@ -190,7 +190,7 @@ after_boot = {
 
 main_window.onClose = {
   CmdPeriod.run;
-  currentEnvironment = Environment.new;
+  0.exit;
 };
 
 currentEnvironment.do {_.free};
