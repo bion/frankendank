@@ -194,6 +194,6 @@ main_window.onClose = {
 };
 
 currentEnvironment.do {_.free};
-currentEnvironment
+
 main_window.front;
 )
