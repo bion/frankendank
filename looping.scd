@@ -104,10 +104,12 @@ stop_loop = {|id, offset|
 };
 
 ~reset_instr = {|instr|
-  ~loops[instr].do {|dict|
-    if (loop_instance[\synth].notNil) { stop_loop.(id) };
-    loop_instance[\next_action] = record;
-    loop_instance[\dur] = 0.0;
+  ~loops[instr].do {|dict, i|
+    if (dict[\synth].notNil) {
+      stop_loop.(IdentityDictionary[\instr -> instr, \num -> i]);
+    };
+    dict[\next_action] = record;
+    dict[\dur] = 0.0;
     instr ++ " LOOP RESET";
   };
 };

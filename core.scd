@@ -13,7 +13,7 @@ playing = IdentityDictionary[];
     if (key.asString[0 .. 2] == key.asString) {
       val.set(\gate, 0);
       val = nil;
-      playing[id] = nil;
+      playing[key] = nil;
     };
   };
 

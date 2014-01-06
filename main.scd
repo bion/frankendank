@@ -189,7 +189,11 @@ after_boot = {
 };
 
 main_window.onClose = {
+  CmdPeriod.run;
+  currentEnvironment = Environment.new;
 };
 
+currentEnvironment.do {_.free};
+currentEnvironment
 main_window.front;
 )
