@@ -1,8 +1,7 @@
-
 * Thing that need to be done
 
+*** TODO looping broken
 *** TODO metranome still playing when set to 0 in agg?
-
 *** TODO Rehearse with samples
     get them looping easily for rehearsal
 
