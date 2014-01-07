@@ -1,7 +1,4 @@
-
 * Thing that need to be done
-
-*** TODO metranome still playing when set to 0 in agg?
 
 *** TODO Rehearse with samples
     get them looping easily for rehearsal
@@ -16,8 +13,6 @@
     group manager object
     looping?
     synths?
-
-*** TODO tempo not setting properly on startup
 
 *** TODO breath control for synths tracking jam chords
 

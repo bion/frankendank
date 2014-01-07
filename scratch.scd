@@ -3,7 +3,6 @@ s.quit
 play{SinOsc.ar}
 play{*In.ar(9, 1)};
 play{SoundIn.ar}
-~buss[\metranome] = 3
 ~h_filt.(\sax_cynk_broad)
 ~h_filt.(\sax_wah)
 ~h_filt.(\sax_chorus);

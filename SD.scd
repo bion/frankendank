@@ -137,7 +137,7 @@
     d_med = In.ar(d_med_bus, 1);
     d_hi = In.ar(d_hi_bus, 1);
 
-    metranome = In.ar(metranome_bus);
+    metranome = 0;
 
     tub = Compander.ar(tub, d_low, -42.dbamp, 1, 1/5, 0.002, \tub_relax.kr(0.05, 0.03));
     // sax = Compander.ar(sax, d_hi, -42.dbamp, 1, 1/10, 0.002, 0.02);

@@ -1,11 +1,10 @@
 ~horn_gate_lag = 0.005;
 ~freq_lag_dur = 0.01;
-~tempo = 50/60;
 ~sax_gate_thresh = -46.dbamp;
 ~tuba_gate_thresh = -30.dbamp;
 
 ~spoof_horns = false;
-~do_bus_map_overrides = true;
+~do_bus_map_overrides = false;
 ~bus_map_overrides = IdentityDictionary[
   \main_out_0 -> 3,
 
