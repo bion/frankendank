@@ -17,6 +17,11 @@ tempo_box_top = gui_height * 0.25, tempo_box_left = gui_length * 0.5,
 tempo_box_height = 60, tempo_box_length = 100,
 tempo_spec,
 
+met_amp_slider, met_amp_box,
+met_amp_top = gui_height * 0.125, met_amp_left = gui_length * 0.25,
+met_amp_height = 60, met_amp_length = 100,
+met_amp_spec,
+
 midi_listener,
 make_midi_listener = {|instr|
   midi_listener = MIDIdef(instr,
@@ -124,12 +129,34 @@ StaticText(main_window, Rect(tempo_box_left,
 
 tempo_spec = ControlSpec(60, 220, \lin, 1);
 tempo_slider = Slider(main_window, Rect(tempo_box_left, tempo_box_top + tempo_box_height + 20, 220, 40))
-.value_(10) .action_({
+.value_(10)
+.action_({
   var val = tempo_spec.map(tempo_slider.value);
   tempo_box.value_(val);
   ~tempo = val/60;
+  if (~clock.notNil) { ~clock.tempo_(~tempo) };
 });
 tempo_box.value_(tempo_spec.map(tempo_slider.value));
+
+met_amp_box = NumberBox(main_window, Rect(met_amp_left,
+  met_amp_top,
+  met_amp_length,
+  met_amp_height
+));
+
+StaticText(main_window, Rect(met_amp_left,
+  met_amp_top - 50,
+  met_amp_length,
+  met_amp_height)).align_(\center).string_("metronome amp (db)");
+
+met_amp_spec = ControlSpec(-60, 0, \lin, 1);
+met_amp_slider = Slider(main_window, Rect(met_amp_left, met_amp_top + tempo_box_height + 20, 220, 40))
+.value_(10)
+.action_({
+  var val = met_amp_spec.map(met_amp_slider.value);
+  met_amp_box.value_(val);
+  ~metronome_amp = val.dbamp;
+});
 
 Button(main_window, Rect(gui_length * 0.5, gui_height - 100, btn_length * 1.5, btn_height * 1.5) )
 .states_([["BOOM!", Color.black, Color.red]])
