@@ -22,7 +22,6 @@ loadRelative("./drum_sample_map.scd");
 );
 
 basic_sample = {| action, val |
-  ~buss[action[\register]].postln;
   s.makeBundle(0.0, {
     Synth(\playbuf_simple,
       [ \buf, action[\buffer],
@@ -61,7 +60,6 @@ basic_sample = {| action, val |
 
 ~drum_trig = {|pad_midi_number, val|
   var action_id, action;
-  pad_midi_number.postln;
   action_id = ~sample_sets[~current_set][pad_midi_number];
   action = ~drums[action_id];
   ~drum_funcs[action[\function]].(action, val);
