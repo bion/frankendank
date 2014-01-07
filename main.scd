@@ -107,7 +107,7 @@ load_btn = Button(main_window, Rect(instr_btn_left, instr_btn_top + 40 + (3 * (b
   ~mSrc.keysValuesDo {|instr, midi_id|
     postln(instr ++ ": " ++ midi_id);
     activated_instr = activated_instr.add(instr);
-    update_button(instr_buttons[instr], "active", Color.green);
+    update_button.(instr_buttons[instr], "active", Color.green);
     load_btn.destroy;
   };
 });
