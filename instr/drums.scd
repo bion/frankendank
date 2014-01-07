@@ -4,7 +4,7 @@ basic_sample;
 
 ~current_set = 0;
 
-loadRelative("./instr/drum_sample_map.scd");
+loadRelative("./drum_sample_map.scd");
 
 ~p_synths.add(
   \drums_mon -> Synth(\mon,
@@ -59,7 +59,7 @@ basic_sample = {| action, val |
   ]
 ];
 
-~drum_trig = {|pad_midi_number|
+~drum_trig = {|pad_midi_number, val|
   var action_id, action;
   pad_midi_number.postln;
   action_id = ~sample_sets[~current_set][pad_midi_number];
@@ -87,8 +87,7 @@ MIDIIn.program = {|src, chan, prog|
 
 127.do {|i|
   MIDIdef.noteOn(i.asSymbol,
-    {
-      | val |
+    {| val |
       ~drum_trig.(("drum_"++i).asSymbol, val)
     },
     i, 0,  ~mSrc[\drum_pad]);

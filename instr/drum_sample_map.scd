@@ -1,5 +1,5 @@
 (
-var drum_sample_dir = "./samples/drum/".resolveRelative,
+var drum_sample_dir = "../samples/drum/".resolveRelative,
 low_sample_paths = (drum_sample_dir ++ "low/*").pathMatch,
 med_sample_paths = (drum_sample_dir ++ "med/*").pathMatch,
 hi_sample_paths = (drum_sample_dir ++ "hi/*").pathMatch,
