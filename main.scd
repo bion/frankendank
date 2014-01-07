@@ -96,6 +96,13 @@ MIDIClient.sources.do {|source|
 load_btn = Button(main_window, Rect(instr_btn_left, instr_btn_top + 40 + (3 * (btn_height + 40)), btn_length * 1.5, btn_height * 1.5) )
 .states_( [ ["Load From Disk", Color.black], ["No Archive", Color.red] ] )
 .mouseDownAction_({
+  // unfortunate hack
+  // thisProcess.nowExecutingPath binds to nil when the interpreter is run from a GUI
+  // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+  thisProcess.nowExecutingPath_(thisPath);
+  // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+  // end of unfortunate hack
+
   ~mSrc = Object.readArchive("./archive/mSrc".resolveRelative);
   ~mSrc.keysValuesDo {|instr, midi_id|
     postln(instr ++ ": " ++ midi_id);
