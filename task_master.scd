@@ -20,12 +20,12 @@
 
   upcoming_jam[\measures].do {|measure, i|
 
-    /* --------------------------- metranome ---------------------- */
+    /* --------------------------- metronome ---------------------- */
     // measure[0] = num eigths in measure
     (measure[0] / 2).floor.do {|i|
       var beats_away = beat_of_measure + i + ~clock.timeToNextBeat;
       ~clock.sched(beats_away - (s.latency / ~clock.beatDur), {
-        Synth(\playbuf_simple, [\outbus, ~buss[\metranome], \buf, ~met_bufs.wrapAt(i)], ~playbuf_g);
+        Synth(\playbuf_simple, [\outbus, ~buss[\metranome], \amp, ~metronome_amp, \buf, ~met_bufs.wrapAt(i)], ~playbuf_g);
       });
     };
 
