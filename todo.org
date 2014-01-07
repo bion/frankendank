@@ -1,14 +1,23 @@
+
 * Thing that need to be done
 
-** Unplugged
+*** TODO metranome still playing when set to 0 in agg?
+
+*** TODO Rehearse with samples
+    get them looping easily for rehearsal
+
+*** TODO tuba volume pedal kills all output
+*** TODO tuba and sax controls work simultaneously
 
 *** TODO resetAll button for FCBs
 
-*** TODO OO horn mgmt
+*** TODO OO horn mgmt    chains?
+
     group manager object
     looping?
     synths?
-    chains?
+
+*** TODO tempo not setting properly on startup
 
 *** TODO breath control for synths tracking jam chords
 
@@ -16,8 +25,9 @@
 
 *** TODO global filter control from axiom
 
-** Plugged
+*** TODO live adjust metranome volume
 
+*** TODO random dropouts (tuba expression pedal related?)
 *** TODO drum pad uid not loading properly
 
 *** TODO not a good balance between electric drums and everything else
