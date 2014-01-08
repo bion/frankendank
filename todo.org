@@ -1,3 +1,4 @@
+
 * Thing that need to be done
 
 *** TODO tuba and sax controls work simultaneously
@@ -6,16 +7,17 @@
 
 *** TODO random dropouts (tuba expression pedal related?)
 
+*** TODO looping broken
+
 *** TODO Rehearse with samples
+
+*** TODO tuba and sax controls work simultaneously
 
 *** TODO resetAll button for FCBs
 
 *** TODO breath control for synths tracking jam chords
-
 *** TODO 4 filter drums banks
-
 *** TODO global filter control from axiom
-
 *** TODO OO horn mgmt chains?
     group manager object
     looping?
