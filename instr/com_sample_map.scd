@@ -1,5 +1,5 @@
 (
-var com_sample_dir = "./samples/com/".resolveRelative,
+var com_sample_dir = "../samples/com/".resolveRelative,
 com_sample_paths = (com_sample_dir ++ "*").pathMatch;
 
 ~com_bufs = IdentityDictionary[];

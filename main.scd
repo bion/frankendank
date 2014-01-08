@@ -10,9 +10,14 @@ btn_length = 80, btn_height = 30,
 
 load_btn, start_btn,
 
+simple_loops_btn,
+simple_loops_left = gui_length * 0.66, simple_loops_top = gui_height * 0.125,
+currently_looping = false, wait_next_loops, looping_synth, schedule_simple_loops,
+simple_loops_buf_name, simple_loops_list,
+
 instr_btn_left = 10, instr_btn_top = 10,
 
-tempo_slider, tempo_box,
+tempo_slider, tempo_box, simple_loops,
 tempo_box_top = gui_height * 0.125, tempo_box_left = gui_length * 0.375,
 tempo_box_height = 30, tempo_box_length = 50,
 tempo_spec,
@@ -36,6 +41,24 @@ make_midi_listener = {|instr|
   );
 },
 
+make_labeled_slider = { | window, left, top, lo, hi, text, fxn |
+  var box, slider, spec;
+  box = NumberBox(main_window, Rect(left, top, tempo_box_length, tempo_box_height)).align_(\center);
+
+  StaticText(main_window, Rect(left, top - 50, tempo_box_length, tempo_box_height))
+  .align_(\center).string_(text);
+
+  spec = ControlSpec(lo, hi, \lin, 1);
+  slider = Slider(window, Rect(left - 50, top - 50, 40, 180))
+  .orientation_(\vertical)
+  .value_(hi)
+  .action_({
+    var val = spec.map(slider.value);
+    box.value_(val);
+    fxn.(val);
+  });
+},
+
 update_button = {|b, string, color=nil|
   b.states = [[string.asString, Color.black, color]];
   b.refresh;
@@ -47,7 +70,6 @@ update_button = {|b, string, color=nil|
 thisPath = thisProcess.nowExecutingPath;
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 // end of unfortunate hack
-
 
 // * * * * * * * * * * * * * * * * * * * * * * GLOBALS
 
@@ -117,6 +139,7 @@ load_btn = Button(main_window, Rect(instr_btn_left, instr_btn_top + 40 + (3 * (b
   };
 });
 
+
 tempo_box = NumberBox(main_window, Rect(tempo_box_left,
   tempo_box_top,
   tempo_box_length,
@@ -131,7 +154,7 @@ StaticText(main_window, Rect(tempo_box_left,
 tempo_spec = ControlSpec(60, 220, \lin, 1);
 tempo_slider = Slider(main_window, Rect(tempo_box_left - 50, tempo_box_top - 50, 40, 180))
 .orientation_(\vertical)
-.value_(10)
+.value_(220)
 .action_({
   var val = tempo_spec.map(tempo_slider.value);
   tempo_box.value_(val);
@@ -160,6 +183,52 @@ met_amp_slider = Slider(main_window, Rect(met_amp_left - 50, met_amp_top - 50, 4
   met_amp_box.value_(val);
   ~metronome_amp = val.dbamp;
 });
+
+make_labeled_slider.(main_window, simple_loops_left, simple_loops_top,
+  4, 64,
+  "beats in sample", {|val|
+    ~simple_loops_beats = val;
+});
+
+simple_loops_list = PopUpMenu(main_window, Rect(gui_length * 0.75, gui_height * 0.125 - 50, 180, 20))
+.items = "./samples/com/*".resolveRelative.pathMatch.collect { | path |
+  path.findRegexp("([0-9a-zA-Z\_]+)\.aiff")[1][1];
+};
+
+schedule_simple_loops = {
+  var buf = ~com_bufs[simple_loops_buf_name];
+  ~simple_loops_amp = 1;
+  "SCHEDULING SIMPLE LOOP...".postln;
+  ~clock.playNextBar({
+    postln("SIMPLE LOOP STARTED FOR " ++ buf);
+    looping_synth = Synth(\playbuf_simple, [\buf, buf, \amp, ~simple_loops_amp, \outbus, 0]);
+  });
+
+  wait_next_loops = fork {
+    wait(~clock.beatDur * ~simple_loops_beats);
+    schedule_simple_loops.();
+  };
+};
+
+simple_loops_btn = Button(main_window, Rect(gui_length * 0.75, gui_height * 0.125, btn_length, btn_height))
+.states_([["disabled", Color.black]])
+.mouseDownAction_({
+  if (currently_looping) {
+    wait_next_loops.stop.reset;
+    looping_synth.free;
+    AppClock.sched(0, {
+      update_button.(simple_loops_btn, "play", Color.red);
+    });
+    currently_looping = false;
+  } {
+    schedule_simple_loops.();
+    AppClock.sched(0, {
+      update_button.(simple_loops_btn, "stop", Color.green);
+    });
+    currently_looping = true;
+  };
+});
+
 
 start_btn = Button(main_window, Rect(gui_length * 0.5, gui_height - 100, btn_length * 1.5, btn_height * 1.5) )
 .states_([["BOOM!", Color.black, Color.red]])
@@ -204,16 +273,27 @@ after_boot = {
 
   s.sync(cond);
 
+  AppClock.sched(0, {
+    simple_loops_buf_name = simple_loops_list.item.asSymbol;
+    update_button.(simple_loops_btn, "play", Color.red);
+  });
+
   s.queryAllNodes;
 
   CmdPeriod.doOnce {
     s.freeAll;
     ~clock.clear.stop;
+    ~clock = nil;
     ~buss.keysValuesDo {|key, value| value.free };
     postln("busses freed");
     OSCFunc.allEnabled.do {|func| func.free};
     postln("OSCFuncs freed");
     ~loops.keysValuesDo {|key, value| value.keysValuesDo {|kk, vv| vv[\buffer].free }; };
+    AppClock.sched(0, {
+      update_button.(simple_loops_btn, "disabled", nil);
+      simple_loops.remove;
+    });
+
     postln("loop freed");
     MIDIdef.freeAll;
     postln("MIDIdefs freed");
