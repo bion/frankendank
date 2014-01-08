@@ -12,7 +12,7 @@ load_btn, start_btn,
 
 simple_loops_btn,
 simple_loops_left = gui_length * 0.66, simple_loops_top = gui_height * 0.125,
-currently_looping = false, wait_next_loops, looping_synth, schedule_simple_loops,
+currently_looping = false, wait_next_loops, simple_loops_group, schedule_simple_loops,
 simple_loops_buf_name, simple_loops_list,
 
 instr_btn_left = 10, instr_btn_top = 10,
@@ -201,26 +201,30 @@ schedule_simple_loops = {
   "SCHEDULING SIMPLE LOOP...".postln;
   ~clock.playNextBar({
     postln("SIMPLE LOOP STARTED FOR " ++ buf);
-    looping_synth = Synth(\playbuf_simple, [\buf, buf, \amp, ~simple_loops_amp, \outbus, 0]);
+    Synth(\playbuf_simple,
+      [\buf, buf, \amp, ~simple_loops_amp, \outbus, 0],
+      simple_loops_group, \addToHead
+    );
   });
 
-  wait_next_loops = fork {
+  wait_next_loops = Routine.run({
     wait(~clock.beatDur * ~simple_loops_beats);
-    schedule_simple_loops.();
-  };
+    if (currently_looping) { schedule_simple_loops.() };
+  });
 };
 
 simple_loops_btn = Button(main_window, Rect(gui_length * 0.75, gui_height * 0.125, btn_length, btn_height))
 .states_([["disabled", Color.black]])
 .mouseDownAction_({
   if (currently_looping) {
+    simple_loops_group.free;
     wait_next_loops.stop.reset;
-    looping_synth.free;
     AppClock.sched(0, {
       update_button.(simple_loops_btn, "play", Color.red);
     });
     currently_looping = false;
   } {
+    simple_loops_group = Group(s, \addToHead);
     schedule_simple_loops.();
     AppClock.sched(0, {
       update_button.(simple_loops_btn, "stop", Color.green);
