@@ -4,14 +4,14 @@ activated_instr = [], instr_buttons = IdentityDictionary[],
 instruments = [ \sax, \tuba, \drums, \com ],
 
 gui_height = 700, gui_length = 900,
-main_window = Window("her we go", Rect(250, 250, gui_length, gui_height)),
+main_window = Window("frankendank", Rect(250, 250, gui_length, gui_height)),
 
 btn_length = 80, btn_height = 30,
 
 load_btn, start_btn,
 
 simple_loops_btn,
-simple_loops_left = gui_length * 0.66, simple_loops_top = gui_height * 0.125,
+simple_loops_left = gui_length * 0.68, simple_loops_top = gui_height * 0.125,
 currently_looping = false, wait_next_loops, simple_loops_group, schedule_simple_loops,
 simple_loops_buf_name, simple_loops_list,
 
@@ -43,7 +43,7 @@ make_midi_listener = {|instr|
 
 make_labeled_slider = { | window, left, top, lo, hi, text, fxn |
   var box, slider, spec;
-  box = NumberBox(main_window, Rect(left, top, tempo_box_length, tempo_box_height)).align_(\center);
+  box = NumberBox(main_window, Rect(left, top, tempo_box_length, tempo_box_height)).align_(\center).value_(hi);
 
   StaticText(main_window, Rect(left, top - 50, tempo_box_length, tempo_box_height))
   .align_(\center).string_(text);
@@ -51,7 +51,7 @@ make_labeled_slider = { | window, left, top, lo, hi, text, fxn |
   spec = ControlSpec(lo, hi, \lin, 1);
   slider = Slider(window, Rect(left - 50, top - 50, 40, 180))
   .orientation_(\vertical)
-  .value_(hi)
+  .value_(hi - 0.001)
   .action_({
     var val = spec.map(slider.value);
     box.value_(val);
@@ -139,7 +139,6 @@ load_btn = Button(main_window, Rect(instr_btn_left, instr_btn_top + 40 + (3 * (b
   };
 });
 
-
 tempo_box = NumberBox(main_window, Rect(tempo_box_left,
   tempo_box_top,
   tempo_box_length,
@@ -190,6 +189,12 @@ make_labeled_slider.(main_window, simple_loops_left, simple_loops_top,
     ~simple_loops_beats = val;
 });
 
+make_labeled_slider.(main_window, simple_loops_left - 110, simple_loops_top, -60, 0,
+  "sample amp", {|val|
+    ~simple_loops_amp = val.dbamp;
+    if (currently_looping) { simple_loops_group.set(\amp, val.dbamp) };
+});
+
 simple_loops_list = PopUpMenu(main_window, Rect(gui_length * 0.75, gui_height * 0.125 - 50, 180, 20))
 .items = "./samples/com/*".resolveRelative.pathMatch.collect { | path |
   path.findRegexp("([0-9a-zA-Z\_]+)\.aiff")[1][1];
@@ -197,7 +202,6 @@ simple_loops_list = PopUpMenu(main_window, Rect(gui_length * 0.75, gui_height * 
 
 schedule_simple_loops = {
   var buf = ~com_bufs[simple_loops_buf_name];
-  ~simple_loops_amp = 1;
   "SCHEDULING SIMPLE LOOP...".postln;
   ~clock.playNextBar({
     postln("SIMPLE LOOP STARTED FOR " ++ buf);
