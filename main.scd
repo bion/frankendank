@@ -8,12 +8,12 @@ main_window = Window("her we go", Rect(250, 250, gui_length, gui_height)),
 
 btn_length = 80, btn_height = 30,
 
-load_btn,
+load_btn, start_btn,
 
 instr_btn_left = 10, instr_btn_top = 10,
 
 tempo_slider, tempo_box,
-tempo_box_top = gui_height * 0.25, tempo_box_left = gui_length * 0.5,
+tempo_box_top = gui_height * 0.125, tempo_box_left = gui_length * 0.5,
 tempo_box_height = 60, tempo_box_length = 100,
 tempo_spec,
 
@@ -158,7 +158,7 @@ met_amp_slider = Slider(main_window, Rect(met_amp_left, met_amp_top + tempo_box_
   ~metronome_amp = val.dbamp;
 });
 
-Button(main_window, Rect(gui_length * 0.5, gui_height - 100, btn_length * 1.5, btn_height * 1.5) )
+start_btn = Button(main_window, Rect(gui_length * 0.5, gui_height - 100, btn_length * 1.5, btn_height * 1.5) )
 .states_([["BOOM!", Color.black, Color.red]])
 .mouseDownAction_({ run.() });
 
@@ -220,6 +220,15 @@ after_boot = {
   ~mSrc.writeArchive("./archive/mSrc".resolveRelative);
 
   ~scheduler.();
+
+  start_btn
+  .states_([["Press to Stop", Color.black, Color.green]])
+  .mouseDownAction_({
+    CmdPeriod.run;
+    start_btn
+    .states_([["BOOM!", Color.black, Color.red]])
+    .mouseDownAction_({ run.() });
+  });
 };
 
 main_window.onClose = {
