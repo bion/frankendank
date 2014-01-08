@@ -13,13 +13,13 @@ load_btn, start_btn,
 instr_btn_left = 10, instr_btn_top = 10,
 
 tempo_slider, tempo_box,
-tempo_box_top = gui_height * 0.125, tempo_box_left = gui_length * 0.5,
-tempo_box_height = 60, tempo_box_length = 100,
+tempo_box_top = gui_height * 0.125, tempo_box_left = gui_length * 0.375,
+tempo_box_height = 30, tempo_box_length = 50,
 tempo_spec,
 
 met_amp_slider, met_amp_box,
 met_amp_top = gui_height * 0.125, met_amp_left = gui_length * 0.25,
-met_amp_height = 60, met_amp_length = 100,
+met_amp_height = 30, met_amp_length = 50,
 met_amp_spec,
 
 midi_listener,
@@ -120,7 +120,8 @@ load_btn = Button(main_window, Rect(instr_btn_left, instr_btn_top + 40 + (3 * (b
 tempo_box = NumberBox(main_window, Rect(tempo_box_left,
   tempo_box_top,
   tempo_box_length,
-  tempo_box_height));
+  tempo_box_height
+)).align_(\center);
 
 StaticText(main_window, Rect(tempo_box_left,
   tempo_box_top - 50,
@@ -128,7 +129,8 @@ StaticText(main_window, Rect(tempo_box_left,
   tempo_box_height)).align_(\center).string_("tempo");
 
 tempo_spec = ControlSpec(60, 220, \lin, 1);
-tempo_slider = Slider(main_window, Rect(tempo_box_left, tempo_box_top + tempo_box_height + 20, 220, 40))
+tempo_slider = Slider(main_window, Rect(tempo_box_left - 50, tempo_box_top - 50, 40, 180))
+.orientation_(\vertical)
 .value_(10)
 .action_({
   var val = tempo_spec.map(tempo_slider.value);
@@ -142,15 +144,16 @@ met_amp_box = NumberBox(main_window, Rect(met_amp_left,
   met_amp_top,
   met_amp_length,
   met_amp_height
-));
+)).align_(\center);
 
 StaticText(main_window, Rect(met_amp_left,
   met_amp_top - 50,
   met_amp_length,
-  met_amp_height)).align_(\center).string_("metronome amp (db)");
+  met_amp_height)).align_(\center).string_("met amp");
 
 met_amp_spec = ControlSpec(-60, 0, \lin, 1);
-met_amp_slider = Slider(main_window, Rect(met_amp_left, met_amp_top + tempo_box_height + 20, 220, 40))
+met_amp_slider = Slider(main_window, Rect(met_amp_left - 50, met_amp_top - 50, 40, 180))
+.orientation_(\vertical)
 .value_(10)
 .action_({
   var val = met_amp_spec.map(met_amp_slider.value);
