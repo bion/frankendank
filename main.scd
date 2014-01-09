@@ -17,16 +17,6 @@ simple_loops_buf_name, simple_loops_list,
 
 instr_btn_left = 10, instr_btn_top = 10,
 
-tempo_slider, tempo_box, simple_loops,
-tempo_box_top = gui_height * 0.125, tempo_box_left = gui_length * 0.375,
-tempo_box_height = 30, tempo_box_length = 50,
-tempo_spec,
-
-met_amp_slider, met_amp_box,
-met_amp_top = gui_height * 0.125, met_amp_left = gui_length * 0.25,
-met_amp_height = 30, met_amp_length = 50,
-met_amp_spec,
-
 midi_listener,
 make_midi_listener = {|instr|
   midi_listener = MIDIdef(instr,
@@ -43,15 +33,15 @@ make_midi_listener = {|instr|
 
 make_labeled_slider = { | window, left, top, lo, hi, text, fxn |
   var box, slider, spec;
-  box = NumberBox(main_window, Rect(left, top, tempo_box_length, tempo_box_height)).align_(\center).value_(hi);
+  box = NumberBox(main_window, Rect(left, top, 50, 30)).align_(\center).value_(hi);
 
-  StaticText(main_window, Rect(left, top - 50, tempo_box_length, tempo_box_height))
+  StaticText(main_window, Rect(left, top - 50, 50, 30))
   .align_(\center).string_(text);
 
   spec = ControlSpec(lo, hi, \lin, 1);
   slider = Slider(window, Rect(left - 50, top - 50, 40, 180))
   .orientation_(\vertical)
-  .value_(hi - 0.001)
+  .value_(1)
   .action_({
     var val = spec.map(slider.value);
     box.value_(val);
@@ -139,48 +129,17 @@ load_btn = Button(main_window, Rect(instr_btn_left, instr_btn_top + 40 + (3 * (b
   };
 });
 
-tempo_box = NumberBox(main_window, Rect(tempo_box_left,
-  tempo_box_top,
-  tempo_box_length,
-  tempo_box_height
-)).align_(\center);
-
-StaticText(main_window, Rect(tempo_box_left,
-  tempo_box_top - 50,
-  tempo_box_length,
-  tempo_box_height)).align_(\center).string_("tempo");
-
-tempo_spec = ControlSpec(60, 220, \lin, 1);
-tempo_slider = Slider(main_window, Rect(tempo_box_left - 50, tempo_box_top - 50, 40, 180))
-.orientation_(\vertical)
-.value_(220)
-.action_({
-  var val = tempo_spec.map(tempo_slider.value);
-  tempo_box.value_(val);
-  ~tempo = val/60;
-  if (~clock.notNil) { ~clock.tempo_(~tempo) };
+make_labeled_slider.(main_window, gui_length * 0.375, gui_height * 0.125,
+  60, 220,
+  "tempo", {|val|
+    ~tempo = val/60;
+    if (~clock.notNil) { ~clock.tempo_(~tempo) };
 });
-tempo_box.value_(tempo_spec.map(tempo_slider.value));
 
-met_amp_box = NumberBox(main_window, Rect(met_amp_left,
-  met_amp_top,
-  met_amp_length,
-  met_amp_height
-)).align_(\center);
-
-StaticText(main_window, Rect(met_amp_left,
-  met_amp_top - 50,
-  met_amp_length,
-  met_amp_height)).align_(\center).string_("met amp");
-
-met_amp_spec = ControlSpec(-60, 0, \lin, 1);
-met_amp_slider = Slider(main_window, Rect(met_amp_left - 50, met_amp_top - 50, 40, 180))
-.orientation_(\vertical)
-.value_(10)
-.action_({
-  var val = met_amp_spec.map(met_amp_slider.value);
-  met_amp_box.value_(val);
-  ~metronome_amp = val.dbamp;
+make_labeled_slider.(main_window, gui_length * 0.25, gui_height * 0.125,
+  -60, 0,
+  "met amp", {|val|
+    ~metronome_amp = val.dbamp;
 });
 
 make_labeled_slider.(main_window, simple_loops_left, simple_loops_top,
@@ -299,7 +258,6 @@ after_boot = {
     ~loops.keysValuesDo {|key, value| value.keysValuesDo {|kk, vv| vv[\buffer].free }; };
     AppClock.sched(0, {
       update_button.(simple_loops_btn, "disabled", nil);
-      simple_loops.remove;
     });
 
     postln("loop freed");
@@ -324,9 +282,8 @@ after_boot = {
 
 main_window.onClose = {
   CmdPeriod.run;
-  0.exit;
+  if (thisProcess.platform.name != \osx) { 0.exit };
 };
-
 currentEnvironment.do {_.free};
 
 main_window.front;
