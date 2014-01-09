@@ -8,7 +8,9 @@ play{SoundIn.ar}
 ~h_filt.(\sax_chorus);
 ~h_filt.(\sax_shaper);
 ~h_filt.(\sax_comp);
+~reset_all.(\tub);
 s.gui
+s.queryAllNodes
 ~h_synth.(\tub_subbass)
 ~h_synth.(\tub_s1)
 ~h_synth.(\tub_s2)
@@ -17,7 +19,6 @@ s.gui
 ~h_filt.(\sax_nother)
 ~h_filt.(\sax_delay)
 ~h_filt.(\sax_bladunner)
-s.queryAllNodes
 s.makeGui
 MIDIClient.init
 MIDIdef.trace(true);

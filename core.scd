@@ -10,7 +10,7 @@ playing = IdentityDictionary[];
 
 ~reset_all = {|instr|
   playing.keysValuesDo {| key, val |
-    if (key.asString[0 .. 2] == key.asString) {
+    if (key.asString[0 .. 2] == instr.asString) {
       val.set(\gate, 0);
       val = nil;
       playing[key] = nil;
