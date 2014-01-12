@@ -63,6 +63,8 @@ thisPath = thisProcess.nowExecutingPath;
 
 // * * * * * * * * * * * * * * * * * * * * * * GLOBALS
 
+QtGUI.palette = QPalette.dark;
+
 ~mSrc = IdentityDictionary[];
 
 MIDIClient.init;
