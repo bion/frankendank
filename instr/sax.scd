@@ -20,10 +20,10 @@ map_dic = {|num| IdentityDictionary[\instr -> \sax, \num -> num] };
   [\sax_mon, Synth(\mon,
     [
       \drum_scale, 1,
-      \sax_scale, 1,
+      \sax_scale, 3.dbamp,
       \tub_scale, 1,
       \com_scale, 1,
-      \met_scale, 1,
+      \met_scale, 2,
       \metranome_bus, ~buss[\metranome],
       \inbus, ~buss[\sax_mon],
       \outbus, ~id_bus_map[\sax_mon_out],
@@ -55,7 +55,7 @@ map_dic = {|num| IdentityDictionary[\instr -> \sax, \num -> num] };
 
   // other
   [5, { ~h_filt.(\sax_wah) }],
-  [6, { ~h_synth.(\sax_delay) }],
+  [6, { ~h_filt.(\sax_reverb) }],
   [7, {
     ~h_filt.(\sax_shaper);
     ~h_filt.(\sax_chorus);

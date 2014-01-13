@@ -376,8 +376,8 @@
     arg pbus, bus, gate=1;
     var chain, control;
     chain = In.ar(bus, 1);
-    control = LinExp.kr(In.kr(pbus).lag3(0.01), 0, 127, 200, 2000);
-    chain = MoogFF.ar(chain, control, 1.2);
+    control = LinExp.kr(In.kr(pbus).lag3(0.01), 0, 127, 400, 3000);
+    chain = MoogFF.ar(chain, control, 1.2, 0, 4.5.dbamp);
     XOut.ar(bus, Linen.kr(gate, 0.05, releaseTime: 0.05, doneAction: 2), chain);
   }),
 
@@ -429,7 +429,7 @@
     XOut.ar(bus, Linen.kr(gate, 0.05, releaseTime: 0.05, doneAction: 2), chain);
   }),
 
-  SynthDef(\sax_delay, {
+  SynthDef(\sax_reverb, {
     arg bus, gate=1, pbus;
     var in, chain, delay;
     in = In.ar(bus, 1);

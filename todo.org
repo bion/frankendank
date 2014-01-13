@@ -1,6 +1,8 @@
 
 * Thing that need to be done
 
+*** TODO make click louder and crisper
+
 *** TODO tuba volume pedal kills all output
 *** TODO tuba and sax controls work simultaneously
 

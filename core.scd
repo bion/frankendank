@@ -89,11 +89,11 @@ s.sync(~cond);
   \sax -> 8,
   \tub -> 9,
 
-  \com_mon_out -> 3,
-  \drums_mon_out -> 3,
-  \nugs_mon_out -> 4,
-  \tub_mon_out -> 5,
-  \sax_mon_out -> 6,
+  \com_mon_out -> 2,
+  \sax_mon_out -> 3,
+  \tub_mon_out -> 4,
+  \nugs_mon_out -> 5,
+  \drums_mon_out -> 6,
 
   \main_out_0 -> 0,
   \main_out_1 -> 1,

@@ -22,11 +22,11 @@ MIDIClient.sources.do {|source|
 [
   [\com_mon, Synth(\mon,
     [
-      \drum_scale, 1,
-      \sax_scale, 1,
-      \tub_scale, 1,
-      \com_scale, 1,
-      \met_scale, 1,
+      \drum_scale, -3.dbamp,
+      \sax_scale, -3.dbamp,
+      \tub_scale, -3.dbamp,
+      \com_scale, -3.dbamp,
+      \met_scale, -3.dbamp,
       \metranome_bus, ~buss[\metranome],
       \inbus, ~buss[\sax_mon],
       \outbus, ~id_bus_map[\com_mon_out],
