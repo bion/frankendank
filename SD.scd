@@ -126,7 +126,7 @@
       d_low_bus, d_med_bus, d_hi_bus,
       drums_mon_bus, tub_mon_bus, sax_mon_bus, com_mon_bus, nugs_mon_bus,
       metranome_bus, sample_bus;
-    var sax, tub, com, out, metranome,
+    var sax, tub, com, out, metranome, sample,
       d_low, d_med, d_hi;
 
     sax = In.ar(sax_bus, 1) * 2.5;
@@ -153,7 +153,8 @@
   SynthDef(\mon, {
     arg inbus, outbus, metranome_bus,
       drum_scale=1, sax_scale=1, tub_scale=1, com_scale=1, met_scale=1;
-    var drums, sax, tub, com, out, instr, metranome;
+    var drums, sax, tub, com, out, sample,
+      instr, metranome;
 
     #tub, sax, com, sample, drums = In.ar(inbus, 5);
     metranome = In.ar(metranome_bus, 1) * met_scale;
