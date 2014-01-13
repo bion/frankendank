@@ -156,7 +156,8 @@ make_labeled_slider.(main_window, simple_loops_left - 110, simple_loops_top, -60
     if (currently_looping) { simple_loops_group.set(\amp, val.dbamp) };
 });
 
-simple_loops_list = PopUpMenu(main_window, Rect(gui_length * 0.75, gui_height * 0.125 - 50, 180, 20))
+simple_loops_list = PopUpMenu(main_window,
+  Rect(gui_length * 0.75, gui_height * 0.125 - 50, 180, 20))
 .items = "./samples/com/*".resolveRelative.pathMatch.collect { | path |
   path.findRegexp("([0-9a-zA-Z\_]+)\.aiff")[1][1];
 };
@@ -167,7 +168,7 @@ schedule_simple_loops = {
   ~clock.playNextBar({
     postln("SIMPLE LOOP STARTED FOR " ++ buf);
     Synth(\playbuf_simple,
-      [\buf, buf, \amp, ~simple_loops_amp, \outbus, 0],
+      [\buf, buf, \amp, ~simple_loops_amp, \outbus, ~buss[\sample]],
       simple_loops_group, \addToHead
     );
   });

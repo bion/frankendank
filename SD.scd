@@ -125,7 +125,7 @@
     arg sax_bus, tub_bus, com_bus, out_bus,
       d_low_bus, d_med_bus, d_hi_bus,
       drums_mon_bus, tub_mon_bus, sax_mon_bus, com_mon_bus, nugs_mon_bus,
-      metranome_bus;
+      metranome_bus, sample_bus;
     var sax, tub, com, out, metranome,
       d_low, d_med, d_hi;
 
@@ -137,16 +137,16 @@
     d_med = In.ar(d_med_bus, 1);
     d_hi = In.ar(d_hi_bus, 1);
 
-    metranome = 0;
+    metranome = In.ar(metranome_bus, 1);
+    sample = In.ar(sample_bus, 1);
 
     tub = Compander.ar(tub, d_low, -42.dbamp, 1, 1/5, 0.002, \tub_relax.kr(0.05, 0.03));
-    // sax = Compander.ar(sax, d_hi, -42.dbamp, 1, 1/10, 0.002, 0.02);
     com = Compander.ar(com, d_hi + sax, -42.dbamp, 1, 1/5, 0.002, 0.02);
 
-    Out.ar(out_bus, [tub, sax, com, d_low, d_med, d_hi].sum);
+    Out.ar(out_bus, [tub, sax, com, d_low, d_med, d_hi, sample].sum);
 
     [drums_mon_bus, nugs_mon_bus, tub_mon_bus, sax_mon_bus, com_mon_bus].do {|bus|
-      Out.ar(bus, [tub, sax, com, d_low + d_med + d_hi]);
+      Out.ar(bus, [tub, sax, com, sample, d_low + d_med + d_hi]);
     };
   }),
 
@@ -155,10 +155,11 @@
       drum_scale=1, sax_scale=1, tub_scale=1, com_scale=1, met_scale=1;
     var drums, sax, tub, com, out, instr, metranome;
 
-    #tub, sax, com, drums = In.ar(inbus, 4);
+    #tub, sax, com, sample, drums = In.ar(inbus, 5);
     metranome = In.ar(metranome_bus, 1) * met_scale;
 
     instr = (drums * drum_scale)
+      + (sample)
       + (tub * tub_scale)
       + (sax * sax_scale)
       + (com * com_scale);

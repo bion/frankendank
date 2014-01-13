@@ -1,3 +1,6 @@
+
+~loop_touch.(IdentityDictionary[\instr -> \sax, \num -> 2]);
+~clear_loop.(\sax);
 s.boot
 s.quit
 play{SinOsc.ar}
@@ -8,7 +11,7 @@ play{SoundIn.ar}
 ~h_filt.(\sax_chorus);
 ~h_filt.(\sax_shaper);
 ~h_filt.(\sax_comp);
-~reset_all.(\tub);
+~reset_all.(\sax);
 s.gui
 s.queryAllNodes
 ~h_synth.(\tub_subbass)

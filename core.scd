@@ -113,24 +113,30 @@ if (~do_bus_map_overrides) {
 
 ~buss = IdentityDictionary[];
 
-[ \sax_eq, \tub_eq, \dru_eq, \com_eq,
+[
+  \sax_eq, \tub_eq, \dru_eq, \com_eq,
   \one_out, \two_out, \three_out,
   \sax_agg, \tub_agg, \com_agg,
   \low, \med, \hi, // drum busses
-  \metranome
+  \metranome, \sample
 ].do {|name|
   ~buss.put(name, Bus.audio(s, 1) );
 };
 
-[ \drums_mon, \nugs_mon, \sax_mon, \tub_mon, \com_mon].do {|name|
-  ~buss.put(name, Bus.audio(s, 6) );
+[
+  \drums_mon, \nugs_mon, \sax_mon, \tub_mon, \com_mon
+].do {|name|
+  ~buss.put(name, Bus.audio(s, 5) );
 };
 
-[ \sax_info, \tub_info].do {|name|
+[
+  \sax_info, \tub_info
+].do {|name|
   ~buss.put(name, Bus.control(s, 4) );
 };
 
-[ \breath_v, \sax_v, \sax_p, \tub_v, \tub_p, \tub_relax,
+[
+  \breath_v, \sax_v, \sax_p, \tub_v, \tub_p, \tub_relax,
   \freq_lag, \tempo
 ].do {|name|
   ~buss.put(name, Bus.control(s, 1) );
@@ -156,15 +162,20 @@ if (~spoof_horns) {
       \sax_bus,       ~buss[\sax_agg],
       \tub_bus,       ~buss[\tub_agg],
       \com_bus,       ~buss[\com_agg],
+
       \d_low_bus,     ~buss[\d_low_bus],
       \d_med_bus,     ~buss[\d_med_bus],
       \d_hi_bus,      ~buss[\d_hi_bus],
+
       \drums_mon_bus, ~buss[\drums_mon],
       \nugs_mon_bus,  ~buss[\nugs_mon],
       \tub_mon_bus,   ~buss[\tub_mon],
       \sax_mon_bus,   ~buss[\sax_mon],
       \com_mon_bus,   ~buss[\com_mon],
+
       \metranome_bus, ~buss[\metranome],
+      \sample_bus,    ~buss[\sample],
+
       \outbus,        ~buss[\one_out]
     ],
     ~agg_g
