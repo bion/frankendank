@@ -1,3 +1,18 @@
+[\sax_mon, \tub_mon, \drums_mon, \nugs_mon].do {|mon|
+    ~p_synths[mon].set(\drum_scale, 2);
+    ~p_synths[mon].set(\tub_scale, 2);
+    ~p_synths[mon].set(\com_scale, 4);
+    ~p_synths[mon].set(\met_scale, 4);
+};
+
+[ \drums_mon ].do {|mon|
+    ~p_synths[mon].set(\sax_scale, 0.5);
+    ~p_synths[mon].set(\drum_scale, 0.25);
+    ~p_synths[mon].set(\tub_scale, 0.25);
+    ~p_synths[mon].set(\com_scale, 0.5);
+    ~p_synths[mon].set(\met_scale, 0.25);
+};
+~p_synths[\drums_mon].get(\outBus, {|val| val.postln})
 
 ~loop_touch.(IdentityDictionary[\instr -> \sax, \num -> 2]);
 ~clear_loop.(\sax);
