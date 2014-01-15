@@ -75,14 +75,27 @@ thisPath = thisProcess.nowExecutingPath;
   StaticText(main_window, Rect(instr_btn_left + btn_length * 1.5, instr_btn_top + 15 + (i*(btn_height + 40)), btn_length, 20))
   .string_(instr.asString);
 
-  mon_windows[instr] = thisWindow = Window("open monitor",
+  mon_windows[instr] = thisWindow = Window(instr ++ " monitor",
     Rect(300, 300, gui_length, gui_height/2));
 
-  [ \main, \met, \sax, \tuba, \drums, \com ].do {|input, j|
+  [ \main, \met, \sax, \tub, \drum, \com ].do {|input, j|
     make_labeled_slider.(thisWindow, 100 + (j * 120), 120, -60, 24, input, {|val|
       ~monitor_levels[instr][input] = val.dbamp;
-    });
+      if (s.serverRunning) {
+        var synth = ~p_synths[asSymbol(instr ++ "_mon")];
+        synth.set(asSymbol(input ++ "_scale"), val.dbamp);
+      };
+    },
+      ~monitor_levels[instr][input].ampdb
+    );
   };
+
+  Button(thisWindow,
+    Rect(400, 500, btn_length * 1.5, btn_height * 1.5))
+  .states_( [["save to disk"]])
+  .mouseDownAction_({
+    ~monitor_levels.writeArchive("./archive/monitor_levels".resolveRelative);
+  });
 
   Button(main_window,
     Rect(instr_btn_left + btn_length * 1.5, instr_btn_top + 40 + (i * (btn_height + 40)),
