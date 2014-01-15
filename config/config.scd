@@ -3,6 +3,8 @@
 ~sax_gate_thresh = -52.dbamp;
 ~tuba_gate_thresh = -30.dbamp;
 
+~monitor_levels = Object.readArchive("../archive/monitor_levels".resolveRelative);
+
 ~spoof_horns = false;
 ~do_bus_map_overrides = false;
 ~bus_map_overrides = IdentityDictionary[
