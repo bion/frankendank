@@ -6,6 +6,8 @@ instruments = [ \sax, \tuba, \drums, \com ],
 gui_height = 700, gui_length = 900,
 main_window = Window("frankendank", Rect(250, 250, gui_length, gui_height)),
 
+mon_windows = IdentityDictionary[],
+
 btn_length = 80, btn_height = 30,
 
 load_btn, start_btn,
@@ -33,9 +35,9 @@ make_midi_listener = {|instr|
 
 make_labeled_slider = { | window, left, top, lo, hi, text, fxn |
   var box, slider, spec;
-  box = NumberBox(main_window, Rect(left, top, 50, 30)).align_(\center).value_(hi);
+  box = NumberBox(window, Rect(left, top, 50, 30)).align_(\center).value_(hi);
 
-  StaticText(main_window, Rect(left, top - 50, 50, 30))
+  StaticText(window, Rect(left, top - 50, 50, 30))
   .align_(\center).string_(text);
 
   spec = ControlSpec(lo, hi, \lin, 1);
@@ -60,6 +62,33 @@ update_button = {|b, string, color=nil|
 thisPath = thisProcess.nowExecutingPath;
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 // end of unfortunate hack
+
+// * * * * * * * * * * * * * * * * * * * * * * MONITORING WINDOWS
+
+[ \sax, \tub, \drums, \nugs, \com ].do {|instr, i|
+  var thisWindow;
+
+  StaticText(main_window, Rect(instr_btn_left + btn_length * 1.5, instr_btn_top + 15 + (i*(btn_height + 40)), btn_length, 20))
+  .string_(instr.asString);
+
+  mon_windows[instr] = thisWindow = Window("open monitor",
+    Rect(300, 300, gui_length, gui_height/2));
+
+  [ \main, \met, \sax, \tuba, \drums, \com ].do {|input, j|
+    make_labeled_slider.(thisWindow, 100 + (j * 120), 120, -60, 24, input, {|val|
+      ~monitor_levels[instr][input] = val.dbamp;
+    });
+  };
+
+  Button(main_window,
+    Rect(instr_btn_left + btn_length * 1.5, instr_btn_top + 40 + (i * (btn_height + 40)),
+      btn_length, btn_height) )
+  .states_( [ ["monitor", Color.black], [instr ++ "open"] ] )
+  .mouseDownAction_({
+    thisWindow.front;
+  });
+
+};
 
 // * * * * * * * * * * * * * * * * * * * * * * GLOBALS
 
@@ -112,36 +141,17 @@ MIDIClient.sources.do {|source|
   });
 };
 
-load_btn = Button(main_window, Rect(instr_btn_left, instr_btn_top + 40 + (3 * (btn_height + 40)), btn_length * 1.5, btn_height * 1.5) )
-.states_( [ ["Load From Disk", Color.black], ["No Archive", Color.red] ] )
-.mouseDownAction_({
-  // unfortunate hack
-  // thisProcess.nowExecutingPath binds to nil when the interpreter is run from a GUI
-  // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
-  thisProcess.nowExecutingPath_(thisPath);
-  // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
-  // end of unfortunate hack
-
-  ~mSrc = Object.readArchive("./archive/mSrc".resolveRelative);
-  ~mSrc.keysValuesDo {|instr, midi_id|
-    postln(instr ++ ": " ++ midi_id);
-    activated_instr = activated_instr.add(instr);
-    update_button.(instr_buttons[instr], "active", Color.green);
-    load_btn.destroy;
-  };
+make_labeled_slider.(main_window, gui_length * 0.065, gui_height * 0.65,
+  -60, 0,
+  "met amp", {|val|
+    ~metronome_amp = val.dbamp;
 });
 
-make_labeled_slider.(main_window, gui_length * 0.375, gui_height * 0.125,
+make_labeled_slider.(main_window, gui_length * 0.2, gui_height * 0.65,
   60, 220,
   "tempo", {|val|
     ~tempo = val/60;
     if (~clock.notNil) { ~clock.tempo_(~tempo) };
-});
-
-make_labeled_slider.(main_window, gui_length * 0.25, gui_height * 0.125,
-  -60, 0,
-  "met amp", {|val|
-    ~metronome_amp = val.dbamp;
 });
 
 make_labeled_slider.(main_window, simple_loops_left, simple_loops_top,

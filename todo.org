@@ -6,10 +6,6 @@
 
 *** TODO make click louder and crisper
 
-*** TODO tuba volume pedal kills all output
-*** TODO tuba and sax controls work simultaneously
-
-
 *** TODO breath control for synths tracking jam chords
 *** TODO 4 filter drums banks
 *** TODO global filter control from axiom
