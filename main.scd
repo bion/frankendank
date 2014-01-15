@@ -63,6 +63,10 @@ thisPath = thisProcess.nowExecutingPath;
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 // end of unfortunate hack
 
+// * * * * * * * * * * * * * * * * * * * * * * LOAD CONFIG
+
+"./config/config.scd".loadRelative;
+
 // * * * * * * * * * * * * * * * * * * * * * * MONITORING WINDOWS
 
 [ \sax, \tub, \drums, \nugs, \com ].do {|instr, i|
@@ -241,7 +245,6 @@ after_boot = {
   var cond = Condition.new;
 
   [
-    "config/config",
     "SD",
     "core",
     "looping",
