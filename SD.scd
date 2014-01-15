@@ -151,7 +151,7 @@
   }),
 
   SynthDef(\mon, {
-    arg inbus, outbus, metranome_bus,
+    arg inbus, outbus, metranome_bus, main_scale=1,
       drum_scale=1, sax_scale=1, tub_scale=1, com_scale=1, met_scale=1;
     var drums, sax, tub, com, out, sample,
       instr, metranome;
@@ -160,15 +160,15 @@
     metranome = In.ar(metranome_bus, 1) * met_scale;
 
     instr = (drums * drum_scale)
-      + (sample)
+      + (sample * com_scale)
       + (tub * tub_scale)
       + (sax * sax_scale)
       + (com * com_scale);
 
-    instr = Compander.ar(instr, metranome, -42.dbamp, 1, 1/5, 0.002, 0.02);
+    instr = Compander.ar(instr, metranome, -42.dbamp, 1, 1/5, 0.002, 0.01);
 
     out = instr + metranome;
-    Out.ar(outbus, out);
+    Out.ar(outbus, out * main_scale);
   }),
 
   /* ------------------------ com --------------------------- */
