@@ -1,10 +1,12 @@
 
 * Thing that need to be done
 
-*** TODO close look at all monitoring
-*** TODO scott's loops only playing once?
+*** TODO bugfix: monitor windows can't be reopened
+*** TODO monitor save to disk button not showing up
 
-*** TODO make click louder and crisper
+*** TODO make metronome higher and crisper
+
+*** TODO scott's loops only playing once?
 
 *** TODO breath control for synths tracking jam chords
 *** TODO 4 filter drums banks
