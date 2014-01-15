@@ -33,9 +33,9 @@ make_midi_listener = {|instr|
   );
 },
 
-make_labeled_slider = { | window, left, top, lo, hi, text, fxn |
+make_labeled_slider = { | window, left, top, lo, hi, text, fxn, default=0 |
   var box, slider, spec;
-  box = NumberBox(window, Rect(left, top, 50, 30)).align_(\center).value_(hi);
+  box = NumberBox(window, Rect(left, top, 50, 30)).align_(\center).value_(default);
 
   StaticText(window, Rect(left, top - 50, 50, 30))
   .align_(\center).string_(text);
@@ -43,7 +43,7 @@ make_labeled_slider = { | window, left, top, lo, hi, text, fxn |
   spec = ControlSpec(lo, hi, \lin, 1);
   slider = Slider(window, Rect(left - 50, top - 50, 40, 180))
   .orientation_(\vertical)
-  .value_(1)
+  .value_(spec.unmap(default))
   .action_({
     var val = spec.map(slider.value);
     box.value_(val);
@@ -145,20 +145,26 @@ make_labeled_slider.(main_window, gui_length * 0.065, gui_height * 0.65,
   -60, 0,
   "met amp", {|val|
     ~metronome_amp = val.dbamp;
-});
+  },
+  0
+);
 
 make_labeled_slider.(main_window, gui_length * 0.2, gui_height * 0.65,
-  60, 220,
+  60, 160,
   "tempo", {|val|
     ~tempo = val/60;
     if (~clock.notNil) { ~clock.tempo_(~tempo) };
-});
+  },
+  96
+);
 
 make_labeled_slider.(main_window, simple_loops_left, simple_loops_top,
   4, 64,
   "beats in sample", {|val|
     ~simple_loops_beats = val;
-});
+  },
+  16
+);
 
 make_labeled_slider.(main_window, simple_loops_left - 110, simple_loops_top, -60, 0,
   "sample amp", {|val|
