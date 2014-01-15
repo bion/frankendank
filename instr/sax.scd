@@ -18,12 +18,10 @@ map_dic = {|num| IdentityDictionary[\instr -> \sax, \num -> num] };
 
 [
   [\sax_mon, Synth(\mon,
+    [ \main, \met, \sax, \tub, \drum, \com ].collect({|input|
+      [asSymbol(input++"_scale"), ~monitor_levels[\sax][input]]
+    }).flat ++
     [
-      \drum_scale, 1,
-      \sax_scale, 3.dbamp,
-      \tub_scale, 1,
-      \com_scale, 1,
-      \met_scale, 2,
       \metranome_bus, ~buss[\metranome],
       \inbus, ~buss[\sax_mon],
       \outbus, ~id_bus_map[\sax_mon_out],

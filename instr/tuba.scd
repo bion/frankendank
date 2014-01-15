@@ -5,12 +5,10 @@ map_dic = {|num| IdentityDictionary[\instr -> \tub, \num -> num] }, toggle_relax
 
 [
   [\tub_mon, Synth(\mon,
+    [ \main, \met, \sax, \tub, \drum, \com ].collect({|input|
+      [asSymbol(input++"_scale"), ~monitor_levels[\tub][input]]
+    }).flat ++
     [
-      \drum_scale, 1,
-      \sax_scale, 1,
-      \tub_scale, 1,
-      \com_scale, 1,
-      \met_scale, 1,
       \metranome_bus, ~buss[\metranome],
       \inbus, ~buss[\tub_mon],
       \outbus, ~id_bus_map[\tub_mon_out],
