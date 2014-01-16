@@ -62,15 +62,15 @@ stop_recording = {|id, offset|
     if (offset < 0.0) {offset.abs.wait; offset=0.0};
     dur = ~clock.beats - loop_instance[\dur];
     loop_instance[\dur] = dur.round;
+    play_loop.(id, offset);
     loop_instance[\recording].set(\gate, -1.01);
     loop_instance[\next_action] = stop_loop;
-    play_loop.(id, offset);
     postln("STOPPED " ++ id ++ " RECORDING, OFFSET: " ++ offset);
   };
 };
 
 play_loop = {|id, offset|
-  if (offset < 0) {
+  if (offset < 0.0) {
     fork {
       offset.abs.wait;
       add_loop_synth.(id);
@@ -82,7 +82,7 @@ play_loop = {|id, offset|
 add_loop_synth = {|id, offset=0|
   var loop_instance = ~loops[id[\instr]][id[\num]];
   var synth;
-  s.makeBundle(0.025, { synth = Synth(\playbuf_mono,
+  s.makeBundle(0.005, { synth = Synth(\playbuf_mono,
     [ \outbus, 0,
       \amp, 1,
       \buf, loop_instance[\buffer],
