@@ -98,6 +98,13 @@ thisPath = thisProcess.nowExecutingPath;
     ~monitor_levels.writeArchive("./archive/monitor_levels".resolveRelative);
   });
 
+  Button(thisWindow,
+    Rect(gui_length * 0.3, gui_height * 0.4, btn_length * 1.5, btn_height * 1.5))
+  .states_( [["close window"]])
+  .mouseDownAction_({
+    thisWindow.visible = false;
+  });
+
   Button(main_window,
     Rect(instr_btn_left + btn_length * 1.5, instr_btn_top + 40 + (i * (btn_height + 40)),
       btn_length, btn_height) )
