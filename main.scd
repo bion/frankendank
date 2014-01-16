@@ -91,10 +91,10 @@ thisPath = thisProcess.nowExecutingPath;
   };
 
   Button(thisWindow,
-    Rect(400, 500, btn_length * 1.5, btn_height * 1.5))
     Rect(400, gui_height * 0.4, btn_length * 1.5, btn_height * 1.5))
   .states_( [["save to disk"]])
   .mouseDownAction_({
+    thisProcess.nowExecutingPath = thisPath;
     ~monitor_levels.writeArchive("./archive/monitor_levels".resolveRelative);
   });
 
