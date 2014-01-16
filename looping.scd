@@ -1,6 +1,7 @@
 (
 var num_loops = 8, loop_maxdur = 20,
 record, add_record_synth, stop_recording,
+clear_loop_func,
 add_loop_synth, play_loop, stop_loop,
 clear_loop = IdentityDictionary[\sax -> false, \tub -> false];
 
@@ -9,24 +10,30 @@ clear_loop = IdentityDictionary[\sax -> false, \tub -> false];
   if (clear_loop[id]) {clear_loop[id] = false} {clear_loop[id] = true};
 };
 
-~loop_touch = {|id| block {|break|
+~loop_touch = {|id|
   var offset = ~clock.beats - ~clock.beats.round * ~clock.beatDur;
-  var loop_instance = ~loops[id[\instr]][id[\num]];
+  var loop_instance = ~loops[id[\instr]][id[\num]], double_tap;
+  double_tap = (~clock.beats - loop_instance[\last_touch]) < 1.5;
   postln("LOOP TOUCH " ++ id);
-  if (clear_loop[id[\instr]]) {
-    if (loop_instance[\synth].notNil) { stop_loop.(id) };
-    loop_instance[\next_action] = record;
-    loop_instance[\dur] = 0.0;
-    clear_loop[id[\instr]] = false;
+  if (clear_loop[id[\instr]] || double_tap) {
+    clear_loop_func.(loop_instance, id);
     ("LOOP " ++ id ++ " CLEARED").postln;
-    break.value;
+  } {
+    loop_instance[\next_action].(id, offset);
   };
-  loop_instance[\next_action].(id, offset);
-}};
+  loop_instance[\last_touch] = ~clock.beats;
+};
+
+clear_loop_func = {|loop_instance, id|
+  if (loop_instance[\synth].notNil) { stop_loop.(id) };
+  loop_instance[\next_action] = record;
+  loop_instance[\dur] = 0.0;
+  clear_loop[id[\instr]] = false;
+};
 
 record = {|id, offset|
   if (offset < 0) {
-    fork{
+    fork {
       offset.abs.wait;
       add_record_synth.(id);
     }} {
@@ -126,7 +133,8 @@ stop_loop = {|id, offset|
     \dur -> 0.0, // loop dur or record touch time
     \recording -> false,
     \synth -> nil,
-    \responder -> false
+    \responder -> false,
+    \last_touch -> ~clock.beats
   ];
 };
 )

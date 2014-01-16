@@ -243,7 +243,7 @@ simple_loops_btn = Button(main_window, Rect(gui_length * 0.75, gui_height * 0.12
 
 
 start_btn = Button(main_window, Rect(gui_length * 0.5, gui_height - 100, btn_length * 1.5, btn_height * 1.5) )
-.states_([["BOOM!", Color.black, Color.red]])
+.states_([["BOOM", Color.black, Color.red]])
 .mouseDownAction_({ run.() });
 
 // * * * * * * * * * * * * * * * * * * * * * * RUN
