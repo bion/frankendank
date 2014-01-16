@@ -35,10 +35,10 @@ make_midi_listener = {|instr|
 
 make_labeled_slider = { | window, left, top, lo, hi, text, fxn, default=0 |
   var box, slider, spec;
-  box = NumberBox(window, Rect(left, top, 50, 30)).align_(\center).value_(default);
+  box = NumberBox(window, Rect(left, top, 50, 30)).align_(\center).value_(default).stringColor_(Color.white);
 
   StaticText(window, Rect(left, top - 50, 50, 30))
-  .align_(\center).string_(text);
+  .align_(\center).string_(text).stringColor_(Color.white);
 
   spec = ControlSpec(lo, hi, \lin, 1);
   slider = Slider(window, Rect(left - 50, top - 50, 40, 180))
