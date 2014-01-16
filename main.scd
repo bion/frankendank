@@ -108,9 +108,10 @@ thisPath = thisProcess.nowExecutingPath;
   Button(main_window,
     Rect(instr_btn_left + btn_length * 1.5, instr_btn_top + 40 + (i * (btn_height + 40)),
       btn_length, btn_height) )
-  .states_( [ ["monitor", Color.black], [instr ++ "open"] ] )
+  .states_( [ ["monitor", Color.black]] )
   .mouseDownAction_({
-    thisWindow.front;
+
+    thisWindow.visible = true;
   });
 
 };
