@@ -36,10 +36,13 @@ PopUpMenu(mainWindow, Rect(10, 40, 90, 30))
   };
 });
 
-renderSampleSelectors = {|sampleName, top, left|
-  var dropDown;
+renderSampleSelectors = {|sampleName, top, left, action, default|
+  var dropDown, items = ~drums.keys.asArray.sort, indexOfDefault;
+  indexOfDefault = items.indexOf(default);
   dropDown = PopUpMenu(mainWindow, Rect(left, top, 160, 30))
-  .items_(~drums.keys.asArray.sort);
+  .items_(items)
+  .action_(action)
+  .value_(indexOfDefault);
   volatileElements.add(dropDown);
 };
 
@@ -48,10 +51,18 @@ renderSelectedSet = {|setIndex|
 
   8.do {|padNum|
     var name = 'old',
-    left = padNum % 4 * 180 + 20, top;
+    left = padNum % 4 * 180 + 20, top,
+
+    action = {|val|
+      thisSet[asSymbol("drum_" ++ padNum)] = val.item;
+      thisSet.postln;
+    },
+
+    default = thisSet[asSymbol("drum_" ++ padNum)];
 
     if (padNum < 4) { top = 100 } { top = 250 };
-    renderSampleSelectors.(name, top, left);
+
+    renderSampleSelectors.(name, top, left, action, default);
   };
 };
 
