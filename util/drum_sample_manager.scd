@@ -3,6 +3,7 @@ var guiLength=750, guiHeight=400,
 hiPaths = "../samples/drum/hi/".resolveRelative,
 medPaths = "../samples/drum/med/".resolveRelative,
 lowPaths = "../samples/drum/low".resolveRelative,
+archivePath = "../archive/drum_sample_sets".resolveRelative,
 
 mainWindow = Window("man-handle drum sample sets",
   Rect(100, 100, guiLength, guiHeight)
@@ -18,7 +19,7 @@ QtGUI.palette = QPalette.dark;
 // exports ~drums
 "../instr/drum_sample_map.scd".loadRelative;
 
-~sample_sets = Object.readArchive("../archive/drum_sample_sets".resolveRelative);
+~sample_sets = Object.readArchive(archivePath);
 
 // **************************** UI elements
 
@@ -55,6 +56,7 @@ renderSelectedSet = {|setIndex|
 
     action = {|val|
       thisSet[asSymbol("drum_" ++ padNum)] = val.item;
+      ~sample_sets.writeArchive(archivePath);
       thisSet.postln;
     },
 
