@@ -14,6 +14,10 @@ volatileElements = LinkedList[],
 renderSampleSelectors,
 renderNewTemplate, renderSelectedSet;
 
+mainWindow.onClose = {
+  0.exit;
+};
+
 QtGUI.palette = QPalette.dark;
 
 // exports ~drums
