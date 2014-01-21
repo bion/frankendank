@@ -1,6 +1,5 @@
 /*
   sax preamp gain: 3
-  LOOP CLEAR NOT WORKING
 
   FCB1010 notes:
   buttons are type: program, src: big int, chan: 0, num: button#

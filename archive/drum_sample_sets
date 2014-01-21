@@ -1,0 +1,36 @@
+var o, p;
+o = [
+	Array.prNew(2),  IdentityDictionary.prNew,  Array.prNew(32),  IdentityDictionary.prNew,  
+	Array.prNew(32)
+];
+p = [
+	// Array
+	0, [ o[1],  o[3] ],  
+	// IdentityDictionary
+	1, [ array: o[2],  size: 8,  
+		proto: nil,  parent: nil,  
+		know: false ],  
+	// Array
+	2, [ nil,  nil,  nil,  nil,  
+		nil,  nil,  'drum_7',  'Bell',  
+		nil,  nil,  'drum_3',  'Clap1',  
+		'drum_4',  'Whip',  nil,  nil,  
+		'drum_5',  'Hat1',  'drum_2',  'Snare1',  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  'drum_0',  'Kick1',  
+		'drum_1',  'Kick2',  'drum_6',  'Hat2' ],  
+	// IdentityDictionary
+	3, [ array: o[4],  size: 8,  
+		proto: nil,  parent: nil,  
+		know: false ],  
+	// Array
+	4, [ nil,  nil,  nil,  nil,  
+		nil,  nil,  'drum_7',  'Cymbal1',  
+		nil,  nil,  'drum_3',  'Snap1',  
+		'drum_4',  'Whip',  nil,  nil,  
+		'drum_5',  'Snare1',  'drum_2',  'Clap2',  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  'drum_0',  'Kick3',  
+		'drum_1',  'Kick4',  'drum_6',  'Hat3' ]
+];
+prUnarchive(o,p);
