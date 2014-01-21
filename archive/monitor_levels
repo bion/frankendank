@@ -71,10 +71,10 @@ p = [
 		proto: nil,  parent: nil,  
 		know: false ],  
 	// Array
-	11, [ 'tub',  0.223872,  'met',  1,  
+	11, [ 'tub',  0.223872,  'met',  1.122018,  
 		'drum',  1,  'sax',  1,  
 		nil,  nil,  nil,  nil,  
-		nil,  nil,  'main',  0.141254,  
+		nil,  nil,  'main',  0.794328,  
 		nil,  nil,  nil,  nil,  
 		nil,  nil,  nil,  nil,  
 		nil,  nil,  nil,  nil,  
