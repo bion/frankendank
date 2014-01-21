@@ -57,7 +57,8 @@ map_dic = {|num| IdentityDictionary[\instr -> \sax, \num -> num] };
     ~h_filt.(\sax_shaper);
     ~h_filt.(\sax_chorus);
   }],
-  [8, { ~h_filt.(\sax_cynk_broad) }],
+  [8, { ~h_filt.(\sax_8vdown) }],
+  // [8, { ~h_filt.(\sax_cynk_broad) }],
   [9, { ~reset_all.(\sax) }]
 ].do {|pair|
   MIDIdef.program(

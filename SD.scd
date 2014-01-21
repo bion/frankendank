@@ -371,6 +371,14 @@
     XOut.ar(bus, Linen.kr(gate, 0.05, releaseTime: 0.05, doneAction: 2), chain);
   }),
 
+  SynthDef(\sax_8vdown, {
+    arg bus, gate=1;
+    var in, chain;
+    in = In.ar(bus, 1);
+    chain = PitchShift.ar(in, 0.2, 0.5, 0.0, 0.004);
+    XOut.ar(bus, Linen.kr(gate, 0.05, releaseTime: 0.05, doneAction: 2), chain);
+  }),
+
   // sax wahwahwah
   SynthDef(\sax_wah, {
     arg pbus, bus, gate=1;
