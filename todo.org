@@ -3,9 +3,9 @@
 *** TODO metronome should be sine wave
 
 *** TODO LOOPS ARE REALLY FUCKING LOUD, WHAT THE HELL
+
 *** TODO recording output
 *** TODO listening back to recordings
-*** TODO Exclusive filter banks
 
 *** TODO dj-like control of filtering horn loops
 *** TODO dj-like filtering of all the
