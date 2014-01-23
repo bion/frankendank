@@ -123,9 +123,9 @@
 
   SynthDef(\agg, {
     arg sax_bus, tub_bus, com_bus, out_bus,
-      d_low_bus, d_med_bus, d_hi_bus,
-      drums_mon_bus, tub_mon_bus, sax_mon_bus, com_mon_bus, nugs_mon_bus,
-      metranome_bus, sample_bus;
+    d_low_bus, d_med_bus, d_hi_bus,
+    drums_mon_bus, tub_mon_bus, sax_mon_bus, com_mon_bus, nugs_mon_bus,
+    metranome_bus, sample_bus;
     var sax, tub, com, out, metranome, sample,
       d_low, d_med, d_hi;
 

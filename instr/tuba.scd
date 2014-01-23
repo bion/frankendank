@@ -67,7 +67,17 @@ toggle_relax = {
 };
 
 MIDIdef.cc(\tub_relax, {|val|
-  var relax = val * 127.reciprocal * ~tempo;
+  var relax;
+  case
+  { val < 10 }
+  { relax = 0.05 }
+
+  { val < 64 }
+  { relax = 0.5 * ~tempo }
+
+  { val < 129 }
+  { relax = ~tempo };
+
   ~p_synths[\agg].set(\tub_relax, relax);
 }, 27, 0, uid);
 

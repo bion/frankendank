@@ -3,12 +3,8 @@
 *** TODO metronome should be sine wave
 
 *** TODO LOOPS ARE REALLY FUCKING LOUD, WHAT THE HELL
-*** TODO Scott monitor not working anymore
-
 *** TODO recording output
 *** TODO listening back to recordings
-*** TODO tuba~drum compession - snap to 0, little, 8th
-
 *** TODO Exclusive filter banks
 
 *** TODO dj-like control of filtering horn loops
@@ -16,8 +12,7 @@
 
 *** TODO breath control for synths tracking jam chords
 *** TODO 4 filter drums banks
-*** TODO global filter control from axiom
-
+*** TODO tuba compression off when at bottom
 *** TODO OO horn mgmt chains?
     group manager object
     looping?
