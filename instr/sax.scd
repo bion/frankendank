@@ -51,13 +51,22 @@ map_dic = {|num| IdentityDictionary[\instr -> \sax, \num -> num] };
   [4, {~clear_loop.(\sax);}],
 
   // other
-  [5, { ~h_filt.(\sax_wah) }],
-  [6, { ~h_filt.(\sax_reverb) }],
+  [5, {
+    ~dry_horn.(\sax);
+  }],
+  [6, {
+    ~dry_horn.(\sax);
+    ~h_filt.(\sax_reverb);
+  }],
   [7, {
+    ~dry_horn.(\sax);
     ~h_filt.(\sax_shaper);
     ~h_filt.(\sax_chorus);
   }],
-  [8, { ~h_filt.(\sax_8vdown) }],
+  [8, {
+    ~dry_horn.(\sax);
+    ~h_filt.(\sax_8vdown);
+  }],
   // [8, { ~h_filt.(\sax_cynk_broad) }],
   [9, { ~reset_all.(\sax) }]
 ].do {|pair|

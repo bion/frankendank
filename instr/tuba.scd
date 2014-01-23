@@ -38,10 +38,21 @@ map_dic = {|num| IdentityDictionary[\instr -> \tub, \num -> num] }, toggle_relax
   [4, {~clear_loop.(\tub);}],
 
   // synths
-  [5, { ~h_synth.(\tub_subbass) }],
-  [6, { ~h_synth.(\tub_s1) }],
-  [7, { ~h_synth.(\tub_s2) }],
-  [8, { toggle_relax.() }],
+  [5, { ~dry_horn.(\tub) }],
+  [6, {
+    ~dry_horn.(\tub);
+    ~h_synth.(\tub_subbass);
+  }],
+  [7, {
+    ~dry_horn.(\tub);
+    ~h_synth.(\tub_subbass);
+    ~h_synth.(\tub_s1);
+  }],
+  [8, {
+    ~dry_horn.(\tub);
+    ~h_synth.(\tub_subbass);
+    ~h_synth.(\tub_s2);
+  }],
   [9,{ ~reset_all.(\tub) }]
 ].do {|pair|
   MIDIdef.program(
