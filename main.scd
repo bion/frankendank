@@ -330,6 +330,15 @@ run = {
 after_boot = {
   var cond = Condition.new;
 
+  // * * * * * * * * * * * * * * * * * * * * * * RECORDING
+
+  record_buf = Buffer.alloc(s, 10 * 60 * s.sampleRate);
+
+  AppClock.sched(0, {
+    update_button.(record_btn, "record", Color.red);
+    record_btn.mouseDownAction_(record_start);
+  });
+
   [
     "SD",
     "core",
