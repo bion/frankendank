@@ -375,6 +375,10 @@ after_boot = {
     ~loops.keysValuesDo {|key, value| value.keysValuesDo {|kk, vv| vv[\buffer].free }; };
     AppClock.sched(0, {
       update_button.(simple_loops_btn, "disabled", nil);
+      update_button.(record_btn, "disabled", nil);
+      update_button.(player_btn, "disabled", nil);
+      record_btn.mouseDownAction_({"server not started".postln});
+      player_btn.mouseDownAction_({"server not started".postln});
     });
 
     postln("loop freed");
