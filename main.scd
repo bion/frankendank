@@ -246,6 +246,39 @@ start_btn = Button(main_window, Rect(gui_length * 0.5, gui_height - 100, btn_len
 .states_([["BOOM", Color.black, Color.red]])
 .mouseDownAction_({ run.() });
 
+// * * * * * * * * * * * * * * * * * * * * * * RECORDING
+
+record_btn = Button(main_window, Rect(start_btn.left + (btn_lenght * 1.5) + 20, start_btn.top, btn_length * 1.5, btn_height * 1.5) )
+.states_([["inactive"], Color.black])
+.mouseDownAction_({"server not booted".postln});
+
+record_start = {
+  record_synth = Synth(\recordbuf_mono,
+    [\inbus, ~buss[\one_out], \buf, record_buf, \startpos, 0],
+    ~record_g
+  );
+};
+record_end = {
+  var path;
+  path = thisProcess.nowExecutingPath ++ "/" ++
+  Date.getDate.dayOfWeek ++ ".aiff";
+
+  record_synth.free;
+  record_buf.write(
+    path,
+    sampleFormat: "float"
+  );
+
+  recorded_buf = record_buf;
+
+  record_buf = Buffer.alloc(s, 10 * 60 * s.sampleRate);
+
+  AppClock.sched(0, {
+    update_button.(player_btn, "play last", Color.green);
+    player_btn.mouseDownAction_(play_recorded_buf);
+  });
+
+};
 // * * * * * * * * * * * * * * * * * * * * * * RUN
 
 run = {
