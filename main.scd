@@ -279,6 +279,37 @@ record_end = {
   });
 
 };
+
+record_btn = Button(main_window, Rect(record_btn.left + (btn_lenght * 1.5) + 20, start_btn.top, btn_length * 1.5, btn_height * 1.5) )
+.states_([["inactive"], Color.black])
+.mouseDownAction_({"server not booted".postln});
+
+play_recorded_buf = {
+  player_route_synth = Synth(\route_mono_to_5,
+    [
+      \inbus, ~buss[\all_monitors],
+      \outbusses,
+      [\drums_mon, \nugs_mon, \tub_mon, \sax_mon, \com_mon].collect {|c| ~buss[c] }
+    ],
+    ~agg_g
+  );
+
+  player_synth = Synth(\playbuf_simple,
+    [\buf, recorded_buf, \outbus, ~buss[\all_monitors]], ~playbuf_g
+  );
+  AppClock.sched(0, {
+    update_button.(player_btn, "stop", Color.green);
+  });
+};
+
+stop_playing = {
+  player_synth.free;
+  player_route_synth.free;
+  AppClock.sched(0, {
+    update_button.(player_btn, "play last", Color.red);
+  });
+};
+
 // * * * * * * * * * * * * * * * * * * * * * * RUN
 
 run = {
