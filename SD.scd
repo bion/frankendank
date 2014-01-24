@@ -65,6 +65,11 @@
     Out.ar(outbus, In.ar(inbus, 1) );
   }),
 
+  SynthDef(\route_mono_to_5, {
+    arg inbus;
+    Out.ar(\outbusses.ir(8 ! 5), In.ar(inbus, 1));
+  }),
+
   SynthDef(\route_m2s, {
     arg inbus, outbus;
     Out.ar(outbus, In.ar(inbus, 1) ! 2)
