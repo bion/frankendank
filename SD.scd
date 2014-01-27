@@ -65,10 +65,12 @@
     Out.ar(outbus, In.ar(inbus, 1) );
   }),
 
-  SynthDef(\route_mono_to_5, {
-    arg inbus;
-    Out.ar(\outbusses.ir(8 ! 5), In.ar(inbus, 1));
-  }),
+  (1..8).collect {|i|
+    SynthDef(asSymbol("route_mono_to_" ++ i), {
+      arg inbus;
+      Out.ar(\outbusses.ir(8 ! i), In.ar(inbus, 1));
+    })
+  },
 
   SynthDef(\route_m2s, {
     arg inbus, outbus;
@@ -544,5 +546,5 @@
 
   SynthDef(\control_stub, {|bus, value| Out.kr(bus, value) })
 
-].do(_.add);
+].flat.do(_.add);
 )
