@@ -253,20 +253,29 @@ start_btn = Button(main_window, Rect(gui_length * 0.5, gui_height - 100, btn_len
 
 // * * * * * * * * * * * * * * * * * * * * * * RECORDING
 
-record_btn = Button(main_window, Rect(start_btn.left + (btn_lenght * 1.5) + 20, start_btn.top, btn_length * 1.5, btn_height * 1.5) )
+record_btn = Button(main_window, Rect(gui_height * 0.6 + (btn_length * 1.5) + 20, gui_height - 100, btn_length * 1.5, btn_height * 1.5) )
 .states_([["inactive"], Color.black])
 .mouseDownAction_({"server not booted".postln});
 
 record_start = {
+  record_btn.mouseDownAction_(record_end);
+
+  AppClock.sched(0, {
+    update_button.(record_btn, "stop recording", Color.green);
+  });
+
   record_synth = Synth(\recordbuf_mono,
     [\inbus, ~buss[\one_out], \buf, record_buf, \startpos, 0],
     ~record_g
   );
 };
+
 record_end = {
   var path;
-  path = thisProcess.nowExecutingPath ++ "/" ++
+  path = thisProcess.nowExecutingPath.dirname ++ "/" ++
   Date.getDate.dayOfWeek ++ ".aiff";
+
+  postln("WRITING TO" ++ path);
 
   record_synth.free;
   record_buf.write(
@@ -279,22 +288,27 @@ record_end = {
   record_buf = Buffer.alloc(s, 10 * 60 * s.sampleRate);
 
   AppClock.sched(0, {
+    update_button.(record_btn, "record", Color.red);
+    record_btn.mouseDownAction_(record_start);
+
     update_button.(player_btn, "play last", Color.green);
     player_btn.mouseDownAction_(play_recorded_buf);
   });
 
 };
 
-record_btn = Button(main_window, Rect(record_btn.left + (btn_lenght * 1.5) + 20, start_btn.top, btn_length * 1.5, btn_height * 1.5) )
+player_btn = Button(main_window, Rect(gui_length * 0.5 + (btn_length * 1.5 * 2) + 20,
+  gui_height - 100, btn_length * 1.5, btn_height * 1.5) )
 .states_([["inactive"], Color.black])
 .mouseDownAction_({"server not booted".postln});
 
 play_recorded_buf = {
-  player_route_synth = Synth(\route_mono_to_5,
+  player_route_synth = Synth(\route_mono_to_6,
     [
       \inbus, ~buss[\all_monitors],
       \outbusses,
-      [\drums_mon, \nugs_mon, \tub_mon, \sax_mon, \com_mon].collect {|c| ~buss[c] }
+      [\drums_mon, \nugs_mon, \tub_mon, \sax_mon, \com_mon, \one_out]
+      .collect {|c| ~buss[c] }
     ],
     ~agg_g
   );
@@ -302,6 +316,8 @@ play_recorded_buf = {
   player_synth = Synth(\playbuf_simple,
     [\buf, recorded_buf, \outbus, ~buss[\all_monitors]], ~playbuf_g
   );
+
+  player_btn.mouseDownAction_(stop_playing);
   AppClock.sched(0, {
     update_button.(player_btn, "stop", Color.green);
   });
@@ -310,6 +326,7 @@ play_recorded_buf = {
 stop_playing = {
   player_synth.free;
   player_route_synth.free;
+  player_btn.mouseDownAction_(play_recorded_buf);
   AppClock.sched(0, {
     update_button.(player_btn, "play last", Color.red);
   });
@@ -397,7 +414,7 @@ after_boot = {
   ~scheduler.();
 
   start_btn
-  .states_([["Press to Stop", Color.black, Color.green]])
+  .states_([["Server Quit", Color.black, Color.green]])
   .mouseDownAction_({
     CmdPeriod.run;
     start_btn
