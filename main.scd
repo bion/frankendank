@@ -272,10 +272,10 @@ record_start = {
 
 record_end = {
   var path;
-  path = thisProcess.nowExecutingPath.dirname ++ "/" ++
-  Date.getDate.dayOfWeek ++ ".aiff";
+  path = thisProcess.nowExecutingPath.dirname ++ "/recordings/" ++
+  Date.getDate ++ ".aiff";
 
-  postln("WRITING TO" ++ path);
+  postln("WRITING TO: " ++ path);
 
   record_synth.free;
   record_buf.write(
