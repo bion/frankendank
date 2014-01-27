@@ -184,6 +184,7 @@ make_labeled_slider.(main_window, gui_length * 0.2, gui_height * 0.65,
   96
 );
 
+~simple_loops_beats = 16;
 make_labeled_slider.(main_window, simple_loops_left, simple_loops_top,
   4, 64,
   "beats in sample", {|val|
@@ -192,6 +193,7 @@ make_labeled_slider.(main_window, simple_loops_left, simple_loops_top,
   16
 );
 
+~simple_loops_amp = 1;
 make_labeled_slider.(main_window, simple_loops_left - 110, simple_loops_top, -60, 0,
   "sample amp", {|val|
     ~simple_loops_amp = val.dbamp;
