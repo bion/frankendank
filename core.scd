@@ -198,7 +198,8 @@ if (~spoof_horns) {
     ~agg_g
   )],
 
-  [\out_left, Synth(\route_mono, [\inbus, ~buss[\one_out], \outbus, ~id_bus_map[\main_out_0]], ~out_g)]
+  [\out_left, Synth(\route_mono,
+    [\inbus, ~buss[\one_out], \outbus, ~id_bus_map[\main_out_0]], ~out_g)]
 
 ].do {|pair| ~p_synths.add(pair[0] -> pair[1]) };
 
