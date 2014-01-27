@@ -4,11 +4,10 @@
 
 *** TODO LOOPS ARE REALLY FUCKING LOUD, WHAT THE HELL
 
-*** TODO recording output
-*** TODO listening back to recordings
 
 *** TODO dj-like control of filtering horn loops
 *** TODO dj-like filtering of all the
+
 
 *** TODO breath control for synths tracking jam chords
 *** TODO 4 filter drums banks
