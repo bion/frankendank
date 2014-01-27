@@ -271,9 +271,7 @@ record_start = {
 };
 
 record_end = {
-  var path;
-  path = thisProcess.nowExecutingPath.dirname ++ "/recordings/" ++
-  Date.getDate ++ ".aiff";
+  var path = thisPath.dirname ++ "/recordings/" ++ Date.getDate ++ ".aiff";
 
   postln("WRITING TO: " ++ path);
 
