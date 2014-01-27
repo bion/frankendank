@@ -81,9 +81,10 @@ play_loop = {|id, offset|
 
 add_loop_synth = {|id, offset=0|
   var loop_instance = ~loops[id[\instr]][id[\num]];
+  var bus = ~buss[(id[\instr].asString ++ "_agg").asSymbol];
   var synth;
   s.makeBundle(0.005, { synth = Synth(\playbuf_mono,
-    [ \outbus, 0,
+    [ \outbus, bus,
       \amp, 1,
       \buf, loop_instance[\buffer],
       \dur, loop_instance[\dur] * ~clock.beatDur - offset - 0.05,
