@@ -104,6 +104,7 @@ s.sync(~cond);
 ~id_bus_map = IdentityDictionary[
   \sax -> 8,
   \tub -> 9,
+  \ambient -> 10,
 
   \com_mon_out -> 2,
   \sax_mon_out -> 3,
@@ -172,7 +173,8 @@ if (~spoof_horns) {
 ~p_synths = IdentityDictionary[];
 
 [
-  [\beat_dur, Synth(\p_control, [\outbus, ~buss[\beat_dur], \value, ~clock.beatDur], ~data_g)],
+  [\beat_dur, Synth(\p_control,
+    [\outbus, ~buss[\beat_dur], \value, ~clock.beatDur], ~data_g)],
 
   [\agg, Synth(\agg,
     [
@@ -199,7 +201,10 @@ if (~spoof_horns) {
   )],
 
   [\out_left, Synth(\route_mono,
-    [\inbus, ~buss[\one_out], \outbus, ~id_bus_map[\main_out_0]], ~out_g)]
+    [\inbus, ~buss[\one_out], \outbus, ~id_bus_map[\main_out_0]], ~out_g)],
+
+  [\ambient_in, Synth(\route_mono,
+    [\inbus, ~id_bus_map[\ambient], \outbus, ~buss[\one_out]], ~record_g)]
 
 ].do {|pair| ~p_synths.add(pair[0] -> pair[1]) };
 
