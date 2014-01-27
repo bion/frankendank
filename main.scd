@@ -19,6 +19,9 @@ simple_loops_buf_name, simple_loops_list,
 
 instr_btn_left = 10, instr_btn_top = 10,
 
+record_btn, player_btn, record_start, record_end, record_buf, recorded_buf,
+stop_playing, player_route_synth, record_synth, player_synth, play_recorded_buf,
+
 midi_listener,
 make_midi_listener = {|instr|
   midi_listener = MIDIdef(instr,
