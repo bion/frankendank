@@ -390,7 +390,7 @@ after_boot = {
     s.freeAll;
     ~clock.clear.stop;
     ~clock = nil;
-    ~buss.keysValuesDo {|key, value| value.free };
+    ~buss.keysValuesDo {|key, value| value.free; ~buss[key] = nil; };
     postln("busses freed");
     OSCFunc.allEnabled.do {|func| func.free};
     postln("OSCFuncs freed");
