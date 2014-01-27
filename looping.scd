@@ -1,5 +1,5 @@
 (
-var num_loops = 8, loop_maxdur = 20,
+var num_loops = 8, loop_maxdur = 60,
 record, add_record_synth, stop_recording,
 clear_loop_func,
 add_loop_synth, play_loop, stop_loop,
