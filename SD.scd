@@ -129,7 +129,7 @@
   }),
 
   SynthDef(\agg, {
-    arg sax_bus, tub_bus, com_bus, out_bus,
+    arg sax_bus, tub_bus, com_bus, outbus,
     d_low_bus, d_med_bus, d_hi_bus,
     drums_mon_bus, tub_mon_bus, sax_mon_bus, com_mon_bus, nugs_mon_bus,
     metranome_bus, sample_bus;
@@ -150,7 +150,7 @@
     tub = Compander.ar(tub, d_low, -42.dbamp, 1, 1/5, 0.002, \tub_relax.kr(0.05, 0.03));
     com = Compander.ar(com, d_hi + sax, -42.dbamp, 1, 1/5, 0.002, 0.02);
 
-    Out.ar(out_bus, [tub, sax, com, d_low, d_med, d_hi, sample].sum);
+    Out.ar(outbus, [tub, sax, com, d_low, d_med, d_hi, sample].sum);
 
     [drums_mon_bus, nugs_mon_bus, tub_mon_bus, sax_mon_bus, com_mon_bus].do {|bus|
       Out.ar(bus, [tub, sax, com, sample, d_low + d_med + d_hi]);
