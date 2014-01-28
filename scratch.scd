@@ -1,51 +1,9 @@
-[\sax_mon, \tub_mon, \drums_mon, \nugs_mon].do {|mon|
-    ~p_synths[mon].set(\drum_scale, 2);
-    ~p_synths[mon].set(\tub_scale, 2);
-    ~p_synths[mon].set(\com_scale, 4);
-    ~p_synths[mon].set(\met_scale, 4);
-};
-
-[ \drums_mon ].do {|mon|
-    ~p_synths[mon].set(\sax_scale, 0.5);
-    ~p_synths[mon].set(\drum_scale, 0.25);
-    ~p_synths[mon].set(\tub_scale, 0.25);
-    ~p_synths[mon].set(\com_scale, 0.5);
-    ~p_synths[mon].set(\met_scale, 0.25);
-};
-~p_synths[\drums_mon].get(\outBus, {|val| val.postln})
-
+~loop_touch.(IdentityDictionary[\instr -> \sax, \num -> 3]);
 ~loop_touch.(IdentityDictionary[\instr -> \sax, \num -> 2]);
 ~clear_loop.(\sax);
 s.boot
 s.quit
-play{SinOsc.ar}
-play{*In.ar(9, 1)};
-play{SoundIn.ar}
-~h_filt.(\sax_cynk_broad)
-~h_filt.(\sax_wah)
-~h_filt.(\sax_chorus);
-~h_filt.(\sax_shaper);
-~h_filt.(\sax_comp);
-~reset_all.(\sax);
-s.gui
-s.queryAllNodes
-~h_synth.(\tub_subbass)
-~h_synth.(\tub_s1)
-~h_synth.(\tub_s2)
-~h_filt.(\sax_s1)
-~h_filt.(\sax_nother)
-~h_filt.(\sax_nother)
-~h_filt.(\sax_delay)
-~h_filt.(\sax_bladunner)
-s.makeGui
-MIDIClient.init
-MIDIdef.trace(true);
-MIDIdef.trace(false);
-CtkBuffer
-Quarks.gui
-CmdPeriod.run
-~loop_this_jam = false
-~loop_this_jam = true
+
 (
     ~change_breath_synth.(
       \com_fank,
@@ -53,5 +11,3 @@ CmdPeriod.run
       ~dirt_rhode_g
     );
 )
-
-loadRelative("./instr/"++"drums"++".scd");
