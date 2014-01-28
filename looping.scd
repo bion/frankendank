@@ -47,9 +47,10 @@ addRecordSynth = {|id, offset=0|
   loopInstance[\dur] = ~clock.beats;
   s.makeBundle(0.025, {
     loopInstance[\recording] = Synth(\recordbuf_mono,
-      [ \inbus, bus, \startpos, offset * s.sampleRate,
-        \buf, loopInstance[\buffer] ],
-      ~record_g);
+      [ \inbus,    bus,
+        \startpos, offset * s.sampleRate,
+        \buf,      loopInstance[\buffer] ],
+      ~loop_g, \addToHead);
   });
   loopInstance[\next_action] = stopRecording;
   postln("STARTED " ++ id ++ " RECORDING, OFFSET: " ++ offset);
@@ -84,12 +85,12 @@ addLoopSynth = {|id, offset=0|
   var bus = ~buss[(id[\instr].asString ++ "_agg").asSymbol];
   var synth;
   s.makeBundle(0.005, { synth = Synth(\playbuf_mono,
-    [ \outbus, bus,
-      \amp, 1,
-      \buf, loopInstance[\buffer],
-      \dur, loopInstance[\dur] * ~clock.beatDur - offset - 0.05,
+    [ \outbus,   bus,
+      \amp,      1,
+      \buf,      loopInstance[\buffer],
+      \dur,      loopInstance[\dur] * ~clock.beatDur - offset - 0.05,
       \startpos, offset * s.sampleRate],
-    ~playbuf_g).onFree({loopInstance[\synth] = nil});
+    ~loop_g, \addToTail).onFree({loopInstance[\synth] = nil});
   });
   loopInstance.putAll(IdentityDictionary[
     \synth -> synth,
@@ -129,13 +130,13 @@ stopLoop = {|id, offset|
 
 [[\sax, \tub], (0 .. (numLoops - 1)).stutter(3)].flop.do {|pair|
   ~loops[pair[0]][pair[1]] = IdentityDictionary[
-    \buffer -> Buffer.alloc(s, loopMaxdur * s.sampleRate, 1),
+    \buffer ->      Buffer.alloc(s, loopMaxdur * s.sampleRate, 1),
     \next_action -> record,
-    \dur -> 0.0, // loop dur or record touch time
-    \recording -> false,
-    \synth -> nil,
-    \responder -> false,
-    \last_touch -> ~clock.beats
+    \dur ->         0.0, // loop dur or record touch time
+    \recording ->   false,
+    \synth ->       nil,
+    \responder ->   false,
+    \last_touch ->  ~clock.beats
   ];
 };
 )
