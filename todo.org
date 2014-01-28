@@ -1,10 +1,5 @@
 * Thing that need to be done
 
-*** TODO metronome should be sine wave
-
-*** TODO LOOPS ARE REALLY FUCKING LOUD, WHAT THE HELL
-
-
 *** TODO dj-like control of filtering horn loops
 *** TODO dj-like filtering of all the
 
