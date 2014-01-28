@@ -170,6 +170,7 @@ MIDIClient.sources.do {|source|
   });
 };
 
+~metronome_amp = 1;
 make_labeled_slider.(main_window, gui_length * 0.065, gui_height * 0.65,
   -60, 0,
   "met amp", {|val|
