@@ -102,7 +102,7 @@ addLoopSynth = {|id, offset=0|
   postln("STARTED LOOPING " ++ id ++ " OFFSET: " ++ offset);
 };
 
-stop_loop = {|id, offset|
+stopLoop = {|id, offset|
   var loopInstance = ~loops[id[\instr]][id[\num]];
   loopInstance[\responder].free;
   loopInstance[\synth].set(\gate, -1.03);
