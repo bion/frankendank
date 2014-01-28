@@ -1,11 +1,6 @@
 * Thing that need to be done
 
-*** TODO inconsistent looping behavior
-    waiting three bars before it plays back
-
-*** TODO silence metronome on listening to playback
-
-*** TODO loop record records currently looping playback
+*** TODO investigate crashing
 
 *** TODO dj-like control of filtering horn loops
 *** TODO dj-like filtering of all the
