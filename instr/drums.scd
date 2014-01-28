@@ -5,7 +5,7 @@ basic_sample;
 ~current_set = 0;
 
 loadRelative("./drum_sample_map.scd");
-~sample_sets = Object.readArchive("/home/perform/dev/frankendank/archive/drum_sample_sets");
+~sample_sets = Object.readArchive("../archive/drum_sample_sets".resolveRelative);
 
 ~p_synths.add(
   \drums_mon -> Synth(\mon,
