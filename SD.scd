@@ -34,6 +34,14 @@
     Out.kr(outbus, lag);
   }),
 
+  SynthDef(\metronome_sine, {
+    arg outbus, amp;
+    var out, env;
+    env = EnvGen.kr(Env.perc(0.001, 0.05, amp, -4));
+    out = SinOsc.ar(1800, 0, env);
+    Out.ar(outbus, out);
+  }),
+
   SynthDef(\control_env_testing, {arg outbus;
     var env;
     env = Control.names([\env]).kr(Env.newClear(64));
