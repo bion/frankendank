@@ -65,6 +65,7 @@ map_dic = {|num| IdentityDictionary[\instr -> \sax, \num -> num] };
   }],
   [8, {
     ~dry_horn.(\sax);
+    ~h_filt.(\sax_shaper);
     ~h_filt.(\sax_8vdown);
   }],
   // [8, { ~h_filt.(\sax_cynk_broad) }],
