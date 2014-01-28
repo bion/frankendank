@@ -32,8 +32,8 @@ playing = IdentityDictionary[];
   if (node.isNil) {
     playing[id] = Synth(id,
       [ \hornDataBus, ~buss[(instr++"_info").asSymbol],
-        \bus, ~buss[(instr++"_eq").asSymbol],
-        \pbus, ~buss[(instr++"_p").asSymbol]],
+        \bus,         ~buss[(instr++"_eq").asSymbol],
+        \pbus,        ~buss[(instr++"_p").asSymbol]],
       ~filt_g);
   };
 
@@ -45,10 +45,10 @@ playing = IdentityDictionary[];
 
   if (node.isNil) {
     playing[id] = Synth(id,
-      [ \hornDataBus, ~buss[(instr++"_info").asSymbol],
+      [ \hornDataBus,   ~buss[(instr++"_info").asSymbol],
         \pedal_amp_bus, ~buss[(instr++"_v").asSymbol],
-        \bus, ~buss[(instr++"_eq").asSymbol],
-        \pbus, ~buss[(instr++"_p").asSymbol]],
+        \bus,           ~buss[(instr++"_eq").asSymbol],
+        \pbus,          ~buss[(instr++"_p").asSymbol]],
       ~synth_g);
 
     ~p_synths[(instr ++ "_in").asSymbol].set(\amp, 0);
@@ -66,7 +66,8 @@ Platform.case(
     ~synth_g    = Group(~in_g, \addAfter);
     ~filt_g     = Group(~synth_g, \addAfter);
     ~eq_g       = Group(~filt_g, \addAfter);
-    ~agg_g      = Group(~eq_g, \addAfter);
+    ~loop_g     = Group(~eq_g, \addAfter);
+    ~agg_g      = Group(~loop_g, \addAfter);
     ~out_g      = Group(~agg_g, \addAfter);
     ~record_g   = Group(~out_g, \addAfter);
   },
@@ -79,7 +80,8 @@ Platform.case(
     ~synth_g    = ParGroup(~in_g, \addAfter);
     ~filt_g     = Group(~synth_g, \addAfter);
     ~eq_g       = ParGroup(~filt_g, \addAfter);
-    ~agg_g      = ParGroup(~eq_g, \addAfter);
+    ~loop_g     = ParGroup(~eq_g, \addAfter);
+    ~agg_g      = ParGroup(~loop_g, \addAfter);
     ~out_g      = ParGroup(~agg_g, \addAfter);
     ~record_g   = ParGroup(~out_g, \addAfter);
   }
