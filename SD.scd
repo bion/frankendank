@@ -180,8 +180,6 @@
       + (sax * sax_scale)
       + (com * com_scale);
 
-    instr = Compander.ar(instr, metranome, -42.dbamp, 1, 1/5, 0.002, 0.01);
-
     out = instr + metranome;
     Out.ar(outbus, out * main_scale);
   }),

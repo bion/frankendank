@@ -5,7 +5,7 @@ basic_sample;
 ~current_set = 0;
 
 loadRelative("./drum_sample_map.scd");
-~sample_sets = Object.readArchive("../archive/drum_sample_sets");
+~sample_sets = Object.readArchive("/home/perform/dev/frankendank/archive/drum_sample_sets");
 
 ~p_synths.add(
   \drums_mon -> Synth(\mon,
@@ -62,6 +62,7 @@ MIDIIn.program = {|src, chan, prog|
 127.do {|i|
   MIDIdef.noteOn(i.asSymbol,
     {| val |
+      "drumtrig".postln;
       ~drum_trig.(("drum_"++i).asSymbol, val)
     },
     i, 0,  ~mSrc[\drum_pad]);
