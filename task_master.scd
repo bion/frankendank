@@ -25,7 +25,7 @@
     (measure[0] / 2).floor.do {|i|
       var beats_away = beat_of_measure + i + ~clock.timeToNextBeat;
       ~clock.sched(beats_away - (s.latency / ~clock.beatDur), {
-        Synth(\playbuf_simple, [\outbus, ~buss[\metranome], \amp, 1, \buf, ~met_bufs[0]], ~playbuf_g);
+        Synth(\metronome_sine, [\outbus, ~buss[\metranome], \amp, 1], ~playbuf_g);
       });
     };
 
