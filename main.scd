@@ -363,6 +363,7 @@ after_boot = {
   [
     "SD",
     "core",
+    "midi_mapping",
     "persistent_synths",
     "looping",
     "instr/com_sample_map",
@@ -375,7 +376,7 @@ after_boot = {
     s.sync;
   };
 
-  activated_instr.do {|instr| loadRelative("./instr/" ++ instr ++ ".scd") };
+  loadRelative("./instr/drums.scd") };
 
   s.sync(cond);
 

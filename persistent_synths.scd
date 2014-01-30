@@ -109,4 +109,6 @@
     [\inbus, ~id_bus_map[\ambient], \outbus, ~buss[\one_out]], ~record_g)]
 
 ].do {|pair| ~p_synths.add(pair[0] -> pair[1]) };
+
+"PERSISTENT SYNTHS LOADED".postln;
 )
