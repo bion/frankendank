@@ -376,7 +376,7 @@ after_boot = {
     s.sync;
   };
 
-  loadRelative("./instr/drums.scd") };
+  loadRelative("./instr/drums.scd");
 
   s.sync(cond);
 
