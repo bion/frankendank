@@ -66,7 +66,13 @@ Platform.case(
     ~synth_g    = Group(~in_g, \addAfter);
     ~filt_g     = Group(~synth_g, \addAfter);
     ~eq_g       = Group(~filt_g, \addAfter);
+
     ~loop_g     = Group(~eq_g, \addAfter);
+    ~play_loop_g  = Group(~loop_g, \addToHead);
+    ~filt_loop_g  = Group(~loop_g, \addToTail);
+    ~sum_loop_g   = Group(~loop_g, \addToTail);
+    ~route_loop_g = Group(~loop_g, \addToTail);
+
     ~agg_g      = Group(~loop_g, \addAfter);
     ~out_g      = Group(~agg_g, \addAfter);
     ~record_g   = Group(~out_g, \addAfter);
@@ -80,7 +86,13 @@ Platform.case(
     ~synth_g    = ParGroup(~in_g, \addAfter);
     ~filt_g     = Group(~synth_g, \addAfter);
     ~eq_g       = ParGroup(~filt_g, \addAfter);
+
     ~loop_g     = ParGroup(~eq_g, \addAfter);
+    ~play_loop_g  = ParGroup(~loop_g, \addToHead);
+    ~filt_loop_g  = ParGroup(~loop_g, \addToTail);
+    ~sum_loop_g   = ParGroup(~loop_g, \addToTail);
+    ~route_loop_g = ParGroup(~loop_g, \addToTail);
+
     ~agg_g      = ParGroup(~loop_g, \addAfter);
     ~out_g      = ParGroup(~agg_g, \addAfter);
     ~record_g   = ParGroup(~out_g, \addAfter);
