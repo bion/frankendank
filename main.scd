@@ -343,7 +343,7 @@ run = {
 
   Server.default = s = Server.local;
   s.latency = 0.02;
-  s.options = ServerOptions.new.hardwareBufferSize = 128;
+  s.options = ServerOptions.new.hardwareBufferSize_(128).threads_(4);
 
   s.waitForBoot({ after_boot.() });
 };
