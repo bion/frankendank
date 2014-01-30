@@ -7,19 +7,6 @@ basic_sample;
 loadRelative("./drum_sample_map.scd");
 ~sample_sets = Object.readArchive("../archive/drum_sample_sets".resolveRelative);
 
-~p_synths.add(
-  \drums_mon -> Synth(\mon,
-    [ \main, \met, \sax, \tub, \drum, \com ].collect({|input|
-      [asSymbol(input++"_scale"), ~monitor_levels[\drums][input]]
-    }).flat ++
-    [
-      \metranome_bus, ~buss[\metranome],
-      \inbus, ~buss[\drums_mon],
-      \outbus, ~id_bus_map[\drums_mon_out],
-    ],
-    ~out_g ),
-);
-
 basic_sample = {| action, val |
   s.makeBundle(0.0, {
     Synth(\playbuf_simple,

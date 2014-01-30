@@ -15,30 +15,6 @@ var uid = ~mSrc[\sax];
 var toggle_filt, ints_to_names = Array.newClear(100),
 map_dic = {|num| IdentityDictionary[\instr -> \sax, \num -> num] };
 
-[
-  [\sax_mon, Synth(\mon,
-    [ \main, \met, \sax, \tub, \drum, \com ].collect({|input|
-      [asSymbol(input++"_scale"), ~monitor_levels[\sax][input]]
-    }).flat ++
-    [
-      \metranome_bus, ~buss[\metranome],
-      \inbus, ~buss[\sax_mon],
-      \outbus, ~id_bus_map[\sax_mon_out],
-    ],
-    ~out_g )],
-
-  [\sax_v, Synth(\v_control, [\outbus, ~buss[\sax_v], \amp, 0], ~in_g)],
-
-  [\sax_p, Synth(\p_control_lag, [\outbus, ~buss[\sax_p], \param, 0], ~in_g)],
-
-  [\sax_info, Synth(\sax_info, [\inbus, ~id_bus_map[\sax], \outbus, ~buss[\sax_info] ], ~in_g)],
-
-  [\sax_in, Synth(\sax_in, [\inbus, ~id_bus_map[\sax], \outbus, ~buss[\sax_eq] ], ~in_g)],
-
-  [\sax_eq, Synth(\sax_eq, [\inbus, ~buss[\sax_eq], \outbus, ~buss[\sax_agg] ], ~eq_g)]
-
-].do {|pair| ~p_synths.add(pair[0] -> pair[1]) };
-
 // two dimensional array stores button# and function pairings
 // loop over pairs to instantiate MIDIFuncs using uid
 [

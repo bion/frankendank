@@ -1,6 +1,5 @@
 (
 var docpath = thisProcess.nowExecutingPath,
-// metranome
 met_sfd = "./met_sfs/*".resolveRelative.pathMatch, // natural numbers
 playing = IdentityDictionary[];
 
@@ -182,45 +181,7 @@ if (~spoof_horns) {
   };
 };
 
-/* ________________________________ persistent synths */
-
 ~p_synths = IdentityDictionary[];
-
-[
-  [\beat_dur, Synth(\p_control,
-    [\outbus, ~buss[\beat_dur], \value, ~clock.beatDur], ~data_g)],
-
-  [\agg, Synth(\agg,
-    [
-      \sax_bus,       ~buss[\sax_agg],
-      \tub_bus,       ~buss[\tub_agg],
-      \com_bus,       ~buss[\com_agg],
-
-      \d_low_bus,     ~buss[\d_low_bus],
-      \d_med_bus,     ~buss[\d_med_bus],
-      \d_hi_bus,      ~buss[\d_hi_bus],
-
-      \drums_mon_bus, ~buss[\drums_mon],
-      \nugs_mon_bus,  ~buss[\nugs_mon],
-      \tub_mon_bus,   ~buss[\tub_mon],
-      \sax_mon_bus,   ~buss[\sax_mon],
-      \com_mon_bus,   ~buss[\com_mon],
-
-      \metranome_bus, ~buss[\metranome],
-      \sample_bus,    ~buss[\sample],
-
-      \outbus,        ~buss[\one_out]
-    ],
-    ~agg_g
-  )],
-
-  [\out_left, Synth(\route_mono,
-    [\inbus, ~buss[\one_out], \outbus, ~id_bus_map[\main_out_0]], ~out_g)],
-
-  [\ambient_in, Synth(\route_mono,
-    [\inbus, ~id_bus_map[\ambient], \outbus, ~buss[\one_out]], ~record_g)]
-
-].do {|pair| ~p_synths.add(pair[0] -> pair[1]) };
 
 "CORE LOADED".postln;
 )

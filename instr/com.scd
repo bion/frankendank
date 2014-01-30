@@ -20,17 +20,6 @@ MIDIClient.sources.do {|source|
 ~dirt_rhode_g = Group(~synth_g, \addToHead);
 
 [
-  [\com_mon, Synth(\mon,
-    [ \main, \met, \sax, \tub, \drum, \com ].collect({|input|
-      [asSymbol(input++"_scale"), ~monitor_levels[\com][input]]
-    }).flat ++
-    [
-      \metranome_bus, ~buss[\metranome],
-      \inbus, ~buss[\sax_mon],
-      \outbus, ~id_bus_map[\com_mon_out],
-    ],
-    ~out_g )],
-
   [\breath_p, Synth(\v_control, [\outbus, ~buss[\breath_v], \param, 0], ~in_g)],
 
   [\freq_lag, Synth(\p_control, [\outbus, ~buss[\freq_lag], \param, 0], ~in_g)],
