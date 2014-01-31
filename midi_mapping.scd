@@ -116,12 +116,20 @@ MIDIdef.cc(\tub_relax, {|val|
 
 ~loop_filter_vals = IdentityDictionary[];
 
-loopFilters = [
-  \amp,
-  \DFM1_hi,
-  \DFM1_lo,
-  \integrator
-];
+~loopFilters = (
+  sax: [
+    \amp_filt,
+    \DFM1_hi,
+    \DFM1_lo,
+    \integrator
+  ],
+  tub: [
+    \amp_filt,
+    \DFM1_hi,
+    \DFM1_lo,
+    \integrator
+  ]
+);
 
 [(1..32), (33..64)].flop.do {|pair, i|
   var loopNum = (i / 8).floor, instr, controller, name;
@@ -131,7 +139,7 @@ loopFilters = [
 
   controller = LoopFilterController(
     name,
-    ~loop_filters[filtNum],
+    loopFilters[instr][filtNum],
     instr,
     ~filt_loop_g
   );
