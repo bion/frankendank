@@ -1,5 +1,5 @@
 (
-var numLoops = 8, loopMaxdur = 60,
+var numLoops = 4, loopMaxdur = 60,
 record, addRecordSynth, stopRecording,
 clearLoopFunc,
 addLoopSynth, playLoop, stopLoop,
