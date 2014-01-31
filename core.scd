@@ -143,6 +143,11 @@ if (~do_bus_map_overrides) {
 
 ~buss = IdentityDictionary[];
 
+~loop_filt_buss = IdentityDictionary[
+  \sax -> 4.collect { Bus.audio(s, 1) },
+  \tub -> 4.collect { Bus.audio(s, 1) }
+];
+
 [
   \sax_eq, \tub_eq, \dru_eq, \com_eq,
   \one_out, \two_out, \three_out,
