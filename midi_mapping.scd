@@ -15,6 +15,7 @@ var uid_sax = ~mSrc[\sax];
 var map_dic_sax = {|num| IdentityDictionary[\instr -> \sax, \num -> num] };
 var uid_tub = ~mSrc[\tuba];
 var map_dic_tub = {|num| IdentityDictionary[\instr -> \tub, \num -> num] };
+var loopFilters;
 
 [
   // looping
@@ -110,6 +111,53 @@ MIDIdef.cc(\tub_relax, {|val|
 
   ~p_synths[\agg].set(\tub_relax, relax);
 }, 27, 0, uid_tub);
+
+// BCR2000
+
+~loop_filter_vals = IdentityDictionary[];
+
+loopFilters = [
+  \amp,
+  \DFM1_hi,
+  \DFM1_lo,
+  \integrator
+];
+
+[(1..32), (33..64)].flop.do {|pair, i|
+  var loopNum = (i / 8).floor, instr, controller, name;
+
+  if ((i % 8) < 4) { instr = "sax" } { instr = "tub" };
+  name = instr ++ "_loop_" ++ loopNum;
+
+  controller = LoopFilterController(
+    name,
+    ~loop_filters[filtNum],
+    instr,
+    ~filt_loop_g
+  );
+
+  ~loop_filt_controllers[name] = controller;
+
+  // \sax_loop_0_knob
+  MIDIdef(asSymbol(name ++ "_knob"),
+    {|val|
+      ~loop_filt_controllers[name].setKnobVal(val);
+    },
+    pair[0],
+    0,
+    ~mSrc[\bcr]
+  );
+
+  // \sax_loop_0_toggle
+  MIDIdef(asSymbol(name ++ "_toggle"),
+    {|val|
+      if (val == 0) { controller.activate } { controller.deactivate };
+    },
+    pair[1],
+    0,
+    ~mSrc[\bcr]
+  );
+};
 
 "MIDI MAPPING LOADED".postln;
 )
