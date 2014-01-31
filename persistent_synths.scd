@@ -80,17 +80,6 @@
 
   [\sax_p, Synth(\p_control_lag, [\outbus, ~buss[\sax_p], \param, 0], ~in_g)],
 
-
-  // ****************************************** LOOPING
-
-  [\sax, \tub].collect {|instr|
-    4.collect {|i|
-      [asSymbol(instr ++ "_loop_route_" ++ i), Synth(\route_mono,
-        [\inbus, ~loop_filt_buss[instr], \outbus, ~buss[asSymbol(isntr ++ "_agg")]],
-        ~route_loop_g)]
-    },
-  },
-
   // ****************************************** CORE
 
   [\beat_dur, Synth(\p_control,
@@ -126,7 +115,20 @@
   [\ambient_in, Synth(\route_mono,
     [\inbus, ~id_bus_map[\ambient], \outbus, ~buss[\one_out]], ~record_g)]
 
-].flat.do {|pair| ~p_synths.add(pair[0] -> pair[1]) };
+].do {|pair| ~p_synths.add(pair[0] -> pair[1]) };
+
+// ****************************************** LOOPING
+
+[\sax, \tub].do {|instr|
+  4.do {|i|
+    var key = asSymbol(instr ++ "_loop_route_" ++ i),
+    synth = Synth(\route_mono,
+      [\inbus, ~loop_filt_buss[instr], \outbus, ~buss[asSymbol(instr ++ "_agg")]],
+      ~route_loop_g);
+
+    ~p_synths.add(key -> synth);
+  };
+};
 
 "PERSISTENT SYNTHS LOADED".postln;
 )

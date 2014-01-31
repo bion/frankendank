@@ -462,6 +462,43 @@
     XOut.ar(bus, Linen.kr(gate, 0.05, releaseTime: 0.05, doneAction: 2), chain);
   }),
 
+  /* ------------------------------- loop filters --------------------------------- */
+
+  SynthDef(\amp_filt, {
+    arg bus, param, gate=1;
+    var chain, amp;
+    amp = LinExp.kr(param, 0, 127, -46.dbamp, 1);
+    chain = amp * In.ar(bus, 1);
+    XOut.ar(bus, Linen.kr(gate, 0.05, releaseTime: 0.05, doneAction: 2), chain);
+  }),
+
+  SynthDef(\DFM1_hi, {
+    arg bus, param, gate=1;
+    var chain, freq;
+    chain = In.ar(bus, 1);
+    freq = LinExp.kr(param, 0, 127, 60, 4000);
+    chain = DFM1.ar(chain, freq, 0.1, 1, 1.0, -16.dbamp);
+    XOut.ar(bus, Linen.kr(gate, 0.05, releaseTime: 0.05, doneAction: 2), chain);
+  }),
+
+  SynthDef(\DFM1_lo, {
+    arg bus, param, gate=1;
+    var chain, freq;
+    chain = In.ar(bus, 1);
+    freq = LinExp.kr(param, 0, 127, 60, 4000);
+    chain = DFM1.ar(chain, freq, 0.1, 1, 0.0, -16.dbamp);
+    XOut.ar(bus, Linen.kr(gate, 0.05, releaseTime: 0.05, doneAction: 2), chain);
+  }),
+
+  SynthDef(\integrator, {
+    arg bus, param, gate=1;
+    var chain, fac;
+    chain = In.ar(bus, 1);
+    fac = LinLin.kr(param, 0, 127, 0.5, 0.9);
+    chain = Integrator.ar(chain, fac);
+    XOut.ar(bus, Linen.kr(gate, 0.05, releaseTime: 0.05, doneAction: 2), chain);
+  }),
+
   /* ------------------------------- general filters --------------------------------- */
 
   SynthDef(\cynk_broad, {
@@ -553,4 +590,6 @@
   SynthDef(\control_stub, {|bus, value| Out.kr(bus, value) })
 
 ].flat.do(_.add);
+
+"SD loaded".postln;
 )

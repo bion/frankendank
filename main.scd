@@ -369,10 +369,10 @@ after_boot = {
     "instr/com_sample_map",
     "jams",
     "task_master",
-    "instr/nugs",
     "instr/com"
   ].do {|file|
     loadRelative("./" ++ file ++ ".scd");
+    "".postln;
     s.sync;
   };
 

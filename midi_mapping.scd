@@ -59,10 +59,10 @@ var loopFilters;
 // two dimensional array stores button# and function pairings
 // loop over pairs to instantiate MIDIFuncs using uid
 [
-  [0, {~loop_touch.(map_dic.(0));}],
-  [1, {~loop_touch.(map_dic.(1));}],
-  [2, {~loop_touch.(map_dic.(2));}],
-  [3, {~loop_touch.(map_dic.(3));}],
+  [0, {~loop_touch.(map_dic_tub.(0));}],
+  [1, {~loop_touch.(map_dic_tub.(1));}],
+  [2, {~loop_touch.(map_dic_tub.(2));}],
+  [3, {~loop_touch.(map_dic_tub.(3));}],
   // clear loop id must be a single string char
   [4, {~clear_loop.(\tub);}],
 
@@ -114,9 +114,9 @@ MIDIdef.cc(\tub_relax, {|val|
 
 // BCR2000
 
-~loop_filter_vals = IdentityDictionary[];
+~loop_filt_controllers = IdentityDictionary[];
 
-~loopFilters = (
+loopFilters = (
   sax: [
     \amp_filt,
     \DFM1_hi,
@@ -132,14 +132,16 @@ MIDIdef.cc(\tub_relax, {|val|
 );
 
 [(1..32), (33..64)].flop.do {|pair, i|
-  var loopNum = (i / 8).floor, instr, controller, name;
+  var instr, controller, name;
+  var loopNum = (i / 8).floor;
+  var filtNum = (i / 4).floor;
 
   if ((i % 8) < 4) { instr = "sax" } { instr = "tub" };
   name = instr ++ "_loop_" ++ loopNum;
 
   controller = LoopFilterController(
     name,
-    loopFilters[instr][filtNum],
+    loopFilters[instr.asSymbol][filtNum],
     instr,
     ~filt_loop_g
   );

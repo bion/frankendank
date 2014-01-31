@@ -82,7 +82,7 @@ playLoop = {|id, offset|
 
 addLoopSynth = {|id, offset=0|
   var loopInstance = ~loops[id[\instr]][id[\num]];
-  var bus = ~loop_filt_buss[id[\instr][id[\num]];
+  var bus = ~loop_filt_buss[id[\instr]][id[\num]];
   var synth;
   s.makeBundle(0.005, { synth = Synth(\playbuf_mono,
     [ \outbus,   bus,
