@@ -1,5 +1,8 @@
 (
 [
+
+  // ****************************************** MONITORING
+
   [\sax_mon, Synth(\mon,
     [ \main, \met, \sax, \tub, \drum, \com ].collect({|input|
       [asSymbol(input++"_scale"), ~monitor_levels[\sax][input]]
@@ -55,6 +58,8 @@
     ],
     ~out_g )],
 
+  // ****************************************** HORNS
+
   [\sax_info, Synth(\sax_info, [\inbus, ~id_bus_map[\sax], \outbus, ~buss[\sax_info] ], ~in_g)],
 
   [\tub_info, Synth(\tuba_info, [\inbus, ~id_bus_map[\tub], \outbus, ~buss[\tub_info] ], ~in_g)],
@@ -74,6 +79,19 @@
   [\tub_p, Synth(\p_control_lag, [\outbus, ~buss[\tub_p], \param, 0], ~in_g)],
 
   [\sax_p, Synth(\p_control_lag, [\outbus, ~buss[\sax_p], \param, 0], ~in_g)],
+
+
+  // ****************************************** LOOPING
+
+  [\sax, \tub].collect {|instr|
+    4.collect {|i|
+      [asSymbol(instr ++ "_loop_route_" ++ i), Synth(\route_mono,
+        [\inbus, ~loop_filt_buss[instr], \outbus, ~buss[asSymbol(isntr ++ "_agg")]],
+        ~route_loop_g)]
+    },
+  },
+
+  // ****************************************** CORE
 
   [\beat_dur, Synth(\p_control,
     [\outbus, ~buss[\beat_dur], \value, ~clock.beatDur], ~data_g)],
@@ -108,7 +126,7 @@
   [\ambient_in, Synth(\route_mono,
     [\inbus, ~id_bus_map[\ambient], \outbus, ~buss[\one_out]], ~record_g)]
 
-].do {|pair| ~p_synths.add(pair[0] -> pair[1]) };
+].flat.do {|pair| ~p_synths.add(pair[0] -> pair[1]) };
 
 "PERSISTENT SYNTHS LOADED".postln;
 )
