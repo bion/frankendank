@@ -50,7 +50,7 @@ addRecordSynth = {|id, offset=0|
       [ \inbus,    bus,
         \startpos, offset * s.sampleRate,
         \buf,      loopInstance[\buffer] ],
-      ~loop_g, \addToHead);
+      ~record_loop_g, \addToHead);
   });
   loopInstance[\next_action] = stopRecording;
   postln("STARTED " ++ id ++ " RECORDING, OFFSET: " ++ offset);
@@ -82,7 +82,7 @@ playLoop = {|id, offset|
 
 addLoopSynth = {|id, offset=0|
   var loopInstance = ~loops[id[\instr]][id[\num]];
-  var bus = ~buss[(id[\instr].asString ++ "_agg").asSymbol];
+  var bus = ~loop_filt_buss[id[\instr][id[\num]];
   var synth;
   s.makeBundle(0.005, { synth = Synth(\playbuf_mono,
     [ \outbus,   bus,
@@ -90,7 +90,7 @@ addLoopSynth = {|id, offset=0|
       \buf,      loopInstance[\buffer],
       \dur,      loopInstance[\dur] * ~clock.beatDur - offset - 0.05,
       \startpos, offset * s.sampleRate],
-    ~loop_g, \addToTail).onFree({loopInstance[\synth] = nil});
+    ~play_loop_g, \addToTail).onFree({loopInstance[\synth] = nil});
   });
   loopInstance.putAll(IdentityDictionary[
     \synth -> synth,
@@ -128,7 +128,7 @@ stopLoop = {|id, offset|
   \tub -> Array.newClear(numLoops)
 ];
 
-[[\sax, \tub], (0 .. (numLoops - 1)).stutter(3)].flop.do {|pair|
+[[\sax, \tub], (0 .. (numLoops - 1)).stutter(2)].flop.do {|pair|
   ~loops[pair[0]][pair[1]] = IdentityDictionary[
     \buffer ->      Buffer.alloc(s, loopMaxdur * s.sampleRate, 1),
     \next_action -> record,
