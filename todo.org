@@ -2,6 +2,8 @@
 
 *** TODO investigate crashing
 
+*** TODO hard-link lib files to extensions directory
+
 *** TODO dj-like control of filtering horn loops
 *** TODO dj-like filtering of all the
 
