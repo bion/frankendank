@@ -6,10 +6,19 @@ var source_dir = "~/Dropbox/electric_band_shared_music/raw_horn_samples/".standa
 
 b = Synth(\playbuf_simple, [\outbus, ~buss[\tub_spoof], \buf, ~tuba_buf], ~playbuf_g);
 b = Synth(\playbuf_simple, [\outbus, ~buss[\sax_spoof], \buf, ~sax_buf], ~playbuf_g);
-
-s.queryAllNodes
-
 a.free;
 b.free;
+
+~loop_touch.(IdentityDictionary[\instr -> \sax, \num -> 1]);
+~loop_touch.(IdentityDictionary[\instr -> \tub, \num -> 2]);
+~loop_touch.(IdentityDictionary[\instr -> \tub, \num -> 3]);
+
+~clear_loop.(\sax);
+~clear_loop.(\tub);
+
+~reset_all.(\sax);
+~reset_all.(\tub);
+
+s.queryAllNodes
 
 s.makeGui
