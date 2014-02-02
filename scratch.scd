@@ -5,3 +5,6 @@
 ~loop_touch.(IdentityDictionary[\instr -> \tub, \num -> 2]);
 
 ~clear_loop.(\sax);
+~clear_loop.(\tub);
+
+s.queryAllNodes
