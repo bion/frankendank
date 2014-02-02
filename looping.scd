@@ -88,7 +88,7 @@ addLoopSynth = {|id, offset=0|
     [ \outbus,   bus,
       \amp,      1,
       \buf,      loopInstance[\buffer],
-      \dur,      loopInstance[\dur] * ~clock.beatDur - offset - 0.05,
+      \dur,      loopInstance[\dur] * ~clock.beatDur - offset - 0.005,
       \startpos, offset * s.sampleRate],
     ~play_loop_g, \addToTail).onFree({loopInstance[\synth] = nil});
   });
