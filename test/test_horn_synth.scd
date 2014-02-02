@@ -9,8 +9,8 @@
     parent_group, synth_group, param_group, filt_group, in_group,
     bundles, cond;
 
-  // source_path = "~/Dropbox/electric_band_shared_music/raw_horn_samples/tuba_1.aiff".standardizePath;
-  source_path = "~/Dropbox/electric_band_shared_music/raw_horn_samples/sax_1.aiff".standardizePath;
+  source_path = "~/Dropbox/electric_band_shared_music/raw_horn_samples/tuba_1.aiff".standardizePath;
+  // source_path = "~/Dropbox/electric_band_shared_music/raw_horn_samples/sax_1.aiff".standardizePath;
 
   param = Env(
     [0,
@@ -39,23 +39,23 @@
 
     test_buf = Buffer.read(s, source_path);
 
-    loadRelative("./SD.scd");
+    loadRelative("../SD.scd");
 
     s.sync(cond);
 
     s.makeBundle(0.4, {
       Synth(\playbuf_simple, [\outbus, horn_in, \buf, test_buf], parent_group);
 
-//      Synth(\tuba_in, [\inbus, horn_in, \outbus, info_in_bus], parent_group, \addToTail);
+      Synth(\tuba_in, [\inbus, horn_in, \outbus, info_in_bus], parent_group, \addToTail);
 
-      Synth(\sax_in, [\inbus, horn_in, \outbus, stereo_bus], parent_group, \addToTail);
+      // Synth(\sax_in, [\inbus, horn_in, \outbus, stereo_bus], parent_group, \addToTail);
 
-      Synth(\horninfo, [\inbus, horn_in, \outbus, info_out_bus], synth_group);
+      Synth(\tuba_info, [\inbus, horn_in, \outbus, info_out_bus], synth_group);
 
       Synth(\control_stub, [\bus, param_bus, \value, 120], synth_group);
 
-//      Synth(\tub_s2, [\bus, stereo_bus, \hornDataBus, info_out_bus, \pedal_amp_bus, param_bus]);
-//      Synth(\tub_subbass, [\bus, stereo_bus, \hornDataBus, info_out_bus, \pedal_amp_bus, param_bus]);
+      Synth(\tub_s3, [\bus, stereo_bus, \hornDataBus, info_out_bus, \pedal_amp_bus, param_bus]);
+     // Synth(\tub_subbass, [\bus, stereo_bus, \hornDataBus, info_out_bus, \pedal_amp_bus, param_bus]);
 
 //      Synth(\sax_nother, [\bus, stereo_bus, \pbus, param_bus], filt_group);
 //      Synth(\sax_chorus, [\bus, stereo_bus], filt_group);
@@ -67,7 +67,9 @@
       },
       bundles
     );
-
+    CmdPeriod.doOnce({
+      s.freeAll;
+    });
   };
   s.queryAllNodes;
 )
