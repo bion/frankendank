@@ -1,16 +1,11 @@
 * Thing that need to be done
 
-*** TODO investigate crashing
-
-*** TODO hard-link lib files to extensions directory
-
-*** TODO dj-like control of filtering horn loops
-*** TODO dj-like filtering of all the
-
+*** TODO dj-like filtering of band output
 
 *** TODO breath control for synths tracking jam chords
-*** TODO 4 filter drums banks
-*** TODO tuba compression off when at bottom
+*** TODO drum filters
+
+*** TODO OO looping
 *** TODO OO horn mgmt chains?
     group manager object
     looping?
