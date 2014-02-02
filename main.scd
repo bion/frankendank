@@ -254,7 +254,8 @@ start_btn = Button(main_window, Rect(gui_length * 0.5, gui_height - 100, btn_len
 
 // * * * * * * * * * * * * * * * * * * * * * * RECORDING
 
-record_btn = Button(main_window, Rect(gui_length * 0.5 + (btn_length * 1.5) + 20, gui_height - 100, btn_length * 1.5, btn_height * 1.5) )
+record_btn = Button(main_window,
+  Rect(gui_length * 0.5 + (btn_length * 1.5) + 20, gui_height - 100, btn_length * 1.5, btn_height * 1.5) )
 .states_([["inactive"], Color.black])
 .mouseDownAction_({"server not booted".postln});
 

@@ -37,7 +37,7 @@
   SynthDef(\metronome_sine, {
     arg outbus, amp;
     var out, env;
-    env = EnvGen.kr(Env.perc(0.001, 0.05, amp, -4));
+    env = EnvGen.kr(Env.perc(0.001, 0.05, amp, -4), doneAction: 2);
     out = SinOsc.ar(1800, 0, env);
     Out.ar(outbus, out);
   }),
