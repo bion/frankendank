@@ -295,19 +295,17 @@
 
   SynthDef(\tub_s2, {
     arg hornDataBus, pedal_amp_bus, bus, gate=1;
-    var pitch, hasPitch, amp, onset, control, synth, out_amp, out, lowpass_control;
+    var pitch, hasPitch, amp, onset, synth, out_amp, out, lowpass_control;
+    var sawControl, decBitControl, controlAmp, delayControl;
     #pitch, hasPitch, amp, onset = In.kr(hornDataBus, 4);
-    control = LinExp.kr(amp.ampdb, -32, -10, 1, 10).lag3(0.2);
+    controlAmp = amp.lag3(0.1);
 
-    synth = VarSaw.ar(pitch, 0, width: control.lag3(0.1).range(0.45, 0.55));
-    synth = Decimator.ar(synth, 20000, control.range(4, 12));
+    sawControl = LinExp.kr(controlAmp, -32.dbamp, -10.dbamp, 0.35, 0.85).lag3(0.05);
+    synth = VarSaw.ar(pitch * [0.9983291, 1, 1.001213], 0, width: sawControl).mean;
 
-    synth = synth * (amp > 0).lag3(~horn_gate_lag);
+    synth = synth * Slew.kr((amp > 0).lag3(~horn_gate_lag), 10, 4000);
 
-    lowpass_control = LinExp.kr(amp.ampdb, -32, -10, pitch * 1.5, 10000).max(160).lag3(0.2);
-    synth = MoogLadder.ar(synth, control.range(pitch, 20000), control.range(0.03, 0.1));
-
-    synth = DelayC.ar(synth, 1, control.range(0, 0.0012));
+    synth = Integrator.ar(synth, 0.72, -16.dbamp);
 
     out = synth * In.kr(pedal_amp_bus, 1);
     Out.ar(bus, out * Linen.kr(gate, 0.05, releaseTime: 0.05, doneAction: 2));
