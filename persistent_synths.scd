@@ -123,7 +123,7 @@
   4.do {|i|
     var key = asSymbol(instr ++ "_loop_route_" ++ i),
     synth = Synth(\route_mono,
-      [\inbus, ~loop_filt_buss[instr], \outbus, ~buss[asSymbol(instr ++ "_agg")]],
+      [\inbus, ~loop_filt_buss[instr][i], \outbus, ~buss[asSymbol(instr ++ "_agg")]],
       ~route_loop_g);
 
     ~p_synths.add(key -> synth);
