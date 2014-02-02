@@ -121,13 +121,13 @@ loopFilters = (
     \amp_filt,
     \DFM1_hi,
     \DFM1_lo,
-    \integrator
+    \decimator
   ],
   tub: [
     \amp_filt,
     \DFM1_hi,
     \DFM1_lo,
-    \integrator
+    \decimator
   ]
 );
 
