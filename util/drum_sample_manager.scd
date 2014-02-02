@@ -11,8 +11,10 @@ mainWindow = Window("man-handle drum sample sets",
 
 volatileElements = LinkedList[],
 
+menu,
+
 renderSampleSelectors,
-renderNewTemplate, renderSelectedSet;
+addNewSet, renderSelectedSet;
 
 mainWindow.onClose = {
   0.exit;
@@ -30,14 +32,13 @@ QtGUI.palette = QPalette.dark;
 StaticText(mainWindow, Rect(10, 10, 90, 30))
 .string_("set").stringColor_(Color.white).align_(\left);
 
-PopUpMenu(mainWindow, Rect(10, 40, 90, 30))
+menu = PopUpMenu(mainWindow, Rect(10, 40, 90, 30))
 .items_(["select set"] ++ (0 .. (~sample_sets.size-1)) ++ ["new set"])
 .action_({|val|
-  if (val == "new set") {
-    volatileElements.do {|e| e.remove};
-    renderNewTemplate.();
+  volatileElements.do {|e| e.remove};
+  if (val.item == "new set") {
+    addNewSet.();
   } {
-    volatileElements.do {|e| e.remove};
     renderSelectedSet.(val.item);
   };
 });
@@ -73,14 +74,11 @@ renderSelectedSet = {|setIndex|
   };
 };
 
-renderNewTemplate = {
-  8.do {|padNum|
-    var name = 'new',
-    left = padNum % 4 * 180 + 20, top;
-
-    if (padNum < 4) { top = 100 } { top = 250 };
-    renderSampleSelectors.(name, top, left);
-  };
+addNewSet = {
+  var newSet = ~sample_sets[~sample_sets.size-1].deepCopy;
+  ~sample_sets = ~sample_sets.add(newSet);
+  menu.items_(["select set"] ++ (0 .. (~sample_sets.size-1)) ++ ["new set"]);
+  ~sample_sets.writeArchive(archivePath);
+  menu.valueAction = ~sample_sets.size;
 };
-
 )
