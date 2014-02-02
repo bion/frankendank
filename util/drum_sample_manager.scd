@@ -31,9 +31,10 @@ StaticText(mainWindow, Rect(10, 10, 90, 30))
 .string_("set").stringColor_(Color.white).align_(\left);
 
 PopUpMenu(mainWindow, Rect(10, 40, 90, 30))
-.items_(["select set"] ++ (0 .. ~sample_sets.size) ++ ["new set"])
+.items_(["select set"] ++ (0 .. (~sample_sets.size-1)) ++ ["new set"])
 .action_({|val|
   if (val == "new set") {
+    volatileElements.do {|e| e.remove};
     renderNewTemplate.();
   } {
     volatileElements.do {|e| e.remove};
