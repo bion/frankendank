@@ -132,38 +132,40 @@ loopFilters = (
 );
 
 [(1..32), (33..64)].flop.do {|pair, i|
+  var knobControlNum = pair[0];
+  var toggleControlNum = pair[1];
   var instr, controller, name;
   var loopNum = (i / 8).floor;
-  var filtNum = (i / 4).floor;
+  var filtNum = i % 4;
 
   if ((i % 8) < 4) { instr = "sax" } { instr = "tub" };
-  name = instr ++ "_loop_" ++ loopNum;
+  // e.g. sax_loop_0_filt_0
+  name = instr ++ "_loop_" ++ loopNum ++ "_filt_" ++ filtNum;
 
   controller = LoopFilterController(
     name,
     loopFilters[instr.asSymbol][filtNum],
     instr,
+    ~loop_filt_buss[instr.asSymbol][loopNum],
     ~filt_loop_g
   );
 
-  ~loop_filt_controllers[name] = controller;
+  ~loop_filt_controllers[name.asSymbol] = controller;
 
-  // \sax_loop_0_knob
-  MIDIdef(asSymbol(name ++ "_knob"),
-    {|val|
-      ~loop_filt_controllers[name].setKnobVal(val);
+  MIDIdef.cc(asSymbol(name ++ "_knob"),
+    { |val|
+      controller.setKnobVal(val);
     },
-    pair[0],
+    knobControlNum,
     0,
     ~mSrc[\bcr]
   );
 
-  // \sax_loop_0_toggle
-  MIDIdef(asSymbol(name ++ "_toggle"),
-    {|val|
-      if (val == 0) { controller.activate } { controller.deactivate };
+  MIDIdef.cc(asSymbol(name ++ "_toggle"),
+    { |val|
+      if (val != 0) { controller.activate } { controller.deactivate };
     },
-    pair[1],
+    toggleControlNum,
     0,
     ~mSrc[\bcr]
   );
