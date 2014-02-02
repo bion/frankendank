@@ -311,6 +311,36 @@
     Out.ar(bus, out * Linen.kr(gate, 0.05, releaseTime: 0.05, doneAction: 2));
   }),
 
+  SynthDef(\tub_s3, {
+    arg hornDataBus, pedal_amp_bus, bus, gate=1;
+    var signal, filtC1, filtC2, attackTime = 0.2, amp, out,
+      modFreqEnv, mod, controlAmp, onset, pitch, hasPitch;
+
+    #pitch, hasPitch, amp, onset = In.kr(hornDataBus, 4);
+    controlAmp = amp.lag3(0.1);
+
+    signal = Pulse.ar([pitch, pitch * 1.001201, pitch * 0.99932],
+      SinOsc.kr([0.5, 0.3, 0.7], Rand(0, pi) ! 3).range(0.355, 0.55) +
+        [LFNoise1.kr(0.001).range(-0.6, 0.4),
+        LFNoise1.kr(0.001).range(-0.6, 0.4),
+        LFNoise1.kr(0.001).range(-0.6, 0.4)]).sum;
+
+    signal = signal + SinOsc.ar(pitch*0.5, 0, 0.8);
+
+    modFreqEnv = LinExp.kr(controlAmp.ampdb, -36, -10, 0.01, 1);
+    mod = SinOsc.kr((modFreqEnv * pitch) + pitch, 0, 20);
+    signal = signal + SinOsc.ar(pitch + mod, 0, 0.5).distort;
+
+    signal = XFade2.ar(
+      DFM1.ar(signal, pitch * 2.5, 0.6, 2, 0.0, -46.dbamp),
+      MoogFF.ar(signal, 8000, 0.1) * 6.dbamp,
+      LinExp.kr(controlAmp, -36.dbamp, -10.dbamp, -1, 1)
+    );
+    out = signal * Slew.kr((amp > 0).lag3(~horn_gate_lag), 10, 4000, In.kr(pedal_amp_bus, 1));
+
+    Out.ar(bus, out * Linen.kr(gate, 0.05, releaseTime: 0.05, doneAction: 2));
+  }),
+
   /* ------------------------------- tuba filters --------------------------------- */
 
   SynthDef(\tub_comp, {
