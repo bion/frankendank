@@ -130,8 +130,9 @@ MIDIIn.connectAll;
 
 MIDIClient.sources.do {|source|
   case
-  {source.device == "Breath Controller"}  {~mSrc[\breath] = source.uid}
-  {source.device == "ControlPad"}         { ~mSrc[\drum_pad] = source.uid};
+  { source.device == "Breath Controller" } { ~mSrc[\breath] = source.uid }
+  { source.device == "BCR2000" }           { ~mSrc[\bcr] = source.uid }
+  { source.device == "ControlPad" }        { ~mSrc[\drum_pad] = source.uid };
 };
 
 
