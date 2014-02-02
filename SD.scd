@@ -467,7 +467,7 @@
   SynthDef(\amp_filt, {
     arg bus, param, gate=1;
     var chain, amp;
-    amp = LinExp.kr(param, 0, 127, -46.dbamp, 1);
+    amp = LinExp.kr(param, 0, 127, 1, -46.dbamp);
     chain = amp * In.ar(bus, 1);
     XOut.ar(bus, Linen.kr(gate, 0.05, releaseTime: 0.05, doneAction: 2), chain);
   }),
@@ -476,8 +476,8 @@
     arg bus, param, gate=1;
     var chain, freq;
     chain = In.ar(bus, 1);
-    freq = LinExp.kr(param, 0, 127, 60, 4000);
-    chain = DFM1.ar(chain, freq, 0.1, 1, 1.0, -16.dbamp);
+    freq = LinExp.kr(param, 0, 127, 20, 10000);
+    chain = DFM1.ar(chain, freq, 0.1, 1, 1.0);
     XOut.ar(bus, Linen.kr(gate, 0.05, releaseTime: 0.05, doneAction: 2), chain);
   }),
 
@@ -485,8 +485,8 @@
     arg bus, param, gate=1;
     var chain, freq;
     chain = In.ar(bus, 1);
-    freq = LinExp.kr(param, 0, 127, 60, 4000);
-    chain = DFM1.ar(chain, freq, 0.1, 1, 0.0, -16.dbamp);
+    freq = LinExp.kr(param, 0, 127, 10000, 20);
+    chain = DFM1.ar(chain, freq, 0.1, 1, 0.0);
     XOut.ar(bus, Linen.kr(gate, 0.05, releaseTime: 0.05, doneAction: 2), chain);
   }),
 
@@ -496,6 +496,16 @@
     chain = In.ar(bus, 1);
     fac = LinLin.kr(param, 0, 127, 0.5, 0.9);
     chain = Integrator.ar(chain, fac);
+    XOut.ar(bus, Linen.kr(gate, 0.05, releaseTime: 0.05, doneAction: 2), chain);
+  }),
+
+  SynthDef(\decimator, {
+    arg bus, param, gate=1;
+    var chain, bits, ampComp;
+    chain = In.ar(bus, 1);
+    bits = LinLin.kr(param, 0, 127, 31, 2);
+    ampComp = LinExp.kr(param, 0, 127, 1, -15.dbamp);
+    chain = Decimator.ar(chain, 44100, bits, mul: ampComp);
     XOut.ar(bus, Linen.kr(gate, 0.05, releaseTime: 0.05, doneAction: 2), chain);
   }),
 
