@@ -179,6 +179,7 @@ make_labeled_slider.(main_window, gui_length * 0.065, gui_height * 0.65,
   0
 );
 
+~tempo = 96/60;
 make_labeled_slider.(main_window, gui_length * 0.2, gui_height * 0.65,
   60, 160,
   "tempo", {|val|
