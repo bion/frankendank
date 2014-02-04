@@ -367,20 +367,19 @@ after_boot = {
   [
     "SD",
     "core",
-    "midi_mapping",
     "persistent_synths",
     "looping",
     "instr/com_sample_map",
+    "instr/drums",
     "jams",
     "task_master",
-    "instr/com"
+    "midi_mapping"
   ].do {|file|
     loadRelative("./" ++ file ++ ".scd");
     "".postln;
     s.sync;
   };
 
-  loadRelative("./instr/drums.scd");
 
   s.sync(cond);
 
@@ -413,8 +412,6 @@ after_boot = {
     postln("MIDIdefs freed");
     s.quit;
   };
-
-  ~mSrc.writeArchive("./archive/mSrc".resolveRelative);
 
   ~scheduler.();
 
