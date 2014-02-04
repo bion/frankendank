@@ -11,9 +11,7 @@
   MIDIdef.program(\whodunnit, {|...args| args.postln; "this one".postln;}, 0, -1815496440, {|val| val==0});
 */
 (
-var uid_sax = ~mSrc[\sax];
 var map_dic_sax = {|num| IdentityDictionary[\instr -> \sax, \num -> num] };
-var uid_tub = ~mSrc[\tuba];
 var map_dic_tub = {|num| IdentityDictionary[\instr -> \tub, \num -> num] };
 var loopFilters;
 
@@ -51,7 +49,7 @@ var loopFilters;
     ("sax_"++pair[0]).asSymbol,
     pair[1],
     0,
-    uid_sax,
+    ~mSrc[\sax],
     pair[0]
   );
 };
@@ -88,15 +86,17 @@ var loopFilters;
     ("tub_"++pair[0]).asSymbol,
     pair[1],
     0,
-    uid_tub,
+    ~mSrc[\tuba],
     pair[0]
   );
 };
 
-MIDIdef.cc(\sax_volume, {|val| ~p_synths[\sax_v].set(\amp, val) }, 7, 0, uid_tub);
-MIDIdef.cc(\tub_volume, {|val| ~p_synths[\tub_v].set(\amp, val) }, 7, 0, uid_tub);
+MIDIdef.cc(\sax_volume, {|val| ~p_synths[\sax_v].set(\amp, val) }, 7, 0, ~mSrc[\sax]);
 
-MIDIdef.cc(\sax_param, {|val| ~p_synths[\sax_p].set(\param, val) }, 27, 0, uid_tub);
+MIDIdef.cc(\tub_volume, {|val| ~p_synths[\tub_v].set(\amp, val) }, 7, 0, ~mSrc[\tuba]);
+
+MIDIdef.cc(\sax_param, {|val| ~p_synths[\sax_p].set(\param, val) }, 27, 0, ~mSrc[\tuba]);
+
 MIDIdef.cc(\tub_relax, {|val|
   var relax;
   case
@@ -110,7 +110,7 @@ MIDIdef.cc(\tub_relax, {|val|
   { relax = ~tempo };
 
   ~p_synths[\agg].set(\tub_relax, relax);
-}, 27, 0, uid_tub);
+}, 27, 0, ~mSrc[\tuba]);
 
 // BCR2000
 
