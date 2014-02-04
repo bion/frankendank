@@ -1,18 +1,18 @@
 var o, p;
 o = [
-	Array.prNew(2),  IdentityDictionary.prNew,  Array.prNew(32),  IdentityDictionary.prNew,  
-	Array.prNew(32)
+	Array.prNew(3),  IdentityDictionary.prNew,  Array.prNew(32),  IdentityDictionary.prNew,  
+	Array.prNew(32),  IdentityDictionary.prNew,  Array.prNew(32)
 ];
 p = [
 	// Array
-	0, [ o[1],  o[3] ],  
+	0, [ o[1],  o[3],  o[5] ],  
 	// IdentityDictionary
 	1, [ array: o[2],  size: 8,  
 		proto: nil,  parent: nil,  
 		know: false ],  
 	// Array
 	2, [ nil,  nil,  nil,  nil,  
-		nil,  nil,  'drum_7',  'Bell',  
+		nil,  nil,  'drum_7',  'Hat3',  
 		nil,  nil,  'drum_3',  'Clap1',  
 		'drum_4',  'Whip',  nil,  nil,  
 		'drum_5',  'Hat1',  'drum_2',  'Snare1',  
@@ -25,6 +25,19 @@ p = [
 		know: false ],  
 	// Array
 	4, [ nil,  nil,  nil,  nil,  
+		nil,  nil,  'drum_7',  'rimshot_mettalic',  
+		nil,  nil,  'drum_3',  'Snap1',  
+		'drum_4',  'rimshot_mettalic',  nil,  nil,  
+		'drum_5',  'rimshot_1',  'drum_2',  'Clap2',  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  'drum_0',  'Kick3',  
+		'drum_1',  'Kick4',  'drum_6',  'Hat3' ],  
+	// IdentityDictionary
+	5, [ array: o[6],  size: 8,  
+		proto: nil,  parent: nil,  
+		know: false ],  
+	// Array
+	6, [ nil,  nil,  nil,  nil,  
 		nil,  nil,  'drum_7',  'Cymbal1',  
 		nil,  nil,  'drum_3',  'Snap1',  
 		'drum_4',  'Whip',  nil,  nil,  
