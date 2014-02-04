@@ -98,7 +98,7 @@ MIDIdef.cc(\sax_volume, {|val| ~p_synths[\sax_v].set(\amp, val) }, 7, 0, ~mSrc[\
 
 MIDIdef.cc(\tub_volume, {|val| ~p_synths[\tub_v].set(\amp, val) }, 7, 0, ~mSrc[\tuba]);
 
-MIDIdef.cc(\sax_param, {|val| ~p_synths[\sax_p].set(\param, val) }, 27, 0, ~mSrc[\tuba]);
+MIDIdef.cc(\sax_param, {|val| ~p_synths[\sax_p].set(\param, val) }, 27, 0, ~mSrc[\sax]);
 
 MIDIdef.cc(\tub_relax, {|val|
   var relax;
