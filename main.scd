@@ -362,6 +362,8 @@ after_boot = {
     record_btn.mouseDownAction_(record_start);
   });
 
+  MIDIdef.freeAll;
+
   [
     "SD",
     "core",
