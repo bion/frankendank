@@ -15,6 +15,9 @@ var map_dic_sax = {|num| IdentityDictionary[\instr -> \sax, \num -> num] };
 var map_dic_tub = {|num| IdentityDictionary[\instr -> \tub, \num -> num] };
 var loopFilters;
 
+~mSrc[\sax] = ~mSrc[\sax] ? 1;
+~mSrc[\tuba] = ~mSrc[\tuba] ? 1;
+
 [
   // looping
   [0, {~loop_touch.(map_dic_sax.(0));}],
