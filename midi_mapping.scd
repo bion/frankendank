@@ -17,6 +17,7 @@ var loopFilters;
 
 ~mSrc[\sax] = ~mSrc[\sax] ? 1;
 ~mSrc[\tuba] = ~mSrc[\tuba] ? 1;
+~mSrc[\bcr] = ~mSrc[\bcr] ? 1;
 
 [
   // looping
