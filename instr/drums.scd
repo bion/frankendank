@@ -1,6 +1,9 @@
 (
 var basic_sample;
 
+~mSrc[\drums] = ~mSrc[\drums] ? 1;
+~mSrc[\drum_pad] = ~mSrc[\drum_pad] ? 1;
+
 ~current_set = 0;
 
 loadRelative("./drum_sample_map.scd");
