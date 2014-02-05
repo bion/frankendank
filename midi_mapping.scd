@@ -15,9 +15,29 @@ var map_dic_sax = {|num| IdentityDictionary[\instr -> \sax, \num -> num] };
 var map_dic_tub = {|num| IdentityDictionary[\instr -> \tub, \num -> num] };
 var loopFilters;
 
-~mSrc[\sax] = ~mSrc[\sax] ? 1;
-~mSrc[\tuba] = ~mSrc[\tuba] ? 1;
-~mSrc[\bcr] = ~mSrc[\bcr] ? 1;
+[\sax, \tuba, \bcr, \drums, \drum_pad].do {|instr|
+  ~mSrc[instr] = ~mSrc[instr] ? 1;
+};
+
+MIDIdef.program(
+    \drumSampleSwitch,
+    {|val|
+        ~current_set = val;
+        postln("CURRENT DRUM SAMPLE SET: " ++ val);
+    },
+    0,
+    ~mSrc[\drums]
+);
+
+MIDIdef.noteOn(
+    \drumPad,
+    {|val, num|
+        ~drum_trig.(("drum_" ++ num).asSymbol, val)
+    },
+    nil,
+    0,
+    ~mSrc[\drum_pad]
+);
 
 [
   // looping
