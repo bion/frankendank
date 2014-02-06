@@ -22,6 +22,8 @@ instr_btn_left = 10, instr_btn_top = 10,
 record_btn, player_btn, record_start, record_end, record_buf, recorded_buf,
 stop_playing, player_route_synth, record_synth, player_synth, play_recorded_buf,
 
+metronome_amp,
+
 midi_listener,
 make_midi_listener = {|instr|
   midi_listener = MIDIdef(instr,
@@ -177,11 +179,12 @@ MIDIClient.sources.do {|source|
   });
 };
 
-~metronome_amp = 1;
+metronome_amp = 1;
 make_labeled_slider.(main_window, gui_length * 0.065, gui_height * 0.65,
   -60, 0,
   "met amp", {|val|
-    ~metronome_amp = val.dbamp;
+    metronome_amp = val.dbamp;
+    if (~metronome.notNil) { ~metronome.amp = val.dbamp };
   },
   0
 );
@@ -397,8 +400,19 @@ after_boot = {
 
   s.queryAllNodes;
 
+  metronome = Metronome(
+    ~clock,
+    s,
+    ~buss[\metronome],
+    ~playbuf_g,
+    \metronome_sine,
+    metronome_amp
+  );
+
   CmdPeriod.doOnce {
     s.freeAll;
+    metronome.stop;
+    metronome = nil;
     ~clock.clear.stop;
     ~clock = nil;
     ~buss.keysValuesDo {|key, value| value.free; ~buss[key] = nil; };
