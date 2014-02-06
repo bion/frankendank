@@ -11,6 +11,7 @@ HerLoop {
 
   *new {
     |name, instr, server, clock, recordBus, recordGroup, playBus, playGroup, maxDur=60|
+    var new;
 
     new = super.newCopyArgs(
       name, instr, server, clock, recordBus, recordGroup, playBus, playGroup, maxDur
@@ -48,7 +49,7 @@ HerLoop {
 
     doubleTap = (clock.beats - lastTouchBeat) < 1.5;
 
-    if (resetBool || doubleTap) {
+    if (this.resetBool || doubleTap) {
       this.reset;
       resetBools[instr] = false;
       ("LOOP " ++ instr ++ " " ++ num ++ " CLEARED");
@@ -79,7 +80,6 @@ HerLoop {
     if (synth.notNil) { this.stopLoop };
     nextAction = \record;
     duration = 0.0;
-    resetBool = false;
   }
 
   record { |offset|
