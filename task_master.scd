@@ -20,15 +20,6 @@
 
   upcoming_jam[\measures].do {|measure, i|
 
-    /* --------------------------- metronome ---------------------- */
-    // measure[0] = num eigths in measure
-    (measure[0] / 2).floor.do {|i|
-      var beats_away = beat_of_measure + i + ~clock.timeToNextBeat;
-      ~clock.sched(beats_away - (s.latency / ~clock.beatDur), {
-        Synth(\metronome_sine, [\outbus, ~buss[\metranome], \amp, ~metronome_amp], ~playbuf_g);
-      });
-    };
-
     /* --------------------------- chords ---------------------- */
     ~clock.sched(
       ~clock.timeToNextBeat + beat_of_measure - ~freq_lag_dur - (s.latency / ~clock.beatDur),
