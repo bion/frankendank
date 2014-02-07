@@ -5,8 +5,8 @@ HerLoop {
   classvar resetBools, loops;
 
   *initClass {
-    resetBools = IdentityDictionary[\sax -> false, \tuba -> false];
-    loops = IdentityDictionary[\sax -> LinkedList.new, \tuba -> LinkedList.new];
+    loops      = IdentityDictionary.new;
+    resetBools = IdentityDictionary.new;
   }
 
   *new {
@@ -16,6 +16,11 @@ HerLoop {
     new = super.newCopyArgs(
       name, instr, server, clock, recordBus, recordGroup, playBus, playGroup, maxDur
     ).init;
+
+    if (loops[instr].isNil) {
+      loops[instr]      = LinkedList.new;
+      resetBools[instr] = false;
+    };
 
     loops[instr].add(new);
 
