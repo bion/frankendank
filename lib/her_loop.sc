@@ -1,5 +1,5 @@
 HerLoop {
-  var <name, <instr, <server, <clock, <recordBus, <recordGroup,
+  var <instr, <server, <clock, <recordBus, <recordGroup,
   <playBus, <playGroup, <maxDur=60;
   var buffer, nextAction, duration, recording, <synth, responder, lastTouchBeat;
   classvar resetBools, loops;
@@ -10,11 +10,11 @@ HerLoop {
   }
 
   *new {
-    |name, instr, server, clock, recordBus, recordGroup, playBus, playGroup, maxDur=60|
+    |instr, server, clock, recordBus, recordGroup, playBus, playGroup, maxDur=60|
     var new;
 
     new = super.newCopyArgs(
-      name, instr, server, clock, recordBus, recordGroup, playBus, playGroup, maxDur
+      instr, server, clock, recordBus, recordGroup, playBus, playGroup, maxDur
     ).init;
 
     if (loops[instr].isNil) {
@@ -28,36 +28,36 @@ HerLoop {
   }
 
   *toggleReset { |instr|
-    var thisResetBool = resetBools[instr];
-    if (thisResetBool) {
-      thisResetBool = false;
+    if (resetBools[instr]) {
+      resetBools[instr] = false;
     } {
-      thisResetBool = true;
+      resetBools[instr] = true;
     };
+    postln("toggled " ++ instr ++ " reset");
   }
 
   *resetAll { |instr|
     loops[instr].do { |herLoop|
       if (herLoop.synth.notNil) { this.stopLoop };
       herLoop.reset;
-      postln(name ++ " LOOP RESET");
+      postln(instr ++ " loop reset");
     };
   }
 
   // ****************************** public
 
-  touch { |num|
+  touch {
     var offset = (clock.beats - clock.beats.round) * clock.beatDur;
     var doubleTap;
 
-    postln("LOOP TOUCH " ++ instr ++ " " ++ num);
+    postln("loop touch " ++ instr);
 
     doubleTap = (clock.beats - lastTouchBeat) < 1.5;
 
     if (this.resetBool || doubleTap) {
       this.reset;
       resetBools[instr] = false;
-      ("LOOP " ++ instr ++ " " ++ num ++ " CLEARED");
+      postln(instr ++ " loop cleared");
     } {
       this.perform(nextAction, offset);
     };
@@ -68,12 +68,12 @@ HerLoop {
   // ****************************** private
 
   init {
-    buffer =         Buffer.alloc(server, maxDur * server.sampleRate, 1);
-    nextAction =     \record;
-    duration =       0.0; // loop dur or record touch time
-    recording =      false;
-    synth =          nil;
-    responder =      false;
+    buffer        =  Buffer.alloc(server, maxDur * server.sampleRate, 1);
+    nextAction    =  \record;
+    duration      =  0.0; // loop dur or record touch time
+    recording     =  false;
+    synth         =  nil;
+    responder     =  false;
     lastTouchBeat =  clock.beats;
   }
 
@@ -87,7 +87,7 @@ HerLoop {
     duration = 0.0;
   }
 
-  record { |offset|
+  record { |offset=0.0|
     if (offset < 0) {
       fork {
         offset.abs.wait;
@@ -98,7 +98,7 @@ HerLoop {
     }
   }
 
-  addRecordSynth { |offset|
+  addRecordSynth { |offset=0.0|
     duration = clock.beats;
     server.makeBundle(0.008, {
       recording = Synth(\recordbuf_mono,
@@ -108,10 +108,10 @@ HerLoop {
         recordGroup, \addToHead);
     });
     nextAction = \stopRecording;
-    postln("RECORDING " ++ name ++ ", OFFSET: " ++ offset);
+    postln("recording " ++ instr ++ ", offset: " ++ offset);
   }
 
-  stopRecording { |offset|
+  stopRecording { |offset=0.0|
     var dur, recordSurplus = 0;
     fork {
       if (offset < 0.0) {offset.abs.wait; offset=0.0};
@@ -120,11 +120,11 @@ HerLoop {
       this.playLoop(offset);
       recording.set(\gate, -1.01);
       nextAction = \stopLoop;
-      postln("STOPPED " ++ name ++ " RECORDING, OFFSET: " ++ offset);
+      postln("stopped " ++ instr ++ " recording, offset: " ++ offset);
     }
   }
 
-  playLoop { |offset|
+  playLoop { |offset=0.0|
     if (offset < 0.0) { fork {
       offset.abs.wait;
       this.addLoopSynth;
@@ -150,15 +150,15 @@ HerLoop {
     ).oneShot;
 
     nextAction = \stopLoop;
-    postln("STARTED LOOPING " ++ name ++ ", OFFSET: " ++ offset);
+    postln("started looping " ++ instr ++ ", offset: " ++ offset);
   }
 
-  stopLoop { |offset|
+  stopLoop { |offset=0.0|
     responder.free;
     synth.set(\gate, -1.03);
     synth = nil;
     nextAction = \playLoop;
-    postln("KILLED LOOP " ++ name);
+    postln("killed " ++ instr ++ " loop ");
   }
 
 }
