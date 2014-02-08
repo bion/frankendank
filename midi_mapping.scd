@@ -13,7 +13,31 @@
 (
 var map_dic_sax = {|num| IdentityDictionary[\instr -> \sax, \num -> num] };
 var map_dic_tub = {|num| IdentityDictionary[\instr -> \tub, \num -> num] };
-var loopFilters;
+var loopFilters,
+
+saxLoops = 4.collect {|i|
+  HerLoop(
+    \sax,
+    s,
+    ~clock,
+    ~buss[\sax_agg],
+    ~record_loop_g,
+    ~loop_filt_buss[i],
+    ~play_loop_g)
+},
+
+tubaLoops = 4.collect {|i|
+  HerLoop(
+    \tuba,
+    s,
+    ~clock,
+    ~buss[\tub_agg],
+    ~record_loop_g,
+    ~loop_filt_buss[i],
+    ~play_loop_g)
+};
+
+// ****************************** var end
 
 [\sax, \tuba, \bcr, \drums, \drum_pad].do {|instr|
   ~mSrc[instr] = ~mSrc[instr] ? 1;
@@ -41,12 +65,12 @@ MIDIdef.noteOn(
 
 [
   // looping
-  [0, {~loop_touch.(map_dic_sax.(0));}],
-  [1, {~loop_touch.(map_dic_sax.(1));}],
-  [2, {~loop_touch.(map_dic_sax.(2));}],
-  [3, {~loop_touch.(map_dic_sax.(3));}],
+  [0, { saxLoops[0].touch }],
+  [0, { saxLoops[1].touch }],
+  [0, { saxLoops[2].touch }],
+  [0, { saxLoops[3].touch }],
   // clear loop id must be a single string char
-  [4, {~clear_loop.(\sax);}],
+  [4, { HerLoop.toggleReset(\sax) }],
 
   // other
   [5, {
@@ -81,12 +105,13 @@ MIDIdef.noteOn(
 // two dimensional array stores button# and function pairings
 // loop over pairs to instantiate MIDIFuncs using uid
 [
-  [0, {~loop_touch.(map_dic_tub.(0));}],
-  [1, {~loop_touch.(map_dic_tub.(1));}],
-  [2, {~loop_touch.(map_dic_tub.(2));}],
-  [3, {~loop_touch.(map_dic_tub.(3));}],
+  // looping
+  [0, { tubaLoops[0].touch }],
+  [0, { tubaLoops[1].touch }],
+  [0, { tubaLoops[2].touch }],
+  [0, { tubaLoops[3].touch }],
   // clear loop id must be a single string char
-  [4, {~clear_loop.(\tub);}],
+  [4, { HerLoop.toggleReset(\tuba) }],
 
   // synths
   [5, { ~dry_horn.(\tub) }],
