@@ -22,6 +22,7 @@ instr_btn_left = 10, instr_btn_top = 10,
 record_btn, player_btn, record_start, record_end, record_buf, recorded_buf,
 stop_playing, player_route_synth, record_synth, player_synth, play_recorded_buf,
 
+metronome,
 metronome_amp,
 
 midi_listener,
@@ -418,7 +419,8 @@ after_boot = {
     postln("busses freed");
     OSCFunc.allEnabled.do {|func| func.free};
     postln("OSCFuncs freed");
-    ~loops.keysValuesDo {|key, value| value.keysValuesDo {|kk, vv| vv[\buffer].free }; };
+    // TODO cleanup loops
+
     AppClock.sched(0, {
       update_button.(simple_loops_btn, "disabled", nil);
       update_button.(record_btn, "disabled", nil);
