@@ -44,6 +44,10 @@ HerLoop {
     };
   }
 
+  *releaseAll {
+    // TODO
+  }
+
   // ****************************** public
 
   touch {
