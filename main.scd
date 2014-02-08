@@ -378,7 +378,6 @@ after_boot = {
     "SD",
     "core",
     "persistent_synths",
-    "looping",
     "instr/com_sample_map",
     "instr/drums",
     "jams",
