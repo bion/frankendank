@@ -9,7 +9,7 @@ playing = IdentityDictionary[];
 
 ~reset_all = {|instr|
   ~dry_horn.(instr);
-  ~reset_instr.(instr);
+  HerLoop.resetAll(instr);
 };
 
 ~dry_horn = {|instr|
