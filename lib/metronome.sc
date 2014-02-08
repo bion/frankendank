@@ -18,7 +18,6 @@ Metronome {
   start {
     beatSched.qsched(1.0,
       {
-        "called".postln;
         Synth(synthdef, [\outbus, outbus, \amp, amp], group);
         1.0;
       }
