@@ -10,7 +10,11 @@ HerChordsController {
     synth = Synth(currentSynth, [\bus, bus], group);
   }
 
-  changeSynth { |synth|
+  setAmp { |amp|
+    synth.set(\amp, amp);
+  }
+
+  setSynth { |synth|
     synth.free;
     synth = Synth(currentSynth,
       [
@@ -21,11 +25,7 @@ HerChordsController {
     );
   }
 
-  setAmp { |amp|
-    synth.set(\amp, amp);
-  }
-
-  changeChord { |newChord|
+  setChord { |newChord|
     currentChord = newChord;
     synth.set(\freqs, chords[newChord]);
   }
