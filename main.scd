@@ -357,7 +357,7 @@ run = {
   // end of unfortunate hack
 
   Server.default = s = Server.local;
-  s.latency = 0.02;
+  s.latency = 0.005;
   s.options = ServerOptions.new.hardwareBufferSize_(128).threads_(4);
 
   s.waitForBoot({ after_boot.() });
