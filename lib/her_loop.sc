@@ -104,7 +104,7 @@ HerLoop {
 
   addRecordSynth { |offset=0.0|
     duration = clock.beats;
-    server.makeBundle(0.008, {
+    server.makeBundle(0.005, {
       recording = Synth(\recordbuf_mono,
         [ \inbus,    recordBus,
           \startpos, offset * server.sampleRate,
