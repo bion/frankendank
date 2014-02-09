@@ -166,13 +166,13 @@
   }),
 
   SynthDef(\mon, {
-    arg inbus, outbus, metranome_bus, main_scale=1,
+    arg inbus, outbus, metronome_bus, main_scale=1,
       drum_scale=1, sax_scale=1, tub_scale=1, com_scale=1, met_scale=1;
     var drums, sax, tub, com, out, sample,
-      instr, metranome;
+      instr, metronome;
 
     #tub, sax, com, sample, drums = In.ar(inbus, 5);
-    metranome = In.ar(metranome_bus, 1) * met_scale;
+    metronome = In.ar(metronome_bus, 1) * met_scale;
 
     instr = (drums * drum_scale)
       + (sample * com_scale)
@@ -180,7 +180,7 @@
       + (sax * sax_scale)
       + (com * com_scale);
 
-    out = instr + metranome;
+    out = instr + metronome;
     Out.ar(outbus, out * main_scale);
   }),
 
