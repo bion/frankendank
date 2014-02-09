@@ -37,11 +37,14 @@ tubaLoops = 4.collect {|i|
     ~play_loop_g)
 };
 
-// ****************************** var end
+// ****************************** VAR END
 
+// ****************************** nil-guard ~mSrc values
 [\sax, \tuba, \bcr, \drums, \drum_pad].do {|instr|
   ~mSrc[instr] = ~mSrc[instr] ? 1;
 };
+
+// ****************************** breath chords controller
 
 MIDIdef.program(
     \drumSampleSwitch,
