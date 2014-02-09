@@ -38,7 +38,7 @@ HerLoop {
 
   *resetAll { |instr|
     loops[instr].do { |herLoop|
-      if (herLoop.synth.notNil) { this.stopLoop };
+      if (herLoop.synth.notNil) { herLoop.stopLoop };
       herLoop.reset;
       postln(instr ++ " loop reset");
     };
@@ -116,11 +116,9 @@ HerLoop {
   }
 
   stopRecording { |offset=0.0|
-    var dur, recordSurplus = 0;
     fork {
       if (offset < 0.0) {offset.abs.wait; offset=0.0};
-      dur = clock.beats - duration;
-      dur = dur.round;
+      duration = (clock.beats - duration).round;
       this.playLoop(offset);
       recording.set(\gate, -1.01);
       nextAction = \stopLoop;
@@ -138,12 +136,14 @@ HerLoop {
   }
 
   addLoopSynth { |offset=0|
+    var loopDur = duration * clock.beatDur - offset - 0.005;
+    postln("loopDur: " ++ loopDur);
     server.makeBundle(0.005, {
       synth = Synth(\playbuf_mono,
         [ \outbus,   playBus,
           \amp,      1,
           \buf,      buffer,
-          \dur,      duration * clock.beatDur - offset - 0.005,
+          \dur,      loopDur,
           \startpos, offset * server.sampleRate],
         playGroup, \addToTail).onFree({synth = nil});
     });
