@@ -107,8 +107,8 @@ if (met_sfd.size == 0) {
   Error(mes).throw;
 } {
   ~met_bufs = Array.newClear(met_sfd.size);
-  met_sfd.do {|path, i|
 
+  met_sfd.do {|path, i|
     ~met_bufs[i] = Buffer.read(s, path) };
 };
 
@@ -129,12 +129,6 @@ s.sync(~cond);
 
   \main_out_0 -> 0,
   \main_out_1 -> 1,
-  \main_out_2 -> 2,
-  \main_out_3 -> 3,
-  \main_out_4 -> 4,
-  \main_out_5 -> 5,
-  \main_out_6 -> 6,
-  \main_out_7 -> 7
 ];
 
 if (~do_bus_map_overrides) {
