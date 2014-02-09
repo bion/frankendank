@@ -187,6 +187,43 @@
   /* ------------------------ com --------------------------- */
 
   SynthDef(\com_dirt_rhode, {
+    arg bus, amp, vib_rate = 11, vib_width = 0.0125, gate=1;
+    var sig, env, vib, warm = LFNoise2.kr(vib_rate).range(0.9, 1.1);
+    var silencers, freqs;
+
+    vib_rate = vib_rate * LFDNoise3.kr(2).range(0.9, 1.1);
+    vib = SinOsc.kr(vib_rate, 0, vib_width) + LFNoise2.kr(1/vib_rate, vib_width/2) + 1;
+
+    freqs = \freqs.kr([1, 1, 1, 1]);
+
+    silencers = freqs.collect { |freq| freq > 9.0; };
+    freqs = freqs * vib;
+
+    sig = freqs.collect {|freq, i|
+      MoogFF.ar(
+        Pulse.ar(
+          freq * [1, 33.5.midiratio],
+          [0.2, 0.1, 0.5]*warm,
+          [0.7, 0.3, 0.1],
+          silencers[i]
+        ).mean,
+        freq * 5.75 * warm,
+        3.1
+      );
+    }.mean;
+
+    // sig = GrainIn.ar(1, Impulse.kr(vib_rate * 1.5 * warm),
+    //   vib_rate.reciprocal,
+    //   sig, envbufnum: ~expoatt_buf_1);
+
+    sig = Integrator.ar(sig, 0.8);
+
+    sig = sig * 4 * amp.lag3(0.002);
+
+    Out.ar(bus, sig * Linen.kr(gate, 0.05, releaseTime: 0.05, doneAction: 2));
+  }),
+
+  SynthDef(\com_dirt_rhode_pitch_lag, {
     arg freq, bus, amp_bus, freq_lag_bus,
       vib_rate = 11, vib_width = 0.0125,
       gate=1;
@@ -216,7 +253,7 @@
     Out.ar(bus, sig * Linen.kr(gate, 0.05, releaseTime: 0.05, doneAction: 2));
   }),
 
-  SynthDef(\com_fank, {
+  SynthDef(\com_fank_pitch_lag, {
     arg freq, bus, amp_bus, freq_lag_bus,
       vib_rate = 11, vib_width = 0.0125,
       gate=1;
