@@ -8,7 +8,7 @@
       [asSymbol(input++"_scale"), ~monitor_levels[\sax][input]]
     }).flat ++
     [
-      \metranome_bus, ~buss[\metranome],
+      \metronome_bus, ~buss[\metronome],
       \inbus, ~buss[\sax_mon],
       \outbus, ~id_bus_map[\sax_mon_out],
     ],
@@ -19,7 +19,7 @@
       [asSymbol(input++"_scale"), ~monitor_levels[\tub][input]]
     }).flat ++
     [
-      \metranome_bus, ~buss[\metranome],
+      \metronome_bus, ~buss[\metronome],
       \inbus, ~buss[\tub_mon],
       \outbus, ~id_bus_map[\tub_mon_out],
     ],
@@ -30,7 +30,7 @@
       [asSymbol(input++"_scale"), ~monitor_levels[\drums][input]]
     }).flat ++
     [
-      \metranome_bus, ~buss[\metranome],
+      \metronome_bus, ~buss[\metronome],
       \inbus, ~buss[\drums_mon],
       \outbus, ~id_bus_map[\drums_mon_out],
     ],
@@ -41,7 +41,7 @@
       [asSymbol(input++"_scale"), ~monitor_levels[\com][input]]
     }).flat ++
     [
-      \metranome_bus, ~buss[\metranome],
+      \metronome_bus, ~buss[\metronome],
       \inbus, ~buss[\sax_mon],
       \outbus, ~id_bus_map[\com_mon_out],
     ],
@@ -52,7 +52,7 @@
       [asSymbol(input++"_scale"), ~monitor_levels[\nugs][input]]
     }).flat ++
     [
-      \metranome_bus, ~buss[\metranome],
+      \metronome_bus, ~buss[\metronome],
       \inbus, ~buss[\nugs_mon],
       \outbus, ~id_bus_map[\nugs_mon_out],
     ],
@@ -101,7 +101,7 @@
       \sax_mon_bus,   ~buss[\sax_mon],
       \com_mon_bus,   ~buss[\com_mon],
 
-      \metranome_bus, ~buss[\metranome],
+      \metronome_bus, ~buss[\metronome],
       \sample_bus,    ~buss[\sample],
 
       \outbus,        ~buss[\one_out]

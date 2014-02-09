@@ -140,8 +140,8 @@
     arg sax_bus, tub_bus, com_bus, outbus,
     d_low_bus, d_med_bus, d_hi_bus,
     drums_mon_bus, tub_mon_bus, sax_mon_bus, com_mon_bus, nugs_mon_bus,
-    metranome_bus, sample_bus;
-    var sax, tub, com, out, metranome, sample,
+    metronome_bus, sample_bus;
+    var sax, tub, com, out, metronome, sample,
       d_low, d_med, d_hi;
 
     sax = In.ar(sax_bus, 1) * 2.5;
@@ -152,7 +152,7 @@
     d_med = In.ar(d_med_bus, 1);
     d_hi = In.ar(d_hi_bus, 1);
 
-    metranome = In.ar(metranome_bus, 1);
+    metronome = In.ar(metronome_bus, 1);
     sample = In.ar(sample_bus, 1);
 
     tub = Compander.ar(tub, d_low, -42.dbamp, 1, 1/5, 0.002, \tub_relax.kr(0.05, 0.03));

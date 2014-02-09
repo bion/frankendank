@@ -112,8 +112,10 @@ thisPath = thisProcess.nowExecutingPath;
   });
 
   Button(main_window,
-    Rect(instr_btn_left + btn_length * 1.5, instr_btn_top + 40 + (i * (btn_height + 40)),
-      btn_length, btn_height) )
+    Rect(
+      instr_btn_left + btn_length * 1.5, instr_btn_top + 40 + (i * (btn_height + 40)),
+      btn_length,
+      btn_height) )
   .states_( [ ["monitor", Color.black]] )
   .mouseDownAction_({
 
@@ -185,7 +187,7 @@ make_labeled_slider.(main_window, gui_length * 0.065, gui_height * 0.65,
   -60, 0,
   "met amp", {|val|
     metronome_amp = val.dbamp;
-    if (~metronome.notNil) { ~metronome.amp = val.dbamp };
+    if (metronome.notNil) { metronome.amp = val.dbamp };
   },
   0
 );
