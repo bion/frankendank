@@ -382,7 +382,6 @@ after_boot = {
     "instr/com_sample_map",
     "instr/drums",
     "jams",
-    "task_master",
     "midi_mapping"
   ].do {|file|
     loadRelative("./" ++ file ++ ".scd");
