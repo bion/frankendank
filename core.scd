@@ -103,7 +103,7 @@ Platform.case(
 /* ____________________________ buffers */
 
 if (met_sfd.size == 0) {
-  var mes = "No metranome files found, where are they?";
+  var mes = "No metronome files found, where are they?";
   Error(mes).throw;
 } {
   ~met_bufs = Array.newClear(met_sfd.size);
@@ -149,7 +149,7 @@ if (~do_bus_map_overrides) {
   \one_out, \two_out, \three_out,
   \sax_agg, \tub_agg, \com_agg,
   \low, \med, \hi, // drum busses
-  \metranome, \sample,
+  \metronome, \sample,
   \all_monitors
 ].do {|name|
   ~buss.put(name, Bus.audio(s, 1) );
