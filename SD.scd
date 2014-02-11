@@ -80,13 +80,6 @@
     })
   },
 
-  (1..8).collect {|i|
-    SynthDef(asSymbol("route_" ++ i ++ "_to_mono"), {
-      arg outbus;
-      Out.ar( outbus, \inbusses.ir(8 ! i).sum );
-    })
-  },
-
   SynthDef(\route_4_chans_to_mono, {
     arg inbus, outbus;
     Out.ar( outbus, In.ar(inbus, 4).sum );
