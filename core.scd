@@ -68,10 +68,10 @@ Platform.case(
 
     ~loop_g     = Group(~eq_g, \addAfter);
     ~record_loop_g = Group(~loop_g, \addToHead);
-    ~play_loop_g   = Group(~loop_g, \addToTail);
-    ~filt_loop_g   = Group(~loop_g, \addToTail);
-    ~sum_loop_g    = Group(~loop_g, \addToTail);
-    ~route_loop_g  = Group(~loop_g, \addToTail);
+    ~play_loop_g   = Group(~record_loop_g, \addAfter);
+    ~filt_loop_g   = Group(~play_loop_g, \addAfter);
+    ~sum_loop_g    = Group(~filt_loop_g, \addAfter);
+    ~route_loop_g  = Group(~sum_loop_g, \addAfter);
 
     ~agg_g      = Group(~loop_g, \addAfter);
     ~out_g      = Group(~agg_g, \addAfter);
@@ -87,12 +87,12 @@ Platform.case(
     ~filt_g     = Group(~synth_g, \addAfter);
     ~eq_g       = ParGroup(~filt_g, \addAfter);
 
-    ~loop_g     = ParGroup(~eq_g, \addAfter);
+    ~loop_g     = Group(~eq_g, \addAfter);
     ~record_loop_g = ParGroup(~loop_g, \addToHead);
-    ~play_loop_g   = ParGroup(~loop_g, \addToTail);
-    ~filt_loop_g   = ParGroup(~loop_g, \addToTail);
-    ~sum_loop_g    = ParGroup(~loop_g, \addToTail);
-    ~route_loop_g  = ParGroup(~loop_g, \addToTail);
+    ~play_loop_g   = ParGroup(~record_loop_g, \addAfter);
+    ~filt_loop_g   = ParGroup(~play_loop_g, \addAfter);
+    ~sum_loop_g    = ParGroup(~filt_loop_g, \addAfter);
+    ~route_loop_g  = ParGroup(~sum_loop_g, \addAfter);
 
     ~agg_g      = ParGroup(~loop_g, \addAfter);
     ~out_g      = ParGroup(~agg_g, \addAfter);
