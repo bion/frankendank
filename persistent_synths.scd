@@ -1,4 +1,3 @@
-(
 ~p_synths.putPairs(flat([
 
   // ****************************************** MONITORING
@@ -139,6 +138,4 @@
 
 ]));
 
-
 "PERSISTENT SYNTHS LOADED".postln;
-)
