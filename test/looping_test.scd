@@ -11,9 +11,9 @@ var source_dir = "~/Dropbox/electric_band_shared_music/raw_horn_samples/".standa
 };
 )
 
-MIDIIn.doProgramAction(30000, 0, 0); // assign drums
 MIDIIn.doProgramAction(10000, 0, 0); // assign sax
 MIDIIn.doProgramAction(20000, 0, 0); // assign tuba
+MIDIIn.doProgramAction(30000, 0, 0); // assign drums
 
 MIDIIn.doProgramAction(~mSrc[\sax], 0, 0); // touch
 MIDIIn.doProgramAction(~mSrc[\sax], 0, 4); // reset

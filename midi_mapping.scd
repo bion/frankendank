@@ -198,7 +198,7 @@ loopFilters = (
     name,
     loopFilters[instr.asSymbol][filtNum],
     instr,
-    ~loop_filt_buss[instr.asSymbol][loopNum],
+    ~loop_filt_buss[instr.asSymbol].index + loopNum,
     ~filt_loop_g
   );
 

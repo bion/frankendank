@@ -391,7 +391,6 @@ after_boot = {
     s.sync;
   };
 
-
   s.sync(cond);
 
   AppClock.sched(0, {
