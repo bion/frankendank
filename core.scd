@@ -141,7 +141,9 @@ if (~do_bus_map_overrides) {
 
 ~loop_filt_buss = IdentityDictionary[
   \sax -> 4.collect { Bus.audio(s, 1) },
-  \tub -> 4.collect { Bus.audio(s, 1) }
+  \sax_loops -> Bus.audio(s, 1),
+  \tub -> 4.collect { Bus.audio(s, 1) },
+  \tub_loops -> Bus.audio(s, 1)
 ];
 
 [
