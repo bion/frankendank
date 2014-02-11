@@ -22,8 +22,7 @@ saxLoops = 4.collect {|i|
     ~clock,
     ~buss[\sax_agg],
     ~record_loop_g,
-    ~buss[\sax_agg],
-      //    ~loop_filt_buss[\sax][i],
+    ~loop_filt_buss[\sax][i],
     ~play_loop_g)
 },
 
@@ -34,8 +33,7 @@ tubaLoops = 4.collect {|i|
     ~clock,
     ~buss[\tub_agg],
     ~record_loop_g,
-    ~buss[\tub_agg],
-      //    ~loop_filt_buss[\tub][i],
+    ~loop_filt_buss[\tub][i],
     ~play_loop_g)
 };
 
