@@ -118,12 +118,12 @@
 // ****************************************** LOOPING
 
   \sax_loop_sum,
-  Synth(\route_4_to_mono,
+  Synth(\route_4_chans_to_mono,
     [\inbusses, `~loop_filt_buss[\sax], \outbus, ~loop_filt_buss[\sax_loops]],
     ~sum_loop_g),
 
   \tub_loop_sum,
-  Synth(\route_4_to_mono,
+  Synth(\route_4_chans_to_mono,
     [\inbusses, `~loop_filt_buss[\tub], \outbus, ~loop_filt_buss[\tub_loops]],
     ~sum_loop_g),
 
