@@ -1,9 +1,9 @@
 (
-[
+~p_synths.putPairs(flat([
 
   // ****************************************** MONITORING
 
-  [\sax_mon, Synth(\mon,
+  \sax_mon, Synth(\mon,
     [ \main, \met, \sax, \tub, \drum, \com ].collect({|input|
       [asSymbol(input++"_scale"), ~monitor_levels[\sax][input]]
     }).flat ++
@@ -12,9 +12,9 @@
       \inbus, ~buss[\sax_mon],
       \outbus, ~id_bus_map[\sax_mon_out],
     ],
-    ~out_g )],
+    ~out_g ),
 
-  [\tub_mon, Synth(\mon,
+  \tub_mon, Synth(\mon,
     [ \main, \met, \sax, \tub, \drum, \com ].collect({|input|
       [asSymbol(input++"_scale"), ~monitor_levels[\tub][input]]
     }).flat ++
@@ -23,9 +23,9 @@
       \inbus, ~buss[\tub_mon],
       \outbus, ~id_bus_map[\tub_mon_out],
     ],
-    ~out_g )],
+    ~out_g ),
 
-  [\drums_mon, Synth(\mon,
+  \drums_mon, Synth(\mon,
     [ \main, \met, \sax, \tub, \drum, \com ].collect({|input|
       [asSymbol(input++"_scale"), ~monitor_levels[\drums][input]]
     }).flat ++
@@ -34,9 +34,9 @@
       \inbus, ~buss[\drums_mon],
       \outbus, ~id_bus_map[\drums_mon_out],
     ],
-    ~out_g )],
+    ~out_g ),
 
-  [\com_mon, Synth(\mon,
+  \com_mon, Synth(\mon,
     [ \main, \met, \sax, \tub, \drum, \com ].collect({|input|
       [asSymbol(input++"_scale"), ~monitor_levels[\com][input]]
     }).flat ++
@@ -45,9 +45,9 @@
       \inbus, ~buss[\sax_mon],
       \outbus, ~id_bus_map[\com_mon_out],
     ],
-    ~out_g )],
+    ~out_g ),
 
-  [\nugs_mon, Synth(\mon,
+  \nugs_mon, Synth(\mon,
     [ \main, \met, \sax, \tub, \drum, \com ].collect({|input|
       [asSymbol(input++"_scale"), ~monitor_levels[\nugs][input]]
     }).flat ++
@@ -56,36 +56,36 @@
       \inbus, ~buss[\nugs_mon],
       \outbus, ~id_bus_map[\nugs_mon_out],
     ],
-    ~out_g )],
+    ~out_g ),
 
   // ****************************************** HORNS
 
-  [\sax_info, Synth(\sax_info, [\inbus, ~id_bus_map[\sax], \outbus, ~buss[\sax_info] ], ~in_g)],
+  \sax_info, Synth(\sax_info, [\inbus, ~id_bus_map[\sax], \outbus, ~buss[\sax_info] ], ~in_g),
 
-  [\tub_info, Synth(\tuba_info, [\inbus, ~id_bus_map[\tub], \outbus, ~buss[\tub_info] ], ~in_g)],
+  \tub_info, Synth(\tuba_info, [\inbus, ~id_bus_map[\tub], \outbus, ~buss[\tub_info] ], ~in_g),
 
-  [\sax_in, Synth(\sax_in, [\inbus, ~id_bus_map[\sax], \outbus, ~buss[\sax_eq] ], ~in_g)],
+  \sax_in, Synth(\sax_in, [\inbus, ~id_bus_map[\sax], \outbus, ~buss[\sax_eq] ], ~in_g),
 
-  [\tub_in, Synth(\tuba_in, [\inbus, ~id_bus_map[\tub], \outbus, ~buss[\tub_eq] ], ~in_g)],
+  \tub_in, Synth(\tuba_in, [\inbus, ~id_bus_map[\tub], \outbus, ~buss[\tub_eq] ], ~in_g),
 
-  [\sax_eq, Synth(\sax_eq, [\inbus, ~buss[\sax_eq], \outbus, ~buss[\sax_agg] ], ~eq_g)],
+  \sax_eq, Synth(\sax_eq, [\inbus, ~buss[\sax_eq], \outbus, ~buss[\sax_agg] ], ~eq_g),
 
-  [\tub_eq, Synth(\tub_eq, [\inbus, ~buss[\tub_eq], \outbus, ~buss[\tub_agg]], ~eq_g)],
+  \tub_eq, Synth(\tub_eq, [\inbus, ~buss[\tub_eq], \outbus, ~buss[\tub_agg]], ~eq_g),
 
-  [\tub_v, Synth(\v_control, [\outbus, ~buss[\tub_v], \amp, 127], ~in_g)],
+  \tub_v, Synth(\v_control, [\outbus, ~buss[\tub_v], \amp, 127], ~in_g),
 
-  [\sax_v, Synth(\v_control, [\outbus, ~buss[\sax_v], \amp, 0], ~in_g)],
+  \sax_v, Synth(\v_control, [\outbus, ~buss[\sax_v], \amp, 0], ~in_g),
 
-  [\tub_p, Synth(\p_control_lag, [\outbus, ~buss[\tub_p], \param, 0], ~in_g)],
+  \tub_p, Synth(\p_control_lag, [\outbus, ~buss[\tub_p], \param, 0], ~in_g),
 
-  [\sax_p, Synth(\p_control_lag, [\outbus, ~buss[\sax_p], \param, 0], ~in_g)],
+  \sax_p, Synth(\p_control_lag, [\outbus, ~buss[\sax_p], \param, 0], ~in_g),
 
   // ****************************************** CORE
 
-  [\beat_dur, Synth(\p_control,
-    [\outbus, ~buss[\beat_dur], \value, ~clock.beatDur], ~data_g)],
+  \beat_dur, Synth(\p_control,
+    [\outbus, ~buss[\beat_dur], \value, ~clock.beatDur], ~data_g),
 
-  [\agg, Synth(\agg,
+  \agg, Synth(\agg,
     [
       \sax_bus,       ~buss[\sax_agg],
       \tub_bus,       ~buss[\tub_agg],
@@ -107,19 +107,16 @@
       \outbus,        ~buss[\one_out]
     ],
     ~agg_g
-  )],
+  ),
 
-  [\out_left, Synth(\route_mono,
-    [\inbus, ~buss[\one_out], \outbus, ~id_bus_map[\main_out_0]], ~out_g)],
+  \out_left, Synth(\route_mono,
+    [\inbus, ~buss[\one_out], \outbus, ~id_bus_map[\main_out_0]], ~out_g),
 
-  [\ambient_in, Synth(\route_mono,
-    [\inbus, ~id_bus_map[\ambient], \outbus, ~buss[\one_out]], ~record_g)]
-
-].do {|pair| ~p_synths.add(pair[0] -> pair[1]) };
+  \ambient_in, Synth(\route_mono,
+    [\inbus, ~id_bus_map[\ambient], \outbus, ~buss[\one_out]], ~record_g)
 
 // ****************************************** LOOPING
 
-~p_synths.putPairs([
   \sax_loop_sum,
   Synth(\route_4_to_mono,
     [\inbusses, `~loop_filt_buss[\sax], \outbus, ~loop_filt_buss[\sax_loops]],
@@ -139,7 +136,9 @@
   Synth(\route_mono,
     [\inbus, ~loop_filt_buss[\tub_loops], \outbus, ~loop_filt_buss[\tub_agg]],
     ~route_loop_g)
-]);
+
+]));
+
 
 "PERSISTENT SYNTHS LOADED".postln;
 )
