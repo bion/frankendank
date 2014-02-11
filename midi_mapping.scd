@@ -22,7 +22,8 @@ saxLoops = 4.collect {|i|
     ~clock,
     ~buss[\sax_agg],
     ~record_loop_g,
-    ~loop_filt_buss[i],
+    ~buss[\sax_agg],
+      //    ~loop_filt_buss[\sax][i],
     ~play_loop_g)
 },
 
@@ -33,7 +34,8 @@ tubaLoops = 4.collect {|i|
     ~clock,
     ~buss[\tub_agg],
     ~record_loop_g,
-    ~loop_filt_buss[i],
+    ~buss[\tub_agg],
+      //    ~loop_filt_buss[\tub][i],
     ~play_loop_g)
 };
 
@@ -69,9 +71,9 @@ MIDIdef.noteOn(
 [
   // looping
   [0, { saxLoops[0].touch }],
-  [0, { saxLoops[1].touch }],
-  [0, { saxLoops[2].touch }],
-  [0, { saxLoops[3].touch }],
+  [1, { saxLoops[1].touch }],
+  [2, { saxLoops[2].touch }],
+  [3, { saxLoops[3].touch }],
   // clear loop id must be a single string char
   [4, { HerLoop.toggleReset(\sax) }],
 
@@ -110,9 +112,9 @@ MIDIdef.noteOn(
 [
   // looping
   [0, { tubaLoops[0].touch }],
-  [0, { tubaLoops[1].touch }],
-  [0, { tubaLoops[2].touch }],
-  [0, { tubaLoops[3].touch }],
+  [1, { tubaLoops[1].touch }],
+  [2, { tubaLoops[2].touch }],
+  [3, { tubaLoops[3].touch }],
   // clear loop id must be a single string char
   [4, { HerLoop.toggleReset(\tuba) }],
 

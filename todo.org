@@ -1,5 +1,8 @@
 * Thing that need to be done
 
+*** TODO repeated looping on the same loop broken?
+*** TODO loop control mode for scott
+
 *** TODO dj-like filtering of band output
 
 *** TODO breath control for synths tracking jam chords
