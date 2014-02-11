@@ -119,16 +119,27 @@
 
 // ****************************************** LOOPING
 
-[\sax, \tub].do {|instr|
-  4.do {|i|
-    var key = asSymbol(instr ++ "_loop_route_" ++ i),
-    synth = Synth(\route_mono,
-      [\inbus, ~loop_filt_buss[instr][i], \outbus, ~buss[asSymbol(instr ++ "_agg")]],
-      ~route_loop_g);
+~p_synths.putPairs([
+  \sax_loop_sum,
+  Synth(\route_4_to_mono,
+    [\inbusses, `~loop_filt_buss[\sax], \outbus, ~loop_filt_buss[\sax_loops]],
+    ~sum_loop_g),
 
-    ~p_synths.add(key -> synth);
-  };
-};
+  \tub_loop_sum,
+  Synth(\route_4_to_mono,
+    [\inbusses, `~loop_filt_buss[\tub], \outbus, ~loop_filt_buss[\tub_loops]],
+    ~sum_loop_g),
+
+  \sax_loops_route,
+  Synth(\route_mono,
+    [\inbus, ~loop_filt_buss[\sax_loops], \outbus, ~loop_filt_buss[\sax_agg]],
+    ~route_loop_g),
+
+  \tub_loops_route,
+  Synth(\route_mono,
+    [\inbus, ~loop_filt_buss[\tub_loops], \outbus, ~loop_filt_buss[\tub_agg]],
+    ~route_loop_g)
+]);
 
 "PERSISTENT SYNTHS LOADED".postln;
 )
