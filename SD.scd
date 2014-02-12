@@ -48,6 +48,15 @@
     Out.kr(outbus, EnvGen.kr(env, doneAction: 14));
   }),
 
+  SynthDef(\playbuf_stereo_to_mono_to_mons, {
+    arg buf, sax_mon, tub_mon, drums_mon, nugs_mon, com_mon, amp;
+    var out;
+    out = PlayBuf.ar(2, buf, BufRateScale.ir(buf), loop: 1) * amp;
+    [sax_mon, tub_mon, drums_mon, nugs_mon, com_mon].do {|bus|
+      Out.ar(bus, out);
+    };
+  }),
+
   SynthDef(\playbuf_mono, {
     arg outbus, buf, dur, startpos=0, amp=1, gate=1;
     Out.ar(outbus,
