@@ -1,27 +1,16 @@
 (
 var guiLength=500, guiHeight=200,
 mainWindow = Window("man-handle drum sample sets",
-  Rect(100, 100, guiLength, guiHeight)
-).front,
-
-button,
+  Rect(100, 100, guiLength, guiHeight)).front,
 
 filePath, buffer,
 playerSynth,
 
-fileField,
+button, fileField,
 
 addPlaySynth, stopPushed, playPushed;
 
 QtGUI.palette = QPalette.dark;
-
-StaticText(mainWindow, Rect(30, 50, 400, 30))
-.string_("drag sound file here").stringColor_(Color.white).align_(\left);
-fileField = TextField(mainWindow, Rect(30, 80, 400, 60));
-
-button = Button(mainWindow, Rect(30, 150, 120, 30))
-.states_([["play", Color.green]])
-.mouseDownAction_(playPushed);
 
 playPushed = {
   if (filePath == fileField.string) {
@@ -31,11 +20,6 @@ playPushed = {
     filePath = fileField.string;
     Buffer.read(s, filePath, action: addPlaySynth);
   };
-};
-
-stopPushed = {
-
-  button.mouseDownAction_(playPushed);
 };
 
 addPlaySynth = {
@@ -51,9 +35,39 @@ addPlaySynth = {
     ]
   );
 
-  button.states = [["stop", Color.red]];
-  button.mouseDownAction_(stopPushed);
-  b.refresh;
+  AppClock.sched(0, {
+    button.mouseDownAction_(stopPushed);
+    button.states = [["stop", Color.red]];
+    button.refresh;
+  });
+
+  "playing".postln;
 };
+
+stopPushed = {
+  AppClock.sched(0, {
+    button.mouseDownAction_(playPushed);
+    button.states_([["play", Color.green]]);
+    button.refresh;
+  });
+
+  playerSynth.free;
+  playerSynth = nil;
+
+  "stopped".postln;
+};
+
+StaticText(mainWindow, Rect(30, 50, 400, 30))
+.string_("drag sound file here").stringColor_(Color.white).align_(\left);
+fileField = TextField(mainWindow, Rect(30, 80, 400, 60));
+
+button = Button(mainWindow, Rect(30, 150, 120, 30))
+.states_([["play", Color.green]])
+.mouseDownAction_(playPushed);
+
+mainWindow.onClose_({
+  if (playerSynth.notNil) { playerSynth.free };
+  buffer.free;
+});
 
 )
