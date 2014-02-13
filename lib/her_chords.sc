@@ -2,7 +2,7 @@ HerChords[slot] {
   classvar chords;
 
   at {|key|
-    value = chords[key];
+    var value = chords[key];
     if (value.isNil) { Error("HerChords doesn't contain key: " ++ key).throw };
     ^value;
   }
