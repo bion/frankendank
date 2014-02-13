@@ -2,15 +2,7 @@
 
 *** TODO mashing loop button crashes supernova
 
-*** TODO loop control mode for scott
-
-*** TODO dj-like filtering of band output
-
 *** TODO breath control for synths tracking jam chords
+*** TODO loop control mode for scott
+*** TODO dj-like filtering of band output
 *** TODO drum filters
-
-*** TODO OO looping
-*** TODO OO horn mgmt chains?
-    group manager object
-    looping?
-    synths?
