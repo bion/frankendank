@@ -7,7 +7,7 @@ HerChordsController {
   }
 
   init {
-    synth = Synth(currentSynth, [\bus, bus], group);
+    synth = Synth(currentSynth, [\bus, bus, \freqs, HerChords[\default]], group);
   }
 
   setAmp { |amp|
@@ -19,7 +19,7 @@ HerChordsController {
     synth = Synth(currentSynth,
       [
         \bus, bus,
-        \freqs, chords[currentChord]
+        \freqs, HerChords[currentChord]
       ],
       group
     );
@@ -27,7 +27,7 @@ HerChordsController {
 
   setChord { |newChord|
     currentChord = newChord;
-    synth.set(\freqs, chords[newChord]);
+    synth.set(\freqs, HerChords[newChord]);
   }
 
 }
