@@ -1,4 +1,4 @@
-HerChordsController {
+HerHarmonyController {
   var <group, <bus, <>chords, <currentChord, <currentSynth;
   var <>amp=1, synth;
 
