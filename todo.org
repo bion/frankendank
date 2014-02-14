@@ -1,5 +1,10 @@
 * Thing that need to be done
 
+*** TODO Balance levels to avoid clipping
+*** TODO Jon synth: punchy bass
+*** TODO Jon synth: mid-range
+*** TODO get chords working
+
 *** TODO mashing loop button crashes supernova
 
 *** TODO breath control for synths tracking jam chords
