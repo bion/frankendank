@@ -1,21 +1,5 @@
 (
-~shaper_buf_1 = CtkBuffer.new(size:1024)
-  .fillWithEnv(env:
-    Env(
-      [-1, -0.1, -0.8, 0, 0.8, 0.1, 1],
-      [1, 1, 1, 1, 1, 1].normalizeSum,
-      [-3, 3, 6, -6, 1, -1]),
-      wavetable: 1
-    ).load;
-~expoatt_buf_1 = CtkBuffer.new(size:1024)
-  .fillWithEnv(env:
-    Env(
-      [0, 1, 0],
-      [0.05, 0.95],
-      \sin
-    ),
-    wavetable: 1
-  ).load;
+requireRelative("./sd_support.scd");
 [
   /* ---------------------------------------- main ---------------------------------------- */
 
@@ -228,7 +212,7 @@
 
     // sig = GrainIn.ar(1, Impulse.kr(vib_rate * 1.5 * warm),
     //   vib_rate.reciprocal,
-    //   sig, envbufnum: ~expoatt_buf_1);
+    //   sig, envbufnum: ~ugen_support[\expoatt_buf_1]);
 
     sig = Integrator.ar(sig, 0.8);
 
@@ -258,7 +242,7 @@
 
     sig = GrainIn.ar(1, Impulse.kr(vib_rate * 1.5 * warm),
       vib_rate.reciprocal,
-      sig, envbufnum: ~expoatt_buf_1);
+      sig, envbufnum: ~ugen_support[expoatt_buf_1]);
 
     sig = Integrator.ar(sig, 0.8);
 
@@ -498,7 +482,7 @@
     var in, chain;
     in = In.ar(bus, 1);
     chain = Compander.ar(in, in, -32.dbamp, 1, 1/10, 0.02, 0.002) * 40;
-//    chain = Shaper.ar(~shaper_buf_1, chain);
+//    chain = Shaper.ar(~ugen_support[\shaper_buf_1], chain);
     chain = chain.distort;
     chain = chain * 0.125;
     XOut.ar(bus, Linen.kr(gate, 0.05, releaseTime: 0.05, doneAction: 2), chain);
