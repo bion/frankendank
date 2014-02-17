@@ -99,7 +99,7 @@ requireRelative("./sd_support.scd");
     amp = Amplitude.kr(in);
     amp = amp * (amp > ~sax_gate_thresh).lag3(~horn_gate_lag);
     onset = Coyote.kr(in);
-    Out.kr(outbus, [pitch.lag3(lag), hasPitch, amp.lag3(0.015), onset]);
+    Out.kr(outbus, [pitch.lag3(lag), hasPitch, amp.lag3(0.015) * 0.5, onset]);
   }),
 
   SynthDef(\tuba_info, {
@@ -107,10 +107,10 @@ requireRelative("./sd_support.scd");
     var in, pitch, hasPitch, amp, onset;
     in = In.ar(inbus, 1);
     #pitch, hasPitch = Tartini.kr(in);
-    amp = Amplitude.kr(in);
+    amp = Amplitude.kr(in) * 0.5;
     amp = amp * (amp > ~tuba_gate_thresh).lag3(~horn_gate_lag);
     onset = Coyote.kr(in);
-    Out.kr(outbus, [pitch.lag3(lag), hasPitch, amp.lag3(0.015), onset]);
+    Out.kr(outbus, [pitch.lag3(lag), hasPitch, amp.lag3(0.015) * 0.5, onset]);
   }),
 
   SynthDef(\sax_eq, {
@@ -288,7 +288,7 @@ requireRelative("./sd_support.scd");
     arg inbus, outbus, amp=1;
     var out = In.ar(inbus, 1);
     out = LPF.ar(out, 400);
-    out = Compander.ar(out, out, -24.dbamp, 1, 0.25, 0.05, 0.05, 2);
+    out = Compander.ar(out, out, -24.dbamp, 1, 0.25, 0.05, 0.05, 1);
     Out.ar(outbus, amp * out);
   }),
 
@@ -413,8 +413,8 @@ requireRelative("./sd_support.scd");
     arg inbus, outbus, amp=4;
     var in;
     in = In.ar(inbus, 1);
-    in = HPF.ar(in, 240);
     in = in * (Amplitude.kr(in).lag3(~horn_gate_lag) > ~sax_gate_thresh);
+    in = HPF.ar(in, 240, 0.5);
     Out.ar(outbus, amp * in );
   }),
 

@@ -10,7 +10,7 @@ basic_sample = {| action, val |
   s.makeBundle(0.0, {
     Synth(\playbuf_simple,
       [ \buf, action[\buffer],
-        \amp, 0.25 * (val / 127.0 + -24.dbamp),
+        \amp, 0.125 * (val / 127.0 + -24.dbamp),
         \bus, ~buss[action[\register]] ],
       ~playbuf_g )
   })
