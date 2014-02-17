@@ -9,7 +9,8 @@
     parent_group, synth_group, param_group, filt_group, in_group,
     bundles, cond;
 
-  source_path = "~/Dropbox/electric_band_shared_music/raw_horn_samples/tuba_1.aiff".standardizePath;
+  source_path = "~/Dropbox/electric_band_shared_music/raw_horn_samples/punchy_two.aiff".standardizePath;
+  // source_path = "~/Dropbox/electric_band_shared_music/raw_horn_samples/punchy_short.aiff".standardizePath;
   // source_path = "~/Dropbox/electric_band_shared_music/raw_horn_samples/sax_1.aiff".standardizePath;
 
   param = Env(

@@ -349,9 +349,18 @@ resolveRelative("./sd_support.scd");
   SynthDef(\tub_s3, {
     arg hornDataBus, pedal_amp_bus, bus, gate=1;
     var signal, filtC1, filtC2, attackTime = 0.2, amp, out,
-      modFreqEnv, mod, controlAmp, onset, pitch, hasPitch;
+    modFreqEnv, mod, controlAmp, onset, pitch, hasPitch,
+    fadeEnv, att;
 
     #pitch, hasPitch, amp, onset = In.kr(hornDataBus, 4);
+
+    fadeEnv = EnvGen.kr(
+      Env([1, -1], [0.15], \lin),
+      gate: onset
+    );
+
+    att = Decay.kr(onset, 0.25);
+
     controlAmp = amp.lag3(0.1);
 
     signal = Pulse.ar([pitch, pitch * 1.001201, pitch * 0.99932],
@@ -366,12 +375,8 @@ resolveRelative("./sd_support.scd");
     mod = SinOsc.kr((modFreqEnv * pitch) + pitch, 0, 20);
     signal = signal + SinOsc.ar(pitch + mod, 0, 0.5).distort;
 
-    signal = XFade2.ar(
-      DFM1.ar(signal, pitch * 2.5, 0.6, 2, 0.0, -46.dbamp),
-      MoogFF.ar(signal, 8000, 0.1) * 6.dbamp,
-      LinExp.kr(controlAmp, -36.dbamp, -10.dbamp, -1, 1)
-    );
-    out = signal * Slew.kr((amp > 0).lag3(~horn_gate_lag), 10, 4000, In.kr(pedal_amp_bus, 1));
+    // out = signal * Slew.kr((amp > 0).lag3(~horn_gate_lag), 10, 4000, amp);
+    out = signal.distort * Slew.kr(amp, 4000, 0.5);
 
     Out.ar(bus, out * Linen.kr(gate, 0.05, releaseTime: 0.05, doneAction: 2));
   }),
