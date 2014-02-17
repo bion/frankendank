@@ -5,10 +5,9 @@
 
 ~monitor_levels = Object.readArchive("../archive/monitor_levels".resolveRelative);
 
-~spoof_horns = false;
-~do_bus_map_overrides = false;
+~spoof_horns = true;
 
-if (false) {
+if (true) {
   // dev config
 
   ~spoof_horns = true;
@@ -23,7 +22,7 @@ if (false) {
     \tub_mon_out -> 2,
     \sax_mon_out -> 2
   ];
-
+  ~mSrc = IdentityDictionary[];
   ~mSrc.putPairs([
     \sax, 10000,
     \tuba, 20000,
