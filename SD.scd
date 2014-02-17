@@ -1,5 +1,5 @@
 (
-requireRelative("./sd_support.scd");
+resolveRelative("./sd_support.scd");
 [
   /* ---------------------------------------- main ---------------------------------------- */
 
@@ -242,7 +242,7 @@ requireRelative("./sd_support.scd");
 
     sig = GrainIn.ar(1, Impulse.kr(vib_rate * 1.5 * warm),
       vib_rate.reciprocal,
-      sig, envbufnum: ~ugen_support[expoatt_buf_1]);
+      sig, envbufnum: ~ugen_support[\expoatt_buf_1]);
 
     sig = Integrator.ar(sig, 0.8);
 
