@@ -1,5 +1,5 @@
 (
-resolveRelative("./sd_support.scd");
+loadRelative("./sd_support.scd");
 [
   /* ---------------------------------------- main ---------------------------------------- */
 
