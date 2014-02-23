@@ -449,7 +449,7 @@ after_boot = {
 
 main_window.onClose = {
   CmdPeriod.run;
-  if (thisProcess.platform.name != \osx) { 0.exit };
+  if (~dev_mode.not) { 0.exit };
 };
 currentEnvironment.do {_.free};
 
