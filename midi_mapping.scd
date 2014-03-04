@@ -132,7 +132,34 @@ MIDIdef.noteOn(
     ~h_synth.(\tub_subbass);
     ~h_synth.(\tub_s2);
   }],
-  [9,{ ~reset_all.(\tub) }]
+  [9,{ ~reset_all.(\tub) }],
+
+  // looping
+  [10, { tubaLoops[0].touch }],
+  [11, { tubaLoops[1].touch }],
+  [12, { tubaLoops[2].touch }],
+  [13, { tubaLoops[3].touch }],
+  // clear loop id must be a single string char
+  [14, { HerLoop.toggleReset(\tuba) }],
+
+  // synths
+  [15, { ~dry_horn.(\tub) }],
+  [16, {
+    ~dry_horn.(\tub);
+    ~h_synth.(\tub_subbass);
+    ~h_synth.(\tub_s3);
+  }],
+  [17, {
+    ~dry_horn.(\tub);
+    ~h_synth.(\tub_subbass);
+    ~h_synth.(\tub_s1);
+  }],
+  [18, {
+    ~dry_horn.(\tub);
+    ~h_synth.(\tub_subbass);
+    ~h_synth.(\tub_s2);
+  }],
+  [19,{ ~reset_all.(\tub) }]
 ].do {|pair|
   MIDIdef.program(
     ("tub_"++pair[0]).asSymbol,
