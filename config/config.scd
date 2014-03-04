@@ -7,7 +7,7 @@
 
 ~spoof_horns = true;
 
-~dev_mode = true;
+~dev_mode = false;
 if (~dev_mode) {
   // dev config
 
