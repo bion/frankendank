@@ -5,7 +5,8 @@
 
 ~monitor_levels = Object.readArchive("../archive/monitor_levels".resolveRelative);
 
-~spoof_horns = true;
+~spoof_horns = false;
+~do_bus_map_overrides = false;
 
 ~dev_mode = false;
 if (~dev_mode) {

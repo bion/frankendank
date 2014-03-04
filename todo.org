@@ -1,5 +1,8 @@
 * Thing that need to be done
 
+*** TODO looping broken, again...
+*** TODO turn nugs up on input (way up [add slider?])
+
 *** TODO Jon synth: punchy bass
 *** TODO Jon synth: mid-range
 *** TODO get chords working
