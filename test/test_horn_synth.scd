@@ -70,6 +70,11 @@
     );
     CmdPeriod.doOnce({
       s.freeAll;
+      param_bus.free;
+      horn_in.free;
+      stereo_bus.free;
+      info_in_bus.free;
+      info_out_bus.free;
     });
   };
   s.queryAllNodes;

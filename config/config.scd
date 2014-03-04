@@ -30,3 +30,5 @@ if (~dev_mode) {
     \drums, 30000
   ]);
 };
+
+~config_loaded_flag = true;

@@ -36,7 +36,8 @@
     filt_group = Group(synth_group, \addAfter);
     amp_group = Group(synth_group, \addBefore);
 
-    loadRelative("./SD.scd");
+    loadRelative("../config/config.scd");
+    loadRelative("../SD.scd");
 
     s.sync(cond);
 
