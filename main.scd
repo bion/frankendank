@@ -435,8 +435,6 @@ after_boot = {
     s.quit;
   };
 
-  ~scheduler.();
-
   start_btn
   .states_([["Server Quit", Color.black, Color.green]])
   .mouseDownAction_({
@@ -451,6 +449,7 @@ main_window.onClose = {
   CmdPeriod.run;
   if (~dev_mode.not) { 0.exit };
 };
+
 currentEnvironment.do {_.free};
 
 main_window.front;
