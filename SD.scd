@@ -1,4 +1,6 @@
 (
+if (~config_loaded_flag.isNil) { Error("load config before SD").throw };
+
 loadRelative("./sd_support.scd");
 [
   /* ---------------------------------------- main ---------------------------------------- */
@@ -350,7 +352,7 @@ loadRelative("./sd_support.scd");
     arg hornDataBus, pedal_amp_bus, bus, gate=1;
     var signal, filtC1, filtC2, attackTime = 0.2, amp, out,
     modFreqEnv, mod, controlAmp, onset, pitch, hasPitch,
-    fadeEnv, att;
+    fadeEnv, att, cancel;
 
     #pitch, hasPitch, amp, onset = In.kr(hornDataBus, 4);
 
@@ -361,22 +363,19 @@ loadRelative("./sd_support.scd");
 
     att = Decay.kr(onset, 0.25);
 
-    controlAmp = amp.lag3(0.1);
+    controlAmp = amp.lag3(0.05);
 
-    signal = Pulse.ar([pitch, pitch * 1.001201, pitch * 0.99932],
-      SinOsc.kr([0.5, 0.3, 0.7], Rand(0, pi) ! 3).range(0.355, 0.55) +
-        [LFNoise1.kr(0.001).range(-0.6, 0.4),
-        LFNoise1.kr(0.001).range(-0.6, 0.4),
-        LFNoise1.kr(0.001).range(-0.6, 0.4)]).sum;
+    signal = VarSaw.ar(
+        [1.00432123, 1, 1.001231, 0.99123, 0.9992131] * pitch,
+        0,
+        [0.3, 0.7]
+    ).mean.distort;
 
     signal = signal + SinOsc.ar(pitch*0.5, 0, 0.8);
 
-    modFreqEnv = LinExp.kr(controlAmp.ampdb, -36, -10, 0.01, 1);
-    mod = SinOsc.kr((modFreqEnv * pitch) + pitch, 0, 20);
-    signal = signal + SinOsc.ar(pitch + mod, 0, 0.5).distort;
+    out = signal * Slew.kr(amp, 4000, 0.5);
 
-    // out = signal * Slew.kr((amp > 0).lag3(~horn_gate_lag), 10, 4000, amp);
-    out = signal.distort * Slew.kr(amp, 4000, 0.5);
+    out = Integrator.ar(out, 0.9);
 
     Out.ar(bus, out * Linen.kr(gate, 0.05, releaseTime: 0.05, doneAction: 2));
   }),
