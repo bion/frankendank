@@ -76,8 +76,8 @@ loadRelative("./sd_support.scd");
   },
 
   SynthDef(\route_4_chans_to_mono, {
-    arg inbus, outbus;
-    Out.ar( outbus, In.ar(inbus, 4).sum );
+    arg inbusses, outbus;
+    Out.ar( outbus, In.ar(inbusses, 4).sum );
   }),
 
   SynthDef(\route_m2s, {
