@@ -371,11 +371,9 @@ loadRelative("./sd_support.scd");
         [0.3, 0.7]
     ).mean.distort;
 
-    signal = signal + SinOsc.ar(pitch*0.5, 0, 0.8);
-
     out = signal * Slew.kr(amp, 4000, 0.5);
 
-    out = Integrator.ar(out, 0.9);
+    out = AudioMSG.ar(out, 0.453245);
 
     Out.ar(bus, out * Linen.kr(gate, 0.05, releaseTime: 0.05, doneAction: 2));
   }),
