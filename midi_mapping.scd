@@ -13,7 +13,7 @@
 (
 var map_dic_sax = {|num| IdentityDictionary[\instr -> \sax, \num -> num] };
 var map_dic_tub = {|num| IdentityDictionary[\instr -> \tub, \num -> num] };
-var loopFilters,
+var loopFilters, harmonyController,
 
 saxLoops = 4.collect {|i|
   HerLoop(
@@ -249,6 +249,17 @@ loopFilters = (
     ~mSrc[\bcr]
   );
 };
+
+harmonyController = HerHarmonyController(~synth_g, 0, \default, \com_dirt_rhode);
+
+MIDIdef.cc(\breathController,
+  { |val|
+    harmonyController.setAmp(val);
+  },
+  2,
+  0,
+  ~mSrc[\breath]
+);
 
 "MIDI MAPPING LOADED".postln;
 )
