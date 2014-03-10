@@ -1,10 +1,15 @@
-HerChords[slot] {
+HerChords {
   classvar chords;
 
-  at { |key|
+  *at { |key|
     var value = chords[key];
     if (value.isNil) { Error("HerChords doesn't contain key: " ++ key).throw };
     ^value;
+  }
+
+  *add { |key, value|
+    chords[key] = value;
+    ^this;
   }
 
   *initClass {
