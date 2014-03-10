@@ -135,7 +135,7 @@ MIDIIn.connectAll;
 
 MIDIClient.sources.do {|source|
   case
-  { source.device == "Breath Controller" }
+  { source.device == "Breath Controller-Breath Controller MIDI 1" }
     { ~mSrc[\breath] = source.uid }
   { source.device == "BCR2000" }
     { ~mSrc[\bcr] = ~mSrc[\bcr] ? source.uid }
