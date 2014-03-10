@@ -218,9 +218,9 @@ loadRelative("./sd_support.scd");
 
     sig = Integrator.ar(sig, 0.8);
 
-    sig = sig * 4 * amp.lag3(0.002);
+    sig = sig * 16 * (LinExp.kr(amp, 0, 127, -60.dbamp, 1).lag3(0.002) * (amp > 0));
 
-    Out.ar(bus, sig * Linen.kr(gate, 0.05, releaseTime: 0.05, doneAction: 2));
+    Out.ar(0, sig * Linen.kr(gate, 0.05, releaseTime: 0.05, doneAction: 2));
   }),
 
   SynthDef(\com_dirt_rhode_pitch_lag, {
@@ -371,9 +371,13 @@ loadRelative("./sd_support.scd");
         [0.3, 0.7]
     ).mean.distort;
 
+    out = signal + SinOsc.ar(pitch, 0, 0.5);
+
     out = signal * Slew.kr(amp, 4000, 0.5);
 
     out = AudioMSG.ar(out, 0.453245);
+
+    out = Compander.ar(out, out, 0.0575, 1, 1/10, 0.002, 0.05) * 16;
 
     Out.ar(bus, out * Linen.kr(gate, 0.05, releaseTime: 0.05, doneAction: 2));
   }),
