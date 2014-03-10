@@ -146,7 +146,7 @@ loadRelative("./sd_support.scd");
 
     sax = In.ar(sax_bus, 1) * 2.5;
     tub = In.ar(tub_bus, 1) * 2.5;
-    com = In.ar(com_bus, 1) * 1.5;
+    com = In.ar(com_bus, 1) * 3;
 
     d_low = In.ar(d_low_bus, 1);
     d_med = In.ar(d_med_bus, 1);
@@ -156,7 +156,6 @@ loadRelative("./sd_support.scd");
     sample = In.ar(sample_bus, 1);
 
     tub = Compander.ar(tub, d_low, -42.dbamp, 1, 1/5, 0.002, \tub_relax.kr(0.05, 0.03));
-    com = Compander.ar(com, d_hi + sax, -42.dbamp, 1, 1/5, 0.002, 0.02);
 
     Out.ar(outbus, [tub, sax, com, d_low, d_med, d_hi, sample].sum);
 
