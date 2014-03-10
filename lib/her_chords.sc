@@ -14,7 +14,7 @@ HerChords {
 
   *initClass {
     chords = IdentityDictionary[
-      \default -> [PC(\fs, 3), PC(\e, 3), PC(\cs, 3), PC(\a, 2)]
+      \default -> [PC(\fs, 4), PC(\e, 4), PC(\cs, 4), PC(\a, 3)]
     ];
     chords.keysValuesChange {|key, pitchArray| pitchArray.collect({|pc| pc.freq}) }
   }
