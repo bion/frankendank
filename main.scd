@@ -281,7 +281,7 @@ record_start = {
   });
 
   record_synth = Synth(\recordbuf_mono,
-    [\inbus, ~buss[\one_out], \buf, record_buf, \startpos, 0],
+    [\inbus, ~buss[\com_mon_out], \buf, record_buf, \startpos, 0],
     ~record_g
   );
 };

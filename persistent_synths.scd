@@ -111,8 +111,8 @@
   \out_left, Synth(\route_mono,
     [\inbus, ~buss[\one_out], \outbus, ~id_bus_map[\main_out_0]], ~out_g),
 
-  \ambient_in, Synth(\route_mono,
-    [\inbus, ~id_bus_map[\ambient], \outbus, ~buss[\one_out]], ~record_g),
+  \ambient_in, Synth(\route_mono_amp,
+    [\inbus, ~id_bus_map[\ambient], \outbus, ~buss[\one_out, \amp, 8]], ~record_g),
 
 // ****************************************** LOOPING
 

@@ -68,6 +68,11 @@ loadRelative("./sd_support.scd");
     Out.ar(outbus, In.ar(inbus, 1) );
   }),
 
+  SynthDef(\route_mono_amp, {
+    arg inbus, outbus, amp=1;
+    Out.ar(outbus, In.ar(inbus, 1) * amp );
+  }),
+
   (1..8).collect {|i|
     SynthDef(asSymbol("route_mono_to_" ++ i), {
       arg inbus;

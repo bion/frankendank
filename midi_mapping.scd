@@ -251,7 +251,7 @@ loopFilters = (
 };
 
 harmonyController = HerHarmonyController(~synth_g, ~buss[\com_agg], \default, \com_fank);
-
+~harmonyController = harmonyController;
 MIDIdef.cc(\breathController,
   { |val|
     if (val < 64) { val = val } { val = 64 };

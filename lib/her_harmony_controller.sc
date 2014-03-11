@@ -27,7 +27,7 @@ HerHarmonyController {
 
   setChord { |newChord|
     currentChord = newChord;
-    synth.set(\freqs, HerChords[newChord]);
+    synth.set(\freqs, HerChords.at(newChord));
   }
 
 }
