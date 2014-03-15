@@ -1,14 +1,16 @@
 HerMultiTrackRecorder {
-  var <group, <path, <busses, <>bufDur=12;
+  var <group, <path, <busses, <>bufDur;
   var buffers, recordSynths, startTime;
 
-  *new { | group, path, busses, bufDur |
+  *new { | group, path, busses, bufDur=12 |
     ^super.newCopyArgs(group, path, busses, bufDur).init;
   }
 
   init {
     buffers = IdentityDictionary[];
+    recordSynths = IdentityDictionary[];
     this.allocBuffers;
+    ^this;
   }
 
   start {
@@ -29,7 +31,9 @@ HerMultiTrackRecorder {
     buffers.keysValuesDo {|name, buffer|
       buffer.write(
         path ++ "/" ++ Date.getDate ++ "_" ++ name ++ ".aiff",
-        numFrames: (SystemClock.seconds - startTime) * Server.default.sampleRate
+        "aiff",
+        "float",
+        (SystemClock.seconds - startTime) * Server.default.sampleRate
       );
     };
     "multi track recording stopped".postln;
