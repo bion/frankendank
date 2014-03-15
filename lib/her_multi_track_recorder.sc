@@ -1,9 +1,9 @@
-MultiTrackRecorder {
-  var <buDur, <group, <busses, <path, <>bufDur=12;
+HerMultiTrackRecorder {
+  var <group, <path, <busses, <>bufDur=12;
   var buffers, recordSynths, startTime;
 
-  *new {
-    ^super.newCopyArgs().init;
+  *new { | group, path, busses, bufDur |
+    ^super.newCopyArgs(group, path, busses, bufDur).init;
   }
 
   init {
