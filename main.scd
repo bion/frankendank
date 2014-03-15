@@ -21,6 +21,7 @@ instr_btn_left = 10, instr_btn_top = 10,
 
 record_btn, player_btn, record_start, record_end, record_buf, recorded_buf,
 stop_playing, player_route_synth, record_synth, player_synth, play_recorded_buf,
+multi_recorder,
 
 metronome,
 metronome_amp,
@@ -276,6 +277,8 @@ record_btn = Button(main_window,
 record_start = {
   record_btn.mouseDownAction_(record_end);
 
+  multi_recorder.start;
+
   AppClock.sched(0, {
     update_button.(record_btn, "stop recording", Color.green);
   });
@@ -290,6 +293,8 @@ record_end = {
   var path = thisPath.dirname ++ "/recordings/" ++ Date.getDate ++ ".aiff";
 
   postln("WRITING TO: " ++ path);
+
+  multi_recorder.stop;
 
   record_synth.free;
   record_buf.write(
@@ -368,6 +373,18 @@ after_boot = {
 
   // * * * * * * * * * * * * * * * * * * * * * * RECORDING
 
+  multi_recorder = HerMultiTrackRecorder(
+    ~record_g,
+    thisPath.dirname ++ "/recordings",
+    IdentityDictionary[
+      \tuba           -> ~multi_record_buss[\tuba],
+      \sax            -> ~multi_record_buss[\sax],
+      \electric_drums -> ~multi_record_buss[\electric_drums],
+      \acoustic_drums -> ~multi_record_buss[\acoustic_drums],
+      \computer       -> ~multi_record_buss[\computer]
+    ]
+  );
+
   record_buf = Buffer.alloc(s, 10 * 60 * s.sampleRate);
 
   AppClock.sched(0, {
@@ -410,6 +427,7 @@ after_boot = {
   );
 
   CmdPeriod.doOnce {
+    multi_recorder = nil;
     s.freeAll;
     metronome.stop;
     metronome = nil;
