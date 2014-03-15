@@ -188,6 +188,36 @@ loadRelative("./sd_support.scd");
     Out.ar(outbus, out * main_scale);
   }),
 
+  SynthDef(\com_mon, {
+    arg inbus, outbus, metronome_bus, acoustic_drums_bus, main_scale=16,
+      drum_scale=1, sax_scale=1, tub_scale=1, com_scale=1, met_scale=1,
+      tuba_record_bus, sax_record_bus, electric_drums_record_bus, acoustic_drums_record_bus,
+      computer_record_bus;
+    var drums, sax, tub, com, out, sample, acoustic_drums,
+      instr, metronome;
+
+    #tub, sax, com, sample, drums = In.ar(inbus, 5);
+    acoustic_drums = In.ar(acoustic_drums_bus, 1);
+    metronome = In.ar(metronome_bus, 1);
+
+    metronome = metronome * met_scale;
+    drums     = drums * drum_scale;
+    sample    = sample * com_scale;
+    tub       = tub * tub_scale;
+    sax       = sax * sax_scale;
+    com       = com * com_scale;
+
+    out = drums + sample + tub + sax + com + metronome;
+    Out.ar(outbus, out * main_scale);
+
+    Out.ar(tuba_record_bus, tub);
+    Out.ar(sax_record_bus, sax);
+    Out.ar(electric_drums_record_bus, drums);
+    Out.ar(acoustic_drums_record_bus, acoustic_drums);
+    Out.ar(computer_record_bus, com);
+
+  }),
+
   /* ------------------------ com --------------------------- */
 
   SynthDef(\com_fank, {
