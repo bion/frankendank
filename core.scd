@@ -120,6 +120,14 @@ if (~do_bus_map_overrides) {
   \tub_loops -> Bus.audio(s, 1)
 ];
 
+~multi_record_buss = IdentityDictionary[
+  \tuba -> Bus.audio(s, 1),
+  \sax -> Bus.audio(s, 1),
+  \electric_drums -> Bus.audio(s, 1),
+  \acoustic_drums -> Bus.audio(s, 1),
+  \computer -> Bus.audio(s, 1),
+];
+
 [
   \sax_eq, \tub_eq, \dru_eq, \com_eq,
   \one_out, \two_out, \three_out,
