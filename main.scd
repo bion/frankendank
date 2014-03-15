@@ -371,27 +371,6 @@ run = {
 after_boot = {
   var cond = Condition.new;
 
-  // * * * * * * * * * * * * * * * * * * * * * * RECORDING
-
-  multi_recorder = HerMultiTrackRecorder(
-    ~record_g,
-    thisPath.dirname ++ "/recordings",
-    IdentityDictionary[
-      \tuba           -> ~multi_record_buss[\tuba],
-      \sax            -> ~multi_record_buss[\sax],
-      \electric_drums -> ~multi_record_buss[\electric_drums],
-      \acoustic_drums -> ~multi_record_buss[\acoustic_drums],
-      \computer       -> ~multi_record_buss[\computer]
-    ]
-  );
-
-  record_buf = Buffer.alloc(s, 10 * 60 * s.sampleRate);
-
-  AppClock.sched(0, {
-    update_button.(record_btn, "record", Color.red);
-    record_btn.mouseDownAction_(record_start);
-  });
-
   MIDIdef.freeAll;
 
   [
@@ -407,6 +386,27 @@ after_boot = {
     "".postln;
     s.sync;
   };
+
+  // * * * * * * * * * * * * * * * * * * * * * * RECORDING
+
+  multi_recorder = HerMultiTrackRecorder(
+    ~record_g,
+    thisPath.dirname ++ "/recordings",
+    IdentityDictionary[
+      \tuba           -> ~multi_record_buss[\tuba],
+      \sax            -> ~multi_record_buss[\sax],
+      \electric_drums -> ~multi_record_buss[\electric_drums],
+      \acoustic_drums -> ~multi_record_buss[\acoustic_drums],
+      \computer       -> ~multi_record_buss[\computer]
+    ]
+  );
+
+  record_buf = Buffer.alloc(Server.default, 10 * 60 * Server.default.sampleRate);
+
+  AppClock.sched(0, {
+    update_button.(record_btn, "record", Color.red);
+    record_btn.mouseDownAction_(record_start);
+  });
 
   s.sync(cond);
 
