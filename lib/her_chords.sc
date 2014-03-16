@@ -1,39 +1,59 @@
 HerChords {
-  classvar voicingRatios;
+  classvar <voicingRatios, c4Freq;
 
-  *at { |key|
-    var value = chords[key];
-    if (value.isNil) { Error("HerChords doesn't contain key: " ++ key).throw };
-    ^value;
+  *at { |voicing, tonicPitchClass|
+    var voicingRatioSet, freqs;
+    voicingRatioSet = voicingRatios[voicing];
+    if (voicingRatioSet.isNil) { Error("HerChords doesn't contain key: " ++ voicing).throw };
+    ^voicingRatioSet.collect {|ratio| tonicPitchClass.freq * ratio };
   }
 
-  *at { |voicing, key, octave|
-    var
-  }
+  *add { |name, rawChord|
+    var ratios;
 
-  *add { |key, value|
-    chords[key] = value;
-    ^this;
+    ratios = rawChord.collect {|freqInfo|
+      var pitch, octave, freq;
+      #pitch, octave = freqInfo;
+
+      PC(pitch, octave).freq / c4Freq;
+    };
+
+    voicingRatios.put(name, ratios);
   }
 
   *initClass {
     /* assumes tonic is c */
     var rawChords = IdentityDictionary[
-      \Cm11 -> [[\g, 3], [\d, 4], [\ef, 4], [\bf4], [\f, 5]],
-      \C7s9f13 -> [[\e, 4], [\af, 4], [\bf, 4], [\ds, 5]],
-      \Cmaj9 -> [[\d, 4], [\e, 4], [\g, 4], [\b, 4]],
-      \C7sus -> [[\bf, 3], [\c, 4], [\f4]],
-      \Cm6 -> [[\ef, 4], [\g, 4], [\a, 4], [\d, 5]],
-      \Cmaj7 -> [[\g, 3], [\b, 3], [\e, 4]],
-      \Cm9 -> [[\d, 4], [\ef, 4], [\g, 4]],
-      \C -> [[\g, 3], [\e, 4], [\c, 5]],
-      \C7 -> [[\g, 3], [\bf, 3], [\e, 4]],
-      \C13 -> [[\e, 4], [\a, 4], [\bf, 4], [\d, 5]],
-      \Cdim7 -> [[\fs, 3], [\c, 4], [\ef, 4], [\a, 4]],
-      \Caug -> [[\gs, 4], [\c, 4], [\e, 4]]
+      \X11 -> [[\g, 3], [\d, 4], [\ef, 4], [\bf, 4], [\f, 5]],
+      \X7s9f13 -> [[\e, 4], [\af, 4], [\bf, 4], [\ds, 5]],
+      \Xmaj9 -> [[\d, 4], [\e, 4], [\g, 4], [\b, 4]],
+      \X7sus -> [[\bf, 3], [\c, 4], [\f, 4]],
+      \Xm6 -> [[\ef, 4], [\g, 4], [\a, 4], [\d, 5]],
+      \Xmaj7 -> [[\g, 3], [\b, 3], [\e, 4]],
+      \Xm9 -> [[\d, 4], [\ef, 4], [\g, 4]],
+      \Xopen -> [[\g, 3], [\e, 4], [\c, 5]],
+      \X7 -> [[\g, 3], [\bf, 3], [\e, 4]],
+      \X13 -> [[\e, 4], [\a, 4], [\bf, 4], [\d, 5]],
+      \Xdim7 -> [[\fs, 3], [\c, 4], [\ef, 4], [\a, 4]],
+      \Xaug -> [[\gs, 4], [\c, 4], [\e, 4]]
     ];
 
-    chords.keysValuesChange {|key, pitchArray| pitchArray.collect({|pc| pc.freq}) }
+    voicingRatios = IdentityDictionary[];
+    c4Freq = PC(\c, 4).freq;
+
+    rawChords.keysValuesDo {|name, voicingArray|
+      var ratios;
+
+      ratios = voicingArray.collect {|freqInfo|
+        var pitch, octave, freq;
+        #pitch, octave = freqInfo;
+
+        PC(pitch, octave).freq / c4Freq;
+      };
+
+      voicingRatios.put(name, ratios);
+    };
+
   }
 
 }
