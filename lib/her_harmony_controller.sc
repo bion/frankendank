@@ -7,7 +7,7 @@ HerHarmonyController {
   }
 
   init {
-    synth = Synth(currentSynth, [\bus, bus, \freqs, HerChords.at(\default)], group);
+    synth = Synth(currentSynth, [\bus, bus, \freqs, HerChords.at(\Xopen, PC(\fs, 4))], group);
   }
 
   setAmp { |amp|
@@ -25,9 +25,9 @@ HerHarmonyController {
     );
   }
 
-  setChord { |newChord|
+  setChord { |chordVoicing, chordPC|
     currentChord = newChord;
-    synth.set(\freqs, HerChords.at(newChord));
+    synth.set(\freqs, HerChords.at(chordVoicing, chordPC));
   }
 
 }
