@@ -224,7 +224,7 @@ loadRelative("./sd_support.scd");
     arg bus, amp, vib_rate = 11, vib_width = 0.00125, gate=1;
     var sig, vib, freqs, silencers, ampMul;
 
-    freqs = \freqs.kr([1, 1, 1, 1]);
+    freqs = \freqs.kr([1, 1, 1, 1, 1]);
 
     silencers = freqs.collect { |freq| freq > 9.0; };
 
