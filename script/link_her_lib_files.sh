@@ -6,11 +6,12 @@ fi
 if [ ! -d $SC_HER_EXTENSIONS_PATH ]
 then
     mkdir $SC_HER_EXTENSIONS_PATH
+else
+    rm -rf $SC_HER_EXTENSIONS_PATH
+    mkdir $SC_HER_EXTENSIONS_PATH
 fi
 
 SC_HER_LIB_FILES="$SC_HER_LIB_PATH/*"
-
-rm "$SC_HER_EXTENSIONS_PATH/*.sc"
 
 for f in $SC_HER_LIB_FILES
 do

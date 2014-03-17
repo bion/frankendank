@@ -22,7 +22,7 @@ HerChords {
   }
 
   *initClass {
-    /* assumes tonic is c */
+    /* assumes key of c */
     var rawChords = IdentityDictionary[
       \X11 -> [[\g, 3], [\d, 4], [\ef, 4], [\bf, 4], [\f, 5]],
       \X7s9f13 -> [[\e, 4], [\af, 4], [\bf, 4], [\ds, 5]],
