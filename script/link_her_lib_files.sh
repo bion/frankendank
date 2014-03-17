@@ -17,6 +17,11 @@ for f in $SC_HER_LIB_FILES
 do
     echo "linking $f to $SC_HER_EXTENSIONS_PATH..."
     ln $f $SC_HER_EXTENSIONS_PATH
+    if [$? -ne 0]
+    then
+        "ERROR LINKING FILES"
+        break
+    fi
 done
 
 echo "done linking, her extensions directory: "
