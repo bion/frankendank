@@ -1,10 +1,6 @@
 * Thing that need to be done
 
-*** TODO supernova not starting up
-
-*** TODO multi-track recording to later eq
+*** TODO add acoustic drum input bus to com_mon
+*** TODO wire up midi controller for chord selection
 *** TODO still can't hear nugs in recordings
 *** TODO balance chords well in live recording
-
-*** TODO Jon synth: punchy bass
-*** TODO Jon synth: mid-range
