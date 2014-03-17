@@ -4,7 +4,8 @@ activated_instr = [], instr_buttons = IdentityDictionary[],
 instruments = [ \sax, \tuba, \drums, \com ],
 
 gui_height = 700, gui_length = 900,
-main_window = Window("frankendank", Rect(250, 250, gui_length, gui_height)),
+main_rect = Rect(250, 250, gui_length, gui_height),
+main_window = View(nil, main_rect),
 
 mon_windows = IdentityDictionary[],
 
@@ -73,6 +74,14 @@ thisPath = thisProcess.nowExecutingPath;
 // * * * * * * * * * * * * * * * * * * * * * * LOAD CONFIG
 
 "./config/config.scd".loadRelative;
+
+// * * * * * * * * * * * * * * * * * * * * * * CHORD INDICATOR
+
+StaticText(main_window, Rect(simple_loops_left - 160, gui_height * 0.35, 200, 20))
+  .string_("Chord Scheme:").font_(Font(size: 16));
+
+~chordNumberText = StaticText(main_window, Rect(simple_loops_left - 50, gui_height * 0.345, 30, 30))
+  .string_(1);
 
 // * * * * * * * * * * * * * * * * * * * * * * MONITORING WINDOWS
 
@@ -389,6 +398,17 @@ after_boot = {
 
   // * * * * * * * * * * * * * * * * * * * * * * RECORDING
 
+  ~harmonyController = HerHarmonyController(~synth_g, ~buss[\com_agg], \default, \com_fank);
+
+  ~chordSelector = HerChordSelector(
+    main_window,
+    ~chordNumberText,
+    ~chordSchema,
+    ~harmonyController
+  );
+
+  // * * * * * * * * * * * * * * * * * * * * * * RECORDING
+
   multi_recorder = HerMultiTrackRecorder(
     ~record_g,
     thisPath.dirname ++ "/recordings",
@@ -433,6 +453,7 @@ after_boot = {
     metronome = nil;
     ~clock.clear.stop;
     ~clock = nil;
+    ~chordSelector = nil;
     ~buss.keysValuesDo {|key, value| value.free; ~buss[key] = nil; };
     postln("busses freed");
     OSCFunc.allEnabled.do {|func| func.free};
