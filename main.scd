@@ -398,14 +398,16 @@ after_boot = {
 
   // * * * * * * * * * * * * * * * * * * * * * * RECORDING
 
-  ~harmonyController = HerHarmonyController(~synth_g, ~buss[\com_agg], \default, \com_fank);
+  if (~mSrc[\breath].notNil) {
+    ~harmonyController = HerHarmonyController(~synth_g, ~buss[\com_agg], \default, \com_fank);
 
-  ~chordSelector = HerChordSelector(
-    main_window,
-    ~chordNumberText,
-    ~chordSchema,
-    ~harmonyController
-  );
+    ~chordSelector = HerChordSelector(
+      main_window,
+      ~chordNumberText,
+      ~chordSchema,
+      ~harmonyController
+    );
+  };
 
   // * * * * * * * * * * * * * * * * * * * * * * RECORDING
 
