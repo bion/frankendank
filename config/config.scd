@@ -5,6 +5,9 @@
 
 ~monitor_levels = Object.readArchive("../archive/monitor_levels".resolveRelative);
 
+loadRelative("./chord_schema.scd");
+if (~chordSchema.isNil) { Error("~chordSchema not loaded!").throw };
+
 ~spoof_horns = false;
 ~do_bus_map_overrides = false;
 
