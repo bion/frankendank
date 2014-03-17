@@ -1,13 +1,14 @@
 HerHarmonyController {
-  var <group, <bus, <currentChord, <currentSynth;
-  var <>amp=1, synth;
+  var <group, <bus, <currentSynth;
+  var <>amp=1, <currentChord, synth;
 
-  *new { |group, bus, currentChord, currentSynth|
-    ^super.newCopyArgs(group, bus, currentChord, currentSynth).init;
+  *new { |group, bus, currentSynth|
+    ^super.newCopyArgs(group, bus, currentSynth).init;
   }
 
   init {
-    synth = Synth(currentSynth, [\bus, bus, \freqs, HerChords.at(\Xopen, PC(\a, 4))], group);
+    currentChord = HerChords.at(\Xopen, PC(\c, 4));
+    synth = Synth(currentSynth, [\bus, bus, \freqs, currentChord], group);
   }
 
   setAmp { |amp|
@@ -25,8 +26,8 @@ HerHarmonyController {
     );
   }
 
-  setChord { |chordVoicing, chordPC|
-    currentChord = HerChords.at(chordVoicing, chordPC);
+  setChord { |chord|
+    currentChord = HerChords.at(chord.voicing, chord.pitchClass);
     synth.set(\freqs, currentChord);
   }
 
