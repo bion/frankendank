@@ -250,12 +250,20 @@ loopFilters = (
   );
 };
 
-harmonyController = HerHarmonyController(~synth_g, ~buss[\com_agg], \default, \com_fank);
-~harmonyController = harmonyController;
+// MIDIdef.something(\chordSetSelector,
+//   { |val, num|
+//     var index = num do some math;
+//     ~chordSelector.setChordSlot(index);
+//   },
+//   1..8, ??
+//   0,
+//   ~mSrc[\fingerPads]
+// );
+
 MIDIdef.cc(\breathController,
   { |val|
     if (val < 64) { val = val } { val = 64 };
-    harmonyController.setAmp(val);
+    ~harmonyController.setAmp(val);
   },
   2,
   0,
