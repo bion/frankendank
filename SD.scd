@@ -110,14 +110,15 @@ loadRelative("./sd_support.scd");
   }),
 
   SynthDef(\tuba_info, {
-    arg inbus, outbus, lag=0.05;
+    arg inbus, outbus, lag=0.0001;
     var in, pitch, hasPitch, amp, onset;
     in = In.ar(inbus, 1);
     #pitch, hasPitch = Tartini.kr(in);
-    amp = Amplitude.kr(in) * 0.5;
+    amp = Amplitude.kr(in);
+
     amp = amp * (amp > ~tuba_gate_thresh).lag3(~horn_gate_lag);
     onset = Coyote.kr(in);
-    Out.kr(outbus, [pitch.lag3(lag), hasPitch, amp.lag3(0.015) * 0.5, onset]);
+    Out.kr(outbus, [pitch.lag3(0.001), hasPitch, amp.lag3(0.025) * 0.5, onset]);
   }),
 
   SynthDef(\sax_eq, {
@@ -369,7 +370,7 @@ loadRelative("./sd_support.scd");
     var pitch, hasPitch, amp, onset, control, synth, out;
     #pitch, hasPitch, amp, onset = In.kr(hornDataBus, 4);
 
-    synth = SinOsc.ar(pitch * 0.5, 0, 0.65);
+    synth = SinOsc.ar(pitch.lag3(0.0015) * 0.5, 0, amp * 0.25);
 
     synth = synth * (amp > 0).lag3(~horn_gate_lag);
 
@@ -383,20 +384,23 @@ loadRelative("./sd_support.scd");
     #pitch, hasPitch, amp, onset = In.kr(hornDataBus, 4);
 
     synth = Pulse.ar(
-        pitch * [1, 1.003, 0.995, 7.midiratio, 2] * 0.5,
+        pitch * [1, 1.0008564, 0.998432, 2] * 0.5,
         SinOsc.kr(0.1).range(0.3, 0.7),
-        [1, 0.5, 0.5, 0.25, 0.125]
-      );
-    synth = synth.mean * 18.dbamp;
+        [1, 0.5, 0.5, 0.125]
+      ).mean;
 
     synth = synth * (amp > 0).lag3(~horn_gate_lag);
 
-    control = LinExp.kr(amp.ampdb, -36, -6, pitch * 1.5, 10000).max(160);
-    synth = MoogFF.ar(synth, control, 1.32);
+    control = LinExp.kr(amp.ampdb, -52, -20, pitch * 1.2, 15000).max(160);
+
+    synth = MoogFF.ar(synth, control, 0.75);
 
     synth = LeakDC.ar(synth);
 
+    out = Compander.ar(synth, synth, -42.dbamp, 1, 1/6, 0.002, 0.02);
+
     out = synth * In.kr(pedal_amp_bus, 1);
+
     Out.ar(bus, out * Linen.kr(gate, 0.05, releaseTime: 0.05, doneAction: 2));
   }),
 
@@ -405,16 +409,16 @@ loadRelative("./sd_support.scd");
     var pitch, hasPitch, amp, onset, synth, out_amp, out, lowpass_control;
     var sawControl, decBitControl, controlAmp, delayControl;
     #pitch, hasPitch, amp, onset = In.kr(hornDataBus, 4);
-    controlAmp = amp.lag3(0.1);
+    controlAmp = amp.lag3(0.01);
 
     sawControl = LinExp.kr(controlAmp, -32.dbamp, -10.dbamp, 0.35, 0.85).lag3(0.05);
     synth = VarSaw.ar(pitch * [0.9983291, 1, 1.001213], 0, width: sawControl).mean;
 
-    synth = synth * Slew.kr((amp > 0).lag3(~horn_gate_lag), 10, 4000);
+    synth = synth * (amp > 0).lag3(~horn_gate_lag);
 
     synth = Integrator.ar(synth, 0.72, -16.dbamp);
 
-    out = synth * In.kr(pedal_amp_bus, 1);
+    out = synth * In.kr(pedal_amp_bus, 1) * 0.25;
     Out.ar(bus, out * Linen.kr(gate, 0.05, releaseTime: 0.05, doneAction: 2));
   }),
 
@@ -433,19 +437,19 @@ loadRelative("./sd_support.scd");
 
     att = Decay.kr(onset, 0.25);
 
-    controlAmp = amp.lag3(0.05);
+    controlAmp = amp.lag3(0.02);
 
     signal = VarSaw.ar(
         [1.00432123, 1, 1.001231, 0.99123, 0.9992131] * pitch,
         0,
         [0.3, 0.7]
-    ).mean.distort;
+    ).mean;
 
-    out = signal + SinOsc.ar(pitch, 0, 0.5);
+    out = signal;
 
-    out = signal * Slew.kr(amp, 4000, 0.5);
+    out = signal * Slew.kr(amp, 10000, 1000);
 
-    out = AudioMSG.ar(out, 0.453245);
+    out = AudioMSG.ar(out, 0.453245/3);
 
     out = Compander.ar(out, out, 0.0575, 1, 1/10, 0.002, 0.05) * 16;
 
