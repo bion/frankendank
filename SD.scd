@@ -192,7 +192,7 @@ loadRelative("./sd_support.scd");
     arg inbus, outbus, metronome_bus, acoustic_drums_bus, main_scale=16,
       drum_scale=1, sax_scale=1, tub_scale=1, com_scale=1, met_scale=1,
       tuba_record_bus, sax_record_bus, electric_drums_record_bus, acoustic_drums_record_bus,
-      computer_record_bus;
+      computer_record_bus, acoustic_drums_scale=1;
     var drums, sax, tub, com, out, sample, acoustic_drums,
       instr, metronome;
 
@@ -207,7 +207,9 @@ loadRelative("./sd_support.scd");
     sax       = sax * sax_scale;
     com       = com * com_scale;
 
-    out = drums + sample + tub + sax + com + metronome;
+    acoustic_drums = In.ar(acoustic_drums_bus, 1) * acoustic_drums_scale;
+
+    out = drums + sample + tub + sax + com + metronome + acoustic_drums;
     Out.ar(outbus, out * main_scale);
 
     Out.ar(tuba_record_bus, tub);

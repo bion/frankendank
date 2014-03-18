@@ -44,6 +44,8 @@
       \inbus, ~buss[\sax_mon],
       \outbus, ~id_bus_map[\com_mon_out],
 
+      \acoustic_drums_bus, ~id_bus_map[\ambient],
+
       \tuba_record_bus, ~multi_record_buss[\tuba],
       \sax_record_bus, ~multi_record_buss[\sax],
       \electric_drums_record_bus, ~multi_record_buss[\electric_drums],
