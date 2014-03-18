@@ -7,7 +7,7 @@ HerChordSelector {
   }
 
   init {
-    var prevKeyDownFunc = view.keyDownAction;
+    var prevKeyDownFunc = view.keyDownAction, index;
 
     currentGroup = schema[0];
 
@@ -19,6 +19,20 @@ HerChordSelector {
         this.setGroupWithKey(unicode);
       };
 
+      index = switch (unicode,
+        113, {0},
+        119, {1},
+        101, {2},
+        114, {3},
+        97,  {4},
+        115, {5},
+        100, {6},
+        102, {7}
+      );
+
+      if (index.notNil) {
+        this.setChordSlot(index);
+      };
     };
   }
 
