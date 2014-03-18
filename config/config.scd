@@ -15,8 +15,8 @@ if (~chordSchema.isNil) { Error("~chordSchema not loaded!").throw };
 if (~dev_mode) {
   // dev config
 
-  ~spoof_horns = true;
-  ~do_bus_map_overrides = true;
+  ~spoof_horns = false;
+  ~do_bus_map_overrides = false;
 
   ~bus_map_overrides = IdentityDictionary[
     \main_out_0 -> 3,
