@@ -4,3 +4,29 @@
 *** TODO wire up midi controller for chord selection
 *** TODO still can't hear nugs in recordings
 *** TODO balance chords well in live recording
+
+** Marshall
+*** TODO couple reversed
+*** TODO third sample set
+*** TODO practice with the new set
+*** TODO get a beat together with Nuggs
+
+** Nuggs
+*** TODO get a beat together with Mars
+*** TODO mix rehearsal multitracks with Jon
+
+** Jon
+*** TODO mix multitracks with Nuggs
+*** TODO work on reharm of an MJ tune
+
+** Scott
+*** TODO revise and send Bion new voicing Index
+*** TODO write out MJ reharms, send to Bion
+*** TODO practice with looper
+
+** Bion
+*** TODO still can't hear Nuggs in rehearsal playback
+*** TODO Scott's loops get way too loud when there's many of them
+*** TODO practice with new breath controller setup
+*** TODO look into externally amplified monitors to avoid insane clipping
+*** TODO after rehearsal next week work w/ Jon on Tuba sounds
