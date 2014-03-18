@@ -1,7 +1,7 @@
 ~horn_gate_lag = 0.001;
 ~freq_lag_dur = 0.005;
 ~sax_gate_thresh = -52.dbamp;
-~tuba_gate_thresh = -60.dbamp;
+~tuba_gate_thresh = -26.dbamp;
 
 ~monitor_levels = Object.readArchive("../archive/monitor_levels".resolveRelative);
 

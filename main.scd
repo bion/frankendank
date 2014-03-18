@@ -401,12 +401,20 @@ after_boot = {
   if (~mSrc[\breath].notNil) {
     ~harmonyController = HerHarmonyController(~synth_g, ~buss[\com_agg], \default, \com_fank);
 
+    "++++++++++++++++++++++++++++++".postln;
+    "HARMONY CONTROLLER ".post;
+    ~harmonyController.postln;
+
     ~chordSelector = HerChordSelector(
       main_window,
       ~chordNumberText,
       ~chordSchema,
       ~harmonyController
     );
+
+    "++++++++++++++++++++++++++++++".postln;
+    "CHORD SELECTOR".post;
+    ~chordSelector.postln;
   };
 
   // * * * * * * * * * * * * * * * * * * * * * * RECORDING
