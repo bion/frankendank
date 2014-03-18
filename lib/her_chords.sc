@@ -24,7 +24,7 @@ HerChords {
   *initClass {
     /* assumes key of c */
     var rawChords = IdentityDictionary[
-      \X11 -> [[\g, 3], [\d, 4], [\ef, 4], [\bf, 4], [\f, 5]],
+      \Xm11 -> [[\g, 3], [\d, 4], [\ef, 4], [\bf, 4], [\f, 5]],
       \X7s9f13 -> [[\e, 4], [\af, 4], [\bf, 4], [\ds, 5]],
       \Xmaj9 -> [[\d, 4], [\e, 4], [\g, 4], [\b, 4]],
       \X7sus -> [[\bf, 3], [\c, 4], [\f, 4]],
@@ -35,6 +35,7 @@ HerChords {
       \X7 -> [[\g, 3], [\bf, 3], [\e, 4]],
       \X13 -> [[\e, 4], [\a, 4], [\bf, 4], [\d, 5]],
       \Xdim7 -> [[\fs, 3], [\c, 4], [\ef, 4], [\a, 4]],
+      \Xm7 -> [[\ef, 4], [\g, 4], [\bf, 4]],
       \Xaug -> [[\gs, 4], [\c, 4], [\e, 4]]
     ];
 
