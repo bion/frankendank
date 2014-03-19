@@ -9,6 +9,12 @@
   USB2.0-MIDI notes:
   buttons are type program, for button labeled '1':
   MIDIdef.program(\whodunnit, {|...args| args.postln; "this one".postln;}, 0, -1815496440, {|val| val==0});
+
+nano pad nums:
+39, 48, 45, 43, 51, 49
+
+36, 38, 40, 42, 44, 46
+
 */
 (
 var map_dic_sax = {|num| IdentityDictionary[\instr -> \sax, \num -> num] };
@@ -40,30 +46,31 @@ tubaLoops = 4.collect {|i|
 // ****************************** VAR END
 
 // ****************************** nil-guard ~mSrc values
+
 [\sax, \tuba, \bcr, \drums, \drum_pad].do {|instr|
   ~mSrc[instr] = ~mSrc[instr] ? 1;
 };
 
-// ****************************** breath chords controller
+// ****************************** DRUMS
 
 MIDIdef.program(
-    \drumSampleSwitch,
-    {|val|
-        ~current_set = val;
-        postln("CURRENT DRUM SAMPLE SET: " ++ val);
-    },
-    0,
-    ~mSrc[\drums]
+  \drumSampleSwitch,
+  {|val|
+    ~current_set = val;
+    postln("CURRENT DRUM SAMPLE SET: " ++ val);
+  },
+  0,
+  ~mSrc[\drums]
 );
 
 MIDIdef.noteOn(
-    \drumPad,
-    {|val, num|
-        ~drum_trig.(("drum_" ++ num).asSymbol, val)
-    },
-    nil,
-    0,
-    ~mSrc[\drum_pad]
+  \drumPad,
+  {|val, num|
+    ~drum_trig.(("drum_" ++ num).asSymbol, val)
+  },
+  nil,
+  0,
+  ~mSrc[\drum_pad]
 );
 
 [
@@ -245,15 +252,23 @@ loopFilters = (
   );
 };
 
-// MIDIdef.something(\chordSetSelector,
-//   { |val, num|
-//     var index = num do some math;
-//     ~chordSelector.setChordSlot(index);
-//   },
-//   1..8, ??
-//   0,
-//   ~mSrc[\fingerPads]
-// );
+// ****************************** FINGER PADS
+
+[
+  39, 48, 45, 43,
+  36, 38, 40, 42
+].do {|num, index|
+  MIDIdef.noteOn(asSymbol("chordSetSelector_" ++ index),
+    {
+      ~chordSelector.setChordSlot(index);
+    },
+    num,
+    0,
+    ~mSrc[\fingerPads]
+  );
+};
+
+// ****************************** BREATH CONTROLLER
 
 if (~mSrc[\breath].notNil) {
   MIDIdef.cc(\breathController,

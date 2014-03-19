@@ -145,6 +145,8 @@ MIDIIn.connectAll;
 
 MIDIClient.sources.do {|source|
   case
+  { source.device == "nanoPAD-nanoPAD MIDI 1" }
+    { ~mSrc[\fingerPads] = source.uid }
   { source.device == "Breath Controller-Breath Controller MIDI 1" }
     { ~mSrc[\breath] = source.uid }
   { source.device == "BCR2000" }
