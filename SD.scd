@@ -223,17 +223,16 @@ loadRelative("./sd_support.scd");
   /* ------------------------ com --------------------------- */
 
   SynthDef(\com_fank, {
-    arg bus, amp, vib_rate = 11, vib_width = 0.00125, gate=1;
+    arg bus, amp, vib_rate = 11, freq_lag = 0.03, vib_width = 0.00125, gate=1;
     var sig, vib, freqs, silencers, ampMul;
 
-    freqs = \freqs.kr([1, 1, 1, 1, 1]);
+    freqs = \freqs.kr([1, 1, 1, 1, 1]).lag3(freq_lag);
 
     silencers = freqs.collect { |freq| freq > 9.0; };
 
     vib_rate = vib_rate * LFDNoise3.kr(2).range(0.9, 1.1);
     vib = SinOsc.kr(vib_rate, 0, vib_width) + LFNoise2.kr(1/vib_rate, vib_width/2) + 1;
     freqs = freqs * vib;
-
 
     sig = freqs.collect({|freq, i|
       var thisSig;
