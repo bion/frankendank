@@ -47,7 +47,7 @@ playing = IdentityDictionary[];
       [ \hornDataBus,   ~buss[(instr++"_info").asSymbol],
         \pedal_amp_bus, ~buss[(instr++"_v").asSymbol],
         \bus,           ~buss[(instr++"_eq").asSymbol],
-        \pbus,          ~buss[(instr++"_p").asSymbol]],
+        \pbus,          ~buss[(instr++"_p").asSymbol] ],
       ~synth_g);
 
     ~p_synths[(instr ++ "_in").asSymbol].set(\amp, 0);
@@ -56,23 +56,24 @@ playing = IdentityDictionary[];
 };
 
 /* ____________________________ groups */
-~data_g     = Group(s);
-~playbuf_g  = Group(~data_g, \addAfter);
-~in_g       = Group(~playbuf_g, \addAfter);
-~synth_g    = Group(~in_g, \addAfter);
-~filt_g     = Group(~synth_g, \addAfter);
-~eq_g       = Group(~filt_g, \addAfter);
 
-~loop_g     = Group(~eq_g, \addAfter);
-~record_loop_g = Group(~loop_g, \addToHead);
-~play_loop_g   = Group(~record_loop_g, \addAfter);
-~filt_loop_g   = Group(~play_loop_g, \addAfter);
-~sum_loop_g    = Group(~filt_loop_g, \addAfter);
-~route_loop_g  = Group(~sum_loop_g, \addAfter);
+~data_g        = ParGroup(s);
+~playbuf_g     = ParGroup(~data_g, \addAfter);
+~in_g          = ParGroup(~playbuf_g, \addAfter);
+~synth_g       = ParGroup(~in_g, \addAfter);
+~filt_g        = ParGroup(~synth_g, \addAfter);
+~eq_g          = ParGroup(~filt_g, \addAfter);
 
-~agg_g      = Group(~loop_g, \addAfter);
-~out_g      = Group(~agg_g, \addAfter);
-~record_g   = Group(~out_g, \addAfter);
+~loop_g        = ParGroup(~eq_g, \addAfter);
+~record_loop_g = ParGroup(~loop_g, \addToHead);
+~play_loop_g   = ParGroup(~record_loop_g, \addAfter);
+~filt_loop_g   = ParGroup(~play_loop_g, \addAfter);
+~sum_loop_g    = ParGroup(~filt_loop_g, \addAfter);
+~route_loop_g  = ParGroup(~sum_loop_g, \addAfter);
+
+~agg_g         = ParGroup(~loop_g, \addAfter);
+~out_g         = ParGroup(~agg_g, \addAfter);
+~record_g      = ParGroup(~out_g, \addAfter);
 
 /* ____________________________ buffers */
 
@@ -93,7 +94,7 @@ s.sync(~cond);
 ~id_bus_map = IdentityDictionary[
   \sax -> 8,
   \tub -> 9,
-  \ambient -> 10,
+  \acoustic_drums -> 10,
 
   \com_mon_out -> 2,
   \sax_mon_out -> 3,

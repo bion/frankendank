@@ -213,12 +213,11 @@ loadRelative("./sd_support.scd");
     out = drums + sample + tub + sax + com + metronome + acoustic_drums;
     Out.ar(outbus, out * main_scale);
 
-    Out.ar(tuba_record_bus, tub);
-    Out.ar(sax_record_bus, sax);
+    Out.ar(tuba_record_bus,           tub);
+    Out.ar(sax_record_bus,            sax);
     Out.ar(electric_drums_record_bus, drums);
     Out.ar(acoustic_drums_record_bus, acoustic_drums);
-    Out.ar(computer_record_bus, com);
-
+    Out.ar(computer_record_bus,       com);
   }),
 
   /* ------------------------ com --------------------------- */
