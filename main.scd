@@ -401,11 +401,7 @@ after_boot = {
   // * * * * * * * * * * * * * * * * * * * * * * RECORDING
 
   if (~mSrc[\breath].notNil) {
-    ~harmonyController = HerHarmonyController(~synth_g, ~buss[\com_agg], \default, \com_fank);
-
-    "++++++++++++++++++++++++++++++".postln;
-    "HARMONY CONTROLLER ".post;
-    ~harmonyController.postln;
+    ~harmonyController = HerHarmonyController(~synth_g, ~buss[\com_agg], \com_fank);
 
     ~chordSelector = HerChordSelector(
       main_window,
@@ -413,10 +409,6 @@ after_boot = {
       ~chordSchema,
       ~harmonyController
     );
-
-    "++++++++++++++++++++++++++++++".postln;
-    "CHORD SELECTOR".post;
-    ~chordSelector.postln;
   };
 
   // * * * * * * * * * * * * * * * * * * * * * * RECORDING
