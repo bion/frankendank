@@ -401,7 +401,7 @@ after_boot = {
   // * * * * * * * * * * * * * * * * * * * * * * RECORDING
 
   if (~mSrc[\breath].notNil) {
-    ~harmonyController = HerHarmonyController(~synth_g, ~buss[\com_agg], \com_fank);
+    ~harmonyController = HerHarmonyController(~synth_g, ~buss[\com_agg], \com_fank, ~buss[\beat_dur]);
 
     ~chordSelector = HerChordSelector(
       main_window,
