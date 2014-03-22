@@ -85,6 +85,14 @@ loadRelative("./sd_support.scd");
     Out.ar( outbus, In.ar(inbusses, 4).sum );
   }),
 
+  SynthDef(\sax_loop_sum, {
+    arg inbusses, outbus;
+    var out;
+    out = In.ar(inbusses, 4).sum;
+    out = Compander.ar(out, out, 0.25, 1, 1/3, 0.002, 0.02);
+    Out.ar( outbus,  );
+  }),
+
   SynthDef(\route_m2s, {
     arg inbus, outbus;
     Out.ar(outbus, In.ar(inbus, 1) ! 2)

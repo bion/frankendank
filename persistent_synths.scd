@@ -125,7 +125,7 @@
 // ****************************************** LOOPING
 
   \sax_loop_sum,
-  Synth(\route_4_chans_to_mono,
+  Synth(\sax_loop_sum,
     [\inbusses, ~loop_filt_buss[\sax], \outbus, ~loop_filt_buss[\sax_loops]],
     ~sum_loop_g),
 
