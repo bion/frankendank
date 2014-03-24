@@ -12,14 +12,17 @@ if (~chordSchema.isNil) { Error("~chordSchema not loaded!").throw };
 ~do_bus_map_overrides = false;
 
 ~dev_mode = false;
+
 if (~dev_mode) {
   // dev config
 
-  ~spoof_horns = false;
-  ~do_bus_map_overrides = false;
+  ~spoof_horns = true;
+  ~do_bus_map_overrides = true;
 
   ~bus_map_overrides = IdentityDictionary[
     \main_out_0 -> 3,
+
+    \acoustic_drums -> 8,
 
     \com_mon_out -> 0,
     \drums_mon_out -> 2,
