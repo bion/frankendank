@@ -90,7 +90,7 @@ loadRelative("./sd_support.scd");
     var out;
     out = In.ar(inbusses, 4).sum;
     out = Compander.ar(out, out, 0.25, 1, 1/3, 0.002, 0.02);
-    Out.ar( outbus,  );
+    Out.ar( outbus, out );
   }),
 
   SynthDef(\route_m2s, {
