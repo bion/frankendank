@@ -20,8 +20,6 @@
 *** TODO practice with looper
 
 ** Bion
-*** TODO still can't hear Nuggs in rehearsal playback
 *** TODO Scott's loops get way too loud when there's many of them
-*** TODO practice with new breath controller setup
 *** TODO look into externally amplified monitors to avoid insane clipping
 *** TODO after rehearsal next week work w/ Jon on Tuba sounds
