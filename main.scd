@@ -338,7 +338,7 @@ play_recorded_buf = {
       \inbus, ~buss[\all_monitors],
       \outbusses,
       [\drums_mon, \nugs_mon, \tub_mon, \sax_mon, \com_mon, \one_out]
-      .collect {|c| ~buss[c] }
+      .collect {|bus| ~buss[bus] }
     ],
     ~agg_g
   );
