@@ -501,9 +501,11 @@ loadRelative("./sd_support.scd");
 
   SynthDef(\sax_in, {
     arg inbus, outbus, amp=4;
-    var in;
+    var in, gate, hysteresis;
     in = In.ar(inbus, 1);
-    in = in * (Amplitude.kr(in).lag3(~horn_gate_lag) > ~sax_gate_thresh);
+    gate = Amplitude.kr(in).lag3(~horn_gate_lag) > ~sax_gate_thresh;
+    hysteresis = (Decay.kr(gate, 0.02) > -42.dbamp);
+    in = in * gate * hysteresis;
     in = HPF.ar(in, 240, 0.5);
     Out.ar(outbus, amp * in );
   }),
