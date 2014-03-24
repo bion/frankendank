@@ -73,6 +73,14 @@ loadRelative("./sd_support.scd");
     Out.ar(outbus, In.ar(inbus, 1) * amp );
   }),
 
+  SynthDef(\route_acoustic_drums, {
+    arg inbus, outbus, amp=1;
+    var out;
+    out = In.ar(inbus, 1);
+    out = Compander.ar(out, out, 0.125, 10, 1, 0.01, 0.01);
+    Out.ar(outbus, out * amp);
+  }),
+
   (1..8).collect {|i|
     SynthDef(asSymbol("route_mono_to_" ++ i), {
       arg inbus;
