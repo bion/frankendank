@@ -44,7 +44,7 @@
       \inbus, ~buss[\sax_mon],
       \outbus, ~id_bus_map[\com_mon_out],
 
-      \acoustic_drums_bus, ~id_bus_map[\acoustic_drums],
+      \acoustic_drums_bus, ~buss[\acoustic_drums],
 
       \tuba_record_bus, ~multi_record_buss[\tuba],
       \sax_record_bus, ~multi_record_buss[\sax],
@@ -119,8 +119,8 @@
   \out_left, Synth(\route_mono,
     [\inbus, ~buss[\one_out], \outbus, ~id_bus_map[\main_out_0]], ~out_g),
 
-  \acoustic_drums_in, Synth(\route_mono_amp,
-    [\inbus, ~id_bus_map[\acoustic_drums], \outbus, ~buss[\one_out], \amp, 1], ~record_g),
+  \acoustic_drums_in, Synth(\route_acoustic_drums,
+    [\inbus, ~id_bus_map[\acoustic_drums], \outbus, ~buss[\acoustic_drums], \amp, 1], ~in_g),
 
 // ****************************************** LOOPING
 
