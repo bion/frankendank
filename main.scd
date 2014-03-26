@@ -420,7 +420,6 @@ after_boot = {
       \tuba           -> ~multi_record_buss[\tuba],
       \sax            -> ~multi_record_buss[\sax],
       \electric_drums -> ~multi_record_buss[\electric_drums],
-      \acoustic_drums -> ~multi_record_buss[\acoustic_drums],
       \computer       -> ~multi_record_buss[\computer]
     ]
   );

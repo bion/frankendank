@@ -94,7 +94,6 @@ s.sync(~cond);
 ~id_bus_map = IdentityDictionary[
   \sax -> 8,
   \tub -> 9,
-  \acoustic_drums -> 10,
 
   \com_mon_out -> 2,
   \sax_mon_out -> 3,
@@ -125,7 +124,6 @@ if (~do_bus_map_overrides) {
   \tuba -> Bus.audio(s, 1),
   \sax -> Bus.audio(s, 1),
   \electric_drums -> Bus.audio(s, 1),
-  \acoustic_drums -> Bus.audio(s, 1),
   \computer -> Bus.audio(s, 1),
 ];
 

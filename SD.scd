@@ -73,14 +73,6 @@ loadRelative("./sd_support.scd");
     Out.ar(outbus, In.ar(inbus, 1) * amp );
   }),
 
-  SynthDef(\route_acoustic_drums, {
-    arg inbus, outbus, amp=1;
-    var out;
-    out = In.ar(inbus, 1);
-    out = Compander.ar(out, out, 0.125, 10, 1, 0.01, 0.01);
-    Out.ar(outbus, out * amp);
-  }),
-
   (1..8).collect {|i|
     SynthDef(asSymbol("route_mono_to_" ++ i), {
       arg inbus;
@@ -208,15 +200,14 @@ loadRelative("./sd_support.scd");
   }),
 
   SynthDef(\com_mon, {
-    arg inbus, outbus, metronome_bus, acoustic_drums_bus, main_scale=16,
+    arg inbus, outbus, metronome_bus, main_scale=16,
       drum_scale=1, sax_scale=1, tub_scale=1, com_scale=1, met_scale=1,
-      tuba_record_bus, sax_record_bus, electric_drums_record_bus, acoustic_drums_record_bus,
-      computer_record_bus, acoustic_drums_scale=1;
-    var drums, sax, tub, com, out, sample, acoustic_drums,
+      tuba_record_bus, sax_record_bus, electric_drums_record_bus,
+      computer_record_bus;
+    var drums, sax, tub, com, out, sample,
       instr, metronome;
 
     #tub, sax, com, sample, drums = In.ar(inbus, 5);
-    acoustic_drums = In.ar(acoustic_drums_bus, 1);
     metronome = In.ar(metronome_bus, 1);
 
     metronome = metronome * met_scale;
@@ -226,15 +217,12 @@ loadRelative("./sd_support.scd");
     sax       = sax * sax_scale;
     com       = com * com_scale;
 
-    acoustic_drums = In.ar(acoustic_drums_bus, 1) * acoustic_drums_scale;
-
-    out = drums + sample + tub + sax + com + metronome + acoustic_drums;
+    out = drums + sample + tub + sax + com + metronome;
     Out.ar(outbus, out * main_scale);
 
     Out.ar(tuba_record_bus,           tub);
     Out.ar(sax_record_bus,            sax);
     Out.ar(electric_drums_record_bus, drums);
-    Out.ar(acoustic_drums_record_bus, acoustic_drums);
     Out.ar(computer_record_bus,       com);
   }),
 

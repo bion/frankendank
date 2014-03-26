@@ -22,8 +22,6 @@ if (~dev_mode) {
   ~bus_map_overrides = IdentityDictionary[
     \main_out_0 -> 3,
 
-    \acoustic_drums -> 8,
-
     \com_mon_out -> 0,
     \drums_mon_out -> 2,
     \nugs_mon_out -> 2,

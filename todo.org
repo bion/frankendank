@@ -13,13 +13,13 @@
 ** Jon
 *** TODO mix multitracks with Nuggs
 *** TODO work on reharm of an MJ tune
-
 ** Scott
 *** TODO revise and send Bion new voicing Index
 *** TODO write out MJ reharms, send to Bion
 *** TODO practice with looper
 
 ** Bion
+*** TODO make sure new mixer setup works
 *** TODO Scott's loops get way too loud when there's many of them
 *** TODO look into externally amplified monitors to avoid insane clipping
 *** TODO after rehearsal next week work w/ Jon on Tuba sounds
