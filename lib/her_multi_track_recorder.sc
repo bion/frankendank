@@ -29,6 +29,7 @@ HerMultiTrackRecorder {
 
   stop {
     buffers.keysValuesDo {|name, buffer|
+      postln("writing " ++ name ++ " buff to " ++ path);
       buffer.write(
         path ++ "/" ++ Date.getDate ++ "_" ++ name ++ ".aiff",
         "aiff",
