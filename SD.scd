@@ -160,9 +160,9 @@ loadRelative("./sd_support.scd");
     var sax, tub, com, out, metronome, sample,
       d_low, d_med, d_hi;
 
-    sax = In.ar(sax_bus, 1) * 2.5;
-    tub = In.ar(tub_bus, 1) * 2.5;
-    com = In.ar(com_bus, 1) * 3;
+    sax = In.ar(sax_bus, 1);
+    tub = In.ar(tub_bus, 1);
+    com = In.ar(com_bus, 1);
 
     d_low = In.ar(d_low_bus, 1);
     d_med = In.ar(d_med_bus, 1);
@@ -181,7 +181,7 @@ loadRelative("./sd_support.scd");
   }),
 
   SynthDef(\mon, {
-    arg inbus, outbus, metronome_bus, main_scale=16,
+    arg inbus, outbus, metronome_bus, main_scale=2;
       drum_scale=1, sax_scale=1, tub_scale=1, com_scale=1, met_scale=1;
     var drums, sax, tub, com, out, sample,
       instr, metronome;
