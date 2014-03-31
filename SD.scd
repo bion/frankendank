@@ -181,7 +181,7 @@ loadRelative("./sd_support.scd");
   }),
 
   SynthDef(\mon, {
-    arg inbus, outbus, metronome_bus, main_scale=2;
+    arg inbus, outbus, metronome_bus, main_scale=2,
       drum_scale=1, sax_scale=1, tub_scale=1, com_scale=1, met_scale=1;
     var drums, sax, tub, com, out, sample,
       instr, metronome;
