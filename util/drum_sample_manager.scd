@@ -53,10 +53,10 @@ renderSampleSelectors = {|sampleName, top, left, action, default|
   volatileElements.add(dropDown);
 };
 
-renderSelectedSet = {|setIndex| break {|break|
+renderSelectedSet = {|setIndex| block{|break|
   var thisSet;
 
-  if (setIndex.isKindOf(String) { break.() };
+  if (setIndex.isKindOf(String)) { break.() };
 
   thisSet = ~sample_sets[setIndex];
 
