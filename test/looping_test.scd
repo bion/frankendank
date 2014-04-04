@@ -39,6 +39,7 @@ var ttnb = ~clock.timeToNextBeat;
   MIDIIn.doProgramAction(~mSrc[\sax], 0, 0); // touch
 });
 )
+
 b.free;
 MIDIIn.doProgramAction(~mSrc[\sax], 0, 4); // reset
 MIDIIn.doProgramAction(~mSrc[\sax], 0, 0); // touch
@@ -95,3 +96,19 @@ MIDIIn.doProgramAction(~mSrc[\sax], 0, 4); // reset
 MIDIIn.doProgramAction(~mSrc[\sax], 0, 0); // touch
 
 MIDIIn.doProgramAction(~mSrc[\sax], 0, 9); // resetAll
+
+~play_tub.();
+(
+var ttnb = ~clock.timeToNextBeat;
+
+~clock.sched(ttnb - 0.1, {
+  MIDIIn.doProgramAction(~mSrc[\tuba], 0, 0); // touch
+});
+
+~clock.sched(ttnb - 0.1 + 4, {
+  MIDIIn.doProgramAction(~mSrc[\tuba], 0, 0); // touch
+});
+)
+b.free;
+MIDIIn.doProgramAction(~mSrc[\tuba], 0, 4); // reset
+MIDIIn.doProgramAction(~mSrc[\tuba], 0, 0); // touch
