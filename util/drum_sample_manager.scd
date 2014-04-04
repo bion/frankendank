@@ -53,8 +53,12 @@ renderSampleSelectors = {|sampleName, top, left, action, default|
   volatileElements.add(dropDown);
 };
 
-renderSelectedSet = {|setIndex|
-  var thisSet = ~sample_sets[setIndex];
+renderSelectedSet = {|setIndex| break {|break|
+  var thisSet;
+
+  if (setIndex.isKindOf(String) { break.() };
+
+  thisSet = ~sample_sets[setIndex];
 
   8.do {|padNum|
     var name = 'old',
@@ -72,7 +76,7 @@ renderSelectedSet = {|setIndex|
 
     renderSampleSelectors.(name, top, left, action, default);
   };
-};
+}};
 
 addNewSet = {
   var newSet = ~sample_sets[~sample_sets.size-1].deepCopy;
