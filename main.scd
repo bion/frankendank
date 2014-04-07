@@ -29,16 +29,28 @@ metronome_amp,
 
 midi_listener,
 make_midi_listener = {|instr|
-  midi_listener = MIDIdef(instr,
-    func: { |num, chan, source|
-      ~mSrc[instr] = source;
-      midi_listener.free;
-      AppClock.sched(0, {
-        update_button.(instr_buttons[instr], instr ++ " active", Color.green)
-      });
-    },
-    msgType: \program
-  );
+  if (instr == \andrew) {
+    midi_listener = MIDIdef.noteOn(instr,
+      func: { |num, chan, something, source|
+        ~mSrc[instr] = source;
+        midi_listener.free;
+        AppClock.sched(0, {
+          update_button.(instr_buttons[instr], instr ++ " active", Color.green)
+        });
+      }
+    );
+  } {
+    midi_listener = MIDIdef(instr,
+      func: { |num, chan, source|
+        ~mSrc[instr] = source;
+        midi_listener.free;
+        AppClock.sched(0, {
+          update_button.(instr_buttons[instr], instr ++ " active", Color.green)
+        });
+      },
+      msgType: \program
+    );
+  };
 },
 
 make_labeled_slider = { | window, left, top, lo, hi, text, fxn, default=0 |
@@ -161,7 +173,7 @@ MIDIClient.sources.do {|source|
 
 // * * * * * * * * * * * * * * * * * * * * * * UI
 
-[ \sax, \tuba, \drums ].do {|instr, i|
+[ \sax, \tuba, \drums_switch, \andrew ].do {|instr, i|
   StaticText(main_window, Rect(instr_btn_left, instr_btn_top + 20 + (i*(btn_height + 40)), btn_length, 10))
   .string_(instr.asString);
 

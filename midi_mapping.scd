@@ -19,7 +19,7 @@ nano pad nums:
 (
 var map_dic_sax = {|num| IdentityDictionary[\instr -> \sax, \num -> num] };
 var map_dic_tub = {|num| IdentityDictionary[\instr -> \tub, \num -> num] };
-var loopFilters, harmonyController,
+var loopFilters, harmonyController, andrewPadMap,
 
 saxLoops = 4.collect {|i|
   HerLoop(
@@ -54,23 +54,38 @@ tubaLoops = 4.collect {|i|
 // ****************************** DRUMS
 
 MIDIdef.program(
-  \drumSampleSwitch,
+  \drums_switch,
   {|val|
     ~current_set = val;
     postln("CURRENT DRUM SAMPLE SET: " ++ val);
   },
   0,
-  ~mSrc[\drums]
+  ~mSrc[\drums_switch]
 );
 
 MIDIdef.noteOn(
-  \drumPad,
+  \drum_pad,
   {|val, num|
-    ~drum_trig.(("drum_" ++ num).asSymbol, val)
+    ~drum_trig.(("drum_" ++ num).asSymbol, val, \mars)
   },
   nil,
   0,
   ~mSrc[\drum_pad]
+);
+
+andrewPadMap = IdentityDictionary[];
+~andrew_midi_map["pad"].keysValuesDo {|key, value|
+  andrewPadMap.add( key.asSymbol, value );
+};
+
+MIDIdef.noteOn(
+  \andrew,
+  {|val, num|
+    ~drum_trig.(("drum_" ++ num).asSymbol, val, \andrew)
+  },
+  nil,
+  0,
+  ~mSrc[\andrew]
 );
 
 [

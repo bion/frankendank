@@ -4,7 +4,9 @@ var basic_sample;
 ~current_set = 0;
 
 loadRelative("./drum_sample_map.scd");
-~sample_sets = Object.readArchive("../archive/drum_sample_sets".resolveRelative);
+loadRelative("./andrew_sample_sets.scd");
+
+~mars_sample_sets = Object.readArchive("../archive/drum_sample_sets".resolveRelative);
 
 basic_sample = {| action, val |
   s.makeBundle(0.0, {
@@ -20,10 +22,18 @@ basic_sample = {| action, val |
   \basic_sample -> basic_sample
 ];
 
-~drum_trig = {|pad_midi_number, val|
+~drum_trig = {|pad_midi_number, val, set|
   var action_id, action;
-  action_id = ~sample_sets[~current_set][pad_midi_number];
+
+  // TODO clean this up
+  if (set == \mars) {
+    action_id = ~mars_sample_sets[~current_set][pad_midi_number];
+  } {
+    action_id = ~andrew_sample_sets[~current_set][pad_midi_number];
+  };
+
   action = ~drums[action_id];
+
   ~drum_funcs[action[\function]].(action, val);
 };
 

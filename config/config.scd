@@ -5,6 +5,8 @@
 
 ~monitor_levels = Object.readArchive("../archive/monitor_levels".resolveRelative);
 
+~andrew_midi_map = "../doc/dk_10_midi_info.yml".resolveRelative.parseYAMLFile;
+
 loadRelative("./chord_schema.scd");
 if (~chordSchema.isNil) { Error("~chordSchema not loaded!").throw };
 
