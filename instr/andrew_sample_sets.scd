@@ -4,14 +4,15 @@
     \thickclap, // 0
     \fuzzsnare,
     \woodplunk, // 2
-    \sonar,
+    \crunchclap,
     \thickhat, // 4
-    \lighthat,
+    \sonar,
     \sharpsnare, // 6
     \softtom,
     \kickclick, // 8
     \warmkick,
-    \rimshot_1 // kick
+    \sharpkick, // kick
+	\lighthat // hat
   ]
 
 ];
