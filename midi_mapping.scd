@@ -47,7 +47,7 @@ tubaLoops = 4.collect {|i|
 
 // ****************************** nil-guard ~mSrc values
 
-[\sax, \tuba, \bcr, \drums, \drum_pad].do {|instr|
+[\sax, \tuba, \bcr, \drums, \drum_pad, \andrew, \breath, \fingerPads].do {|instr|
   ~mSrc[instr] = ~mSrc[instr] ? 1;
 };
 
@@ -85,6 +85,36 @@ MIDIdef.noteOn(
   },
   nil,
   0,
+  ~mSrc[\andrew]
+);
+
+MIDIdef.noteOn(
+  \andrew_kick,
+  {|val, num|
+    ~drum_trig.(, val, \andrew)
+  },
+  ~andrew_midi_map["kick"]["num"].asInteger,
+  ~andrew_midi_map["kick"]["chan"].asInteger,
+  ~mSrc[\andrew]
+);
+
+MIDIdef.noteOn(
+  \andrew_kick,
+  {|val, num|
+    ~drum_trig.(, val, \andrew)
+  },
+  ~andrew_midi_map["kick"]["num"].asInteger,
+  ~andrew_midi_map["kick"]["chan"].asInteger,
+  ~mSrc[\andrew]
+);
+
+MIDIdef.noteOn(
+  \andrew_kick,
+  {|val, num|
+    ~drum_trig.(, val, \andrew)
+  },
+  ~andrew_midi_map["hat"]["num"].asInteger,
+  ~andrew_midi_map["kick"]["chan"].asInteger,
   ~mSrc[\andrew]
 );
 
