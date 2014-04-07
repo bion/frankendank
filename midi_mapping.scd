@@ -91,7 +91,7 @@ MIDIdef.noteOn(
 MIDIdef.noteOn(
   \andrew_kick,
   {|val, num|
-    ~drum_trig.(, val, \andrew)
+    ~drum_trig.(10, val, \andrew)
   },
   ~andrew_midi_map["kick"]["num"].asInteger,
   ~andrew_midi_map["kick"]["chan"].asInteger,
@@ -99,19 +99,9 @@ MIDIdef.noteOn(
 );
 
 MIDIdef.noteOn(
-  \andrew_kick,
+  \andrew_hat,
   {|val, num|
-    ~drum_trig.(, val, \andrew)
-  },
-  ~andrew_midi_map["kick"]["num"].asInteger,
-  ~andrew_midi_map["kick"]["chan"].asInteger,
-  ~mSrc[\andrew]
-);
-
-MIDIdef.noteOn(
-  \andrew_kick,
-  {|val, num|
-    ~drum_trig.(, val, \andrew)
+    ~drum_trig.(11, val, \andrew)
   },
   ~andrew_midi_map["hat"]["num"].asInteger,
   ~andrew_midi_map["kick"]["chan"].asInteger,
