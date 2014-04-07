@@ -75,13 +75,13 @@ MIDIdef.noteOn(
 
 andrewPadMap = IdentityDictionary[];
 ~andrew_midi_map["pad"].keysValuesDo {|key, value|
-  andrewPadMap.add( key.asSymbol, value );
+  andrewPadMap.add( value.asSymbol -> key.asInteger );
 };
 
 MIDIdef.noteOn(
   \andrew,
   {|val, num|
-    ~drum_trig.(("drum_" ++ num).asSymbol, val, \andrew)
+    ~drum_trig.(andrewPadMap[num.asSymbol], val, \andrew)
   },
   nil,
   0,
