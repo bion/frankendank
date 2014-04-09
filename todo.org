@@ -1,25 +1,33 @@
 * Thing that need to be done
 
 ** Marshall
-*** TODO couple reversed
-*** TODO third sample set
 *** TODO practice with the new set
+*** TODO work on complimentary sample sets w/ Mars
+
 *** TODO get a beat together with Nuggs
 
+
 ** Nuggs
-*** TODO get a beat together with Mars
 *** TODO mix rehearsal multitracks with Jon
+*** TODO work on complimentary sample sets w/ Mars
+*** TODO get a beat together with Mars
+
 
 ** Jon
 *** TODO mix multitracks with Nuggs
 *** TODO work on reharm of an MJ tune
+
 ** Scott
-*** TODO revise and send Bion new voicing Index
-*** TODO write out MJ reharms, send to Bion
+*** TODO reversion IWYB chords with specific voicings
 *** TODO practice with looper
 
+
 ** Bion
-*** TODO make sure new mixer setup works
-*** TODO Scott's loops get way too loud when there's many of them
-*** TODO look into externally amplified monitors to avoid insane clipping
-*** TODO after rehearsal next week work w/ Jon on Tuba sounds
+*** TODO IWYB sample ready for rehearsal
+*** TODO switching between chord sets not working
+*** TODO new mixer setup for monitoring
+*** TODO Scott's loops are really fucking quiet
+*** TODO nuggs and marshall sample sets together
+*** TODO kick pedal for Mars (incl wire up, add to sample sets)
+*** TODO contact mic for scott to gate sax in
+*** TODO practice playing along with loop
