@@ -28,6 +28,23 @@ loadRelative("./sd_support.scd");
     Out.ar(outbus, out);
   }),
 
+  SynthDef(\drumTrigListener, {
+    arg inbus, outbus;
+    var in, trig;
+    in = In.ar(inbus, 1);
+    in = LPF.ar(in, 400);
+    trig = Coyote.kr(in);
+    Out.kr(outbus, trig);
+  }),
+
+  SynthDef(\triggeredPlayBuf, {
+    arg trigbus, outbus, buf, amp=1;
+    var trig, out;
+    trig = In.kr(trigbus, 1);
+    out = PlayBuf.ar(1, buf, BufRateScale.kr(buf), loop: 0, trigger: trig);
+    Out.ar(outbus, out * amp);
+  }),
+
   SynthDef(\control_env_testing, {arg outbus;
     var env;
     env = Control.names([\env]).kr(Env.newClear(64));
