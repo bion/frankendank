@@ -94,6 +94,7 @@ s.sync(~cond);
 ~id_bus_map = IdentityDictionary[
   \sax -> 8,
   \tub -> 9,
+  \mars_kick_in -> 10,
 
   \com_mon_out -> 2,
   \sax_mon_out -> 3,
@@ -152,7 +153,7 @@ if (~do_bus_map_overrides) {
 
 [
   \breath_v, \sax_v, \sax_p, \tub_v, \tub_p, \tub_relax,
-  \freq_lag, \tempo
+  \freq_lag, \tempo, \mars_kick_trig
 ].do {|name|
   ~buss.put(name, Bus.control(s, 1) );
 };
