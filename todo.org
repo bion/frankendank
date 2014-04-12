@@ -25,9 +25,6 @@
 ** Bion
 *** TODO IWYB sample ready for rehearsal
 *** TODO switching between chord sets not working
-*** TODO new mixer setup for monitoring
-*** TODO Scott's loops are really fucking quiet
 *** TODO nuggs and marshall sample sets together
-*** TODO kick pedal for Mars (incl wire up, add to sample sets)
 *** TODO contact mic for scott to gate sax in
 *** TODO practice playing along with loop
