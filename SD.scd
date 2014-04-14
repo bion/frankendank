@@ -251,6 +251,8 @@ loadRelative("./sd_support.scd");
 
     freq_lag = In.kr(beat_dur_bus, 1) * freq_lag_param;
 
+    freq_lag = 0.1; // TODO wire up controller for this
+
     freqs = \freqs.kr([1, 1, 1, 1, 1]).lag(freq_lag);
 
     silencers = freqs.collect { |freq| freq > 9.0; };
