@@ -1,5 +1,5 @@
 (
-var guiLength=750, guiHeight=400,
+var guiLength=750, guiHeight=500,
 hiPaths = "../samples/drum/hi/".resolveRelative,
 medPaths = "../samples/drum/med/".resolveRelative,
 lowPaths = "../samples/drum/low".resolveRelative,
@@ -60,7 +60,7 @@ renderSelectedSet = {|setIndex| block{|break|
 
   thisSet = ~sample_sets[setIndex];
 
-  8.do {|padNum|
+  9.do {|padNum|
     var name = 'old',
     left = padNum % 4 * 180 + 20, top,
 
@@ -72,7 +72,10 @@ renderSelectedSet = {|setIndex| block{|break|
 
     default = thisSet[asSymbol("drum_" ++ padNum)];
 
-    if (padNum < 4) { top = 100 } { top = 250 };
+    case
+    {padNum < 4 } { top = 100 }
+    {padNum < 8 } { top = 250 }
+    {padNum < 12} { top = 400 };
 
     renderSampleSelectors.(name, top, left, action, default);
   };

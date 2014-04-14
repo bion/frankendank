@@ -28,6 +28,23 @@ loadRelative("./sd_support.scd");
     Out.ar(outbus, out);
   }),
 
+  SynthDef(\drumTrigListener, {
+    arg inbus, outbus;
+    var in, trig;
+    in = In.ar(inbus, 1);
+    in = LPF.ar(in, 400);
+    trig = Coyote.kr(in);
+    Out.kr(outbus, trig);
+  }),
+
+  SynthDef(\triggeredPlayBuf, {
+    arg trigbus, outbus, buf, amp=1;
+    var trig, out;
+    trig = In.kr(trigbus, 1);
+    out = PlayBuf.ar(1, buf, BufRateScale.kr(buf), loop: 0, trigger: trig);
+    Out.ar(outbus, out * amp);
+  }),
+
   SynthDef(\control_env_testing, {arg outbus;
     var env;
     env = Control.names([\env]).kr(Env.newClear(64));
@@ -60,7 +77,7 @@ loadRelative("./sd_support.scd");
   SynthDef(\recordbuf_mono, {
     arg inbus, buf, startpos, gate=1;
     var env = Linen.kr(gate, 0.01, releaseTime: 0.01, doneAction: 2);
-    RecordBuf.ar(In.ar(inbus, 1) * env, buf, startpos, recLevel: -24.dbamp, preLevel: 0);
+    RecordBuf.ar(In.ar(inbus, 1) * env, buf, startpos, recLevel: -12.dbamp, preLevel: 0);
   }),
 
   SynthDef(\route_mono, {
@@ -233,6 +250,8 @@ loadRelative("./sd_support.scd");
     var sig, vib, freqs, silencers, ampMul, freq_lag;
 
     freq_lag = In.kr(beat_dur_bus, 1) * freq_lag_param;
+
+    freq_lag = 0.1; // TODO wire up controller for this
 
     freqs = \freqs.kr([1, 1, 1, 1, 1]).lag(freq_lag);
 

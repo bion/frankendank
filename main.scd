@@ -401,9 +401,10 @@ after_boot = {
   [
     "SD",
     "core",
+    "com_sample_bootstrapper",
+    "instr/drums",
     "persistent_synths",
     "instr/com_sample_map",
-    "instr/drums",
     "jams",
     "midi_mapping"
   ].do {|file|

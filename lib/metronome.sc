@@ -6,7 +6,7 @@ Metronome {
 
     ^super.newCopyArgs(
       clock, server, outbus, group, synthdef, amp
-    ).init
+    ).init;
   }
 
   init {

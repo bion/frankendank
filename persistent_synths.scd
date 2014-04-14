@@ -136,7 +136,23 @@
   \tub_loops_route,
   Synth(\route_mono,
     [\inbus, ~loop_filt_buss[\tub_loops], \outbus, ~loop_filt_buss[\tub_agg]],
-    ~route_loop_g)
+    ~route_loop_g),
+
+// ****************************************** ANALOG TRIGGERS
+
+  \kickDrumListener,
+  Synth(\drumTrigListener,
+    [\inbus, ~id_bus_map[\mars_kick_in], \outbus, ~buss[\mars_kick_trig]],
+    ~in_g),
+
+  \marsKickPlayer,
+  Synth(\triggeredPlayBuf,
+    [
+      \trigbus, ~buss[\mars_kick_trig],
+      \outbus, ~buss[\low],
+      \buf, ~mars_sample_sets[~current_set][8]
+    ],
+    ~synth_g)
 
 ]));
 
