@@ -9,15 +9,16 @@
   ],
   // 2
   [
-
     (voicing: \Xmaj7, pitchClass: PC(\df, 4)),
     (voicing: \X7, pitchClass: PC(\ef, 4)),
     (voicing: \Xdim7, pitchClass: PC(\e, 4)),
     (voicing: \Xm7, pitchClass: PC(\f, 4)),
+
     (voicing: \X7s11, pitchClass: PC(\fs, 4)),
     (voicing: \Xm7, pitchClass: PC(\ef, 4)),
     (voicing: \Xmaj7, pitchClass: PC(\df, 4)),
     (voicing: \Xm7, pitchClass: PC(\c, 4)),
+
     (voicing: \Xm9, pitchClass: PC(\bf, 4))
   ],
   // 3
