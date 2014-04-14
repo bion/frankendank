@@ -5,7 +5,7 @@ var mainPath = "./samples/com/".resolveRelative;
 
   (name: "caddyshack", duration: 16, tempo: 80, loopable: true),
 
-  (name: "IWYB_chorus", duration: 16, tempo: 92, loopable: true)
+  (name: "IWYB_chorus", duration: 16, tempo: 98, loopable: false)
 
 ].collect {|sample|
   sample.buffer = Buffer.read(s, (mainPath ++ sample.name ++ ".aiff"));
