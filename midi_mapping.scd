@@ -304,6 +304,17 @@ loopFilters = (
   );
 };
 
+
+
+MIDIdef.noteOn(\trigSample,
+  {
+    ~sampleController.playSample;
+  },
+  49,
+  0,
+  ~mSrc[\fingerPads]
+);
+
 // ****************************** BREATH CONTROLLER
 
 if (~mSrc[\breath].notNil) {

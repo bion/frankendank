@@ -1,5 +1,5 @@
 HerSampleController {
-  var <samples, <playingBool, <currentIndex, <playBus, clock;
+  var <samples, <playingBool, <playBus, clock, currentIndex=0;
 
   *new {arg ...args;
 
@@ -12,7 +12,7 @@ HerSampleController {
     };
 
     ^super.newCopyArgs(
-      args[0], args[1], args[2], args[3], args[4]
+      args[0], args[1], args[2], args[3]
     )
   }
 
