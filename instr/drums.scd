@@ -9,10 +9,11 @@ loadRelative("./andrew_sample_sets.scd");
 ~mars_sample_sets = Object.readArchive("../archive/drum_sample_sets".resolveRelative);
 
 basic_sample = {| action, val |
+  var scale = (val - 38).abs / 79 * 4;
   s.makeBundle(0.0, {
     Synth(\playbuf_simple,
       [ \buf, action[\buffer],
-        \amp, 0.125 * (val / 127.0 + -24.dbamp),
+        \amp, 0.125 * scale,
         \bus, ~buss[action[\register]] ],
       ~playbuf_g )
   })
