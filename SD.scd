@@ -77,7 +77,7 @@ loadRelative("./sd_support.scd");
   SynthDef(\recordbuf_mono, {
     arg inbus, buf, startpos, gate=1;
     var env = Linen.kr(gate, 0.01, releaseTime: 0.01, doneAction: 2);
-    RecordBuf.ar(In.ar(inbus, 1) * env, buf, startpos, recLevel: -12.dbamp, preLevel: 0);
+    RecordBuf.ar(In.ar(inbus, 1) * env, buf, startpos, recLevel: -8.dbamp, preLevel: 0);
   }),
 
   SynthDef(\route_mono, {
