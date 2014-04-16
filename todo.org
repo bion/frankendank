@@ -1,38 +1,34 @@
+
 * Thing that need to be done
 
-** equipment needs
-*** TODO patch cables
-*** TODO 1/4" -> 1/8" extension cables
-*** TODO rack box
-*** TODO rack computer?
-
-** Marshall
+** Mars
 *** TODO practice with the new set
-*** TODO work on complimentary sample sets w/ Mars
+*** TODO work on complimentary sample sets w/ Nuggz
+*** TODO get a beat together with Nuggz
 
-*** TODO get a beat together with Nuggs
-
-
-** Nuggs
+** Nuggz
 *** TODO mix rehearsal multitracks with Jon
 *** TODO work on complimentary sample sets w/ Mars
 *** TODO get a beat together with Mars
 
-
 ** Jon
 *** TODO mix multitracks with Nuggs
 *** TODO work on reharm of Rock With You
+*** TODO cut Rock With You sample, send to Bion
 
 ** Scott
 *** TODO practice with looper
+*** TODO Listen to IWYB vox and pick one
 *** TODO listen to dance music that has arpeggios
 
 ** Bion
-*** TODO getting code and samples onto computer
-*** TODO IWYB sample ready for rehearsal
-*** TODO rock with you sample ready for rehearsal
-
-*** TODO switching between chord sets not working
-*** TODO Scott's loops are really fucking quiet
-*** TODO kick pedal for Mars (incl wire up, add to sample sets)
+*** TODO more robustly timed sampling system
+*** TODO adjustable glissando duration
 *** TODO contact mic for scott to gate sax in
+*** TODO kick pedal for Mars (incl wire up, add to sample sets)
+
+** equipment needs
+*** TODO patch cables
+*** TODO 1/4" -> 1/8" extension cables (done)
+*** TODO rack box?
+*** TODO rack computer?
