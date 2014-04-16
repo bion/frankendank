@@ -1,10 +1,11 @@
 HerSampleController {
-  var <samples, <playingBool, <playBus, clock, currentIndex=0;
+  var <samples, <playBus, <playGroup, clock;
+  var <playingBool=false, currentIndex=0;
 
   *new {arg ...args;
 
     args.do {|prop|
-      if (args.size < 6 || prop.isNil) {
+      if (args.size < 4 || prop.isNil) {
         var message = "Cannot create HerSampleController with nil property, dumping args: ";
         message = message ++ args.asString;
         Error(message);
@@ -37,27 +38,27 @@ HerSampleController {
   }
 
   startSampleSynth {|offset=0|
-    var thisSample = samples[currentIndex];
-    server.makeBundle(0.005, {
+    var thisSample = samples[currentIndex], synth;
+    Server.default.makeBundle(0.005, {
       synth = Synth(\playbuf_mono,
         [ \outbus,   playBus,
           \amp,      1,
           \buf,      thisSample.buffer,
           \dur,      thisSample.duration,
-          \startpos, offset * server.sampleRate],
+          \startpos, offset * Server.default.sampleRate],
         playGroup, \addToTail);
     });
   }
 
   next {
     if (currentIndex < (samples.size - 1)) {
-      currentIndex = currendIndex + 1
+      currentIndex = currentIndex + 1
     };
   }
 
   previous {
     if (currentIndex > 0) {
-      currentIndex = currendIndex + 1
+      currentIndex = currentIndex + 1
     };
   }
 

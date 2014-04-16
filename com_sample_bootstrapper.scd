@@ -12,6 +12,6 @@ var mainPath = "./samples/com/".resolveRelative;
   sample.buffer = Buffer.read(s, (mainPath ++ sample.name ++ ".aiff"));
 };
 
-~sampleController = HerSampleController(~ordered_com_samples, false, ~buss[\com_agg], ~clock);
+~sampleController = HerSampleController(~ordered_com_samples, ~buss[\com_agg], ~playbuf_g, ~clock);
 
 )
