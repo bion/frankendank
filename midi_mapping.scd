@@ -85,27 +85,7 @@ MIDIdef.noteOn(
     ~drum_trig.(andrewPadMap[num.asSymbol], val, \andrew)
   },
   nil,
-  0,
-  ~mSrc[\andrew]
-);
-
-MIDIdef.noteOn(
-  \andrew_kick,
-  {|val, num|
-    ~drum_trig.(10, val, \andrew)
-  },
-  ~andrew_midi_map["kick"]["num"].asInteger,
-  ~andrew_midi_map["kick"]["chan"].asInteger,
-  ~mSrc[\andrew]
-);
-
-MIDIdef.noteOn(
-  \andrew_hat,
-  {|val, num|
-    ~drum_trig.(11, val, \andrew)
-  },
-  ~andrew_midi_map["hat"]["num"].asInteger,
-  ~andrew_midi_map["kick"]["chan"].asInteger,
+  ~andrew_midi_map["pad"]["chan"].asInteger,
   ~mSrc[\andrew]
 );
 
