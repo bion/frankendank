@@ -93,8 +93,9 @@ s.sync(~cond);
 
 ~id_bus_map = IdentityDictionary[
   \sax -> 8,
+  \sax_contact_in -> 10,
   \tub -> 9,
-  \mars_kick_in -> 10,
+  \mars_kick_in -> 11,
 
   \com_mon_out -> 2,
   \sax_mon_out -> 3,
