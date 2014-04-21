@@ -10,8 +10,8 @@
     \sharpsnare, // 6
     \softtom,
     \kickclick, // 8
-    \warmkick,
-    \ClottingBD, // kick
+    \ClottingBD,
+    \warmkick, // kick
     \lighthat // hat
   ]
 
