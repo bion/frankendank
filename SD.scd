@@ -515,11 +515,12 @@ loadRelative("./sd_support.scd");
   /* ------------------------------- sax filters --------------------------------- */
 
   SynthDef(\sax_in, {
-    arg inbus, outbus, amp=4;
-    var in, gate, hysteresis;
+    arg inbus, outbus, contactGateBus, amp=4;
+    var in, gate, micGate, contactGate, gate;
     in = In.ar(inbus, 1);
-    gate = Amplitude.kr(in).lag3(~horn_gate_lag) > ~sax_gate_thresh;
-    in = in * gate;
+    micGate = Amplitude.kr(in).lag3(~horn_gate_lag) > ~sax_gate_thresh;
+    contactGate = Amplitude.kr(In.ar(contactGateBus, 1)).lag3(~horn_gate_lag) > ~sax_gate_thresh;
+    in = in * micGate;
     in = HPF.ar(in, 240, 0.5);
     Out.ar(outbus, amp * in );
   }),

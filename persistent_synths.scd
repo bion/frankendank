@@ -68,7 +68,7 @@
 
   \tub_info, Synth(\tuba_info, [\inbus, ~id_bus_map[\tub], \outbus, ~buss[\tub_info] ], ~in_g),
 
-  \sax_in, Synth(\sax_in, [\inbus, ~id_bus_map[\sax], \outbus, ~buss[\sax_eq] ], ~in_g),
+  \sax_in, Synth(\sax_in, [\inbus, ~id_bus_map[\sax], \contactGateBus, ~id_bus_map[\sax_contact_in], \outbus, ~buss[\sax_eq] ], ~in_g),
 
   \tub_in, Synth(\tuba_in, [\inbus, ~id_bus_map[\tub], \outbus, ~buss[\tub_eq] ], ~in_g),
 
