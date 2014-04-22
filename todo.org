@@ -1,10 +1,10 @@
-
 * Thing that need to be done
 
 ** Mars
 *** TODO practice with the new set
 *** TODO work on complimentary sample sets w/ Nuggz
 *** TODO get a beat together with Nuggz
+
 
 ** Nuggz
 *** TODO mix rehearsal multitracks with Jon
@@ -16,19 +16,17 @@
 *** TODO work on reharm of Rock With You
 *** TODO cut Rock With You sample, send to Bion
 
+
 ** Scott
 *** TODO practice with looper
-*** TODO Listen to IWYB vox and pick one
-*** TODO listen to dance music that has arpeggios
 
 ** Bion
-*** TODO more robustly timed sampling system
 *** TODO adjustable glissando duration
 *** TODO contact mic for scott to gate sax in
-*** TODO kick pedal for Mars (incl wire up, add to sample sets)
+*** TODO jon no. 10 not working
 
 ** equipment needs
-*** TODO patch cables
+*** TODO 1/4" -> 1/4" extension cable for contact
 *** TODO 1/4" -> 1/8" extension cables (done)
 *** TODO rack box?
 *** TODO rack computer?
