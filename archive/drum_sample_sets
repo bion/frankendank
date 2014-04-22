@@ -20,7 +20,7 @@ p = [
 		nil,  nil,  'drum_0',  'Hat2',  
 		'drum_1',  'Hat1',  'drum_6',  'clap_1' ],  
 	// IdentityDictionary
-	3, [ array: o[4],  size: 8,  
+	3, [ array: o[4],  size: 9,  
 		proto: nil,  parent: nil,  
 		know: false ],  
 	// Array
@@ -29,7 +29,7 @@ p = [
 		nil,  nil,  'drum_3',  'Kick3',  
 		'drum_4',  'Cymbal1',  nil,  nil,  
 		'drum_5',  'Clap2',  'drum_2',  'rimshot_1',  
-		nil,  nil,  nil,  nil,  
+		'drum_8',  'Kick4',  nil,  nil,  
 		nil,  nil,  'drum_0',  'Bell',  
 		'drum_1',  'Clap1',  'drum_6',  'rimshot_mettalic' ],  
 	// IdentityDictionary
