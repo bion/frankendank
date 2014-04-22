@@ -519,7 +519,7 @@ loadRelative("./sd_support.scd");
     var in, gate, micGate, contactGate;
     in = In.ar(inbus, 1);
     micGate = Amplitude.kr(in).lag3(~horn_gate_lag) > ~sax_gate_thresh;
-    contactGate = Amplitude.kr(In.ar(contactGateBus, 1)).lag3(~horn_gate_lag) > -48.dbamp;
+    contactGate = Amplitude.kr(In.ar(contactGateBus, 1)).lag3(~horn_gate_lag) > -62.dbamp;
 
     in = in * micGate * contactGate;
     in = HPF.ar(in, 240, 0.5);
