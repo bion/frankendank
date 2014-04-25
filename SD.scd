@@ -240,12 +240,13 @@ loadRelative("./sd_support.scd");
   /* ------------------------ com --------------------------- */
 
   SynthDef(\com_fank, {
-    arg bus, amp, vib_rate = 11, freq_lag_param = 0.03, beat_dur_bus, vib_width = 0.00125, gate=1;
+    arg bus, amp, vib_rate = 11, freq_lag_param = 0.03, beat_dur=1, vib_width = 0.00125, gate=1;
     var sig, vib, freqs, silencers, ampMul, freq_lag;
 
-    freq_lag = In.kr(beat_dur_bus, 1) * freq_lag_param;
+    freq_lag = beat_dur * freq_lag_param;
 
-    freq_lag = 0.1; // TODO wire up controller for this
+    // TODO wire up controller for this
+    // freq_lag = 0.1;
 
     freqs = \freqs.kr([1, 1, 1, 1, 1]).lag(freq_lag);
 

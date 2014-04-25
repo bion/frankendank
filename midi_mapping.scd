@@ -284,13 +284,20 @@ loopFilters = (
   );
 };
 
-
-
 MIDIdef.noteOn(\trigSample,
   {
     ~sampleController.playSample;
   },
   49,
+  0,
+  ~mSrc[\fingerPads]
+);
+
+MIDIdef.cc(\setFreqLag,
+  { |val|
+    ~harmonyController.setFreqLag(val);
+  },
+  1,
   0,
   ~mSrc[\fingerPads]
 );
