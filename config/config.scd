@@ -13,7 +13,7 @@ if (~chordSchema.isNil) { Error("~chordSchema not loaded!").throw };
 ~spoof_horns = false;
 ~do_bus_map_overrides = false;
 
-~dev_mode = false;
+~dev_mode = true;
 
 if (~dev_mode) {
   // dev config
