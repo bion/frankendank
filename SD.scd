@@ -14,12 +14,6 @@ loadRelative("./sd_support.scd");
 
   SynthDef(\p_control, {arg outbus, param; Out.kr(outbus, param )}),
 
-  SynthDef(\freq_lag, {
-    arg outbus, param, beat_dur_bus;
-    var lag = param * In.kr(beat_dur_bus, 1);
-    Out.kr(outbus, lag);
-  }),
-
   SynthDef(\metronome_sine, {
     arg outbus, amp;
     var out, env;
