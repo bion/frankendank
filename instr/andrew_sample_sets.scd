@@ -1,17 +1,17 @@
 ~andrew_sample_sets = [
 
   [
-    \BugCrunchSnare, // 0
-    \fuzzsnare,
-    \WetClap, // 2
-    \WetClap2,
-    \thickhat, // 4
-    \sonar,
-    \sharpsnare, // 6
-    \softtom,
-    \kickclick, // 8
-    \ClottingBD,
-    \warmkick, // kick
+    \BigClap, // 0
+    \ClapSnap,
+    \ClapSnare, // 2
+    \ClickPop,
+    \TightHat, // 4
+    \Hiss,
+    \Shaker, // 6
+    \Plop,
+    \OpenClapFixed, // 8
+    \SlapPop,
+    \BigKick1, // kick
     \lighthat // hat
   ]
 
