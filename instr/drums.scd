@@ -9,7 +9,7 @@ loadRelative("./andrew_sample_sets.scd");
 ~mars_sample_sets = Object.readArchive("../archive/drum_sample_sets".resolveRelative);
 
 basic_sample = {| action, val |
-  var scale = (val - 38).abs / 79 * 4;
+  var scale = 1;
   s.makeBundle(0.0, {
     Synth(\playbuf_simple,
       [ \buf, action[\buffer],
@@ -30,7 +30,7 @@ basic_sample = {| action, val |
   if (set == \mars) {
     action_id = ~mars_sample_sets[~current_set][pad_midi_number];
   } {
-    action_id = ~andrew_sample_sets[~current_set][pad_midi_number];
+    action_id = ~andrew_sample_sets[0][pad_midi_number];
   };
 
   action = ~drums[action_id];

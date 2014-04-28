@@ -14,12 +14,6 @@ loadRelative("./sd_support.scd");
 
   SynthDef(\p_control, {arg outbus, param; Out.kr(outbus, param )}),
 
-  SynthDef(\freq_lag, {
-    arg outbus, param, beat_dur_bus;
-    var lag = param * In.kr(beat_dur_bus, 1);
-    Out.kr(outbus, lag);
-  }),
-
   SynthDef(\metronome_sine, {
     arg outbus, amp;
     var out, env;
@@ -246,12 +240,13 @@ loadRelative("./sd_support.scd");
   /* ------------------------ com --------------------------- */
 
   SynthDef(\com_fank, {
-    arg bus, amp, vib_rate = 11, freq_lag_param = 0.03, beat_dur_bus, vib_width = 0.00125, gate=1;
+    arg bus, amp, vib_rate = 11, freq_lag_param = 0.03, beat_dur=1, vib_width = 0.00125, gate=1;
     var sig, vib, freqs, silencers, ampMul, freq_lag;
 
-    freq_lag = In.kr(beat_dur_bus, 1) * freq_lag_param;
+    freq_lag = beat_dur * freq_lag_param;
 
-    freq_lag = 0.1; // TODO wire up controller for this
+    // TODO wire up controller for this
+    // freq_lag = 0.1;
 
     freqs = \freqs.kr([1, 1, 1, 1, 1]).lag(freq_lag);
 
@@ -519,8 +514,9 @@ loadRelative("./sd_support.scd");
     var in, gate, micGate, contactGate;
     in = In.ar(inbus, 1);
     micGate = Amplitude.kr(in).lag3(~horn_gate_lag) > ~sax_gate_thresh;
-    contactGate = Amplitude.kr(In.ar(contactGateBus, 1)).lag3(~horn_gate_lag) > ~sax_gate_thresh;
-    in = in * micGate;
+    contactGate = Amplitude.kr(In.ar(contactGateBus, 1)).lag3(~horn_gate_lag) > -62.dbamp;
+
+    in = in * micGate * contactGate;
     in = HPF.ar(in, 240, 0.5);
     Out.ar(outbus, amp * in );
   }),

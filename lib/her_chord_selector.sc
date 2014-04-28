@@ -44,7 +44,7 @@ HerChordSelector {
     if (schema[index].size > 0) {
       currentGroup = schema[index];
 
-      numberText.string_(index + 1);
+      if (numberText.noNil) { numberText.string_(index + 1) };
 
       this.setChordSlot(0);
     }

@@ -86,9 +86,6 @@
 
   // ****************************************** CORE
 
-  \beat_dur, Synth(\p_control,
-    [\outbus, ~buss[\beat_dur], \value, ~clock.beatDur], ~data_g),
-
   \agg, Synth(\agg,
     [
       \sax_bus,       ~buss[\sax_agg],

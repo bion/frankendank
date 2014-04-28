@@ -1,6 +1,6 @@
 HerHarmonyController {
-  var <group, <bus, <currentSynth, <>beatDurBus;
-  var <>amp=1, <currentChord, synth;
+  var <group, <bus, <currentSynth, <>beatDur;
+  var <>amp=1, <currentChord, <synth, freqLag;
 
   *new { |group, bus, currentSynth, beatDurBus|
     ^super.newCopyArgs(group, bus, currentSynth, beatDurBus).init;
@@ -8,7 +8,7 @@ HerHarmonyController {
 
   init {
     currentChord = HerChords.at(\Xopen, PC(\c, 4));
-    synth = Synth(currentSynth, [\bus, bus, \freqs, currentChord, \beat_dur_bus, beatDurBus], group);
+    synth = Synth(currentSynth, [\bus, bus, \freqs, currentChord, \beat_dur, beatDur], group);
   }
 
   setAmp { |amp|
@@ -46,7 +46,11 @@ HerHarmonyController {
     {val < 112} { lag = 1.5  }
     {val < 128} { lag = 2    };
 
-    synth.set(\freq_lag_param, lag);
+    if (lag != freqLag) {
+      synth.set(\freq_lag_param, lag);
+      freqLag = lag;
+      postln("freqLag is: " ++ lag);
+    };
   }
 
 }
