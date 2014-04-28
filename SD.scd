@@ -182,6 +182,7 @@ loadRelative("./sd_support.scd");
     metronome = In.ar(metronome_bus, 1);
     sample = In.ar(sample_bus, 1);
 
+    tub = Compander.ar(tub, d_low, -50.dbamp, 1, 1/6, 0.002, \tub_relax.kr(0.1, 0.03)) * 13.dbamp;
     tub = Compander.ar(tub, d_low, -42.dbamp, 1, 1/2.5, 0.002, \tub_relax.kr(0.1, 0.03));
 
     Out.ar(outbus, [tub, sax, com, d_low, d_med, d_hi, sample].sum);
