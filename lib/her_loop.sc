@@ -48,6 +48,7 @@ HerLoop {
     var ampVal, key, synth;
     key = asSymbol(instr ++ "_loops_route");
     synth = ~p_synths[key];
+
     synth.get(\amp, {|val| ampVal = val });
 
     if (ampVal > 0) {
@@ -101,6 +102,7 @@ HerLoop {
   reset {
     if (synth.notNil) { this.stopLoop };
     nextAction = \record;
+    buffer.zero;
     duration = 0.0;
   }
 
