@@ -7,7 +7,6 @@ HerMultiTrackRecorder {
   }
 
   init {
-    buffers = IdentityDictionary[];
     recordSynths = IdentityDictionary[];
     this.allocBuffers;
     ^this;
@@ -47,6 +46,7 @@ HerMultiTrackRecorder {
   /* ------------------------------ private */
 
   allocBuffers {
+    buffers = IdentityDictionary[];
     busses.keysDo { |name|
       buffers.put(
         name,
