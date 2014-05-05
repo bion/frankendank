@@ -142,16 +142,17 @@ MIDIdef.noteOn(
   // synths
   [5, { ~dry_horn.(\tub) }],
   [6, {
-    ~dry_horn.(\tub);
-    ~h_synth.(\tub_subbass);
-  }],
-  [7, {
+    // ~dry_horn.(\tub);
+    // ~h_synth.(\tub_subbass);
     ~dry_horn.(\tub);
     ~h_synth.(\tub_s1);
   }],
-  [8, {
+  [7, {
     ~dry_horn.(\tub);
     ~h_synth.(\tub_s2);
+  }],
+  [8, {
+    HerLoop.toggleMuteAll(\tuba);
   }],
   [9,{ ~reset_all.(\tub) }],
 
@@ -174,8 +175,9 @@ MIDIdef.noteOn(
     ~h_synth.(\tub_s1);
   }],
   [18, {
-    ~dry_horn.(\tub);
-    ~h_synth.(\tub_s2);
+    // ~dry_horn.(\tub);
+    // ~h_synth.(\tub_s2);
+    HerLoop.toggleMuteAll(\tuba);
   }],
   [19,{ ~reset_all.(\tub) }]
 ].do {|pair|

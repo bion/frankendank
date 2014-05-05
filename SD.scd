@@ -81,7 +81,7 @@ loadRelative("./sd_support.scd");
 
   SynthDef(\route_mono_amp, {
     arg inbus, outbus, amp=1;
-    Out.ar(outbus, In.ar(inbus, 1) * amp );
+    Out.ar(outbus, In.ar(inbus, 1) * amp.lag(0.05) );
   }),
 
   (1..8).collect {|i|

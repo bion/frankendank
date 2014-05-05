@@ -126,12 +126,12 @@
     ~sum_loop_g),
 
   \sax_loops_route,
-  Synth(\route_mono,
+  Synth(\route_mono_amp,
     [\inbus, ~loop_filt_buss[\sax_loops], \outbus, ~loop_filt_buss[\sax_agg]],
     ~route_loop_g),
 
   \tub_loops_route,
-  Synth(\route_mono,
+  Synth(\route_mono_amp,
     [\inbus, ~loop_filt_buss[\tub_loops], \outbus, ~loop_filt_buss[\tub_agg]],
     ~route_loop_g),
 

@@ -44,6 +44,19 @@ HerLoop {
     };
   }
 
+  *toggleMuteAll { |instr|
+    var ampVal, key, synth;
+    key = asSymbol(instr ++ "_loops_route");
+    synth = ~p_synths[key];
+    synth.get(\amp, {|val| ampVal = val });
+
+    if (ampVal > 0) {
+      synth.set(\amp, 0);
+    } {
+      synth.set(\amp, 1);
+    };
+  }
+
   *releaseAll {
     // TODO
   }
