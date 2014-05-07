@@ -439,7 +439,7 @@ loadRelative("./sd_support.scd");
 
     synth = Integrator.ar(synth, 0.72, -16.dbamp);
 
-    out = synth * In.kr(pedal_amp_bus, 1) * 0.25;
+    out = synth * In.kr(pedal_amp_bus, 1) * 1.5;
     Out.ar(bus, out * Linen.kr(gate, 0.05, releaseTime: 0.05, doneAction: 2));
   }),
 
