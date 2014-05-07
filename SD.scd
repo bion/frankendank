@@ -414,7 +414,7 @@ loadRelative("./sd_support.scd");
 
     control = LinExp.kr(amp.ampdb, -52, -20, pitch * 1.2, 15000).max(160);
 
-    synth = MoogFF.ar(synth, control, 0.75);
+    synth = MoogFF.ar(synth, control, 0.25);
 
     synth = LeakDC.ar(synth);
 
