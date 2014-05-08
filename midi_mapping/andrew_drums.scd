@@ -1,10 +1,10 @@
 (
-postln("loading midi config: andrew drums");
-
 var andrewPadMap = IdentityDictionary[];
 ~andrew_midi_map["pad"].keysValuesDo {|key, value|
   andrewPadMap.add( value.asSymbol -> key.asInteger );
 };
+
+postln("loading midi config: andrew drums");
 
 MIDIdef.noteOn(
   \andrew,

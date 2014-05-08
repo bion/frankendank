@@ -1,6 +1,4 @@
 (
-postln("loading midi config: bcr");
-
 var loopFilters = (
   sax: [
     \amp_filt,
@@ -15,6 +13,8 @@ var loopFilters = (
     \decimator
   ]
 );
+
+postln("loading midi config: bcr");
 
 ~loop_filt_controllers = IdentityDictionary[];
 

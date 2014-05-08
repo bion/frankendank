@@ -1,6 +1,4 @@
 (
-postln("loading midi config: tuba");
-
 var tubaLoops = 4.collect {|i|
   HerLoop(
     \tuba,
@@ -11,6 +9,8 @@ var tubaLoops = 4.collect {|i|
     ~loop_filt_buss[\tub].index + i,
     ~play_loop_g)
 };
+
+postln("loading midi config: tuba");
 
 [
   // looping
@@ -36,7 +36,7 @@ var tubaLoops = 4.collect {|i|
   [8, {
     HerLoop.toggleMuteAll(\tuba);
   }],
-  [9,{ ~reset_all.(\tub) }],
+  [9,{ ~reset_all.(\tuba) }],
 
   // looping
   [10, { tubaLoops[0].touch }],

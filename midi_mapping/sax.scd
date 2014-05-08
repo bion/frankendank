@@ -1,7 +1,4 @@
 (
-
-postln("loading midi config: sax");
-
 var saxLoops = 4.collect {|i|
   HerLoop(
     \sax,
@@ -12,6 +9,8 @@ var saxLoops = 4.collect {|i|
     ~loop_filt_buss[\sax].index + i,
     ~play_loop_g)
 };
+
+postln("loading midi config: sax");
 
 [
   // looping

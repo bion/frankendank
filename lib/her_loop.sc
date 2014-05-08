@@ -33,11 +33,13 @@ HerLoop {
     } {
       resetBools[instr] = true;
     };
-    postln("toggled " ++ instr ++ " reset");
+    postln("toggled " ++ instr ++ " reset to " ++ resetBools[instr]);
   }
 
   *resetAll { |instr|
-    loops[instr].do { |herLoop|
+    var theseLoops = loops[instr];
+    if (thseLoops.isNil)
+    theseLoops[instr].do { |herLoop|
       if (herLoop.synth.notNil) { herLoop.stopLoop };
       herLoop.reset;
       postln(instr ++ " loop reset");
@@ -45,17 +47,13 @@ HerLoop {
   }
 
   *toggleMuteAll { |instr|
-    var ampVal, key, synth;
+    var key, synth;
     key = asSymbol(instr ++ "_loops_route");
     synth = ~p_synths[key];
 
-    synth.get(\amp, {|val| ampVal = val });
-
-    if (ampVal > 0) {
-      synth.set(\amp, 0);
-    } {
-      synth.set(\amp, 1);
-    };
+    synth.get(\amp, { |ampVal|
+      synth.set(\amp, ampVal.round.bitXor(1)); // probably not the best idea
+    });
   }
 
   *releaseAll {
