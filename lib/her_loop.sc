@@ -38,11 +38,16 @@ HerLoop {
 
   *resetAll { |instr|
     var theseLoops = loops[instr];
-    if (thseLoops.isNil)
-    theseLoops[instr].do { |herLoop|
-      if (herLoop.synth.notNil) { herLoop.stopLoop };
-      herLoop.reset;
-      postln(instr ++ " loop reset");
+    if (theseLoops.notNil) {
+      theseLoops[instr].do { |herLoop|
+        if (herLoop.synth.notNil) { herLoop.stopLoop };
+        herLoop.reset;
+        postln(instr ++ " loop reset");
+      };
+    } {
+      postln("----------------------------------------");
+      postln("unrecognized instr for loops reset");
+      postln("----------------------------------------");
     };
   }
 
