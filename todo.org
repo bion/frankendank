@@ -24,10 +24,6 @@
 
 ** Bion
 *** TODO loops as separate recording tracks
-*** TODO loops not properly aligned... at all
-*** TODO misbehaving sax loop (distortion 1&3)
-*** TODO group loop mute/unmute button (9)
-*** TODO adjustable glissando duration
 *** TODO get samples ready for rehearsal
 ** equipment needs
 *** TODO rack box?
