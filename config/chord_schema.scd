@@ -1,11 +1,12 @@
 ~chordSchema = [
   // 1
   [
-    (voicing: \Xm11, pitchClass: PC(\f, 4)),
-    (voicing: \Xm9, pitchClass: PC(\bf, 4)),
-    (voicing: \Xm7, pitchClass: PC(\c, 4)),
-    (voicing: \Xmaj9, pitchClass: PC(\df, 4)),
-    (voicing: \X7, pitchClass: PC(\bf, 4))
+    (voicing: \Xm, pitchClass: PC(\bf, 4)),
+    (voicing: \XM, pitchClass: PC(\af, 4)),
+    (voicing: \XM, pitchClass: PC(\gf, 4)),
+    (voicing: \X7, pitchClass: PC(\f, 4)),
+
+    (voicing: \X7, pitchClass: PC(\eb, 4))
   ],
   // 2
   [
@@ -43,7 +44,11 @@
   ],
   // 6
   [
-
+    (voicing: \Xm11, pitchClass: PC(\f, 4)),
+    (voicing: \Xm9, pitchClass: PC(\bf, 4)),
+    (voicing: \Xm7, pitchClass: PC(\c, 4)),
+    (voicing: \Xmaj9, pitchClass: PC(\df, 4)),
+    (voicing: \X7, pitchClass: PC(\bf, 4))
   ],
   // 7
   [
