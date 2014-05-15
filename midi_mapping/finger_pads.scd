@@ -26,9 +26,18 @@ MIDIdef.cc(\setFreqLag,
 
 MIDIdef.noteOn(\trigSample,
   {
-    ~sampleController.playSample;
+    ~sampleController.sampleTrig;
   },
   49,
+  0,
+  ~mSrc[\fingerPads]
+);
+
+MIDIdef.noteOn(\sampleStop,
+  {
+    ~sampleController.sampleStop;
+  },
+  51,
   0,
   ~mSrc[\fingerPads]
 );
@@ -42,7 +51,7 @@ MIDIdef.noteOn(\prevSample,
   ~mSrc[\fingerPads]
 );
 
-MIDIdef.noteOn(\trigSample,
+MIDIdef.noteOn(\nextSample,
   {
     ~sampleController.next;
   },

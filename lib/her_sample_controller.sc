@@ -1,6 +1,6 @@
 HerSampleController {
   var <samples, <playBus, <playGroup, clock;
-  var <playingBool=false, currentIndex=0;
+  var <playingBool=false, currentIndex=0, synth;
 
   *new {arg ...args;
 
@@ -17,7 +17,7 @@ HerSampleController {
     )
   }
 
-  playSample {
+  sampleTrig {
     var offset = (clock.beats - clock.beats.round) * clock.beatDur; // negative if before beat
     var thisSample = samples[currentIndex];
 
@@ -31,14 +31,20 @@ HerSampleController {
     Routine.run({
       wait(thisSample.duration * clock.beatDur + offset);
       // if it's the same sample, play it again
-      if (thisSample == samples[currentIndex] && playingBool) {
-        this.playSample;
+      if (thisSample == samples[currentIndex] && playingBool && thisSample.loopable) {
+        this.sampleTrig;
       };
     });
   }
 
+  sampleStop {
+    synth.free;
+    playingBool = false;
+    postln("freed sample synth");
+  }
+
   startSampleSynth {|offset=0|
-    var thisSample = samples[currentIndex], synth;
+    var thisSample = samples[currentIndex];
     Server.default.makeBundle(0.005, {
       synth = Synth(\playbuf_mono,
         [ \outbus,   playBus,
@@ -48,18 +54,21 @@ HerSampleController {
           \startpos, offset * Server.default.sampleRate],
         playGroup, \addToTail);
     });
+    postln("playing " ++ thisSample.name);
   }
 
   next {
     if (currentIndex < (samples.size - 1)) {
       currentIndex = currentIndex + 1
     };
+    postln("current sample is " ++ samples[currentIndex].name);
   }
 
   previous {
     if (currentIndex > 0) {
       currentIndex = currentIndex - 1
     };
+    postln("current sample is " ++ samples[currentIndex].name);
   }
 
 }
