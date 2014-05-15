@@ -58,7 +58,7 @@ HerSampleController {
 
   previous {
     if (currentIndex > 0) {
-      currentIndex = currentIndex + 1
+      currentIndex = currentIndex - 1
     };
   }
 

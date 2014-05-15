@@ -33,4 +33,22 @@ MIDIdef.noteOn(\trigSample,
   ~mSrc[\fingerPads]
 );
 
+MIDIdef.noteOn(\prevSample,
+  {
+    ~sampleController.previous;
+  },
+  44,
+  0,
+  ~mSrc[\fingerPads]
+);
+
+MIDIdef.noteOn(\trigSample,
+  {
+    ~sampleController.next;
+  },
+  46,
+  0,
+  ~mSrc[\fingerPads]
+);
+
 )
