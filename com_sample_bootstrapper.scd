@@ -3,9 +3,9 @@ var mainPath = "./samples/com/".resolveRelative;
 
 ~ordered_com_samples = [
 
-  (name: "IWYB", duration: 16, tempo: 98, loopable: false),
+  (name: "rwy_vox_full", duration: 120, tempo: 98, loopable: false),
 
-  (name: "caddyshack", duration: 16, tempo: 80, loopable: true)
+  (name: "iwyb_vox_full", duration: 16, tempo: 96, loopable: false)
 
 
 ].collect {|sample|
