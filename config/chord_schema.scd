@@ -6,7 +6,7 @@
     (voicing: \XM, pitchClass: PC(\gf, 4)),
     (voicing: \X7, pitchClass: PC(\f, 4)),
 
-    (voicing: \X7, pitchClass: PC(\eb, 4))
+    (voicing: \X7, pitchClass: PC(\ef, 4))
   ],
   // 2
   [
