@@ -2,11 +2,15 @@ HerLoop {
   var <instr, <server, <clock, <recordBus, <recordGroup,
   <playBus, <playGroup, <maxDur=60;
   var buffer, nextAction, duration, recording, <synth, responder, lastTouchBeat;
-  classvar resetBools, loops;
+  classvar resetBools, loops, persistent_synths;
 
   *initClass {
     loops      = IdentityDictionary.new;
     resetBools = IdentityDictionary.new;
+  }
+
+  *setPersistentSynths { |dict|
+    persistent_synths = dict;
   }
 
   *new {
@@ -54,10 +58,10 @@ HerLoop {
   *toggleMuteAll { |instr|
     var key, synth;
     key = asSymbol(instr ++ "_loops_route");
-    synth = ~p_synths[key];
+    synth = persistent_synths[key];
 
     synth.get(\amp, { |ampVal|
-      synth.set(\amp, ampVal.round.bitXor(1)); // probably not the best idea
+      synth.set(\amp, ampVal.round.asInt.bitXor(1)); // probably not the best idea
     });
   }
 

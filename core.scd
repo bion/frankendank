@@ -169,6 +169,7 @@ if (~spoof_horns) {
 };
 
 ~p_synths = IdentityDictionary[];
+HerLoop.setPersistentSynths(~p_synths);
 
 "CORE LOADED".postln;
 )
