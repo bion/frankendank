@@ -1,10 +1,10 @@
 ~chordSchema = [
   // 1
   [
-    (voicing: \Xm, pitchClass: PC(\bf, 4)),
-    (voicing: \XM, pitchClass: PC(\af, 4)),
-    (voicing: \XM, pitchClass: PC(\gf, 4)),
-    (voicing: \X7, pitchClass: PC(\f, 4)),
+    (voicing: \Xm, pitchClass: PC(\bf, 3)),
+    (voicing: \XM, pitchClass: PC(\af, 3)),
+    (voicing: \XM, pitchClass: PC(\gf, 3)),
+    (voicing: \XM, pitchClass: PC(\f, 3)),
 
     (voicing: \X7, pitchClass: PC(\ef, 4))
   ],

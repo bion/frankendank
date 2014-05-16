@@ -25,6 +25,9 @@
 ** Bion
 *** TODO loops as separate recording tracks
 *** TODO get samples ready for rehearsal
+*** TODO breath midi config not loading on boot
+*** TODO 10 loop button broken
+*** TODO drum sample set switch busted
 ** equipment needs
 *** TODO rack box?
 *** TODO rack computer?

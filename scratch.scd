@@ -42,3 +42,12 @@ SynthDef(\scansynth1, { arg out=0, amp=0.1, gate=1, pan=0, freq=200;
 );
 s.makeGui
 Synth(\scansynth1, [\amp, 0.4])
+
+/*
+    todo with jon
+
+    turn up tub_s2 by 16-18 dB
+
+    tub_s1 -- cutoff resonence too loud relative to fundamental
+
+*/
