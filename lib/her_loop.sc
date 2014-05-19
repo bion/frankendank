@@ -43,7 +43,7 @@ HerLoop {
   *resetAll { |instr|
     var theseLoops = loops[instr];
     if (theseLoops.notNil) {
-      theseLoops[instr].do { |herLoop|
+      theseLoops.do { |herLoop|
         if (herLoop.synth.notNil) { herLoop.stopLoop };
         herLoop.reset;
         postln(instr ++ " loop reset");
