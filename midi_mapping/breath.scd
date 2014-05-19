@@ -1,5 +1,5 @@
 (
-postln("loading midi config: breath controller");
+postln("loading midi config: breath");
 
 if (~mSrc[\breath].notNil) {
   MIDIdef.cc(\breathController,

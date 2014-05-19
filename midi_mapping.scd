@@ -25,7 +25,7 @@ keyFileMap = (
   sax: "sax",
   tuba: "tuba",
   bcr: "bcr",
-  drums: "drums_shared",
+  drums_switch: "drums_shared",
   drum_pad: "mars_drums",
   andrew: "andrew_drums",
   breath: "breath",
