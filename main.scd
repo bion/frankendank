@@ -106,8 +106,8 @@ StaticText(main_window, Rect(simple_loops_left - 160, gui_height * 0.35, 200, 20
   mon_windows[instr] = thisWindow = Window(instr ++ " monitor",
     Rect(300, 300, gui_length, gui_height/2));
 
-  [ \main, \met, \sax, \tub, \drum, \com ].do {|input, j|
     make_labeled_slider.(thisWindow, 100 + (j * 120), 120, -60, 24, input, {|val|
+  [ \main, \met, \sax, \tub, \drum, \com, \met ].do {|input, j|
       ~monitor_levels[instr][input] = val.dbamp;
       if (s.serverRunning) {
         var synth = ~p_synths[asSymbol(instr ++ "_mon")];
