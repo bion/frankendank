@@ -2,27 +2,30 @@
 
 ** Mars
 *** TODO get kick pedal sorted
-*** TODO get a beat together with Nuggz
+*** TODO getting beat ideas together for RWY
 
-*** TODO more complimentary sets with Nuggz
+*** TODO normalize all samples
 ** Nuggz
-*** TODO work on complimentary sample sets w/ Mars
-*** TODO get a beat together with Mars
-*** TODO mix rehearsal multitracks with Jon
-
-*** TODO mock out 2 measure thing in ableton
+*** TODO mix and render multitracks for everyone to hear (wednesday@12)
+*** TODO getting beat ideas together for RWY
+*** TODO get midi controller behaving consistent
 ** Jon
-*** TODO mix multitracks with Nuggz
-*** TODO work on reharm of Rock With You
-*** TODO cut Rock With You sample, send to Bion
-
+*** TODO mix multitracks with Nuggz (wednesday@12)
 ** Scott
 *** TODO practice with looper
 
-*** TODO order extension for clip mic
-*** TODO write 2 measure thing
-
+*** TODO space out IWYB, mix into single sample
 ** Bion
+*** TODO automate chord changes with RWY
+*** TODO make better synth sound for RWY
+*** TODO make metronome amp independant of com
+*** TODO synthify sax sound for RWY?
+*** TODO figure out recording playback volumes WTF?
+*** TODO replace lib files
+*** TODO make it easier to play at 115bpm WTFWTF??
+*** TODO add loops for com (!)
+*** TODO auto-sync reversed samples with clock
+*** TODO re-introduce velocity sensitivity
 *** TODO loops as separate recording tracks
 ** equipment needs
 *** TODO rack box?
