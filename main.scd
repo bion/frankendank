@@ -61,7 +61,7 @@ make_labeled_slider = { | window, left, top, lo, hi, text, fxn, default=0 |
   .align_(\center).string_(text).stringColor_(Color.white);
 
   spec = ControlSpec(lo, hi, \lin, 1);
-  slider = Slider(window, Rect(left - 50, top - 50, 40, 180))
+  slider = Slider(window, Rect(left - 50, top - 50, 40, 200))
   .orientation_(\vertical)
   .value_(spec.unmap(default))
   .action_({
