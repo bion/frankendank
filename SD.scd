@@ -164,10 +164,10 @@ loadRelative("./sd_support.scd");
   }),
 
   SynthDef(\agg, {
-    arg sax_bus, tub_bus, com_bus, outbus,
-    d_low_bus, d_med_bus, d_hi_bus,
+    arg sax_bus, tub_bus, com_bus, d_low_bus, d_med_bus, d_hi_bus,
+    metronome_bus, sample_bus,
     drums_mon_bus, tub_mon_bus, sax_mon_bus, com_mon_bus, nugs_mon_bus,
-    metronome_bus, sample_bus;
+    outbus;
     var sax, tub, com, out, metronome, sample,
       d_low, d_med, d_hi;
 
@@ -193,7 +193,7 @@ loadRelative("./sd_support.scd");
   }),
 
   SynthDef(\mon, {
-    arg inbus, outbus, metronome_bus, main_scale=2,
+    arg inbus, outbus, metronome_bus, main_scale=2, sample_scale=1,
       drum_scale=1, sax_scale=1, tub_scale=1, com_scale=1, met_scale=1;
     var drums, sax, tub, com, out, sample,
       instr, metronome;
@@ -202,7 +202,7 @@ loadRelative("./sd_support.scd");
     metronome = In.ar(metronome_bus, 1) * met_scale;
 
     instr = (drums * drum_scale)
-      + (sample * com_scale)
+      + (sample * sample_scale)
       + (tub * tub_scale)
       + (sax * sax_scale)
       + (com * com_scale);
@@ -212,7 +212,7 @@ loadRelative("./sd_support.scd");
   }),
 
   SynthDef(\com_mon, {
-    arg inbus, outbus, metronome_bus, main_scale=16,
+    arg inbus, outbus, metronome_bus, main_scale=16, sample_scale,
       drum_scale=1, sax_scale=1, tub_scale=1, com_scale=1, met_scale=1,
       tuba_record_bus, sax_record_bus, electric_drums_record_bus,
       computer_record_bus;
@@ -224,7 +224,7 @@ loadRelative("./sd_support.scd");
 
     metronome = metronome * met_scale;
     drums     = drums * drum_scale;
-    sample    = sample * com_scale;
+    sample    = sample * sample_scale;
     tub       = tub * tub_scale;
     sax       = sax * sax_scale;
     com       = com * com_scale;

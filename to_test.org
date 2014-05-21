@@ -1,3 +1,7 @@
 * need testing
 
-** TODO test that all midi files load when controllers are present/activated
+** TODO can change metronome amp in monitors with gui
+** TODO monitors still at reasonable volume
+** TODO sample playback independantly monitored
+** TODO run lib sync script
+** TODO test that all looping still works
