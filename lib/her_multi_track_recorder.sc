@@ -28,18 +28,23 @@ HerMultiTrackRecorder {
 
   stop {
     buffers.keysValuesDo {|name, buffer|
-      var endFunc = { |buf| buf.free };
-      postln("writing " ++ name ++ " buff to " ++ path);
+      var outputFileName;
+
+      recordSynths[name].free;
+      postln("freed record synth for " ++ name);
+
+      outputFileName = path ++ "/" ++ Date.getDate ++ "_" ++ name ++ ".aiff";
+
+      postln("writing " ++ name ++ " buff to " ++ outputFileName);
 
       buffer.write(
-        path ++ "/" ++ Date.getDate ++ "_" ++ name ++ ".aiff",
+        outputFileName,
         "aiff",
         "float",
-        (SystemClock.seconds - startTime) * Server.default.sampleRate,
-        completionMessage: endFunc
+        (SystemClock.seconds - startTime) * Server.default.sampleRate
       );
     };
-    this.allocBuffers;
+
     "multi track recording stopped".postln;
   }
 
