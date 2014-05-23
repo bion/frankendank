@@ -23,7 +23,8 @@
 *** DONE make sample channel independent of com
 *** DONE make it easier to play at 115bpm
 *** TODO figure out recording playback volumes WTF?
-*** TODO add loops for com (!)
+*** TODO multitracks not recording
+*** DONE add loops for com (!)
 *** TODO auto-sync reversed samples with clock
 *** TODO re-introduce velocity sensitivity
 *** TODO loops as separate recording tracks
