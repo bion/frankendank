@@ -125,14 +125,25 @@
     [\inbusses, ~loop_filt_buss[\tub], \outbus, ~loop_filt_buss[\tub_loops]],
     ~sum_loop_g),
 
+  // only one com loop
+  \com_loop_sum,
+  Synth(\route_mono_amp,
+    [\inbus, ~loop_filt_buss[\com], \outbus, ~loop_filt_buss[\com_loops]],
+    ~sum_loop_g),
+
   \sax_loops_route,
   Synth(\route_mono_amp,
-    [\inbus, ~loop_filt_buss[\sax_loops], \outbus, ~loop_filt_buss[\sax_agg]],
+    [\inbus, ~loop_filt_buss[\sax_loops], \outbus, ~buss[\sax_agg]],
     ~route_loop_g),
 
   \tub_loops_route,
   Synth(\route_mono_amp,
-    [\inbus, ~loop_filt_buss[\tub_loops], \outbus, ~loop_filt_buss[\tub_agg]],
+    [\inbus, ~loop_filt_buss[\tub_loops], \outbus, ~buss[\tub_agg]],
+    ~route_loop_g),
+
+  \com_loops_route,
+  Synth(\route_mono_amp,
+    [\inbus, ~loop_filt_buss[\com_loops], \outbus, ~buss[\com_agg]],
     ~route_loop_g),
 
 // ****************************************** ANALOG TRIGGERS

@@ -5,7 +5,7 @@ HerLoop {
   classvar resetBools, loops, persistent_synths;
 
   *initClass {
-    loops      = IdentityDictionary.new;
+    loops = IdentityDictionary.new;
     resetBools = IdentityDictionary.new;
   }
 

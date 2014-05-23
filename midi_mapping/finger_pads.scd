@@ -1,4 +1,5 @@
 (
+var comLoop;
 postln("loading midi config: finger pads");
 
 MIDIdef.cc(\setFreqLag,
@@ -10,9 +11,37 @@ MIDIdef.cc(\setFreqLag,
   ~mSrc[\fingerPads]
 );
 
+comLoop = HerLoop(
+  \com,
+  s,
+  ~clock,
+  ~buss[\com_agg],
+  ~record_loop_g,
+  ~loop_filt_buss[\com],
+  ~play_loop_g
+);
+
+MIDIdef.noteOn(\comLoopTouch,
+  {
+    comLoop.touch;
+  },
+  43,
+  0,
+  ~mSrc[\fingerPads]
+);
+
+MIDIdef.noteOn(\comLoopToggleReset,
+  {
+    HerLoop.toggleReset(\com);
+  },
+  42,
+  0,
+  ~mSrc[\fingerPads]
+);
+
 [
-  39, 48, 45, 43,
-  36, 38, 40, 42
+  39, 48, 45,
+  36, 38, 40,
 ].do {|num, index|
   MIDIdef.noteOn(asSymbol("chordSetSelector_" ++ index),
     {

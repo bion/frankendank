@@ -74,10 +74,10 @@ p = [
 	11, [ 'tub',  15.848932,  'met',  0.251189,  
 		'drum',  1.000000,  'sax',  7.943282,  
 		nil,  nil,  nil,  nil,  
-		'sample',  1,  'main',  0.398107,  
+		'sample',  1,  'main',  1.995262,  
 		nil,  nil,  nil,  nil,  
 		nil,  nil,  nil,  nil,  
 		nil,  nil,  nil,  nil,  
-		nil,  nil,  'com',  0.199526 ]
+		nil,  nil,  'com',  1.995262 ]
 ];
 prUnarchive(o,p);

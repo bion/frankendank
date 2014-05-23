@@ -119,8 +119,12 @@ if (~do_bus_map_overrides) {
 ~loop_filt_buss = IdentityDictionary[
   \sax -> Bus.audio(s, 4),
   \sax_loops -> Bus.audio(s, 1),
+
   \tub -> Bus.audio(s, 4),
-  \tub_loops -> Bus.audio(s, 1)
+  \tub_loops -> Bus.audio(s, 1),
+
+  \com -> Bus.audio(s, 1),
+  \com_loops -> Bus.audio(s, 1)
 ];
 
 ~multi_record_buss = IdentityDictionary[
