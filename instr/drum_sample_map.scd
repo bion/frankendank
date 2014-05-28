@@ -19,6 +19,14 @@ count=0;
       buffer: Buffer.read(s, path),
       register: register[i],
     );
+
+    if ("reverse".matchRegexp(name)) {
+      sample.playFunction = \reversed_sample;
+
+    } {
+      sample.playFunction = \basic_sample;
+    };
+
     ~drum_samples.add(name.asSymbol -> sample);
 
     count = count + 1;

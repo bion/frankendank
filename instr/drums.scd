@@ -1,5 +1,5 @@
 (
-var basic_sample;
+var basic_sample, reversed_sample;
 
 ~current_set = 0;
 
@@ -8,19 +8,32 @@ loadRelative("./andrew_sample_sets.scd");
 
 ~mars_sample_sets = Object.readArchive("../archive/drum_sample_sets".resolveRelative);
 
-basic_sample = {| action, val |
+basic_sample = {|action, val|
   var scale = 1;
+
   s.makeBundle(0.0, {
     Synth(\playbuf_simple,
-      [ \buf, action[\buffer],
+      [ \buf, action.buffer,
         \amp, 0.125 * scale,
-        \bus, ~buss[action[\register]] ],
-      ~playbuf_g )
-  })
+        \outbus, ~buss[action.register] ],
+      ~playbuf_g );
+  });
+
 };
 
+reversed_sample = {|action, val|
+  var offset = clock.beatDur - action.buffer.duration;
+
+  fork {
+    offset.wait;
+    basic_sample.(action, val);
+  };
+
+}
+
 ~drum_funcs = IdentityDictionary[
-  \basic_sample -> basic_sample
+  \basic_sample -> basic_sample,
+  \reversed_sample -> reversed_sample
 ];
 
 ~drum_trig = {|pad_midi_number, val, set|
@@ -35,7 +48,7 @@ basic_sample = {| action, val |
 
   action = ~drum_samples[action_id];
 
-  ~drum_funcs[action[\function]].(action, val);
+  ~drum_funcs[action.playFunction].(action, val);
 };
 
 )
