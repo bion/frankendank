@@ -33,7 +33,7 @@ basic_sample = {| action, val |
     action_id = ~andrew_sample_sets[0][pad_midi_number];
   };
 
-  action = ~drums[action_id];
+  action = ~drum_samples[action_id];
 
   ~drum_funcs[action[\function]].(action, val);
 };
