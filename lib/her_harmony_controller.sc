@@ -20,7 +20,8 @@ HerHarmonyController {
     synth = Synth(currentSynth,
       [
         \bus, bus,
-        \freqs, currentChord
+        \freqs, currentChord,
+        \bear_dur, beatDur
       ],
       group
     );
