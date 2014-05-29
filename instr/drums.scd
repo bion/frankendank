@@ -22,14 +22,14 @@ basic_sample = {|action, val|
 };
 
 reversed_sample = {|action, val|
-  var offset = clock.beatDur - action.buffer.duration;
+  var offset = ~clock.beatDur - action.buffer.duration;
 
   fork {
     offset.wait;
     basic_sample.(action, val);
   };
 
-}
+};
 
 ~drum_funcs = IdentityDictionary[
   \basic_sample -> basic_sample,
