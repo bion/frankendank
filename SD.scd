@@ -279,16 +279,18 @@ loadRelative("./sd_support.scd");
   }),
 
   SynthDef(\com_dirt_rhode, {
-    arg bus, amp, vib_rate = 11, vib_width = 0.00125, gate=1;
+    arg bus, amp, vib_rate = 11, freq_lag_param=0.03, beat_dur=1, vib_width = 0.00125, gate=1;
     var sig, env, vib, warm = LFNoise2.kr(vib_rate).range(0.9, 1.1);
-    var silencers, freqs, ampMul;
+    var silencers, freqs, ampMul, detuneMuls, freq_lag;
+
+    freq_lag = beat_dur * freq_lag_param;
+
+    freqs = \freqs.kr([1, 1, 1, 1, 1]).lag(freq_lag);
+
+    silencers = freqs.collect { |freq| freq > 9.0; };
 
     vib_rate = vib_rate * LFDNoise3.kr(2).range(0.9, 1.1);
     vib = SinOsc.kr(vib_rate, 0, vib_width) + LFNoise2.kr(1/vib_rate, vib_width/2) + 1;
-
-    freqs = \freqs.kr([1, 1, 1, 1]);
-
-    silencers = freqs.collect { |freq| freq > 9.0; };
     freqs = freqs * vib;
 
     sig = freqs.collect {|freq, i|
@@ -306,7 +308,7 @@ loadRelative("./sd_support.scd");
 
     sig = LeakDC.ar(sig);
 
-    sig = AudioMSG.ar(sig, 10);
+    sig = AudioMSG.ar(sig, 8);
 
     ampMul = LinExp.kr(amp, 0, 127, -60.dbamp, -4.dbamp).lag3(0.002) * (amp > 0);
 
