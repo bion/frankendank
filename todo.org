@@ -6,23 +6,24 @@
 
 *** TODO normalize all samples
 ** Nuggz
-*** TODO mix and render multitracks for everyone to hear (wednesday@12)
 *** TODO getting beat ideas together for RWY
 *** TODO get midi controller behaving consistent
 ** Jon
-*** TODO mix multitracks with Nuggz (wednesday@12)
 ** Scott
 *** TODO practice with looper
 
 *** TODO space out IWYB, mix into single sample
 ** Bion
 *** TODO figure out recording playback volumes WTF?
-*** TODO automate chord changes with RWY
 *** TODO make better synth sound for RWY
 *** TODO synthify sax sound for RWY?
-*** TODO auto-sync reversed samples with clock
-*** TODO re-introduce velocity sensitivity
+*** TODO automate chord changes with RWY
 *** TODO loops as separate recording tracks
+*** TODO fix sample playback
+*** TODO add toggling between harmony synths
+*** TODO add knob control for harmony synth params
+*** DONE re-introduce velocity sensitivity
+*** DONE auto-size reversed samples with tempo
 *** DONE multitracks not recording
 *** DONE metronome amp independent of com
 *** DONE make sample channel independent of com
