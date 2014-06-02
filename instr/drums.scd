@@ -9,13 +9,14 @@ loadRelative("./andrew_sample_sets.scd");
 ~mars_sample_sets = Object.readArchive("../archive/drum_sample_sets".resolveRelative);
 
 basic_sample = {|action, val|
-  var scale = val.linexp(0, 128, -12.dbamp, 1);
+  var scale = val.linexp(0, 128, -22.dbamp, 1);
+  var busName = asSymbol("d_" ++ action.register ++ "_bus");
 
   s.makeBundle(0.0, {
     Synth(\playbuf_simple,
       [ \buf, action.buffer,
         \amp, 0.25 * scale,
-        \outbus, ~buss[action.register] ],
+        \outbus, ~buss[busName] ],
       ~playbuf_g );
   });
 

@@ -405,7 +405,6 @@ after_boot = {
     "instr/drums",
     "persistent_synths",
     "instr/com_sample_map",
-    "jams",
     "midi_mapping"
   ].do {|file|
     loadRelative("./" ++ file ++ ".scd");
