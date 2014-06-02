@@ -19,6 +19,7 @@
 *** TODO synthify sax sound for RWY?
 *** TODO automate chord changes with RWY
 *** TODO loops as separate recording tracks
+*** TODO loops not the same volume as input sounds
 *** TODO fix sample playback
 *** TODO add toggling between harmony synths
 *** TODO add knob control for harmony synth params
