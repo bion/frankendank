@@ -1,18 +1,18 @@
 ~andrew_sample_sets = [
 
   [
-    \BigClap, // 0
-    \ClapSnap,
-    \ClapSnare, // 2
-    \ClickPop,
-    \TightHat, // 4
-    \Hiss,
-    \Shaker, // 6
-    \Plop,
-    \OpenClapFixed, // 8
-    \SlapPop,
-    \BigKick1, // kick
-    \lighthat // hat
+    \quick_snare, // 0
+    \reverse_light_snare,
+    \shaker_clap, // 2
+    \hi_tom,
+    \open_hat, // 4
+    \reverse_kick,
+    \higher_tom, // 6
+    \reverse_agogo,
+    \agogo_low, // 8
+    \agogo,
+    \thick_kick, // kick
+    \snick_2 // hat
   ]
 
 ];
