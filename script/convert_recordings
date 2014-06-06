@@ -1,0 +1,32 @@
+#!/bin/bash -e
+
+OUTPUT_DIR_NAME=~/Desktop/rehearsal_multitracks_$(date +"%m-%d-%y")
+mkdir $OUTPUT_DIR_NAME
+
+printf "\nconverting all aiff files in recordings to flac on desktop...\n"
+
+IFS=$(printf "\n\b")
+find ./recordings -iname "*.aiff" -print0 | while read -d $'\0' file
+do
+    name=$(basename -s .aiff $file | sed 's/ /_/g')
+    printf "converting "$name"..."
+    sox $file "$OUTPUT_DIR_NAME/$name.flac"
+    printf " done\n"
+done
+
+printf "\ncompressing converted files...\n"
+
+tar -zcvf "$OUTPUT_DIR_NAME.tar.gz" -C $OUTPUT_DIR_NAME .
+
+printf "done compressing\n\n"
+printf "archive is at: "$OUTPUT_DIR_NAME"\n"
+
+# printf "wiping recording directory and cleaning up... "
+printf "cleaning up... "
+
+# rm recordings/*.aiff
+rm -r $OUTPUT_DIR_NAME
+
+printf "done\n"
+
+printf "\nall done!\n"
