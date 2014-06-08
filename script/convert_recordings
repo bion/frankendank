@@ -6,7 +6,8 @@ mkdir $OUTPUT_DIR_NAME
 printf "\nconverting all aiff files in recordings to flac on desktop...\n"
 
 IFS=$(printf "\n\b")
-find ./recordings -iname "*.aiff" -print0 | while read -d $'\0' file
+find ./recordings -iname "*.aiff" -print0 |
+while read -d $'\0' file
 do
     name=$(basename -s .aiff $file | sed 's/ /_/g')
     printf "converting "$name"..."
