@@ -20,6 +20,8 @@ simple_loops_buf_name, simple_loops_list,
 
 instr_btn_left = 10, instr_btn_top = 10,
 
+tempo_box,
+
 record_btn, player_btn, record_start, record_end, record_buf, recorded_buf,
 stop_playing, player_route_synth, record_synth, player_synth, play_recorded_buf,
 multi_recorder,
@@ -138,7 +140,7 @@ StaticText(main_window, Rect(simple_loops_left - 160, gui_height * 0.35, 200, 20
       instr_btn_left + btn_length * 1.5, instr_btn_top + 40 + (i * (btn_height + 40)),
       btn_length,
       btn_height) )
-  .states_( [ ["monitor", Color.black]] )
+  .states_( [["monitor", Color.black]] )
   .mouseDownAction_({
 
     thisWindow.visible = true;
@@ -216,15 +218,16 @@ make_labeled_slider.(main_window, gui_length * 0.065, gui_height * 0.65,
   0
 );
 
+// imperative as all getout
 ~tempo = 96/60;
-make_labeled_slider.(main_window, gui_length * 0.2, gui_height * 0.65,
-  60, 160,
-  "tempo", {|val|
-    ~tempo = val/60;
-    if (~clock.notNil) { ~clock.tempo_(~tempo) };
-  },
-  96
-);
+StaticText(main_window, Rect(gui_length * 0.2, gui_height * 0.65 - 40, 50, 50)).string_("Tempo");
+tempo_box = NumberBox(main_window, Rect(gui_length * 0.2, gui_height * 0.65, 50, 50));
+tempo_box.decimals = 0;
+tempo_box.value = (~tempo * 60).round;
+tempo_box.action = { |box|
+  ~tempo = box.value / 60;
+  if (~clock.notNil) { ~clock.tempo_(~tempo) };
+};
 
 ~simple_loops_beats = 16;
 make_labeled_slider.(main_window, simple_loops_left, simple_loops_top,
