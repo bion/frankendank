@@ -13,14 +13,9 @@ btn_length = 80, btn_height = 30,
 
 load_btn, start_btn,
 
-simple_loops_btn,
-simple_loops_left = gui_length * 0.68, simple_loops_top = gui_height * 0.125,
-currently_looping = false, wait_next_loops, simple_loops_group, schedule_simple_loops,
-simple_loops_buf_name, simple_loops_list,
-
 instr_btn_left = 10, instr_btn_top = 10,
 
-tempo_box,
+tempo_box, chord_index_box,
 
 record_btn, player_btn, record_start, record_end, record_buf, recorded_buf,
 stop_playing, player_route_synth, record_synth, player_synth, play_recorded_buf,
@@ -91,11 +86,21 @@ thisPath = thisProcess.nowExecutingPath;
 
 // * * * * * * * * * * * * * * * * * * * * * * CHORD INDICATOR
 
-StaticText(main_window, Rect(simple_loops_left - 160, gui_height * 0.35, 200, 20))
-  .string_("Chord Scheme:").font_(Font(size: 16));
+~tempo = 96/60;
+StaticText(main_window, Rect(gui_length * 0.2, gui_height * 0.65 - 40, 50, 50)).string_("Tempo");
+tempo_box = NumberBox(main_window, Rect(gui_length * 0.2, gui_height * 0.65, 50, 50))
+.decimals_(0).value_((~tempo * 60).round).align_(\center).action_({
+  |box|
+  ~tempo = box.value / 60;
+  if (~clock.notNil) { ~clock.tempo_(~tempo) };
+});
 
-~chordNumberText = StaticText(main_window, Rect(simple_loops_left - 50, gui_height * 0.345, 30, 30))
-  .string_(1);
+StaticText(main_window, Rect(gui_length * 0.2 + 60, gui_height * 0.65 - 40, 50, 50)).string_("Chord");
+chord_index_box = NumberBox(main_window, Rect(gui_length * 0.2 + 60, gui_height * 0.65, 50, 50))
+.value_(0).align_(\center).action_({
+  |box|
+  ~chordSelector.setChordSlot(box.value);
+});
 
 // * * * * * * * * * * * * * * * * * * * * * * MONITORING WINDOWS
 
@@ -217,77 +222,6 @@ make_labeled_slider.(main_window, gui_length * 0.065, gui_height * 0.65,
   },
   0
 );
-
-// imperative as all getout
-~tempo = 96/60;
-StaticText(main_window, Rect(gui_length * 0.2, gui_height * 0.65 - 40, 50, 50)).string_("Tempo");
-tempo_box = NumberBox(main_window, Rect(gui_length * 0.2, gui_height * 0.65, 50, 50));
-tempo_box.decimals = 0;
-tempo_box.value = (~tempo * 60).round;
-tempo_box.action = { |box|
-  ~tempo = box.value / 60;
-  if (~clock.notNil) { ~clock.tempo_(~tempo) };
-};
-
-~simple_loops_beats = 16;
-make_labeled_slider.(main_window, simple_loops_left, simple_loops_top,
-  4, 64,
-  "beats in sample", {|val|
-    ~simple_loops_beats = val;
-  },
-  16
-);
-
-~simple_loops_amp = 1;
-make_labeled_slider.(main_window, simple_loops_left - 110, simple_loops_top, -60, 0,
-  "sample amp", {|val|
-    ~simple_loops_amp = val.dbamp;
-    if (currently_looping) { simple_loops_group.set(\amp, val.dbamp) };
-});
-
-simple_loops_list = PopUpMenu(main_window,
-  Rect(gui_length * 0.75, gui_height * 0.125 - 50, 180, 20))
-.items = "./samples/com/*".resolveRelative.pathMatch.collect { | path |
-  path.findRegexp("([0-9a-zA-Z\_]+)\.aiff")[1][1];
-};
-
-schedule_simple_loops = {
-  var buf = ~com_bufs[simple_loops_buf_name];
-  "SCHEDULING SIMPLE LOOP...".postln;
-  ~clock.playNextBar({
-    postln("SIMPLE LOOP STARTED FOR " ++ buf);
-    Synth(\playbuf_simple,
-      [\buf, buf, \amp, ~simple_loops_amp, \outbus, ~buss[\sample]],
-      simple_loops_group, \addToHead
-    );
-  });
-
-  wait_next_loops = Routine.run({
-    wait(~clock.beatDur * ~simple_loops_beats);
-    if (currently_looping) { schedule_simple_loops.() };
-  });
-};
-
-simple_loops_btn = Button(main_window, Rect(gui_length * 0.75, gui_height * 0.125, btn_length, btn_height))
-.states_([["disabled", Color.black]])
-.mouseDownAction_({
-  if (currently_looping) {
-    simple_loops_group.free;
-    wait_next_loops.stop.reset;
-    AppClock.sched(0, {
-      update_button.(simple_loops_btn, "play", Color.red);
-    });
-    currently_looping = false;
-  } {
-    simple_loops_group = Group(s, \addToHead);
-    schedule_simple_loops.();
-    AppClock.sched(0, {
-      update_button.(simple_loops_btn, "stop", Color.green);
-    });
-    currently_looping = true;
-  };
-});
-
 
 start_btn = Button(main_window, Rect(gui_length * 0.5, gui_height - 100, btn_length * 1.5, btn_height * 1.5) )
 .states_([["BOOM", Color.black, Color.red]])
@@ -450,11 +384,6 @@ after_boot = {
 
   s.sync(cond);
 
-  AppClock.sched(0, {
-    simple_loops_buf_name = simple_loops_list.item.asSymbol;
-    update_button.(simple_loops_btn, "play", Color.red);
-  });
-
   s.queryAllNodes;
 
   metronome = Metronome(
@@ -481,7 +410,6 @@ after_boot = {
     // TODO cleanup loops
 
     AppClock.sched(0, {
-      update_button.(simple_loops_btn, "disabled", nil);
       update_button.(record_btn, "disabled", nil);
       update_button.(player_btn, "disabled", nil);
       record_btn.mouseDownAction_({"server not started".postln});
