@@ -15,7 +15,9 @@ HerHarmonyController {
     synth.set(\amp, amp);
   }
 
-  setSynth { |synth|
+  setSynth { |newSynthName| // symbol
+    currentSynth = newSynthName;
+    postln("current synth now: " ++ currentSynth);
     synth.free;
     synth = Synth(currentSynth,
       [
