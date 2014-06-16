@@ -15,21 +15,9 @@
 *** TODO space out IWYB, mix into single sample
 ** Bion
 *** TODO figure out recording playback volumes WTF?
-*** TODO make better synth sound for RWY
-*** TODO synthify sax sound for RWY?
-*** TODO automate chord changes with RWY
 *** TODO loops as separate recording tracks
-*** TODO loops not the same volume as input sounds
 *** TODO fix sample playback
-*** TODO add toggling between harmony synths
 *** TODO add knob control for harmony synth params
-*** DONE re-introduce velocity sensitivity
-*** DONE auto-size reversed samples with tempo
-*** DONE multitracks not recording
-*** DONE metronome amp independent of com
-*** DONE make sample channel independent of com
-*** DONE make it easier to play at 115bpm
-*** DONE add loops for com (!)
 ** equipment needs
 *** TODO rack box?
 *** TODO rack computer?
