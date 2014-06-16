@@ -3,7 +3,7 @@ HerChordSelector {
   var currentGroup;
 
   *new { |view, numberBox, schema, harmonyController|
-    ^super.newCopyArgs(view, numberBox, schema, harmonyController).init;
+    ^super.newCopyArgs(view, numberBox, schema, harmonyController);
   }
 
   setChordSlot {|index|
