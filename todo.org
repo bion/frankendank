@@ -2,22 +2,19 @@
 
 ** Mars
 *** TODO get kick pedal sorted
-*** TODO getting beat ideas together for RWY
-
 *** TODO normalize all samples
 ** Nuggz
 *** TODO getting beat ideas together for RWY
-*** TODO get midi controller behaving consistent
 ** Jon
 ** Scott
 *** TODO practice with looper
 
-*** TODO space out IWYB, mix into single sample
 ** Bion
-*** TODO figure out recording playback volumes WTF?
+*** TODO level adjustment for playback
+*** TODO tub 10 unrecognized
+*** TODO chord set changing busted wtf?
 *** TODO loops as separate recording tracks
 *** TODO fix sample playback
-*** TODO add knob control for harmony synth params
 ** equipment needs
 *** TODO rack box?
 *** TODO rack computer?
