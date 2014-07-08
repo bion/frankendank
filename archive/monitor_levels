@@ -39,14 +39,14 @@ p = [
 		nil,  nil,  nil,  nil,  
 		nil,  nil,  nil,  nil,  
 		nil,  nil,  nil,  nil,  
-		nil,  nil,  'com',  2.511886 ],  
+		nil,  nil,  'com',  0.891251 ],  
 	// IdentityDictionary
 	6, [ array: o[7],  size: 7,  
 		proto: nil,  parent: nil,  
 		know: false ],  
 	// Array
 	7, [ 'tub',  22.387211,  'met',  1.000000,  
-		'drum',  1.584893,  'sax',  3.981072,  
+		'drum',  2.511886,  'sax',  3.981072,  
 		nil,  nil,  nil,  nil,  
 		'sample',  0.891251,  'main',  0.354813,  
 		nil,  nil,  nil,  nil,  
@@ -58,8 +58,8 @@ p = [
 		proto: nil,  parent: nil,  
 		know: false ],  
 	// Array
-	9, [ 'tub',  11.220185,  'met',  3.981072,  
-		'drum',  3.162278,  'sax',  0.446684,  
+	9, [ 'tub',  19.952623,  'met',  1.995262,  
+		'drum',  6.309573,  'sax',  2.238721,  
 		nil,  nil,  nil,  nil,  
 		'sample',  1.122018,  'main',  0.141254,  
 		nil,  nil,  nil,  nil,  
@@ -78,6 +78,6 @@ p = [
 		nil,  nil,  nil,  nil,  
 		nil,  nil,  nil,  nil,  
 		nil,  nil,  nil,  nil,  
-		nil,  nil,  'com',  0.501187 ]
+		nil,  nil,  'com',  1.000000 ]
 ];
 prUnarchive(o,p);
