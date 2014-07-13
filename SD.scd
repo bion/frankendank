@@ -71,7 +71,7 @@ loadRelative("./sd_support.scd");
   SynthDef(\recordbuf_mono, {
     arg inbus, buf, startpos, gate=1;
     var env = Linen.kr(gate, 0.01, releaseTime: 0.01, doneAction: 2);
-    RecordBuf.ar(In.ar(inbus, 1) * env, buf, startpos, recLevel: -8.dbamp, preLevel: 0);
+    RecordBuf.ar(In.ar(inbus, 1) * env, buf, startpos, recLevel: 0.dbamp, preLevel: 0);
   }),
 
   SynthDef(\route_mono, {
@@ -193,7 +193,7 @@ loadRelative("./sd_support.scd");
   }),
 
   SynthDef(\mon, {
-    arg inbus, outbus, metronome_bus, main_scale=2, sample_scale=1,
+    arg inbus, outbus, metronome_bus, main_scale, sample_scale=1,
       drum_scale=1, sax_scale=1, tub_scale=1, com_scale=1, met_scale=1;
     var drums, sax, tub, com, out, sample,
       instr, metronome;
@@ -273,9 +273,9 @@ loadRelative("./sd_support.scd");
     }).sum;
 
     ampMul = LinExp.kr(amp, 0, 64, -60.dbamp, -4.dbamp).lag3(0.002) * (amp > 0);
-    sig = sig * ampMul;
+    sig = sig * ampMul * 0.5;
 
-    Out.ar(bus, sig*Linen.kr(gate, 0.05, releaseTime: 0.05, doneAction: 2));
+    Out.ar(bus, sig.softclip * Linen.kr(gate, 0.05, releaseTime: 0.05, doneAction: 2));
   }),
 
   SynthDef(\com_dirt_rhode, {
@@ -315,67 +315,6 @@ loadRelative("./sd_support.scd");
     sig = sig * ampMul;
 
     Out.ar(bus, sig.softclip * Linen.kr(gate, 0.05, releaseTime: 0.05, doneAction: 2));
-  }),
-
-  SynthDef(\com_dirt_rhode_pitch_lag, {
-    arg freq, bus, amp_bus, freq_lag_bus,
-      vib_rate = 11, vib_width = 0.0125,
-      gate=1;
-    var sig, env, vib, warm = LFNoise2.kr(vib_rate).range(0.9, 1.1);
-
-    vib_rate = vib_rate * LFDNoise3.kr(2).range(0.9, 1.1);
-    vib = SinOsc.kr(vib_rate, 0, vib_width) + LFNoise2.kr(1/vib_rate, vib_width/2) + 1;
-
-    freq = Lag.kr(freq, In.kr(freq_lag_bus, 1));
-    freq = freq * vib;
-
-    sig = Pulse.ar(
-      freq * [1, 33.5.midiratio],
-      [0.2, 0.1, 0.5]*warm,
-      [0.7, 0.3, 0.1]
-      ).mean;
-    sig = MoogFF.ar(sig, freq * 5.75 * warm, 3.1);
-
-    sig = GrainIn.ar(1, Impulse.kr(vib_rate * 1.5 * warm),
-      vib_rate.reciprocal,
-      sig, envbufnum: ~ugen_support[\expoatt_buf_1]);
-
-    sig = Integrator.ar(sig, 0.8);
-
-    sig = sig * In.kr(amp_bus, 1) * 4;
-
-    Out.ar(bus, sig * Linen.kr(gate, 0.05, releaseTime: 0.05, doneAction: 2));
-  }),
-
-  SynthDef(\com_fank_pitch_lag, {
-    arg freq, bus, amp_bus, freq_lag_bus,
-      vib_rate = 11, vib_width = 0.0125,
-      gate=1;
-    var sig, vib, amp;
-
-    vib_rate = vib_rate * LFDNoise3.kr(2).range(0.9, 1.1);
-    vib = SinOsc.kr(vib_rate, 0, vib_width) + LFNoise2.kr(1/vib_rate, vib_width/2) + 1;
-
-    freq = Lag.kr(freq, In.kr(freq_lag_bus, 1));
-    freq = freq + vib;
-    amp = In.kr(amp_bus, 1);
-
-    sig = Pulse.ar(freq,
-      [
-        SinOsc.kr(vib_rate).range(0.2, 0.3),
-        SinOsc.kr(vib_rate).range(0.4, 0.5),
-        SinOsc.kr(vib_rate).range(0.1, 0.2)
-      ],
-      mul: 0.2).mean +
-
-      SinOsc.ar(-7.midiratio * freq, 0, -8.dbamp * 0.2) +
-      SinOsc.ar(2 * freq, 0, -8.dbamp * 0.2);
-
-    sig = MoogFF.ar(sig, freq * LinExp.kr(amp, 0, 1, 0.5, 10), 0.2, mul: 2) + sig;
-    sig = sig * amp * 0.5;
-
-
-    Out.ar(bus, sig*Linen.kr(gate, 0.05, releaseTime: 0.05, doneAction: 2));
   }),
 
   /* ------------------------ tuba --------------------------- */

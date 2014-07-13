@@ -2,33 +2,24 @@
 
 ** Mars
 *** TODO get kick pedal sorted
-*** TODO getting beat ideas together for RWY
-
 *** TODO normalize all samples
 ** Nuggz
 *** TODO getting beat ideas together for RWY
-*** TODO get midi controller behaving consistent
 ** Jon
 ** Scott
 *** TODO practice with looper
 
-*** TODO space out IWYB, mix into single sample
 ** Bion
-*** TODO figure out recording playback volumes WTF?
-*** TODO make better synth sound for RWY
-*** TODO synthify sax sound for RWY?
-*** TODO automate chord changes with RWY
+*** TODO level adjustment for playback
+*** TODO tub 10 unrecognized
+*** TODO chord set changing busted wtf?
 *** TODO loops as separate recording tracks
 *** TODO fix sample playback
-*** TODO add toggling between harmony synths
-*** TODO add knob control for harmony synth params
-*** DONE re-introduce velocity sensitivity
-*** DONE auto-size reversed samples with tempo
-*** DONE multitracks not recording
-*** DONE metronome amp independent of com
-*** DONE make sample channel independent of com
-*** DONE make it easier to play at 115bpm
-*** DONE add loops for com (!)
 ** equipment needs
 *** TODO rack box?
 *** TODO rack computer?
+
+chords:
+[ 195.99771799087, 246.94165062806, 329.62755691287, 1, 1 ]
+[ 220, 261.6255653006, 369.99442271163, 1, 1 ]
+[ 246.94165062806, 369.99442271163, 391.99543598175, 587.32953583482, 880 ]

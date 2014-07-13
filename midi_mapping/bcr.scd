@@ -12,9 +12,23 @@ var loopFilters = (
     \DFM1_lo,
     \decimator
   ]
+),
+
+harmonySynths = (
+  105: \com_fank,
+  106: \com_dirt_rhode
 );
 
 postln("loading midi config: bcr");
+
+MIDIdef.cc(\setHarmonySynth,
+  { |val, num|
+    ~harmonyController.setSynth(harmonySynths[num]);
+  },
+  harmonySynths.keys.asArray,
+  0,
+  ~mSrc[\bcr]
+);
 
 ~loop_filt_controllers = IdentityDictionary[];
 

@@ -44,7 +44,7 @@ menu = PopUpMenu(mainWindow, Rect(10, 40, 90, 30))
 });
 
 renderSampleSelectors = {|sampleName, top, left, action, default|
-  var dropDown, items = ~drums_samples.keys.asArray.sort, indexOfDefault;
+  var dropDown, items = ~drum_samples.keys.asArray.sort, indexOfDefault;
   indexOfDefault = items.indexOf(default);
   dropDown = PopUpMenu(mainWindow, Rect(left, top, 160, 30))
   .items_(items)
