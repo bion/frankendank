@@ -493,11 +493,15 @@ loadRelative("./sd_support.scd");
   }),
 
   SynthDef(\sax_8vdown, {
-    arg bus, gate=1;
-    var in, chain;
+    arg bus, gate=1, info_bus;
+    var in, chain, saw;
     in = In.ar(bus, 1);
-    chain = PitchShift.ar(in, 0.2, 0.5, 0.0, 0.004);
-    XOut.ar(bus, Linen.kr(gate, 0.05, releaseTime: 0.05, doneAction: 2), chain);
+
+    chain = PitchShift.ar(in, 0.2, [1, 0.5], 0.0, 0.004, [0.0625, 1]);
+    chain[0] = CombC.ar(chain[0], 0.001, 0.0006, 0.01);
+    chain[0] = Shaper.ar(~ugen_support[\shaper_buf_1], chain[0] * 40) / 40;
+
+    XOut.ar(bus, Linen.kr(gate, 0.05, releaseTime: 0.05, doneAction: 2), chain.sum);
   }),
 
   // sax wahwahwah
