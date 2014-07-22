@@ -8,7 +8,7 @@
     parent_group, synth_group, param_group, filt_group,
     bundles, cond;
 
-  source_path = "~/Dropbox/electric_band_shared_music/raw_horn_samples/tuba_1.aiff".standardizePath;
+  source_path = "~/Dropbox/electric_band_shared_music/raw_horn_samples/sax_1.aiff".standardizePath;
 
   param = Env(
     [0,
@@ -36,17 +36,19 @@
 
     test_buf = Buffer.read(s, source_path);
 
-    loadRelative("./SD.scd");
+    loadRelative("../SD.scd");
 
     s.sync(cond);
 
     s.makeBundle(0.4, {
       Synth(\playbuf_simple, [\outbus, parent_bus, \buf, test_buf], parent_group);
-      Synth(\tuba_in, [\inbus, parent_bus, \outbus, stereo_bus], synth_group);
-      Synth(\horninfo, [\inbus, parent_bus, \outbus, horn_data_bus], synth_group);
+      Synth(\sax_in, [\inbus, parent_bus, \outbus, stereo_bus], synth_group);
+      Synth(\sax_info, [\inbus, parent_bus, \outbus, horn_data_bus], synth_group);
 
       // Synth(\cynk_lo, [\bus, stereo_bus], filt_group, \addToTail);
-      Synth(\tub_sin, [\bus, stereo_bus, \hornDataBus, horn_data_bus], filt_group, \addToTail);
+      // Synth(\tub_sin, [\bus, stereo_bus, \hornDataBus, horn_data_bus], filt_group, \addToTail);
+
+      Synth(\sax_8vdown, [\bus, stereo_bus, \info_bus, horn_data_bus], filt_group, \addToTail);
 
       // Synth(\control_env_testing, [\env, param, \outbus, param_bus], param_group);
       Synth(\route_m2s_free_on_silence,
