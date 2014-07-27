@@ -371,9 +371,9 @@ after_boot = {
       \tuba           -> ~multi_record_buss[\tuba],
       \sax            -> ~multi_record_buss[\sax],
       \computer       -> ~multi_record_buss[\computer],
-      \drums_hi          -> ~multi_record_buss[\drums_hi],
-      \drums_med          -> ~multi_record_buss[\drums_med],
-      \drums_low          -> ~multi_record_buss[\drums_low]
+      \drums_hi       -> ~multi_record_buss[\drums_hi],
+      \drums_med      -> ~multi_record_buss[\drums_med],
+      \drums_low      -> ~multi_record_buss[\drums_low]
     ]
   );
 
