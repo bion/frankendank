@@ -370,8 +370,10 @@ after_boot = {
     IdentityDictionary[
       \tuba           -> ~multi_record_buss[\tuba],
       \sax            -> ~multi_record_buss[\sax],
-      \drums          -> ~multi_record_buss[\electric_drums],
-      \computer       -> ~multi_record_buss[\computer]
+      \computer       -> ~multi_record_buss[\computer],
+      \drums_hi       -> ~multi_record_buss[\drums_hi],
+      \drums_med      -> ~multi_record_buss[\drums_med],
+      \drums_low      -> ~multi_record_buss[\drums_low]
     ]
   );
 

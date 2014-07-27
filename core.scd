@@ -130,8 +130,10 @@ if (~do_bus_map_overrides) {
 ~multi_record_buss = IdentityDictionary[
   \tuba -> Bus.audio(s, 1),
   \sax -> Bus.audio(s, 1),
-  \electric_drums -> Bus.audio(s, 1),
   \computer -> Bus.audio(s, 1),
+  \drums_hi -> Bus.audio(s, 1),
+  \drums_med -> Bus.audio(s, 1),
+  \drums_low -> Bus.audio(s, 1)
 ];
 
 [

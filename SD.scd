@@ -164,15 +164,17 @@ loadRelative("./sd_support.scd");
   }),
 
   SynthDef(\agg, {
-    arg sax_bus, tub_bus, com_bus, d_low_bus, d_med_bus, d_hi_bus,
+    arg drums_low_record_bus, drums_med_record_bus, drums_hi_record_bus,
+    computer_record_bus, sax_record_bus, tuba_record_bus,
+    sax_bus, tub_bus, com_bus, d_low_bus, d_med_bus, d_hi_bus,
     metronome_bus, sample_bus,
     drums_mon_bus, tub_mon_bus, sax_mon_bus, com_mon_bus, nugs_mon_bus,
     outbus;
-    var sax, tub, com, out, metronome, sample,
+    var sax, tuba, com, out, metronome, sample,
       d_low, d_med, d_hi;
 
     sax = In.ar(sax_bus, 1);
-    tub = In.ar(tub_bus, 1);
+    tuba = In.ar(tub_bus, 1);
     com = In.ar(com_bus, 1);
 
     d_low = In.ar(d_low_bus, 1);
@@ -182,60 +184,40 @@ loadRelative("./sd_support.scd");
     metronome = In.ar(metronome_bus, 1);
     sample = In.ar(sample_bus, 1);
 
-    tub = Compander.ar(tub, tub, -50.dbamp, 1, 1/6, 0.002, \tub_relax.kr(0.1, 0.03)) * 13.dbamp;
-    tub = Compander.ar(tub, d_low, -36.dbamp, 1, 1/2.5, 0.002, \tub_relax.kr(0.1, 0.03));
+    tuba = Compander.ar(tuba, tuba, -50.dbamp, 1, 1/6, 0.002, \tub_relax.kr(0.1, 0.03)) * 13.dbamp;
+    tuba = Compander.ar(tuba, d_low, -36.dbamp, 1, 1/2.5, 0.002, \tub_relax.kr(0.1, 0.03));
 
-    Out.ar(outbus, [tub, sax, com, d_low, d_med, d_hi, sample].sum);
+    Out.ar(outbus, [tuba, sax, com, d_low, d_med, d_hi, sample].sum);
 
     [drums_mon_bus, nugs_mon_bus, tub_mon_bus, sax_mon_bus, com_mon_bus].do {|bus|
-      Out.ar(bus, [tub, sax, com, sample, d_low + d_med + d_hi]);
+      Out.ar(bus, [tuba, sax, com, sample, d_low + d_med + d_hi]);
     };
+
+    Out.ar(tuba_record_bus, tuba);
+    Out.ar(sax_record_bus, sax);
+    Out.ar(computer_record_bus, com);
+    Out.ar(drums_hi_record_bus, d_hi);
+    Out.ar(drums_med_record_bus, d_med);
+    Out.ar(drums_low_record_bus, d_low);
   }),
 
   SynthDef(\mon, {
     arg inbus, outbus, metronome_bus, main_scale, sample_scale=1,
       drum_scale=1, sax_scale=1, tub_scale=1, com_scale=1, met_scale=1;
-    var drums, sax, tub, com, out, sample,
+    var drums, sax, tuba, com, out, sample,
       instr, metronome;
 
-    #tub, sax, com, sample, drums = In.ar(inbus, 5);
+    #tuba, sax, com, sample, drums = In.ar(inbus, 5);
     metronome = In.ar(metronome_bus, 1) * met_scale;
 
     instr = (drums * drum_scale)
       + (sample * sample_scale)
-      + (tub * tub_scale)
+      + (tuba * tub_scale)
       + (sax * sax_scale)
       + (com * com_scale);
 
     out = instr + metronome;
     Out.ar(outbus, out * main_scale);
-  }),
-
-  SynthDef(\com_mon, {
-    arg inbus, outbus, metronome_bus, main_scale=16, sample_scale,
-      drum_scale=1, sax_scale=1, tub_scale=1, com_scale=1, met_scale=1,
-      tuba_record_bus, sax_record_bus, electric_drums_record_bus,
-      computer_record_bus;
-    var drums, sax, tub, com, out, sample,
-      instr, metronome;
-
-    #tub, sax, com, sample, drums = In.ar(inbus, 5);
-    metronome = In.ar(metronome_bus, 1);
-
-    metronome = metronome * met_scale;
-    drums     = drums * drum_scale;
-    sample    = sample * sample_scale;
-    tub       = tub * tub_scale;
-    sax       = sax * sax_scale;
-    com       = com * com_scale;
-
-    out = drums + sample + tub + sax + com + metronome;
-    Out.ar(outbus, out * main_scale);
-
-    Out.ar(tuba_record_bus,           tub);
-    Out.ar(sax_record_bus,            sax);
-    Out.ar(electric_drums_record_bus, drums);
-    Out.ar(computer_record_bus,       com);
   }),
 
   /* ------------------------ com --------------------------- */
