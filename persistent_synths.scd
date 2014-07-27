@@ -35,22 +35,6 @@
     ],
     ~out_g ),
 
-  \com_mon, Synth(\com_mon,
-    [ \main, \met, \sax, \tub, \drum, \com ].collect({|input|
-      [asSymbol(input++"_scale"), ~monitor_levels[\com][input]]
-    }).flat ++
-    [
-      \metronome_bus, ~buss[\metronome],
-      \inbus, ~buss[\sax_mon],
-      \outbus, ~id_bus_map[\com_mon_out],
-
-      \tuba_record_bus, ~multi_record_buss[\tuba],
-      \sax_record_bus, ~multi_record_buss[\sax],
-      \electric_drums_record_bus, ~multi_record_buss[\electric_drums],
-      \computer_record_bus, ~multi_record_buss[\computer]
-    ],
-    ~out_g ),
-
   \nugs_mon, Synth(\mon,
     [ \main, \met, \sax, \tub, \drum, \com ].collect({|input|
       [asSymbol(input++"_scale"), ~monitor_levels[\nugs][input]]
@@ -59,6 +43,17 @@
       \metronome_bus, ~buss[\metronome],
       \inbus, ~buss[\nugs_mon],
       \outbus, ~id_bus_map[\nugs_mon_out],
+    ],
+    ~out_g ),
+
+  \com_mon, Synth(\mon,
+    [ \main, \met, \sax, \tub, \drum, \com ].collect({|input|
+      [asSymbol(input++"_scale"), ~monitor_levels[\com][input]]
+    }).flat ++
+    [
+      \metronome_bus, ~buss[\metronome],
+      \inbus, ~buss[\com_mon],
+      \outbus, ~id_bus_map[\com_mon_out],
     ],
     ~out_g ),
 
@@ -101,6 +96,13 @@
       \tub_mon_bus,   ~buss[\tub_mon],
       \sax_mon_bus,   ~buss[\sax_mon],
       \com_mon_bus,   ~buss[\com_mon],
+
+      \tuba_record_bus,      ~multi_record_buss[\tuba],
+      \sax_record_bus,       ~multi_record_buss[\sax],
+      \computer_record_bus,  ~multi_record_buss[\computer],
+      \drums_hi_record_bus,  ~multi_record_buss[\drums_hi],
+      \drums_med_record_bus, ~multi_record_buss[\drums_med],
+      \drums_low_record_bus, ~multi_record_buss[\drums_low],
 
       \metronome_bus, ~buss[\metronome],
       \sample_bus,    ~buss[\sample],
