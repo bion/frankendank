@@ -255,7 +255,7 @@ loadRelative("./sd_support.scd");
     }).sum;
 
     ampMul = LinExp.kr(amp, 0, 64, -60.dbamp, -4.dbamp).lag3(0.002) * (amp > 0);
-    sig = sig * ampMul * 0.5;
+    sig = sig * ampMul * 0.25;
 
     Out.ar(bus, sig.softclip * Linen.kr(gate, 0.05, releaseTime: 0.05, doneAction: 2));
   }),
