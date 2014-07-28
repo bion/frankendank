@@ -8,7 +8,14 @@ HerHarmonyController {
 
   init {
     currentChord = HerChords.at(\Xopen, PC(\c, 4));
-    synth = Synth(currentSynth, [\bus, bus, \freqs, currentChord, \beat_dur, beatDur], group);
+    synth = Synth(currentSynth,
+      [
+        \bus, bus,
+        \freqs, currentChord,
+        \beat_dur, beatDur
+      ],
+      group
+    );
   }
 
   setAmp { |amp|

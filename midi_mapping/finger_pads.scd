@@ -53,36 +53,35 @@ MIDIdef.noteOn(\comLoopToggleReset,
   );
 };
 
-MIDIdef.noteOn(\trigSample,
+MIDIdef.noteOn(\setHarmonySynthComFank,
   {
-    ~sampleController.sampleTrig;
-  },
-  49,
-  0,
-  ~mSrc[\fingerPads]
-);
-
-MIDIdef.noteOn(\sampleStop,
-  {
-    ~sampleController.sampleStop;
+    ~harmonyController.setSynth(\com_fank);
   },
   51,
   0,
   ~mSrc[\fingerPads]
 );
-
-MIDIdef.noteOn(\prevSample,
+MIDIdef.noteOn(\setHarmonySynthComDirtRhode,
   {
-    ~sampleController.previous;
+    ~harmonyController.setSynth(\com_dirt_rhode);
   },
   44,
   0,
   ~mSrc[\fingerPads]
 );
 
-MIDIdef.noteOn(\nextSample,
+MIDIdef.noteOn(\incrementChordGroup,
   {
-    ~sampleController.next;
+    ~chordSelector.nextGroup;
+  },
+  49,
+  0,
+  ~mSrc[\fingerPads]
+);
+
+MIDIdef.noteOn(\decrementChordGroup,
+  {
+    ~chordSelector.previousGroup;
   },
   46,
   0,
