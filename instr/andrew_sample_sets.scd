@@ -2,17 +2,17 @@
 
   [
     \basic_1, // 0
-    \Snap1,
-    \blip_clap1, // 2
+    \open_hat,
+    \reverb_clap_snap, // 2
     \hi_tom,
     \Shaker, // 4
-    \kick_synth_3,
+    \kick_high_tail,
     \higher_tom, // 6
     \SlapPop,
-    \agogo_low, // 8
-    \agogo,
+    \snick_1, // 8
+    \lighthat,
     \kick_synth_1, // kick
-    \thickhat // hat
+    \snick_2 // hat
   ]
 
 ];
