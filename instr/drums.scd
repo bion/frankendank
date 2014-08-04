@@ -39,14 +39,7 @@ reversed_sample = {|action, val|
 
 ~drum_trig = {|pad_midi_number, val, set|
   var action_id, action;
-
-  // TODO clean this up
-  if (set == \mars) {
-    action_id = ~mars_sample_sets[~current_set][pad_midi_number];
-  } {
-    action_id = ~andrew_sample_sets[0][pad_midi_number];
-  };
-
+  action_id = ~mars_sample_sets[~current_set][pad_midi_number];
   action = ~drum_samples[action_id];
 
   ~drum_funcs[action.playFunction].(action, val);
