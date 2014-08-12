@@ -140,7 +140,7 @@ if (~do_bus_map_overrides) {
   \sax_eq, \tub_eq, \dru_eq, \com_eq,
   \one_out, \two_out, \three_out,
   \sax_agg, \tub_agg, \com_agg,
-  \low, \med, \hi, // drum busses
+  \d_low_bus, \d_med_bus, \d_hi_bus,
   \metronome, \sample,
   \all_monitors
 ].do {|name|
