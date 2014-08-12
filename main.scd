@@ -367,14 +367,7 @@ after_boot = {
   multi_recorder = HerMultiTrackRecorder(
     ~record_g,
     thisPath.dirname ++ "/recordings",
-    IdentityDictionary[
-      \tuba           -> ~multi_record_buss[\tuba],
-      \sax            -> ~multi_record_buss[\sax],
-      \computer       -> ~multi_record_buss[\computer],
-      \drums_hi       -> ~multi_record_buss[\drums_hi],
-      \drums_med      -> ~multi_record_buss[\drums_med],
-      \drums_low      -> ~multi_record_buss[\drums_low]
-    ]
+    ~multi_record_buss
   );
 
   record_buf = Buffer.alloc(Server.default, 10 * 60 * Server.default.sampleRate);
