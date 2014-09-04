@@ -333,11 +333,18 @@ run = {
 after_boot = {
   var cond = Condition.new;
 
+  ~clock = TempoClock(~tempo, queueSize: 2**10);
+  ~p_synths = IdentityDictionary[];
+  HerLoop.setPersistentSynths(~p_synths);
+
   MIDIdef.freeAll;
 
   [
     "SD",
-    "core",
+    "busses",
+    "groups",
+    "buffers",
+    "horn_control",
     "com_sample_bootstrapper",
     "instr/drums",
     "persistent_synths",
