@@ -33,7 +33,7 @@ HerMultiTrackRecorder {
       recordSynths[name].free;
       postln("freed record synth for " ++ name);
 
-      outputFileName = path ++ "/" ++ Date.stamp ++ "_" ++ name ++ ".aiff";
+      outputFileName = path ++ "/" ++ Date.getDate.stamp ++ "_" ++ name ++ ".aiff";
 
       postln("writing " ++ name ++ " buff to " ++ outputFileName);
 
