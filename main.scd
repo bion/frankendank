@@ -1,48 +1,48 @@
 (
-var run, after_boot,
-activated_instr = [], instr_buttons = IdentityDictionary[],
+var run, afterBoot,
+activatedInstr = [], instrButtons = IdentityDictionary[],
 instruments = [ \sax, \tuba, \drums, \com ],
 
-gui_height = 700, gui_length = 900,
-main_rect = Rect(250, 250, gui_length, gui_height),
-main_window = View(nil, main_rect),
+guiHeight = 700, guiLength = 900,
+mainRect = Rect(250, 250, guiLength, guiHeight),
+mainWindow = View(nil, mainRect),
 
-mon_windows = IdentityDictionary[],
+monWindows = IdentityDictionary[],
 
-btn_length = 80, btn_height = 30,
+btnLength = 80, btnHeight = 30,
 
-load_btn, start_btn,
+loadBtn, startBtn,
 
-instr_btn_left = 10, instr_btn_top = 10,
+instrBtnLeft = 10, instrBtnTop = 10,
 
-tempo_box, chord_index_box,
+tempoBox, chordIndexBox,
 
-record_btn, player_btn, record_start, record_end, record_buf, recorded_buf,
-stop_playing, player_route_synth, record_synth, player_synth, play_recorded_buf,
-multi_recorder,
+recordBtn, playerBtn, recordStart, recordEnd, recordBuf, recordedBuf,
+stopPlaying, playerRouteSynth, recordSynth, playerSynth, playRecordedBuf,
+multiRecorder,
 
 metronome,
-metronome_amp,
+metronomeAmp,
 
-midi_listener,
-make_midi_listener = {|instr|
+midiListener,
+makeMidiListener = {|instr|
   if (instr == \andrew) {
-    midi_listener = MIDIdef.noteOn(instr,
+    midiListener = MIDIdef.noteOn(instr,
       func: { |num, chan, something, source|
         ~mSrc[instr] = source;
-        midi_listener.free;
+        midiListener.free;
         AppClock.sched(0, {
-          update_button.(instr_buttons[instr], instr ++ " active", Color.green)
+          updateButton.(instrButtons[instr], instr ++ " active", Color.green)
         });
       }
     );
   } {
-    midi_listener = MIDIdef(instr,
+    midiListener = MIDIdef(instr,
       func: { |num, chan, source|
         ~mSrc[instr] = source;
-        midi_listener.free;
+        midiListener.free;
         AppClock.sched(0, {
-          update_button.(instr_buttons[instr], instr ++ " active", Color.green)
+          updateButton.(instrButtons[instr], instr ++ " active", Color.green)
         });
       },
       msgType: \program
@@ -50,7 +50,7 @@ make_midi_listener = {|instr|
   };
 },
 
-make_labeled_slider = { | window, left, top, lo, hi, text, fxn, default=0 |
+makeLabeledSlider = { | window, left, top, lo, hi, text, fxn, default=0 |
   var box, slider, spec;
   box = NumberBox(window, Rect(left, top, 50, 30)).align_(\center).value_(default).stringColor_(Color.white);
 
@@ -68,7 +68,7 @@ make_labeled_slider = { | window, left, top, lo, hi, text, fxn, default=0 |
   });
 },
 
-update_button = {|b, string, color=nil|
+updateButton = {|b, string, color=nil|
   b.states = [[string.asString, Color.black, color]];
   b.refresh;
 },
@@ -87,16 +87,16 @@ thisPath = thisProcess.nowExecutingPath;
 // * * * * * * * * * * * * * * * * * * * * * * CHORD INDICATOR
 
 ~tempo = 96/60;
-StaticText(main_window, Rect(gui_length * 0.2, gui_height * 0.65 - 40, 50, 50)).string_("Tempo");
-tempo_box = NumberBox(main_window, Rect(gui_length * 0.2, gui_height * 0.65, 50, 50))
+StaticText(mainWindow, Rect(guiLength * 0.2, guiHeight * 0.65 - 40, 50, 50)).string_("Tempo");
+tempoBox = NumberBox(mainWindow, Rect(guiLength * 0.2, guiHeight * 0.65, 50, 50))
 .decimals_(0).value_((~tempo * 60).round).align_(\center).action_({
   |box|
   ~tempo = box.value / 60;
   if (~clock.notNil) { ~clock.tempo_(~tempo) };
 });
 
-StaticText(main_window, Rect(gui_length * 0.2 + 60, gui_height * 0.65 - 40, 50, 50)).string_("Chord");
-chord_index_box = NumberBox(main_window, Rect(gui_length * 0.2 + 60, gui_height * 0.65, 50, 50))
+StaticText(mainWindow, Rect(guiLength * 0.2 + 60, guiHeight * 0.65 - 40, 50, 50)).string_("Chord");
+chordIndexBox = NumberBox(mainWindow, Rect(guiLength * 0.2 + 60, guiHeight * 0.65, 50, 50))
 .value_(0).align_(\center).action_({
   |box|
   ~chordSelector.setChordSlot(box.value);
@@ -107,47 +107,46 @@ chord_index_box = NumberBox(main_window, Rect(gui_length * 0.2 + 60, gui_height 
 [ \sax, \tub, \drums, \nugs, \com ].do {|instr, i|
   var thisWindow;
 
-  StaticText(main_window, Rect(instr_btn_left + btn_length * 1.5, instr_btn_top + 15 + (i*(btn_height + 40)), btn_length, 20))
+  StaticText(mainWindow, Rect(instrBtnLeft + btnLength * 1.5, instrBtnTop + 15 + (i*(btnHeight + 40)), btnLength, 20))
   .string_(instr.asString);
 
-  mon_windows[instr] = thisWindow = Window(instr ++ " monitor",
-    Rect(300, 300, gui_length + 150, gui_height/2));
+  monWindows[instr] = thisWindow = Window(instr ++ " monitor",
+    Rect(300, 300, guiLength + 150, guiHeight/2));
 
   [ \main, \met, \sax, \tub, \drum, \com, \sample, \met ].do {|input, j|
-    make_labeled_slider.(thisWindow, 100 + (j * 120), 120, -60, 48, input, {|val|
-      ~monitor_levels[instr][input] = val.dbamp;
+    makeLabeledSlider.(thisWindow, 100 + (j * 120), 120, -60, 48, input, {|val|
+      ~monitorLevels[instr][input] = val.dbamp;
       if (s.serverRunning) {
-        var synth = ~p_synths[asSymbol(instr ++ "_mon")];
-        synth.set(asSymbol(input ++ "_scale"), val.dbamp);
+        var synth = ~pSynths[asSymbol(instr ++ "_mon")];
+        synth.set(asSymbol(input ++ "Scale"), val.dbamp);
       };
     },
-      ~monitor_levels[instr][input].ampdb
+      ~monitorLevels[instr][input].ampdb
     );
   };
 
   Button(thisWindow,
-    Rect(400, gui_height * 0.4, btn_length * 1.5, btn_height * 1.5))
+    Rect(400, guiHeight * 0.4, btnLength * 1.5, btnHeight * 1.5))
   .states_( [["save to disk"]])
   .mouseDownAction_({
     thisProcess.nowExecutingPath = thisPath;
-    ~monitor_levels.writeArchive("./archive/monitor_levels".resolveRelative);
+    ~monitorLevels.writeArchive("./archive/monitor_levels".resolveRelative);
   });
 
   Button(thisWindow,
-    Rect(gui_length * 0.3, gui_height * 0.4, btn_length * 1.5, btn_height * 1.5))
+    Rect(guiLength * 0.3, guiHeight * 0.4, btnLength * 1.5, btnHeight * 1.5))
   .states_( [["close window"]])
   .mouseDownAction_({
     thisWindow.visible = false;
   });
 
-  Button(main_window,
+  Button(mainWindow,
     Rect(
-      instr_btn_left + btn_length * 1.5, instr_btn_top + 40 + (i * (btn_height + 40)),
-      btn_length,
-      btn_height) )
+      instrBtnLeft + btnLength * 1.5, instrBtnTop + 40 + (i * (btnHeight + 40)),
+      btnLength,
+      btnHeight) )
   .states_( [["monitor", Color.black]] )
   .mouseDownAction_({
-
     thisWindow.visible = true;
   });
 
@@ -181,108 +180,108 @@ MIDIClient.sources.do {|source|
 // * * * * * * * * * * * * * * * * * * * * * * UI
 
 [ \sax, \tuba, \drums_switch, \andrew ].do {|instr, i|
-  StaticText(main_window, Rect(instr_btn_left, instr_btn_top + 20 + (i*(btn_height + 40)), btn_length, 10))
+  StaticText(mainWindow, Rect(instrBtnLeft, instrBtnTop + 20 + (i*(btnHeight + 40)), btnLength, 10))
   .string_(instr.asString);
 
-  instr_buttons[instr] = Button(main_window, Rect(instr_btn_left,
-    instr_btn_top + 40 + (i*(btn_height + 40)),
-    btn_length,
-    btn_height)
+  instrButtons[instr] = Button(mainWindow, Rect(instrBtnLeft,
+    instrBtnTop + 40 + (i*(btnHeight + 40)),
+    btnLength,
+    btnHeight)
   )
   .states_([["off"]])
   .mouseDownAction_({
-    if (instr_buttons[instr].states[0][0] == "active") // shitty
+    if (instrButtons[instr].states[0][0] == "active") // shitty
     {
       postln("deactiving " ++ instr ++ "...");
-      midi_listener.free;
-      postln("removed listener for " ++ midi_listener.key);
+      midiListener.free;
+      postln("removed listener for " ++ midiListener.key);
       if (MIDIdef.all != []) { Error("untracked MIDIdef!!!").throw };
       AppClock.sched(0, {
-        update_button.(instr_buttons[instr], "off");
+        updateButton.(instrButtons[instr], "off");
       });
     }
     {
-      make_midi_listener.(instr);
-      postln("added listener for " ++ midi_listener.key);
-      activated_instr = activated_instr.add(instr);
+      makeMidiListener.(instr);
+      postln("added listener for " ++ midiListener.key);
+      activatedInstr = activatedInstr.add(instr);
       postln("activated " ++ instr);
       AppClock.sched(0, {
-        update_button.(instr_buttons[instr], "active");
+        updateButton.(instrButtons[instr], "active");
       });
     };
   });
 };
 
-metronome_amp = 1;
-make_labeled_slider.(main_window, gui_length * 0.065, gui_height * 0.65,
+metronomeAmp = 1;
+makeLabeledSlider.(mainWindow, guiLength * 0.065, guiHeight * 0.65,
   -60, 0,
   "met amp", {|val|
-    metronome_amp = val.dbamp;
+    metronomeAmp = val.dbamp;
     if (metronome.notNil) { metronome.amp = val.dbamp };
   },
   0
 );
 
-start_btn = Button(main_window, Rect(gui_length * 0.5, gui_height - 100, btn_length * 1.5, btn_height * 1.5) )
+startBtn = Button(mainWindow, Rect(guiLength * 0.5, guiHeight - 100, btnLength * 1.5, btnHeight * 1.5) )
 .states_([["BOOM", Color.black, Color.red]])
 .mouseDownAction_({ run.() });
 
 // * * * * * * * * * * * * * * * * * * * * * * RECORDING
 
-record_btn = Button(main_window,
-  Rect(gui_length * 0.5 + (btn_length * 1.5) + 20, gui_height - 100, btn_length * 1.5, btn_height * 1.5) )
+recordBtn = Button(mainWindow,
+  Rect(guiLength * 0.5 + (btnLength * 1.5) + 20, guiHeight - 100, btnLength * 1.5, btnHeight * 1.5) )
 .states_([["inactive"], Color.black])
 .mouseDownAction_({"server not booted".postln});
 
-record_start = {
-  record_btn.mouseDownAction_(record_end);
+recordStart = {
+  recordBtn.mouseDownAction_(recordEnd);
 
-  multi_recorder.start;
+  multiRecorder.start;
 
   AppClock.sched(0, {
-    update_button.(record_btn, "stop recording", Color.green);
+    updateButton.(recordBtn, "stop recording", Color.green);
   });
 
-  record_synth = Synth(\recordbuf_mono,
-    [\inbus, ~buss[\com_mon_out], \buf, record_buf, \startpos, 0],
+  recordSynth = Synth(\recordbuf_mono,
+    [\inbus, ~buss[\com_mon_out], \buf, recordBuf, \startpos, 0],
     ~record_g
   );
 };
 
-record_end = {
+recordEnd = {
   var path = thisPath.dirname ++ "/recordings/" ++ Date.getDate ++ ".aiff";
 
   postln("WRITING TO: " ++ path);
 
-  multi_recorder.stop;
+  multiRecorder.stop;
 
-  record_synth.free;
-  record_buf.write(
+  recordSynth.free;
+  recordBuf.write(
     path,
     sampleFormat: "float"
   );
 
-  recorded_buf = record_buf;
+  recordedBuf = recordBuf;
 
-  record_buf = Buffer.alloc(s, 10 * 60 * s.sampleRate);
+  recordBuf = Buffer.alloc(s, 10 * 60 * s.sampleRate);
 
   AppClock.sched(0, {
-    update_button.(record_btn, "record", Color.red);
-    record_btn.mouseDownAction_(record_start);
+    updateButton.(recordBtn, "record", Color.red);
+    recordBtn.mouseDownAction_(recordStart);
 
-    update_button.(player_btn, "play last", Color.green);
-    player_btn.mouseDownAction_(play_recorded_buf);
+    updateButton.(playerBtn, "play last", Color.green);
+    playerBtn.mouseDownAction_(playRecordedBuf);
   });
 
 };
 
-player_btn = Button(main_window, Rect(gui_length * 0.5 + (btn_length * 1.5 * 2) + 20,
-  gui_height - 100, btn_length * 1.5, btn_height * 1.5) )
+playerBtn = Button(mainWindow, Rect(guiLength * 0.5 + (btnLength * 1.5 * 2) + 20,
+  guiHeight - 100, btnLength * 1.5, btnHeight * 1.5) )
 .states_([["inactive"], Color.black])
 .mouseDownAction_({"server not booted".postln});
 
-play_recorded_buf = {
-  player_route_synth = Synth(\route_mono_to_6,
+playRecordedBuf = {
+  playerRouteSynth = Synth(\route_mono_to_6,
     [
       \inbus, ~buss[\all_monitors],
       \outbusses,
@@ -292,22 +291,22 @@ play_recorded_buf = {
     ~agg_g
   );
 
-  player_synth = Synth(\playbuf_simple,
-    [\buf, recorded_buf, \outbus, ~buss[\all_monitors]], ~playbuf_g
+  playerSynth = Synth(\playbuf_simple,
+    [\buf, recordedBuf, \outbus, ~buss[\all_monitors]], ~playbuf_g
   );
 
-  player_btn.mouseDownAction_(stop_playing);
+  playerBtn.mouseDownAction_(stopPlaying);
   AppClock.sched(0, {
-    update_button.(player_btn, "stop", Color.green);
+    updateButton.(playerBtn, "stop", Color.green);
   });
 };
 
-stop_playing = {
-  player_synth.free;
-  player_route_synth.free;
-  player_btn.mouseDownAction_(play_recorded_buf);
+stopPlaying = {
+  playerSynth.free;
+  playerRouteSynth.free;
+  playerBtn.mouseDownAction_(playRecordedBuf);
   AppClock.sched(0, {
-    update_button.(player_btn, "play last", Color.red);
+    updateButton.(playerBtn, "play last", Color.red);
   });
 };
 
@@ -323,19 +322,19 @@ run = {
 
   Server.default = s = Server.local;
   s.latency = 0.005;
-  if (~dev_mode.not) {
+  if (~devMode.not) {
     s.options = ServerOptions.new.hardwareBufferSize_(128).threads_(4);
   };
 
-  s.waitForBoot({ after_boot.() });
+  s.waitForBoot({ afterBoot.() });
 };
 
-after_boot = {
+afterBoot = {
   var cond = Condition.new;
 
   ~clock = TempoClock(~tempo, queueSize: 2**10);
-  ~p_synths = IdentityDictionary[];
-  HerLoop.setPersistentSynths(~p_synths);
+  ~pSynths = IdentityDictionary[];
+  HerLoop.setPersistentSynths(~pSynths);
 
   MIDIdef.freeAll;
 
@@ -362,7 +361,7 @@ after_boot = {
     ~harmonyController = HerHarmonyController(~synth_g, ~buss[\com_agg], \com_dirt_rhode, ~clock.beatDur);
 
     ~chordSelector = HerChordSelector(
-      main_window,
+      mainWindow,
       ~chordNumberText,
       ~chordSchema,
       ~harmonyController
@@ -371,17 +370,17 @@ after_boot = {
 
   // * * * * * * * * * * * * * * * * * * * * * * RECORDING
 
-  multi_recorder = HerMultiTrackRecorder(
+  multiRecorder = HerMultiTrackRecorder(
     ~record_g,
     thisPath.dirname ++ "/recordings",
     ~multi_record_buss
   );
 
-  record_buf = Buffer.alloc(Server.default, 10 * 60 * Server.default.sampleRate);
+  recordBuf = Buffer.alloc(Server.default, 10 * 60 * Server.default.sampleRate);
 
   AppClock.sched(0, {
-    update_button.(record_btn, "record", Color.red);
-    record_btn.mouseDownAction_(record_start);
+    updateButton.(recordBtn, "record", Color.red);
+    recordBtn.mouseDownAction_(recordStart);
   });
 
   s.sync(cond);
@@ -394,11 +393,11 @@ after_boot = {
     ~buss[\metronome],
     ~playbuf_g,
     \metronome_sine,
-    metronome_amp
+    metronomeAmp
   );
 
   CmdPeriod.doOnce {
-    multi_recorder = nil;
+    multiRecorder = nil;
     s.freeAll;
     metronome.stop;
     metronome = nil;
@@ -412,10 +411,10 @@ after_boot = {
     // TODO cleanup loops
 
     AppClock.sched(0, {
-      update_button.(record_btn, "disabled", nil);
-      update_button.(player_btn, "disabled", nil);
-      record_btn.mouseDownAction_({"server not started".postln});
-      player_btn.mouseDownAction_({"server not started".postln});
+      updateButton.(recordBtn, "disabled", nil);
+      updateButton.(playerBtn, "disabled", nil);
+      recordBtn.mouseDownAction_({"server not started".postln});
+      playerBtn.mouseDownAction_({"server not started".postln});
     });
 
     postln("loop freed");
@@ -424,22 +423,22 @@ after_boot = {
     s.quit;
   };
 
-  start_btn
+  startBtn
   .states_([["Server Quit", Color.black, Color.green]])
   .mouseDownAction_({
     CmdPeriod.run;
-    start_btn
+    startBtn
     .states_([["BOOM!", Color.black, Color.red]])
     .mouseDownAction_({ run.() });
   });
 };
 
-main_window.onClose = {
+mainWindow.onClose = {
   CmdPeriod.run;
-  if (~dev_mode.not) { 0.exit };
+  if (~devMode.not) { 0.exit };
 };
 
 currentEnvironment.do {_.free};
 
-main_window.front;
+mainWindow.front;
 )

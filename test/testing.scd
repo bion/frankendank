@@ -20,8 +20,8 @@ a = Buffer.read(s, "/Users/bionjohnson/Documents/sound projects/Current/EB/scott
 
 ~h_filt.(\sax_f1)
 
-~p_synths[\sax_p].set(\param, 100)
-~p_synths[\sax_p].get(\param, {|val| val.postln});
+~pSynths[\sax_p].set(\param, 100)
+~pSynths[\sax_p].get(\param, {|val| val.postln});
 
 a = Window("sax test", Rect(200, 200, 200, 200));
 c = Button(a, 20, 20, 30, 80)

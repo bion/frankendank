@@ -51,8 +51,8 @@ postln("loading midi config: sax");
   );
 };
 
-MIDIdef.cc(\sax_volume, {|val| ~p_synths[\sax_v].set(\amp, val) }, 7, 0, ~mSrc[\sax]);
+MIDIdef.cc(\sax_volume, {|val| ~pSynths[\sax_v].set(\amp, val) }, 7, 0, ~mSrc[\sax]);
 
-MIDIdef.cc(\sax_param, {|val| ~p_synths[\sax_p].set(\param, val) }, 27, 0, ~mSrc[\sax]);
+MIDIdef.cc(\sax_param, {|val| ~pSynths[\sax_p].set(\param, val) }, 27, 0, ~mSrc[\sax]);
 
 )

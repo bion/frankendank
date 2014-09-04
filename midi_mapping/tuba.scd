@@ -72,7 +72,7 @@ postln("loading midi config: tuba");
   );
 };
 
-MIDIdef.cc(\tub_volume, {|val| ~p_synths[\tub_v].set(\amp, val) }, 7, 0, ~mSrc[\tuba]);
+MIDIdef.cc(\tub_volume, {|val| ~pSynths[\tub_v].set(\amp, val) }, 7, 0, ~mSrc[\tuba]);
 
 MIDIdef.cc(\tub_relax, {|val|
   var relax;
@@ -86,7 +86,7 @@ MIDIdef.cc(\tub_relax, {|val|
   { val < 129 }
   { relax = ~tempo };
 
-  ~p_synths[\agg].set(\tub_relax, relax);
+  ~pSynths[\agg].set(\tub_relax, relax);
 }, 27, 0, ~mSrc[\tuba]);
 
 )

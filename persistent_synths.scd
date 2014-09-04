@@ -1,10 +1,10 @@
-~p_synths.putPairs(flat([
+~pSynths.putPairs(flat([
 
   // ****************************************** MONITORING
 
   \sax_mon, Synth(\mon,
     [ \main, \met, \sax, \tub, \drum, \com ].collect({|input|
-      [asSymbol(input++"_scale"), ~monitor_levels[\sax][input]]
+      [asSymbol(input++"_scale"), ~monitorLevels[\sax][input]]
     }).flat ++
     [
       \metronome_bus, ~buss[\metronome],
@@ -15,7 +15,7 @@
 
   \tub_mon, Synth(\mon,
     [ \main, \met, \sax, \tub, \drum, \com ].collect({|input|
-      [asSymbol(input++"_scale"), ~monitor_levels[\tub][input]]
+      [asSymbol(input++"_scale"), ~monitorLevels[\tub][input]]
     }).flat ++
     [
       \metronome_bus, ~buss[\metronome],
@@ -26,7 +26,7 @@
 
   \drums_mon, Synth(\mon,
     [ \main, \met, \sax, \tub, \drum, \com ].collect({|input|
-      [asSymbol(input++"_scale"), ~monitor_levels[\drums][input]]
+      [asSymbol(input++"_scale"), ~monitorLevels[\drums][input]]
     }).flat ++
     [
       \metronome_bus, ~buss[\metronome],
@@ -37,7 +37,7 @@
 
   \nugs_mon, Synth(\mon,
     [ \main, \met, \sax, \tub, \drum, \com ].collect({|input|
-      [asSymbol(input++"_scale"), ~monitor_levels[\nugs][input]]
+      [asSymbol(input++"_scale"), ~monitorLevels[\nugs][input]]
     }).flat ++
     [
       \metronome_bus, ~buss[\metronome],
@@ -48,7 +48,7 @@
 
   \com_mon, Synth(\mon,
     [ \main, \met, \sax, \tub, \drum, \com ].collect({|input|
-      [asSymbol(input++"_scale"), ~monitor_levels[\com][input]]
+      [asSymbol(input++"_scale"), ~monitorLevels[\com][input]]
     }).flat ++
     [
       \metronome_bus, ~buss[\metronome],
@@ -150,12 +150,12 @@
 
 // ****************************************** ANALOG TRIGGERS
 
-  \kickDrumListener,
+  \kick_drum_listener,
   Synth(\drumTrigListener,
     [\inbus, ~id_bus_map[\mars_kick_in], \outbus, ~buss[\mars_kick_trig]],
     ~in_g),
 
-  \marsKickPlayer,
+  \mars_kick_player,
   Synth(\triggeredPlayBuf,
     [
       \trigbus, ~buss[\mars_kick_trig],

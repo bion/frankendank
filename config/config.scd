@@ -3,7 +3,7 @@
 ~sax_gate_thresh = -66.dbamp;
 ~tuba_gate_thresh = -26.dbamp;
 
-~monitor_levels = Object.readArchive("../archive/monitor_levels".resolveRelative);
+~monitorLevels = Object.readArchive("../archive/monitor_levels".resolveRelative);
 
 ~andrew_midi_map = "../doc/dk_10_midi_info.yml".resolveRelative.parseYAMLFile;
 
@@ -13,9 +13,9 @@ if (~chordSchema.isNil) { Error("~chordSchema not loaded!").throw };
 ~spoof_horns = false;
 ~do_bus_map_overrides = false;
 
-~dev_mode = false;
+~devMode = false;
 
-if (~dev_mode) {
+if (~devMode) {
   // dev config
 
   ~spoof_horns = true;

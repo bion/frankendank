@@ -18,7 +18,7 @@ var playing = IdentityDictionary[];
     };
   };
 
-  ~p_synths[(instr ++ "_in").asSymbol].set(\amp, 1);
+  ~pSynths[(instr ++ "_in").asSymbol].set(\amp, 1);
 };
 
 ~h_filt = {|id|
@@ -46,8 +46,7 @@ var playing = IdentityDictionary[];
         \bus,           ~buss[(instr++"_eq").asSymbol],
         \pbus,          ~buss[(instr++"_p").asSymbol] ],
       ~synth_g);
-    l
-    ~p_synths[(instr ++ "_in").asSymbol].set(\amp, 0);
+    ~pSynths[(instr ++ "_in").asSymbol].set(\amp, 0);
   };
 };
 
