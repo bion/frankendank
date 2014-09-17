@@ -14,6 +14,14 @@ var loopFilters = (
   ]
 );
 
+// TODO wire up with HerSynthDanDan
+// #setBright
+// #setBrightLFOLevel
+// #setBrightLFOFreq
+// #setIndexWidth
+// #setIndexPosition
+// #setIndexLFOFreq
+
 postln("loading midi config: bcr");
 
 ~loop_filt_controllers = IdentityDictionary[];
