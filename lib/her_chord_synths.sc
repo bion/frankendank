@@ -56,37 +56,36 @@ HerSynthDanDan : HerSynthBase {
   }
 
   setBright { |val|
-    synth.set(\harmAmpArray, blend(darkArray, brightArray, val/128));
+    synth.set(\harmAmpArray, blend(darkArray, brightArray, this.specVal(val)));
   }
 
   setBrightLFOLevel { |val|
-    var specVal = val / 128;
-    synth.set(\harmLFOlo, brightLFOLevelSpec.map(specVal));
+    synth.set(\harmLFOlo, brightLFOLevelSpec.map(this.specVal(val)));
   }
 
   setBrightLFOFreq { |val|
-    var specVal = val / 128;
-    synth.set(\harmLFOfreq, lfoFreqSpec.map(specVal));
+    synth.set(\harmLFOfreq, lfoFreqSpec.map(this.specVal(val)));
   }
 
   setIndexWidth { |val|
-    var specVal = val / 128;
-    indexLFOwidth = indexHalfWidthSpec.map(specVal);
+    indexLFOwidth = indexHalfWidthSpec.map(this.specVal(val));
     this.setIndexLFOBounds;
   }
 
   setIndexPosition { |val|
-    var specVal = val / 128;
-    indexPosition = indexPositionSpec.map(specVal);
+    indexPosition = indexPositionSpec.map(this.specVal(val));
     this.setIndexLFOBounds;
   }
 
   setIndexLFOFreq { |val|
-    var specVal = val / 128;
-    synth.set(\indexLFOfreq, lfoFreqSpec.map(specVal));
+    synth.set(\indexLFOfreq, lfoFreqSpec.map(this.specVal(val)));
   }
 
   // **************** private
+
+  specVal { |val|
+    ^(val / 128);
+  }
 
   setIndexLFOBounds { |width|
     synth.set(
