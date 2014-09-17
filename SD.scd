@@ -247,7 +247,7 @@ loadRelative("./sd_support.scd");
 
     index = LFNoise2.kr(indexLFOfreq).range(indexLFOlo, indexLFOhi);
 
-    harmAmps = Control.names(\harmAmpArray).kr(7.collect { 0 }).lag(harm_amp_lag);
+    harmAmps = \harmAmpArray.kr(7.collect { 0 }).lag(harm_amp_lag);
     harmAmpLFOs = 7.collect { LFNoise2.kr(harmLFOfreq).range(harmLFOlo.dbamp, 1) };
 
     sig = freqs.collect({
