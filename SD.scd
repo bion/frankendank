@@ -314,11 +314,11 @@ loadRelative("./sd_support.scd");
   }),
 
   SynthDef(\com_dirt_rhode, {
-    arg bus, amp, vib_rate = 11, freq_lag_param=0.03, beat_dur=1, vib_width = 0.00125, gate=1;
+    arg bus, amp, vib_rate = 11, freqLagParam=0.03, beatDur=1, vib_width = 0.00125, gate=1;
     var sig, env, vib, warm = LFNoise2.kr(vib_rate).range(0.9, 1.1);
     var silencers, freqs, ampMul, detuneMuls, freq_lag;
 
-    freq_lag = beat_dur * freq_lag_param;
+    freq_lag = beatDur * freqLagParam;
 
     freqs = \freqs.kr([1, 1, 1, 1, 1]).lag(freq_lag);
 
