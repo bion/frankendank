@@ -222,11 +222,64 @@ loadRelative("./sd_support.scd");
 
   /* ------------------------ com --------------------------- */
 
+  SynthDef(\com_dandan, {
+    arg bus, amp, gate = 1, freqLagParam = 0.03, beatDur=1,
+    gp = 0.12, envBuf, harm_amp_lag = 0.2,
+    harmLFOfreq = 5, harmLFOlo = -0.01,
+    indexLFOfreq = 0.2, indexLFOlo = 0.5, indexLFOhi = 5;
+
+    var sig, index, harmAmpLFOs, harmAmps, freqs, silencers, freqLag,
+    vib, rand, vibosc, vibwth, vibamp, vibeRate = 6.5, vibeWidth = 0.0125,
+    trigLFOfreq = 0.25, trigLFOMul = 1.5, trigLFOrange = 20, trigOverlap = 3.5;
+
+    envBuf = ~ugen_support[\sin_buf_1];
+
+    freqLag = freqLagParam * beatDur;
+
+    freqs = \freqs.kr([1, 1, 1, 1, 1]).lag(freqLag);
+    silencers = freqs.collect { |freq| freq > 9.0; };
+
+    vibamp = 1;
+    vibwth = vibeWidth * vibamp;
+    vibosc = SinOsc.kr(vibeRate + LFDNoise3.kr(2).range(0.9, 1.1), 0, vibwth);
+    rand = LFNoise1.kr(1/6.5, vibwth);
+    vib = vibosc + rand + 1;
+
+    index = LFNoise2.kr(indexLFOfreq).range(indexLFOlo, indexLFOhi);
+
+    harmAmps = Control.names(\harmAmpArray).kr(7.collect { 0 }).lag(harm_amp_lag);
+    harmAmpLFOs = 7.collect { LFNoise2.kr(harmLFOfreq).range(harmLFOlo.dbamp, 1) };
+
+    sig = freqs.collect({
+      arg freq, i;
+      var trig;
+
+      trig = Impulse.kr(
+        (gp.reciprocal * trigOverlap) * (
+          LFNoise2.kr(trigLFOfreq)
+          .range(trigLFOrange / 2 * 0.01.neg, trigLFOrange / 2 * 0.01)
+          * trigLFOMul + 1
+        )
+      );
+
+      GrainFM.ar(1, trig, gp,
+        freq * vib * (1 .. 7),
+        freq * vib * (1 .. 7), index,
+        0, envBuf, 128,
+        harmAmps * harmAmpLFOs,
+        mul: silencers[i]
+      ).mean;
+    }).sum * 0.0125;
+
+    sig = LeakDC.ar(sig) * amp;
+    Out.ar(bus, sig.softclip * Linen.kr(gate, 0.05, releaseTime: 0.05, doneAction: 2));
+  }),
+
   SynthDef(\com_fank, {
-    arg bus, amp, vib_rate = 11, freq_lag_param = 0.03, beat_dur=1, vib_width = 0.00125, gate=1;
+    arg bus, amp, vib_rate = 11, freqLagParam = 0.03, beatDur=1, vib_width = 0.00125, gate=1;
     var sig, vib, freqs, silencers, ampMul, freq_lag;
 
-    freq_lag = beat_dur * freq_lag_param;
+    freq_lag = beatDur * freqLagParam;
 
     // TODO wire up controller for this
     // freq_lag = 0.1;
