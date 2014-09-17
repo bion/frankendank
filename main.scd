@@ -358,7 +358,7 @@ afterBoot = {
   // * * * * * * * * * * * * * * * * * * * * * * RECORDING
 
   if (~mSrc[\breath].notNil) {
-    ~harmonyController = HerHarmonyController(~synth_g, ~buss[\com_agg], \com_dirt_rhode, ~clock.beatDur);
+    ~harmonyController = HerHarmonyController(~synth_g, ~buss[\com_agg], \com_dandan, ~clock.beatDur);
 
     ~chordSelector = HerChordSelector(
       mainWindow,
