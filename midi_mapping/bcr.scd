@@ -12,7 +12,7 @@ var loopFilters = (
     \DFM1_lo,
     \decimator
   ]
-);
+), comDandanSynth;
 
 // TODO wire up with HerSynthDanDan
 // #setBright
@@ -21,6 +21,56 @@ var loopFilters = (
 // #setIndexWidth
 // #setIndexPosition
 // #setIndexLFOFreq
+
+comDandanSynth = ~comSynths[0];
+MIDIdef.cc(\dandan_bright,
+  { |val|
+    comDandanSynth.setBright(val);
+  },
+  81,
+  0,
+  ~mSrc[\bcr]
+);
+MIDIdef.cc(\dandan_bright_lfo,
+  { |val|
+    comDandanSynth.setBrightLFOLevel(val);
+  },
+  82,
+  0,
+  ~mSrc[\bcr]
+);
+MIDIdef.cc(\dandan_bright_freq,
+  { |val|
+    comDandanSynth.setBrightLFOFreq(val);
+  },
+  83,
+  0,
+  ~mSrc[\bcr]
+);
+MIDIdef.cc(\dandan_index_width,
+  { |val|
+    comDandanSynth.setIndexWidth(val);
+  },
+  84,
+  0,
+  ~mSrc[\bcr]
+);
+MIDIdef.cc(\dandan_index_width,
+  { |val|
+    comDandanSynth.setIndexPosition(val);
+  },
+  85,
+  0,
+  ~mSrc[\bcr]
+);
+MIDIdef.cc(\dandan_index_lfo,
+  { |val|
+    comDandanSynth.setIndexLFOFreq(val);
+  },
+  86,
+  0,
+  ~mSrc[\bcr]
+);
 
 postln("loading midi config: bcr");
 
