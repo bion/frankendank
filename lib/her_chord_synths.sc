@@ -35,8 +35,8 @@ HerSynthBase {
 HerSynthDanDan : HerSynthBase {
   var brightHarms, darkHarms;
   var brightLFOLevelSpec, brightLFOFreqSpec;
-  var indexHalfWidthSpec, indexPositionSpec, indexPosition = 0;
-  var indexLFOwidth, lfoFreqSpec;
+  var indexHalfWidthSpec, indexPositionSpec, lfoFreqSpec;
+  var indexLFOwidth, indexPosition;
   var darkArray, brightArray;
 
   init {
@@ -47,6 +47,9 @@ HerSynthDanDan : HerSynthBase {
     lfoFreqSpec = ControlSpec(0.01, 100, \lin);
     indexHalfWidthSpec = ControlSpec(0.01, 10, \lin);
     indexPositionSpec = ControlSpec(0.01, 20, \lin);
+
+    indexLFOwidth = indexHalfWidthSpec.map(this.specVal(0));
+    indexPosition = indexPositionSpec.map(this.specVal(0));
 
     synth = Synth.newPaused(\com_dandan, [\bus, bus], group);
 
