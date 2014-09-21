@@ -348,7 +348,6 @@ afterBoot = {
     "instr/drums",
     "persistent_synths",
     "instr/com_sample_map",
-    "midi_mapping"
   ].do {|file|
     loadRelative("./" ++ file ++ ".scd");
     "".postln;
@@ -358,13 +357,14 @@ afterBoot = {
   // * * * * * * * * * * * * * * * * * * * * * * RECORDING
 
   if (~mSrc[\breath].notNil) {
-    var synths = [
+    "BREATH CONTROLLER CONNECTED, LOADING BREATH SYNTHS".postln;
+    ~comSynths = [
       HerSynthDanDan(~synth_g, ~buss[\com_agg]),
       HerSynthFank(~synth_g, ~buss[\com_agg]),
       HerSynthDirtRhode(~synth_g, ~buss[\com_agg])
     ];
 
-    ~harmonyController = HerHarmonyController(synths, ~chordSchema, ~clock.beatDur);
+    ~harmonyController = HerHarmonyController(~comSynths, ~chordSchema, ~clock.beatDur);
 
     ~chordSelector = HerChordSelector(
       mainWindow,
@@ -401,6 +401,10 @@ afterBoot = {
     \metronome_sine,
     metronomeAmp
   );
+
+  ["midi_mapping"].do { |file|
+    loadRelative("./" ++ file ++ ".scd");
+  };
 
   CmdPeriod.doOnce {
     multiRecorder = nil;
