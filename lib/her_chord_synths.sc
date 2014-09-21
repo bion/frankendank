@@ -6,11 +6,6 @@ HerSynthBase {
     ^super.newCopyArgs(group, bus).init;
   }
 
-  init {
-    synth = Synth.newPaused(currentSynth, [\bus, bus], group);
-    ^this;
-  }
-
   start {
     synth.run(true);
   }
@@ -40,8 +35,9 @@ HerSynthBase {
 HerSynthDanDan : HerSynthBase {
   var brightHarms, darkHarms;
   var brightLFOLevelSpec, brightLFOFreqSpec;
-  var indexHalfWidthSpec, indexPosition = 0;
-  var indexLFOwidth;
+  var indexHalfWidthSpec, indexPositionSpec, indexPosition = 0;
+  var indexLFOwidth, lfoFreqSpec;
+  var darkArray, brightArray;
 
   init {
     brightHarms = (1..7).reverse / 7;
@@ -52,7 +48,9 @@ HerSynthDanDan : HerSynthBase {
     indexHalfWidthSpec = ControlSpec(0.01, 10, \lin);
     indexPositionSpec = ControlSpec(0.01, 20, \lin);
 
-    ^super;
+    synth = Synth.newPaused(\com_dandan, [\bus, bus], group);
+
+    ^this;
   }
 
   setBright { |val|
@@ -96,5 +94,19 @@ HerSynthDanDan : HerSynthBase {
       \indexLFOhi,
       indexPosition + indexLFOwidth
     );
+  }
+}
+
+HerSynthFank : HerSynthBase {
+  init {
+    synth = Synth.newPaused(\com_fank, [\bus, bus], group);
+    ^this;
+  }
+}
+
+HerSynthDirtRhode : HerSynthBase {
+  init {
+    synth = Synth.newPaused(\com_dirt_rhode, [\bus, bus], group);
+    ^this;
   }
 }

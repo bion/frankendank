@@ -8,6 +8,8 @@ HerHarmonyController {
 
   init {
     // initialize to first chord in first chord group of schema
+    currentSynth = synths[0];
+    currentSynth.start;
     this.setChord(chordSchema[0][0]);
     this.setFreqLag(freqLag);
   }
@@ -41,7 +43,7 @@ HerHarmonyController {
     (5 - currentChord.size).do {|val|
       currentChord = currentChord.add(1);
     };
-    currentSynth.setFreq(currentChord);
+    currentSynth.setFreqs(currentChord);
   }
 
   setFreqLag { |val|
@@ -56,7 +58,7 @@ HerHarmonyController {
     {val < 112} { lag = 1.5  }
     {val < 128} { lag = 2    };
 
-    synth.setFreqLag(lag);
+    currentSynth.setFreqLag(lag);
     freqLag = lag;
     postln("freqLag is: " ++ lag);
   }
