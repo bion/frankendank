@@ -37,7 +37,6 @@ HerSynthDanDan : HerSynthBase {
   var brightLFOLevelSpec, brightLFOFreqSpec;
   var indexHalfWidthSpec, indexPositionSpec, lfoFreqSpec;
   var indexLFOwidth, indexPosition;
-  var darkArray, brightArray;
 
   init {
     brightHarms = (1..7).reverse / 7;
@@ -57,7 +56,7 @@ HerSynthDanDan : HerSynthBase {
   }
 
   setBright { |val|
-    synth.set(\harmAmpArray, blend(darkArray, brightArray, this.specVal(val)));
+    synth.set(\harmAmpArray, blend(darkHarms, brightHarms, this.specVal(val)));
   }
 
   setBrightLFOLevel { |val|
