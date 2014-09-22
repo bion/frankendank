@@ -42,8 +42,8 @@ HerSynthDanDan : HerSynthBase {
     brightHarms = (1..7).reverse / 7;
     darkHarms = ((1..7).reverse / 7) ** 6;
 
-    brightLFOLevelSpec = ControlSpec(-60, 0, \exponential);
-    lfoFreqSpec = ControlSpec(0.01, 100, \lin);
+    brightLFOLevelSpec = ControlSpec(-60.0, 0, \lin);
+    lfoFreqSpec = ControlSpec(1, 100, \lin);
     indexHalfWidthSpec = ControlSpec(0.01, 10, \lin);
     indexPositionSpec = ControlSpec(0.01, 20, \lin);
 
