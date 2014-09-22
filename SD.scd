@@ -225,8 +225,8 @@ loadRelative("./sd_support.scd");
   SynthDef(\com_dandan, {
     arg bus, amp, gate = 1, freqLagParam = 0.03, beatDur=1,
     gp = 0.12, envBuf, harm_amp_lag = 0.2,
-    harmLFOfreq = 5, harmLFOlo = -0.01,
-    indexLFOfreq = 0.2, indexLFOlo = 0.5, indexLFOhi = 5;
+    harmLFOfreq = 5, harmLFOlo = -0.1,
+    indexLFOfreq = 0.2, indexLFOlo = 0.5, indexLFOhi = 1;
 
     var sig, index, harmAmpLFOs, harmAmps, freqs, silencers, freqLag,
     vib, rand, vibosc, vibwth, vibamp, vibeRate = 6.5, vibeWidth = 0.0125,
