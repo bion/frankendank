@@ -55,7 +55,7 @@ MIDIdef.cc(\dandan_index_width,
   0,
   ~mSrc[\bcr]
 );
-MIDIdef.cc(\dandan_index_width,
+MIDIdef.cc(\dandan_index_position,
   { |val|
     comDandanSynth.setIndexPosition(val);
   },
