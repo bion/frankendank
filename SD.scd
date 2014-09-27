@@ -266,9 +266,8 @@ loadRelative("./sd_support.scd");
         freq * vib * (1 .. 7),
         freq * vib * (1 .. 7), index,
         0, envBuf, 128,
-        harmAmps * harmAmpLFOs,
-        mul: silencers[i]
-      ).mean;
+        harmAmps[i] * harmAmpLFOs[i] * silencers[i]
+      );
     }).sum * 0.0125;
 
     sig = LeakDC.ar(sig) * amp;
