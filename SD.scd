@@ -262,11 +262,17 @@ loadRelative("./sd_support.scd");
         )
       );
 
-      GrainFM.ar(1, trig, gp,
-        freq * vib * (1 .. 7),
-        freq * vib * (1 .. 7), index,
-        0, envBuf, 128,
-        harmAmps[i] * harmAmpLFOs[i] * silencers[i]
+      GrainFM.ar(
+        numChannels: 1,
+        trigger: trig,
+        dur: gp,
+        carfreq: freq * vib * (1 .. 7),
+        modfreq: freq * vib * (1 .. 7),
+        index: index,
+        pan: 0,
+        envbufnum: envBuf,
+        maxGrains: 128,
+        mul: harmAmps[i] * silencers[i]
       );
     }).sum * 0.0125;
 
