@@ -34,18 +34,16 @@ HerSynthBase {
 
 HerSynthDanDan : HerSynthBase {
   var brightHarms, darkHarms;
-  var brightLFOLevelSpec, brightLFOFreqSpec;
   var indexHalfWidthSpec, indexPositionSpec, lfoFreqSpec;
   var indexLFOwidth, indexPosition;
 
   init {
-    brightHarms = (1..7).reverse / 7;
-    darkHarms = ((1..7).reverse / 7) ** 6;
+    darkHarms = [5, 0.5, 5, 0.5, 3, 0.5, 1] / 7;
+    brightHarms = [0.25, 0.5, 0.2, 0.3, 0.2, 0.1, 0.1];
 
-    brightLFOLevelSpec = ControlSpec(-60.0, 0, \lin);
     lfoFreqSpec = ControlSpec(1, 100, \lin);
-    indexHalfWidthSpec = ControlSpec(0.01, 10, \lin);
-    indexPositionSpec = ControlSpec(0.01, 20, \lin);
+    indexHalfWidthSpec = ControlSpec(0.01, 4, \lin);
+    indexPositionSpec = ControlSpec(0.01, 8, \lin);
 
     indexLFOwidth = indexHalfWidthSpec.map(this.specVal(0));
     indexPosition = indexPositionSpec.map(this.specVal(0));
@@ -57,14 +55,6 @@ HerSynthDanDan : HerSynthBase {
 
   setBright { |val|
     synth.set(\harmAmpArray, blend(darkHarms, brightHarms, this.specVal(val)));
-  }
-
-  setBrightLFOLevel { |val|
-    synth.set(\harmLFOlo, brightLFOLevelSpec.map(this.specVal(val)));
-  }
-
-  setBrightLFOFreq { |val|
-    synth.set(\harmLFOfreq, lfoFreqSpec.map(this.specVal(val)));
   }
 
   setIndexWidth { |val|
