@@ -225,10 +225,9 @@ loadRelative("./sd_support.scd");
   SynthDef(\com_dandan, {
     arg bus, amp, gate = 1, freqLagParam = 0.03, beatDur=1,
     gp = 0.12, envBuf, harm_amp_lag = 0.2,
-    harmLFOfreq = 5, harmLFOlo = -0.1,
     indexLFOfreq = 0.2, indexLFOlo = 0.5, indexLFOhi = 1;
 
-    var sig, index, harmAmpLFOs, harmAmps, freqs, silencers, freqLag,
+    var sig, index, harmAmps, freqs, silencers, freqLag,
     vib, rand, vibosc, vibwth, vibamp, vibeRate = 6.5, vibeWidth = 0.0125,
     trigLFOfreq = 0.25, trigLFOMul = 1.5, trigLFOrange = 20, trigOverlap = 3.5;
 
@@ -245,10 +244,8 @@ loadRelative("./sd_support.scd");
     rand = LFNoise1.kr(1/6.5, vibwth);
     vib = vibosc + rand + 1;
 
-    index = LFNoise2.kr(indexLFOfreq).range(indexLFOlo, indexLFOhi);
-
+    index = SinOsc.kr(indexLFOfreq).range(indexLFOlo, indexLFOhi);
     harmAmps = \harmAmpArray.kr(7.collect { 0 }).lag(harm_amp_lag);
-    harmAmpLFOs = 7.collect { LFNoise2.kr(harmLFOfreq).range(harmLFOlo.dbamp, 1) };
 
     sig = freqs.collect({
       arg freq, i;
