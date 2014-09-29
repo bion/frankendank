@@ -28,24 +28,31 @@ HerSynthBase {
   }
 
   setFreqLag { |val|
-    synth.set(\freq_lag_param, val);
+    synth.set(\freqLagParam, val);
   }
 }
 
 HerSynthDanDan : HerSynthBase {
-  var brightHarms, darkHarms;
-  var indexHalfWidthSpec, indexPositionSpec, lfoFreqSpec;
-  var indexLFOwidth, indexPosition;
+  var harms, indexPositionSpec, indexPosition;
+
+  setBright { |val|
+    var highestIndex = round(this.specVal(val) * 6).asInt;
+    var newHarms = harms.copyRange(0, highestIndex);
+    while { newHarms.size < 7 } { newHarms = newHarms.add(0) };
+    synth.set(\harmAmpArray, newHarms);
+  }
+
+  setIndexPosition { |val|
+    indexPosition = indexPositionSpec.map(this.specVal(val));
+    synth.set(\index, indexPosition);
+  }
+
+  // **************** private
 
   init {
-    darkHarms = [5, 0.5, 5, 0.5, 3, 0.5, 1] / 7;
-    brightHarms = [0.25, 0.5, 0.2, 0.3, 0.2, 0.1, 0.1];
+    harms = [0.1, 0.5, 0.2, 0.3, 0.2, 0.1, 0.1];
 
-    lfoFreqSpec = ControlSpec(1, 100, \lin);
-    indexHalfWidthSpec = ControlSpec(0.01, 4, \lin);
     indexPositionSpec = ControlSpec(0.01, 8, \lin);
-
-    indexLFOwidth = indexHalfWidthSpec.map(this.specVal(0));
     indexPosition = indexPositionSpec.map(this.specVal(0));
 
     synth = Synth.newPaused(\com_dandan, [\bus, bus], group);
@@ -53,39 +60,8 @@ HerSynthDanDan : HerSynthBase {
     ^this;
   }
 
-  setBright { |val|
-    synth.set(\harmAmpArray, blend(darkHarms, brightHarms, this.specVal(val)));
-  }
-
-  setIndexWidth { |val|
-    indexLFOwidth = indexHalfWidthSpec.map(this.specVal(val));
-    this.setIndexLFOBounds;
-  }
-
-  setIndexPosition { |val|
-    indexPosition = indexPositionSpec.map(this.specVal(val));
-    this.setIndexLFOBounds;
-  }
-
-  setIndexLFOFreq { |val|
-    synth.set(\indexLFOfreq, lfoFreqSpec.map(this.specVal(val)));
-  }
-
-  // **************** private
-
   specVal { |val|
     ^(val / 128);
-  }
-
-  setIndexLFOBounds { |width|
-    synth.set(
-      \indexLFOlo,
-      max(indexPosition - indexLFOwidth, 0.01)
-    );
-    synth.set(
-      \indexLFOhi,
-      indexPosition + indexLFOwidth
-    );
   }
 }
 

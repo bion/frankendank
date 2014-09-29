@@ -16,9 +16,7 @@ var loopFilters = (
 
 // TODO wire up with HerSynthDanDan
 // #setBright
-// #setIndexWidth
 // #setIndexPosition
-// #setIndexLFOFreq
 
 comDandanSynth = ~comSynths[0];
 MIDIdef.cc(\dandan_bright,
@@ -29,27 +27,11 @@ MIDIdef.cc(\dandan_bright,
   0,
   ~mSrc[\bcr]
 );
-MIDIdef.cc(\dandan_index_width,
-  { |val|
-    comDandanSynth.setIndexWidth(val);
-  },
-  82,
-  0,
-  ~mSrc[\bcr]
-);
 MIDIdef.cc(\dandan_index_position,
   { |val|
     comDandanSynth.setIndexPosition(val);
   },
-  83,
-  0,
-  ~mSrc[\bcr]
-);
-MIDIdef.cc(\dandan_index_lfo,
-  { |val|
-    comDandanSynth.setIndexLFOFreq(val);
-  },
-  84,
+  82,
   0,
   ~mSrc[\bcr]
 );

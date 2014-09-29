@@ -38,17 +38,14 @@
   [
     (voicing: \Xm7, pitchClass: PC(\d, 4)),
     (voicing: \Xm7, pitchClass: PC(\c, 4)),
-    (voicing: \X7, pitchClass: PC(\f, 4)),
     (voicing: \Xmaj9, pitchClass: PC(\bf, 4)),
     (voicing: \X7s9f13, pitchClass: PC(\a, 4))
   ],
   // 6
   [
     (voicing: \Xm11, pitchClass: PC(\f, 4)),
-    (voicing: \Xm9, pitchClass: PC(\bf, 4)),
-    (voicing: \Xm7, pitchClass: PC(\c, 4)),
-    (voicing: \Xmaj9, pitchClass: PC(\df, 4)),
-    (voicing: \X7, pitchClass: PC(\bf, 4))
+    (voicing: \Xm7, pitchClass: PC(\c, 5)),
+    (voicing: \X7, pitchClass: PC(\bf, 5))
   ],
   // 7
   [

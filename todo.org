@@ -10,8 +10,8 @@
 *** TODO practice with looper
 
 ** Bion
+*** TODO why does the dandan synth sound different when recorded?
 *** TODO level adjustment for playback
-*** TODO tub 10 unrecognized
 *** TODO chord set changing busted wtf?
 *** TODO loops as separate recording tracks
 *** TODO fix sample playback
