@@ -2,60 +2,22 @@
 
   // ****************************************** MONITORING
 
-  \sax_mon, Synth(\mon,
-    [ \main, \met, \sax, \tub, \drum, \com ].collect({|input|
-      [asSymbol(input++"_scale"), ~monitorLevels[\sax][input]]
-    }).flat ++
+  ["sax", "tub", "drums", "nugs", "com"].collect({|instr|
     [
-      \metronome_bus, ~buss[\metronome],
-      \inbus, ~buss[\sax_mon],
-      \outbus, ~id_bus_map[\sax_mon_out],
-    ],
-    ~out_g ),
-
-  \tub_mon, Synth(\mon,
-    [ \main, \met, \sax, \tub, \drum, \com ].collect({|input|
-      [asSymbol(input++"_scale"), ~monitorLevels[\tub][input]]
-    }).flat ++
-    [
-      \metronome_bus, ~buss[\metronome],
-      \inbus, ~buss[\tub_mon],
-      \outbus, ~id_bus_map[\tub_mon_out],
-    ],
-    ~out_g ),
-
-  \drums_mon, Synth(\mon,
-    [ \main, \met, \sax, \tub, \drum, \com ].collect({|input|
-      [asSymbol(input++"_scale"), ~monitorLevels[\drums][input]]
-    }).flat ++
-    [
-      \metronome_bus, ~buss[\metronome],
-      \inbus, ~buss[\drums_mon],
-      \outbus, ~id_bus_map[\drums_mon_out],
-    ],
-    ~out_g ),
-
-  \nugs_mon, Synth(\mon,
-    [ \main, \met, \sax, \tub, \drum, \com ].collect({|input|
-      [asSymbol(input++"_scale"), ~monitorLevels[\nugs][input]]
-    }).flat ++
-    [
-      \metronome_bus, ~buss[\metronome],
-      \inbus, ~buss[\nugs_mon],
-      \outbus, ~id_bus_map[\nugs_mon_out],
-    ],
-    ~out_g ),
-
-  \com_mon, Synth(\mon,
-    [ \main, \met, \sax, \tub, \drum, \com ].collect({|input|
-      [asSymbol(input++"_scale"), ~monitorLevels[\com][input]]
-    }).flat ++
-    [
-      \metronome_bus, ~buss[\metronome],
-      \inbus, ~buss[\com_mon],
-      \outbus, ~id_bus_map[\com_mon_out],
-    ],
-    ~out_g ),
+      asSymbol(instr ++ "_mon"),
+      Synth(\mon,
+        [ \main, \met, \sax, \tub, \drum, \com ].collect({|input|
+          [asSymbol(input++"_scale"), ~monitorLevels[asSymbol(instr)][input]]
+        }).flat ++
+        [
+          \metronome_bus, ~buss[\metronome],
+          \inbus, ~buss[\monintor],
+          \outbus, ~id_bus_map[asSymbol(instr ++ "_mon_out")]
+        ],
+        ~out_g
+      )
+    ]
+  }),
 
   // ****************************************** HORNS
 
@@ -91,11 +53,7 @@
       \d_med_bus,     ~buss[\d_med_bus],
       \d_hi_bus,      ~buss[\d_hi_bus],
 
-      \drums_mon_bus, ~buss[\drums_mon],
-      \nugs_mon_bus,  ~buss[\nugs_mon],
-      \tub_mon_bus,   ~buss[\tub_mon],
-      \sax_mon_bus,   ~buss[\sax_mon],
-      \com_mon_bus,   ~buss[\com_mon],
+      \monitor_bus,   ~buss[\monitor],
 
       \tuba_record_bus,      ~multi_record_buss[\tuba],
       \sax_record_bus,       ~multi_record_buss[\sax],

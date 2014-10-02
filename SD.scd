@@ -166,10 +166,9 @@ loadRelative("./sd_support.scd");
   SynthDef(\agg, {
     arg drums_low_record_bus, drums_med_record_bus, drums_hi_record_bus,
     computer_record_bus, sax_record_bus, tuba_record_bus,
-    sax_bus, tub_bus, com_bus, d_low_bus, d_med_bus, d_hi_bus,
-    sample_bus,
-    drums_mon_bus, tub_mon_bus, sax_mon_bus, com_mon_bus, nugs_mon_bus,
-    outbus;
+    sax_bus, tub_bus, com_bus, d_low_bus, d_med_bus, d_hi_bus, sample_bus,
+    outbus, monitor_bus;
+
     var sax, tuba, com, out, sample,
       d_low, d_med, d_hi;
 
@@ -188,9 +187,7 @@ loadRelative("./sd_support.scd");
 
     Out.ar(outbus, [tuba, sax, com, d_low, d_med, d_hi, sample].sum);
 
-    [drums_mon_bus, nugs_mon_bus, tub_mon_bus, sax_mon_bus, com_mon_bus].do {|bus|
-      Out.ar(bus, [tuba, sax, com, sample, d_low + d_med + d_hi]);
-    };
+    Out.ar(monitor_bus, [tuba, sax, com, sample, d_low + d_med + d_hi]);
 
     Out.ar(tuba_record_bus, tuba);
     Out.ar(sax_record_bus, sax);

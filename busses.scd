@@ -55,11 +55,7 @@ if (~do_bus_map_overrides) {
   ~buss.put(name, Bus.audio(s, 1) );
 };
 
-[
-  \drums_mon, \nugs_mon, \sax_mon, \tub_mon, \com_mon
-].do {|name|
-  ~buss.put(name, Bus.audio(s, 5) );
-};
+~buss.put(\monitor, Bus.audio(s, 5) );
 
 [
   \sax_info, \tub_info
