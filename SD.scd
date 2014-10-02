@@ -220,10 +220,10 @@ loadRelative("./sd_support.scd");
 
   SynthDef(\com_dandan, {
     arg bus, amp, gate = 1, freqLagParam = 0.03, beatDur=1,
-    gp = 0.12, envBuf, harm_amp_lag = 0.2, index = 0.01;
+    gp = 0.12, envBuf, harm_amp_lag = 0.2, index = 0.01, vibwth = 0.005;
 
     var sig, harmAmps, freqs, silencers, freqLag,
-    vib, rand, vibosc, vibwth = 0.0125, vibeRate = 6.5,
+    vib, rand, vibosc, vibeRate = 6.5,
     trigLFOfreq = 0.25, trigLFOMul = 1.5, trigLFOrange = 20, trigOverlap = 3.5;
 
     envBuf = ~ugen_support[\sin_buf_1];
@@ -233,7 +233,6 @@ loadRelative("./sd_support.scd");
     freqs = \freqs.kr([1, 1, 1, 1, 1]).lag(freqLag);
     silencers = freqs.collect { |freq| freq > 9.0; };
 
-    vibwth = MouseX.kr(0, 0.1);
     vibosc = SinOsc.kr(vibeRate + LFDNoise3.kr(2).range(0.9, 1.1), 0, vibwth);
     rand = LFNoise1.kr(1/6.5, vibwth);
     vib = vibosc + rand + 1;

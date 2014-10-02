@@ -35,6 +35,14 @@ MIDIdef.cc(\dandan_index_position,
   0,
   ~mSrc[\bcr]
 );
+MIDIdef.cc(\dandan_vibrato_width,
+  { |val|
+    comDandanSynth.setVibratoWidth(val);
+  },
+  83,
+  0,
+  ~mSrc[\bcr]
+);
 
 postln("loading midi config: bcr");
 
