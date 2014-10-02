@@ -268,7 +268,7 @@ loadRelative("./sd_support.scd");
         maxGrains: 128,
         mul: harmAmps[i] * silencers[i]
       );
-    }).sum * 0.0125;
+    }).mean * 0.0125;
 
     sig = LeakDC.ar(sig) * amp;
     Out.ar(bus, sig.softclip * Linen.kr(gate, 0.05, releaseTime: 0.05, doneAction: 2));
