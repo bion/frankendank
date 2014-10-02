@@ -263,7 +263,7 @@ loadRelative("./sd_support.scd");
         envbufnum: envBuf,
         maxGrains: 128,
         mul: harmAmps[i] * silencers[i]
-      );
+      ).sum;
     }).mean * 0.0125;
 
     sig = LeakDC.ar(sig).softclip * amp;
