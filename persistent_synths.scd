@@ -11,7 +11,7 @@
         }).flat ++
         [
           \metronome_bus, ~buss[\metronome],
-          \inbus, ~buss[\monintor],
+          \inbus, ~buss[\monitor],
           \outbus, ~id_bus_map[asSymbol(instr ++ "_mon_out")]
         ],
         ~out_g
