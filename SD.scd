@@ -270,8 +270,8 @@ loadRelative("./sd_support.scd");
       );
     }).mean * 0.0125;
 
-    sig = LeakDC.ar(sig) * amp;
-    Out.ar(bus, sig.softclip * Linen.kr(gate, 0.05, releaseTime: 0.05, doneAction: 2));
+    sig = LeakDC.ar(sig).softclip * amp;
+    Out.ar(bus, sig * Linen.kr(gate, 0.05, releaseTime: 0.05, doneAction: 2));
   }),
 
   SynthDef(\com_fank, {
