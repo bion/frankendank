@@ -167,10 +167,10 @@ loadRelative("./sd_support.scd");
     arg drums_low_record_bus, drums_med_record_bus, drums_hi_record_bus,
     computer_record_bus, sax_record_bus, tuba_record_bus,
     sax_bus, tub_bus, com_bus, d_low_bus, d_med_bus, d_hi_bus,
-    metronome_bus, sample_bus,
+    sample_bus,
     drums_mon_bus, tub_mon_bus, sax_mon_bus, com_mon_bus, nugs_mon_bus,
     outbus;
-    var sax, tuba, com, out, metronome, sample,
+    var sax, tuba, com, out, sample,
       d_low, d_med, d_hi;
 
     sax = In.ar(sax_bus, 1);
@@ -181,7 +181,6 @@ loadRelative("./sd_support.scd");
     d_med = In.ar(d_med_bus, 1);
     d_hi = In.ar(d_hi_bus, 1);
 
-    metronome = In.ar(metronome_bus, 1);
     sample = In.ar(sample_bus, 1);
 
     tuba = Compander.ar(tuba, tuba, -50.dbamp, 1, 1/6, 0.002, \tub_relax.kr(0.1, 0.03)) * 6.dbamp;

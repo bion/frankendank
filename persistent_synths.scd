@@ -104,7 +104,6 @@
       \drums_med_record_bus, ~multi_record_buss[\drums_med],
       \drums_low_record_bus, ~multi_record_buss[\drums_low],
 
-      \metronome_bus, ~buss[\metronome],
       \sample_bus,    ~buss[\sample],
 
       \outbus,        ~buss[\one_out]
