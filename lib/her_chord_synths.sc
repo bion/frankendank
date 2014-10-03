@@ -33,12 +33,13 @@ HerSynthBase {
 }
 
 HerSynthDanDan : HerSynthBase {
-  var harms, indexPositionSpec, indexPosition,
+  var harms, lastHarmVal, indexPositionSpec, indexPosition,
     vibratoWidthSpec, vibratoWidth;
 
   setBright { |val|
     var highestIndex = round(this.specVal(val) * 6).asInt;
     var newHarms = harms.copyRange(0, highestIndex);
+    lastHarmVal = val;
     while { newHarms.size < 7 } { newHarms = newHarms.add(0) };
     synth.set(\harmAmpArray, newHarms);
   }
@@ -51,6 +52,14 @@ HerSynthDanDan : HerSynthBase {
   setVibratoWidth { |val|
     vibratoWidth = vibratoWidthSpec.map(this.specVal(val));
     synth.set(\vibwth, vibratoWidth);
+  }
+
+  start {
+    this.setVibratoWidth(vibratoWidth);
+    this.setIndexPosition(indexPosition);
+    this.setBright(lastHarmVal);
+
+    synth.run(true);
   }
 
   // **************** private

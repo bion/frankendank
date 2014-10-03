@@ -341,7 +341,7 @@ run = {
 };
 
 afterBoot = {
-  var cond = Condition.new;
+  var cond = Condition.new(true);
   "".postln;
   "================================================================".postln;
   "Server booted.".postln;
@@ -374,12 +374,16 @@ afterBoot = {
   // * * * * * * * * * * * * * * * * * * * * * * RECORDING
 
   if (~mSrc[\breath].notNil) {
+    var breathSynthCond = Condition(true);
     "Loading breath synths...".postln;
+
     ~comSynths = [
       HerSynthDanDan(~synth_g, ~buss[\com_agg]),
       HerSynthFank(~synth_g, ~buss[\com_agg]),
       HerSynthDirtRhode(~synth_g, ~buss[\com_agg])
     ];
+
+    s.sync(breathSynthCond);
 
     ~harmonyController = HerHarmonyController(~comSynths, ~chordSchema, ~clock.beatDur);
 
