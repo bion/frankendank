@@ -1,4 +1,3 @@
-(
 var mainPath = "./samples/com/".resolveRelative;
 
 ~ordered_com_samples = [
@@ -13,5 +12,3 @@ var mainPath = "./samples/com/".resolveRelative;
 };
 
 ~sampleController = HerSampleController(~ordered_com_samples, ~buss[\sample], ~playbuf_g, ~clock);
-
-)

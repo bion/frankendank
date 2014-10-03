@@ -1,4 +1,4 @@
-"LOADING BUSSES".postln;
+"Loading Busses...".post;
 
 ~id_bus_map = IdentityDictionary[
   \sax -> 8,
@@ -55,11 +55,7 @@ if (~do_bus_map_overrides) {
   ~buss.put(name, Bus.audio(s, 1) );
 };
 
-[
-  \drums_mon, \nugs_mon, \sax_mon, \tub_mon, \com_mon
-].do {|name|
-  ~buss.put(name, Bus.audio(s, 5) );
-};
+~buss.put(\monitor, Bus.audio(s, 5) );
 
 [
   \sax_info, \tub_info
@@ -81,3 +77,5 @@ if (~spoof_horns) {
     ~id_bus_map[instr] = bus;
   };
 };
+
+"done".postln;

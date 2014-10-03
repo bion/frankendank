@@ -1,5 +1,4 @@
-(
-postln("loading midi config: mars drums");
+"loading midi config mars drums...";
 
 MIDIdef.noteOn(
   \drum_pad,
@@ -11,4 +10,4 @@ MIDIdef.noteOn(
   ~mSrc[\drum_pad]
 );
 
-)
+"done".postln;

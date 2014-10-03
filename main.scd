@@ -1,4 +1,3 @@
-(
 var run, afterBoot,
 activatedInstr = [], instrButtons = IdentityDictionary[],
 instruments = [ \sax, \tuba, \drums, \com ],
@@ -79,6 +78,13 @@ updateButton = {|b, string, color=nil|
 thisPath = thisProcess.nowExecutingPath;
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 // end of unfortunate hack
+
+3.do { "".postln; };
+
+"================================================================".postln;
+"Initializing...".postln;
+"================================================================".postln;
+"".postln;
 
 // * * * * * * * * * * * * * * * * * * * * * * LOAD CONFIG
 
@@ -319,6 +325,11 @@ run = {
   thisProcess.nowExecutingPath_(thisPath);
   // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
   // end of unfortunate hack
+  3.do { "".postln; };
+  "================================================================".postln;
+  "Booting server...".postln;
+  "================================================================".postln;
+  "".postln;
 
   Server.default = s = Server.local;
   s.latency = 0.005;
@@ -330,7 +341,13 @@ run = {
 };
 
 afterBoot = {
-  var cond = Condition.new;
+  var cond = Condition.new(true);
+  "".postln;
+  "================================================================".postln;
+  "Server booted.".postln;
+  "Bootsrapping performance environment, hold on tight...".postln;
+  "================================================================".postln;
+  "".postln;
 
   ~clock = TempoClock(~tempo, queueSize: 2**10);
   ~pSynths = IdentityDictionary[];
@@ -348,7 +365,6 @@ afterBoot = {
     "instr/drums",
     "persistent_synths",
     "instr/com_sample_map",
-    "midi_mapping"
   ].do {|file|
     loadRelative("./" ++ file ++ ".scd");
     "".postln;
@@ -358,7 +374,18 @@ afterBoot = {
   // * * * * * * * * * * * * * * * * * * * * * * RECORDING
 
   if (~mSrc[\breath].notNil) {
-    ~harmonyController = HerHarmonyController(~synth_g, ~buss[\com_agg], \com_dirt_rhode, ~clock.beatDur);
+    var breathSynthCond = Condition(true);
+    "Loading breath synths...".postln;
+
+    ~comSynths = [
+      HerSynthDanDan(~synth_g, ~buss[\com_agg]),
+      HerSynthFank(~synth_g, ~buss[\com_agg]),
+      HerSynthDirtRhode(~synth_g, ~buss[\com_agg])
+    ];
+
+    s.sync(breathSynthCond);
+
+    ~harmonyController = HerHarmonyController(~comSynths, ~chordSchema, ~clock.beatDur);
 
     ~chordSelector = HerChordSelector(
       mainWindow,
@@ -366,6 +393,7 @@ afterBoot = {
       ~chordSchema,
       ~harmonyController
     );
+    "Done loading breath synths".postln;
   };
 
   // * * * * * * * * * * * * * * * * * * * * * * RECORDING
@@ -385,8 +413,6 @@ afterBoot = {
 
   s.sync(cond);
 
-  s.queryAllNodes;
-
   metronome = Metronome(
     ~clock,
     s,
@@ -396,7 +422,15 @@ afterBoot = {
     metronomeAmp
   );
 
+  ["midi_mapping"].do { |file|
+    loadRelative("./" ++ file ++ ".scd");
+  };
+
   CmdPeriod.doOnce {
+    "".postln;
+    "================================================================".postln;
+    "Kill received, shutting down...".postln;
+    "================================================================".postln;
     multiRecorder = nil;
     s.freeAll;
     metronome.stop;
@@ -421,6 +455,8 @@ afterBoot = {
     MIDIdef.freeAll;
     postln("MIDIdefs freed");
     s.quit;
+    "".postln;
+    "Server quit".postln;
   };
 
   startBtn
@@ -431,6 +467,23 @@ afterBoot = {
     .states_([["BOOM!", Color.black, Color.red]])
     .mouseDownAction_({ run.() });
   });
+
+  s.sync;
+
+  "".postln;
+
+"
+|                                    o
+|---. ,---. ,---.  ,-.-. .   . ,---. . ,---.
+|   | |---' |      | | | |   | `---. | |
+`   ' `---' `      ` ' ' `---' `---' ` `---'
+".postln;
+
+  "".postln;
+
+  postln("server ready");
+
+  "".postln;
 };
 
 mainWindow.onClose = {
@@ -439,6 +492,9 @@ mainWindow.onClose = {
 };
 
 currentEnvironment.do {_.free};
-
 mainWindow.front;
-)
+
+"".postln;
+
+"\nStartup loaded, waiting...".postln;
+"";

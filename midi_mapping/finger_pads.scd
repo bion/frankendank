@@ -1,6 +1,6 @@
-(
 var comLoop;
-postln("loading midi config: finger pads");
+
+"loading midi config finger pads...".post;
 
 MIDIdef.cc(\setFreqLag,
   { |val|
@@ -88,4 +88,4 @@ MIDIdef.noteOn(\decrementChordGroup,
   ~mSrc[\fingerPads]
 );
 
-)
+"done".postln;

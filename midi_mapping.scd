@@ -16,10 +16,9 @@
   36, 38, 40, 42, 44, 46
 
 */
-(
 var keyFileMap;
 
-postln("LOADING DONE CONFIG");
+"Loading MIDI config...".postln;
 
 keyFileMap = (
   sax: "sax",
@@ -38,5 +37,4 @@ keyFileMap.keysValuesDo { |sourceId, fileName|
   };
 };
 
-postln("DONE LOADING MIDI CONFIG");
-)
+"Done loading midi config".postln;

@@ -1,61 +1,37 @@
+"Loading persistent synths...".postln;
+{
+  var outputChannelNames = [\sax, \tub, \drums, \nugs, \com];
+  var inputChannelNames = [\main, \met, \sax, \tub, \drum, \com];
+
+  "Loading Monitor synths...".post;
+
+  outputChannelNames.do({ |outputChannelName|
+    var synthName = asSymbol(outputChannelName ++ "_mon");
+    var synth, inputChannelArguments, otherArguments, arguments;
+    var thisMonitorLevels = ~monitorLevels[outputChannelName];
+
+    inputChannelArguments = inputChannelNames.collect({ |inputChannelName|
+      var argumentName = asSymbol(inputChannelName ++ "_scale");
+
+      [argumentName, thisMonitorLevels[inputChannelName]];
+    }).flat;
+
+    otherArguments = [
+      \metronome_bus, ~buss[\metronome],
+      \inbus, ~buss[\monitor],
+      \outbus, ~id_bus_map[asSymbol(outputChannelName ++ "_mon_out")]
+    ];
+
+    arguments = inputChannelArguments ++ otherArguments;
+
+    synth = Synth(\mon, arguments, ~out_g);
+    ~pSynths.put(synthName, synth);
+  });
+
+  "done".postln;
+}.value;
+
 ~pSynths.putPairs(flat([
-
-  // ****************************************** MONITORING
-
-  \sax_mon, Synth(\mon,
-    [ \main, \met, \sax, \tub, \drum, \com ].collect({|input|
-      [asSymbol(input++"_scale"), ~monitorLevels[\sax][input]]
-    }).flat ++
-    [
-      \metronome_bus, ~buss[\metronome],
-      \inbus, ~buss[\sax_mon],
-      \outbus, ~id_bus_map[\sax_mon_out],
-    ],
-    ~out_g ),
-
-  \tub_mon, Synth(\mon,
-    [ \main, \met, \sax, \tub, \drum, \com ].collect({|input|
-      [asSymbol(input++"_scale"), ~monitorLevels[\tub][input]]
-    }).flat ++
-    [
-      \metronome_bus, ~buss[\metronome],
-      \inbus, ~buss[\tub_mon],
-      \outbus, ~id_bus_map[\tub_mon_out],
-    ],
-    ~out_g ),
-
-  \drums_mon, Synth(\mon,
-    [ \main, \met, \sax, \tub, \drum, \com ].collect({|input|
-      [asSymbol(input++"_scale"), ~monitorLevels[\drums][input]]
-    }).flat ++
-    [
-      \metronome_bus, ~buss[\metronome],
-      \inbus, ~buss[\drums_mon],
-      \outbus, ~id_bus_map[\drums_mon_out],
-    ],
-    ~out_g ),
-
-  \nugs_mon, Synth(\mon,
-    [ \main, \met, \sax, \tub, \drum, \com ].collect({|input|
-      [asSymbol(input++"_scale"), ~monitorLevels[\nugs][input]]
-    }).flat ++
-    [
-      \metronome_bus, ~buss[\metronome],
-      \inbus, ~buss[\nugs_mon],
-      \outbus, ~id_bus_map[\nugs_mon_out],
-    ],
-    ~out_g ),
-
-  \com_mon, Synth(\mon,
-    [ \main, \met, \sax, \tub, \drum, \com ].collect({|input|
-      [asSymbol(input++"_scale"), ~monitorLevels[\com][input]]
-    }).flat ++
-    [
-      \metronome_bus, ~buss[\metronome],
-      \inbus, ~buss[\com_mon],
-      \outbus, ~id_bus_map[\com_mon_out],
-    ],
-    ~out_g ),
 
   // ****************************************** HORNS
 
@@ -91,11 +67,7 @@
       \d_med_bus,     ~buss[\d_med_bus],
       \d_hi_bus,      ~buss[\d_hi_bus],
 
-      \drums_mon_bus, ~buss[\drums_mon],
-      \nugs_mon_bus,  ~buss[\nugs_mon],
-      \tub_mon_bus,   ~buss[\tub_mon],
-      \sax_mon_bus,   ~buss[\sax_mon],
-      \com_mon_bus,   ~buss[\com_mon],
+      \monitor_bus,   ~buss[\monitor],
 
       \tuba_record_bus,      ~multi_record_buss[\tuba],
       \sax_record_bus,       ~multi_record_buss[\sax],
@@ -104,7 +76,6 @@
       \drums_med_record_bus, ~multi_record_buss[\drums_med],
       \drums_low_record_bus, ~multi_record_buss[\drums_low],
 
-      \metronome_bus, ~buss[\metronome],
       \sample_bus,    ~buss[\sample],
 
       \outbus,        ~buss[\one_out]
@@ -115,7 +86,7 @@
   \out_left, Synth(\route_mono,
     [\inbus, ~buss[\one_out], \outbus, ~id_bus_map[\main_out_0]], ~out_g),
 
-// ****************************************** LOOPING
+  // ****************************************** LOOPING
 
   \sax_loop_sum,
   Synth(\sax_loop_sum,
@@ -148,7 +119,7 @@
     [\inbus, ~loop_filt_buss[\com_loops], \outbus, ~buss[\com_agg]],
     ~route_loop_g),
 
-// ****************************************** ANALOG TRIGGERS
+  // ****************************************** ANALOG TRIGGERS
 
   \kick_drum_listener,
   Synth(\drumTrigListener,
@@ -166,4 +137,4 @@
 
 ]));
 
-"PERSISTENT SYNTHS LOADED".postln;
+"Loaded persistent synths".postln;

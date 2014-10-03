@@ -1,4 +1,3 @@
-(
 if (~config_loaded_flag.isNil) { Error("load config before SD").throw };
 
 loadRelative("./sd_support.scd");
@@ -166,11 +165,10 @@ loadRelative("./sd_support.scd");
   SynthDef(\agg, {
     arg drums_low_record_bus, drums_med_record_bus, drums_hi_record_bus,
     computer_record_bus, sax_record_bus, tuba_record_bus,
-    sax_bus, tub_bus, com_bus, d_low_bus, d_med_bus, d_hi_bus,
-    metronome_bus, sample_bus,
-    drums_mon_bus, tub_mon_bus, sax_mon_bus, com_mon_bus, nugs_mon_bus,
-    outbus;
-    var sax, tuba, com, out, metronome, sample,
+    sax_bus, tub_bus, com_bus, d_low_bus, d_med_bus, d_hi_bus, sample_bus,
+    outbus, monitor_bus;
+
+    var sax, tuba, com, out, sample,
       d_low, d_med, d_hi;
 
     sax = In.ar(sax_bus, 1);
@@ -181,7 +179,6 @@ loadRelative("./sd_support.scd");
     d_med = In.ar(d_med_bus, 1);
     d_hi = In.ar(d_hi_bus, 1);
 
-    metronome = In.ar(metronome_bus, 1);
     sample = In.ar(sample_bus, 1);
 
     tuba = Compander.ar(tuba, tuba, -50.dbamp, 1, 1/6, 0.002, \tub_relax.kr(0.1, 0.03)) * 6.dbamp;
@@ -189,9 +186,7 @@ loadRelative("./sd_support.scd");
 
     Out.ar(outbus, [tuba, sax, com, d_low, d_med, d_hi, sample].sum);
 
-    [drums_mon_bus, nugs_mon_bus, tub_mon_bus, sax_mon_bus, com_mon_bus].do {|bus|
-      Out.ar(bus, [tuba, sax, com, sample, d_low + d_med + d_hi]);
-    };
+    Out.ar(monitor_bus, [tuba, sax, com, sample, d_low + d_med + d_hi]);
 
     Out.ar(tuba_record_bus, tuba);
     Out.ar(sax_record_bus, sax);
@@ -222,11 +217,62 @@ loadRelative("./sd_support.scd");
 
   /* ------------------------ com --------------------------- */
 
+  SynthDef(\com_dandan, {
+    arg bus, amp, gate = 1, freqLagParam = 0.03, beatDur=1,
+    gp = 0.12, envBuf, harm_amp_lag = 0.2, index = 0.01, vibwth = 0.005;
+
+    var sig, harmAmps, freqs, silencers, freqLag,
+    vib, rand, vibosc, vibeRate = 6.5,
+    trigLFOfreq = 0.25, trigLFOMul = 1.5, trigLFOrange = 20, trigOverlap = 3.5;
+
+    envBuf = ~ugen_support[\sin_buf_1];
+
+    freqLag = freqLagParam * beatDur;
+
+    freqs = \freqs.kr([1, 1, 1, 1, 1]).lag(freqLag);
+    silencers = freqs.collect { |freq| freq > 9.0; };
+
+    vibosc = SinOsc.kr(vibeRate + LFDNoise3.kr(2).range(0.9, 1.1), 0, vibwth);
+    rand = LFNoise1.kr(1/6.5, vibwth);
+    vib = vibosc + rand + 1;
+
+    harmAmps = \harmAmpArray.kr(7.collect { 0 }).lag(harm_amp_lag);
+
+    sig = freqs.collect({
+      arg freq, i;
+      var trig;
+
+      trig = Impulse.kr(
+        (gp.reciprocal * trigOverlap) * (
+          LFNoise2.kr(trigLFOfreq)
+          .range(trigLFOrange / 2 * 0.01.neg, trigLFOrange / 2 * 0.01)
+          * trigLFOMul + 1
+        )
+      );
+
+      GrainFM.ar(
+        numChannels: 1,
+        trigger: trig,
+        dur: gp,
+        carfreq: freq * vib * (1 .. 7),
+        modfreq: freq * vib * (1 .. 7),
+        index: index,
+        pan: 0,
+        envbufnum: envBuf,
+        maxGrains: 128,
+        mul: harmAmps[i] * silencers[i]
+      ).sum;
+    }).mean * 0.0125;
+
+    sig = LeakDC.ar(sig).softclip * amp;
+    Out.ar(bus, sig * Linen.kr(gate, 0.05, releaseTime: 0.05, doneAction: 2));
+  }),
+
   SynthDef(\com_fank, {
-    arg bus, amp, vib_rate = 11, freq_lag_param = 0.03, beat_dur=1, vib_width = 0.00125, gate=1;
+    arg bus, amp, vib_rate = 11, freqLagParam = 0.03, beatDur=1, vib_width = 0.00125, gate=1;
     var sig, vib, freqs, silencers, ampMul, freq_lag;
 
-    freq_lag = beat_dur * freq_lag_param;
+    freq_lag = beatDur * freqLagParam;
 
     // TODO wire up controller for this
     // freq_lag = 0.1;
@@ -261,11 +307,11 @@ loadRelative("./sd_support.scd");
   }),
 
   SynthDef(\com_dirt_rhode, {
-    arg bus, amp, vib_rate = 11, freq_lag_param=0.03, beat_dur=1, vib_width = 0.00125, gate=1;
+    arg bus, amp, vib_rate = 11, freqLagParam=0.03, beatDur=1, vib_width = 0.00125, gate=1;
     var sig, env, vib, warm = LFNoise2.kr(vib_rate).range(0.9, 1.1);
     var silencers, freqs, ampMul, detuneMuls, freq_lag;
 
-    freq_lag = beat_dur * freq_lag_param;
+    freq_lag = beatDur * freqLagParam;
 
     freqs = \freqs.kr([1, 1, 1, 1, 1]).lag(freq_lag);
 
@@ -696,4 +742,3 @@ loadRelative("./sd_support.scd");
 ].flat.do(_.add);
 
 "SD loaded".postln;
-)

@@ -1,4 +1,4 @@
-"LOADING GROUPS...".postln;
+"Loading groups...".post;
 
 ~data_g        = ParGroup(s);
 ~playbuf_g     = ParGroup(~data_g, \addAfter);
@@ -17,3 +17,5 @@
 ~agg_g         = ParGroup(~loop_g, \addAfter);
 ~out_g         = ParGroup(~agg_g, \addAfter);
 ~record_g      = ParGroup(~out_g, \addAfter);
+
+"done".postln;

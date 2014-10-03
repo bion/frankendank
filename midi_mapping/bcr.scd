@@ -1,4 +1,3 @@
-(
 var loopFilters = (
   sax: [
     \amp_filt,
@@ -12,9 +11,40 @@ var loopFilters = (
     \DFM1_lo,
     \decimator
   ]
+), comDandanSynth;
+
+"loading midi config for bcr...".post;
+
+// TODO wire up with HerSynthDanDan
+// #setBright
+// #setIndexPosition
+
+comDandanSynth = ~comSynths[0];
+MIDIdef.cc(\dandan_bright,
+  { |val|
+    comDandanSynth.setBright(val);
+  },
+  81,
+  0,
+  ~mSrc[\bcr]
+);
+MIDIdef.cc(\dandan_index_position,
+  { |val|
+    comDandanSynth.setIndexPosition(val);
+  },
+  82,
+  0,
+  ~mSrc[\bcr]
+);
+MIDIdef.cc(\dandan_vibrato_width,
+  { |val|
+    comDandanSynth.setVibratoWidth(val);
+  },
+  83,
+  0,
+  ~mSrc[\bcr]
 );
 
-postln("loading midi config: bcr");
 
 ~loop_filt_controllers = IdentityDictionary[];
 
@@ -58,4 +88,4 @@ postln("loading midi config: bcr");
   );
 };
 
-)
+"done".postln;

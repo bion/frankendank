@@ -1,9 +1,10 @@
-(
 var drum_sample_dir = "../samples/drum/".resolveRelative,
 low_sample_paths = (drum_sample_dir ++ "low/*").pathMatch,
 med_sample_paths = (drum_sample_dir ++ "med/*").pathMatch,
 hi_sample_paths = (drum_sample_dir ++ "hi/*").pathMatch,
 count=0;
+
+"Loading drum samples...".post;
 
 ~drum_samples = IdentityDictionary[];
 
@@ -33,7 +34,8 @@ count=0;
   };
 };
 
+"done".postln;
+
 if (count == 0)
-{ Error("LOADED DRUMS BUT NO SAMPLES FOUND").throw }
-{ (count + "DRUM SAMPLES LOADED").postln };
-)
+{ Error("Loaded drums but no samples found").throw }
+{ (count + "Drum samples loaded").postln };

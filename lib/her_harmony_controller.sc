@@ -1,39 +1,41 @@
 HerHarmonyController {
-  var <group, <bus, <currentSynth, <>beatDur;
-  var <>amp=1, <currentChord, <synth, freqLag;
+  var <synths, <chordSchema, <beatDur;
+  var <>amp=0, <currentChord, <currentSynthIndex=0, freqLag=0.01, currentSynth;
 
-  *new { |group, bus, currentSynth, beatDurBus|
-    ^super.newCopyArgs(group, bus, currentSynth, beatDurBus).init;
+  *new { |synths, chordSchema, beatDur|
+    ^super.newCopyArgs(synths, chordSchema, beatDur).init;
   }
 
   init {
-    currentChord = HerChords.at(\Xopen, PC(\c, 4));
-    synth = Synth(currentSynth,
-      [
-        \bus, bus,
-        \freqs, currentChord,
-        \beat_dur, beatDur
-      ],
-      group
-    );
+    // initialize to first chord in first chord group of schema
+    currentSynth = synths[0];
+    currentSynth.start;
+    this.setChord(chordSchema[0][0]);
+    this.setFreqLag(freqLag);
   }
 
   setAmp { |amp|
-    synth.set(\amp, amp);
+    currentSynth.setAmp(amp);
   }
 
-  setSynth { |newSynthName| // symbol
-    currentSynth = newSynthName;
-    postln("current synth now: " ++ currentSynth);
-    synth.free;
-    synth = Synth(currentSynth,
-      [
-        \bus, bus,
-        \freqs, currentChord,
-        \bear_dur, beatDur
-      ],
-      group
-    );
+  setBeatDur { |newBeatDur|
+    beatDur = newBeatDur;
+    currentSynth.setBeatDur(beatDur);
+  }
+
+  setSynth { |newSynthIndex|
+    currentSynth.stop;
+
+    currentSynthIndex = newSynthIndex;
+    currentSynth = synths[currentSynthIndex];
+
+    currentSynth.setFreqs(currentChord);
+    currentSynth.setBeatDur(beatDur);
+    currentSynth.setFreqLag(freqLag);
+
+    currentSynth.start;
+
+    postln("current synth now: " ++ currentSynth.class);
   }
 
   setChord { |chord|
@@ -41,7 +43,7 @@ HerHarmonyController {
     (5 - currentChord.size).do {|val|
       currentChord = currentChord.add(1);
     };
-    synth.set(\freqs, currentChord);
+    currentSynth.setFreqs(currentChord);
   }
 
   setFreqLag { |val|
@@ -56,11 +58,8 @@ HerHarmonyController {
     {val < 112} { lag = 1.5  }
     {val < 128} { lag = 2    };
 
-    if (lag != freqLag) {
-      synth.set(\freq_lag_param, lag);
-      freqLag = lag;
-      postln("freqLag is: " ++ lag);
-    };
+    currentSynth.setFreqLag(lag);
+    freqLag = lag;
+    postln("freqLag is: " ++ lag);
   }
-
 }

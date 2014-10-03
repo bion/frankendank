@@ -40,5 +40,4 @@ HerChordSelector {
       harmonyController.setChord(currentGroup[index]);
     };
   }
-
 }

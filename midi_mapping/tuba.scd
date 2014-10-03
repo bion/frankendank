@@ -1,5 +1,8 @@
-(
-var tubaLoops = 4.collect {|i|
+var tubaLoops;
+
+"loading midi config tuba...".post;
+
+tubaLoops = 4.collect {|i|
   HerLoop(
     \tuba,
     s,
@@ -9,8 +12,6 @@ var tubaLoops = 4.collect {|i|
     ~loop_filt_buss[\tub].index + i,
     ~play_loop_g)
 };
-
-postln("loading midi config: tuba");
 
 [
   // looping
@@ -89,4 +90,4 @@ MIDIdef.cc(\tub_relax, {|val|
   ~pSynths[\agg].set(\tub_relax, relax);
 }, 27, 0, ~mSrc[\tuba]);
 
-)
+"done".postln;
