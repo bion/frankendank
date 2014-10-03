@@ -357,7 +357,7 @@ afterBoot = {
   // * * * * * * * * * * * * * * * * * * * * * * RECORDING
 
   if (~mSrc[\breath].notNil) {
-    "BREATH CONTROLLER CONNECTED, LOADING BREATH SYNTHS".postln;
+    "BREATH CONTROLLER CONNECTED, LOADING BREATH SYNTHS...".post;
     ~comSynths = [
       HerSynthDanDan(~synth_g, ~buss[\com_agg]),
       HerSynthFank(~synth_g, ~buss[\com_agg]),
@@ -372,6 +372,7 @@ afterBoot = {
       ~chordSchema,
       ~harmonyController
     );
+    "done".postln;
   };
 
   // * * * * * * * * * * * * * * * * * * * * * * RECORDING

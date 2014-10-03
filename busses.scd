@@ -1,4 +1,4 @@
-"LOADING BUSSES".postln;
+"LOADING BUSSES...".post;
 
 ~id_bus_map = IdentityDictionary[
   \sax -> 8,
@@ -77,3 +77,5 @@ if (~spoof_horns) {
     ~id_bus_map[instr] = bus;
   };
 };
+
+"done".postln;

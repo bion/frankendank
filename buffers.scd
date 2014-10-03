@@ -1,7 +1,7 @@
 (
 var met_sfd = "./met_sfs/*".resolveRelative.pathMatch; // natural numbers
 
-"LOADING BUFFERS...".postln;
+"LOADING BUFFERS...".post;
 
 if (met_sfd.size == 0) {
   var mes = "No metronome files found, where are they?";
@@ -13,4 +13,5 @@ if (met_sfd.size == 0) {
     ~met_bufs[i] = Buffer.read(s, path) };
 };
 
+"done".postln;
 )
