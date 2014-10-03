@@ -35,5 +35,5 @@ count=0;
 
 if (count == 0)
 { Error("LOADED DRUMS BUT NO SAMPLES FOUND").throw }
-{ (count + "DRUM SAMPLES LOADED").postln };
+{ (count + "Drum samples loaded").postln };
 )

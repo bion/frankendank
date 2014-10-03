@@ -19,7 +19,7 @@
 (
 var keyFileMap;
 
-postln("LOADING DONE CONFIG");
+"Loading MIDI config".post;
 
 keyFileMap = (
   sax: "sax",
@@ -38,5 +38,5 @@ keyFileMap.keysValuesDo { |sourceId, fileName|
   };
 };
 
-postln("DONE LOADING MIDI CONFIG");
+"done".postln;
 )

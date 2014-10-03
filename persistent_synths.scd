@@ -1,3 +1,4 @@
+"Loading persistent synths...".postln;
 {
   var outputChannelNames = [\sax, \tub, \drums, \nugs, \com];
   var inputChannelNames = [\main, \met, \sax, \tub, \drum, \com];
@@ -136,4 +137,4 @@
 
 ]));
 
-"PERSISTENT SYNTHS LOADED".postln;
+"Loaded persistent synths".postln;

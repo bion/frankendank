@@ -1,4 +1,4 @@
-"LOADING BUSSES...".post;
+"Loading Busses...".post;
 
 ~id_bus_map = IdentityDictionary[
   \sax -> 8,

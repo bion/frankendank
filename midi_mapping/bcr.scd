@@ -14,6 +14,8 @@ var loopFilters = (
   ]
 ), comDandanSynth;
 
+"loading midi config for bcr...".post;
+
 // TODO wire up with HerSynthDanDan
 // #setBright
 // #setIndexPosition
@@ -44,7 +46,6 @@ MIDIdef.cc(\dandan_vibrato_width,
   ~mSrc[\bcr]
 );
 
-postln("loading midi config: bcr");
 
 ~loop_filt_controllers = IdentityDictionary[];
 
@@ -88,4 +89,5 @@ postln("loading midi config: bcr");
   );
 };
 
+"done".postln;
 )
