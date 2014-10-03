@@ -1,7 +1,7 @@
 (
 var playing = IdentityDictionary[];
 
-"LOADING HORN CONTROL...".post;
+"Loading horn control...".post;
 
 ~reset_all = {|instr|
   ~dry_horn.(instr);

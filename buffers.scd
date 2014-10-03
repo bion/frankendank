@@ -1,7 +1,7 @@
 (
 var met_sfd = "./met_sfs/*".resolveRelative.pathMatch; // natural numbers
 
-"LOADING BUFFERS...".post;
+"Loading buffers...".post;
 
 if (met_sfd.size == 0) {
   var mes = "No metronome files found, where are they?";
