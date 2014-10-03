@@ -1,4 +1,3 @@
-(
 var run, afterBoot,
 activatedInstr = [], instrButtons = IdentityDictionary[],
 instruments = [ \sax, \tuba, \drums, \com ],
@@ -423,9 +422,6 @@ afterBoot = {
     loadRelative("./" ++ file ++ ".scd");
   };
 
-  postln("Server running with " ++ s.numSynths ++ " synths");
-  "".postln;
-
   CmdPeriod.doOnce {
     "".postln;
     "================================================================".postln;
@@ -467,6 +463,23 @@ afterBoot = {
     .states_([["BOOM!", Color.black, Color.red]])
     .mouseDownAction_({ run.() });
   });
+
+  s.sync;
+
+  "".postln;
+
+"
+|                                o
+|---.,---.,---.  ,-.-..   .,---..,---.
+|   ||---'|      | | ||   |`---.||
+`   '`---'`      ` ' '`---'`---'``---'
+".postln;
+
+  "".postln;
+
+  postln("Server running with " ++ s.numSynths ++ " synths");
+
+  "".postln;
 };
 
 mainWindow.onClose = {
@@ -479,14 +492,5 @@ mainWindow.front;
 
 "".postln;
 
-" __                                         __
-|  |__   ___________    _____  __ __  _____|__| ____
-|  |  \\_/ __ \\_  __ \\  /     \\|  |  \\/  ___/  |/ ___\\
-|   Y  \\  ___/|  | \\/ |  Y Y  \\  |  /\\___ \\|  \\  \\___
-|___|  /\\___  >__|    |__|_|  /____//____  >__|\\___  >
-     \\/     \\/              \\/           \\/        \\/
-".postln;
-
 "\nStartup loaded, waiting...".postln;
 "";
-)

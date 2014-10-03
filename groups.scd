@@ -1,4 +1,4 @@
-"LOADING GROUPS...".post;
+"Loading groups...".post;
 
 ~data_g        = ParGroup(s);
 ~playbuf_g     = ParGroup(~data_g, \addAfter);
