@@ -1,4 +1,3 @@
-(
 var met_sfd = "./met_sfs/*".resolveRelative.pathMatch; // natural numbers
 
 "Loading buffers...".post;
@@ -14,4 +13,3 @@ if (met_sfd.size == 0) {
 };
 
 "done".postln;
-)

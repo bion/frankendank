@@ -1,4 +1,3 @@
-(
 var basic_sample, reversed_sample;
 
 ~current_set = 0;
@@ -44,5 +43,3 @@ reversed_sample = {|action, val|
 
   ~drum_funcs[action.playFunction].(action, val);
 };
-
-)

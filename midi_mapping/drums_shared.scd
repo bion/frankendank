@@ -1,6 +1,4 @@
-(
-
-postln("loading midi config: drums shared");
+"loading midi config drums shared...".post;
 
 MIDIdef.program(
   \drums_switch,
@@ -13,4 +11,4 @@ MIDIdef.program(
   ~mSrc[\drums_switch]
 );
 
-)
+"done".postln;

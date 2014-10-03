@@ -1,4 +1,3 @@
-(
 var playing = IdentityDictionary[];
 
 "Loading horn control...".post;
@@ -51,4 +50,3 @@ var playing = IdentityDictionary[];
 };
 
 "done".postln;
-)

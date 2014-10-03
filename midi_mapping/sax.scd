@@ -1,5 +1,8 @@
-(
-var saxLoops = 4.collect {|i|
+var saxLoops;
+
+"loading midi config sax".post;
+
+saxLoopos = 4.collect {|i|
   HerLoop(
     \sax,
     s,
@@ -9,8 +12,6 @@ var saxLoops = 4.collect {|i|
     ~loop_filt_buss[\sax].index + i,
     ~play_loop_g)
 };
-
-postln("loading midi config: sax");
 
 [
   // looping
@@ -55,4 +56,4 @@ MIDIdef.cc(\sax_volume, {|val| ~pSynths[\sax_v].set(\amp, val) }, 7, 0, ~mSrc[\s
 
 MIDIdef.cc(\sax_param, {|val| ~pSynths[\sax_p].set(\param, val) }, 27, 0, ~mSrc[\sax]);
 
-)
+"done".postln;

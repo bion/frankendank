@@ -81,8 +81,9 @@ thisPath = thisProcess.nowExecutingPath;
 // end of unfortunate hack
 
 3.do { "".postln; };
+
 "================================================================".postln;
-"Welcome to Her".postln;
+"Initializing...".postln;
 "================================================================".postln;
 "".postln;
 
@@ -477,6 +478,15 @@ currentEnvironment.do {_.free};
 mainWindow.front;
 
 "".postln;
-"Startup loaded, waiting...".postln;
+
+" __                                         __
+|  |__   ___________    _____  __ __  _____|__| ____
+|  |  \\_/ __ \\_  __ \\  /     \\|  |  \\/  ___/  |/ ___\\
+|   Y  \\  ___/|  | \\/ |  Y Y  \\  |  /\\___ \\|  \\  \\___
+|___|  /\\___  >__|    |__|_|  /____//____  >__|\\___  >
+     \\/     \\/              \\/           \\/        \\/
+".postln;
+
+"\nStartup loaded, waiting...".postln;
 "";
 )

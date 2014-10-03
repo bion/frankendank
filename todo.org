@@ -1,25 +1,8 @@
 * Thing that need to be done
 
-** Mars
-*** TODO get kick pedal sorted
-*** TODO normalize all samples
-** Nuggz
-*** TODO getting beat ideas together for RWY
-** Jon
-** Scott
-*** TODO practice with looper
-
 ** Bion
 *** TODO why does the dandan synth sound different when recorded?
 *** TODO level adjustment for playback
 *** TODO chord set changing busted wtf?
 *** TODO loops as separate recording tracks
 *** TODO fix sample playback
-** equipment needs
-*** TODO rack box?
-*** TODO rack computer?
-
-chords:
-[ 195.99771799087, 246.94165062806, 329.62755691287, 1, 1 ]
-[ 220, 261.6255653006, 369.99442271163, 1, 1 ]
-[ 246.94165062806, 369.99442271163, 391.99543598175, 587.32953583482, 880 ]

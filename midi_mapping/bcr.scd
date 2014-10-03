@@ -1,4 +1,3 @@
-(
 var loopFilters = (
   sax: [
     \amp_filt,
@@ -90,4 +89,3 @@ MIDIdef.cc(\dandan_vibrato_width,
 };
 
 "done".postln;
-)

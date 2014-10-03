@@ -1,4 +1,3 @@
-(
 if (~config_loaded_flag.isNil) { Error("load config before SD").throw };
 
 loadRelative("./sd_support.scd");
@@ -743,4 +742,3 @@ loadRelative("./sd_support.scd");
 ].flat.do(_.add);
 
 "SD loaded".postln;
-)

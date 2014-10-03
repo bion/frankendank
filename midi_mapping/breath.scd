@@ -1,4 +1,3 @@
-(
 "loading midi config for breath...".post;
 
 if (~mSrc[\breath].notNil) {
@@ -13,4 +12,3 @@ if (~mSrc[\breath].notNil) {
 };
 
 "done".postln;
-)
