@@ -1,23 +1,36 @@
+{
+  var outputChannelNames = [\sax, \tub, \drums, \nugs, \com];
+  var inputChannelNames = [\main, \met, \sax, \tub, \drum, \com];
+
+  "Loading Monitor synths...".post;
+
+  outputChannelNames.do({ |outputChannelName|
+    var synthName = asSymbol(outputChannelName ++ "_mon");
+    var synth, inputChannelArguments, otherArguments, arguments;
+    var thisMonitorLevels = ~monitorLevels[outputChannelName];
+
+    inputChannelArguments = inputChannelNames.collect({ |inputChannelName|
+      var argumentName = asSymbol(inputChannelName ++ "_scale");
+
+      [argumentName, thisMonitorLevels[inputChannelName]];
+    }).flat;
+
+    otherArguments = [
+      \metronome_bus, ~buss[\metronome],
+      \inbus, ~buss[\monitor],
+      \outbus, ~id_bus_map[asSymbol(outputChannelName ++ "_mon_out")]
+    ];
+
+    arguments = inputChannelArguments ++ otherArguments;
+
+    synth = Synth(\mon, arguments, ~out_g);
+    ~pSynths.put(synthName, synth);
+  });
+
+  "done".postln;
+}.value;
+
 ~pSynths.putPairs(flat([
-
-  // ****************************************** MONITORING
-
-  ["sax", "tub", "drums", "nugs", "com"].collect({|instr|
-    [
-      asSymbol(instr ++ "_mon"),
-      Synth(\mon,
-        [ \main, \met, \sax, \tub, \drum, \com ].collect({|input|
-          [asSymbol(input++"_scale"), ~monitorLevels[asSymbol(instr)][input]]
-        }).flat ++
-        [
-          \metronome_bus, ~buss[\metronome],
-          \inbus, ~buss[\monitor],
-          \outbus, ~id_bus_map[asSymbol(instr ++ "_mon_out")]
-        ],
-        ~out_g
-      )
-    ]
-  }),
 
   // ****************************************** HORNS
 
@@ -72,7 +85,7 @@
   \out_left, Synth(\route_mono,
     [\inbus, ~buss[\one_out], \outbus, ~id_bus_map[\main_out_0]], ~out_g),
 
-// ****************************************** LOOPING
+  // ****************************************** LOOPING
 
   \sax_loop_sum,
   Synth(\sax_loop_sum,
@@ -105,7 +118,7 @@
     [\inbus, ~loop_filt_buss[\com_loops], \outbus, ~buss[\com_agg]],
     ~route_loop_g),
 
-// ****************************************** ANALOG TRIGGERS
+  // ****************************************** ANALOG TRIGGERS
 
   \kick_drum_listener,
   Synth(\drumTrigListener,
