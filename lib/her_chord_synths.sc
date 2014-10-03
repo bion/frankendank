@@ -33,8 +33,9 @@ HerSynthBase {
 }
 
 HerSynthDanDan : HerSynthBase {
-  var harms, lastHarmVal, indexPositionSpec, indexPosition,
-    vibratoWidthSpec, vibratoWidth;
+  var harms, lastHarmVal = 0,
+      indexPositionSpec, indexPosition = 0,
+      vibratoWidthSpec, vibratoWidth = 0;
 
   setBright { |val|
     var highestIndex = round(this.specVal(val) * 6).asInt;
