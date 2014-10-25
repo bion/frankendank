@@ -51,7 +51,10 @@ makeMidiListener = {|instr|
 
 makeLabeledSlider = { | window, left, top, lo, hi, text, fxn, default=0 |
   var box, slider, spec;
-  box = NumberBox(window, Rect(left, top, 50, 30)).align_(\center).value_(default).stringColor_(Color.white);
+  box = NumberBox(window, Rect(left, top, 50, 30))
+    .align_(\center)
+    .value_(default)
+    .stringColor_(Color.white);
 
   StaticText(window, Rect(left, top - 50, 50, 30))
   .align_(\center).string_(text).stringColor_(Color.white);
@@ -150,7 +153,7 @@ chordIndexBox = NumberBox(mainWindow, Rect(guiLength * 0.2 + 60, guiHeight * 0.6
     Rect(
       instrBtnLeft + btnLength * 1.5, instrBtnTop + 40 + (i * (btnHeight + 40)),
       btnLength,
-      btnHeight) )
+      btnHeight))
   .states_( [["monitor", Color.black]] )
   .mouseDownAction_({
     thisWindow.visible = true;
@@ -481,7 +484,7 @@ afterBoot = {
 
   "".postln;
 
-  postln("server ready");
+  "server ready".postln;
 
   "".postln;
 };
