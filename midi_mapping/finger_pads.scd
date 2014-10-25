@@ -53,17 +53,17 @@ MIDIdef.noteOn(\comLoopToggleReset,
   );
 };
 
-MIDIdef.noteOn(\setHarmonySynthComFank,
+MIDIdef.noteOn(\incrementComSynth,
   {
-    ~harmonyController.setSynth(\com_fank);
+    ~harmonyController.incrementSynthIndex;
   },
   51,
   0,
   ~mSrc[\fingerPads]
 );
-MIDIdef.noteOn(\setHarmonySynthComDirtRhode,
+MIDIdef.noteOn(\decrementComSynth,
   {
-    ~harmonyController.setSynth(\com_dirt_rhode);
+    ~harmonyController.decrementSynthIndex;
   },
   44,
   0,

@@ -23,6 +23,18 @@ HerHarmonyController {
     currentSynth.setBeatDur(beatDur);
   }
 
+  incrementSynthIndex {
+    if (synths.size > (currentSynthIndex + 1)) {
+      this.setSynth(currentSynthIndex + 1);
+    }
+  }
+
+  decrementSynthIndex {
+    if ((currentSynthIndex - 1) != -1) {
+      this.setSynth(currentSynthIndex - 1);
+    }
+  }
+
   setSynth { |newSynthIndex|
     currentSynth.stop;
 
