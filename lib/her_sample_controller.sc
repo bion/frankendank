@@ -5,16 +5,14 @@ HerSampleController {
   *new {arg ...args;
 
     args.do {|prop|
-      if (args.size < 4 || prop.isNil) {
+      if (args.size != 4 || prop.isNil) {
         var message = "Cannot create HerSampleController with nil property, dumping args: ";
         message = message ++ args.asString;
         Error(message);
       }
     };
 
-    ^super.newCopyArgs(
-      args[0], args[1], args[2], args[3]
-    )
+    ^super.newCopyArgs(*args)
   }
 
   sampleTrig {
