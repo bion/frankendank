@@ -45,7 +45,8 @@
   [
     (voicing: \Xm11, pitchClass: PC(\f, 4)),
     (voicing: \Xm7, pitchClass: PC(\c, 5)),
-    (voicing: \X7, pitchClass: PC(\bf, 5))
+    (voicing: \X7, pitchClass: PC(\bf, 5)),
+    (voicing: \XM, pitchClass: PC(\c, 5))
   ],
   // 7
   [
