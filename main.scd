@@ -364,7 +364,7 @@ afterBoot = {
     "groups",
     "buffers",
     "horn_control",
-    "com_sample_bootstrapper",
+    "config/setlist",
     "instr/drums",
     "persistent_synths",
     "instr/com_sample_map",
