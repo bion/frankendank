@@ -16,7 +16,7 @@ sampleFrom = {|name, loopable|
     looping: false,
     synth: nil,
     playing: false,
-    kill: kill
+    kill: kill,
     buffer: Buffer.read(s, (mainPath ++ name ++ ".aiff"));
   )
 };
