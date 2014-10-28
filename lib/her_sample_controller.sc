@@ -1,6 +1,6 @@
 HerSampleController {
-  var <samples, <playBus, <playGroup, clock;
-  var <playingBool=false, currentIndex=0, synth;
+  var <playBus, <playGroup, clock;
+  var <playingBool=false, <currentSet, synth;
 
   *new {arg ...args;
 
@@ -15,9 +15,13 @@ HerSampleController {
     ^super.newCopyArgs(*args)
   }
 
-  sampleTrig {
+  changeSet {|set|
+    currentSet = set;
+  }
+
+  sampleTrig {|index|
     var offset = (clock.beats - clock.beats.round) * clock.beatDur; // negative if before beat
-    var thisSample = samples[currentIndex];
+    var thisSample = currentSet[index];
 
     if (offset < 0.0) { fork {
       offset.abs.wait;
@@ -35,7 +39,7 @@ HerSampleController {
     });
   }
 
-  sampleStop {
+  sampleStop {|index|
     synth.free;
     playingBool = false;
     postln("freed sample synth");
@@ -43,6 +47,12 @@ HerSampleController {
 
   startSampleSynth {|offset=0|
     var thisSample = samples[currentIndex];
+
+    if (thisSample[\loopable]) {
+      thisSample[\looping] = true;
+      clock.schedAbs(thisSample.duration, {this.});
+    };
+
     Server.default.makeBundle(0.005, {
       synth = Synth(\playbuf_mono,
         [ \outbus,   playBus,
@@ -54,19 +64,4 @@ HerSampleController {
     });
     postln("playing " ++ thisSample.name);
   }
-
-  next {
-    if (currentIndex < (samples.size - 1)) {
-      currentIndex = currentIndex + 1
-    };
-    postln("current sample is " ++ samples[currentIndex].name);
-  }
-
-  previous {
-    if (currentIndex > 0) {
-      currentIndex = currentIndex - 1
-    };
-    postln("current sample is " ++ samples[currentIndex].name);
-  }
-
 }
