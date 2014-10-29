@@ -1,53 +1,81 @@
-var playBus, playGroup, clock;
-var currentSet, synth, sampoleTrig, changeSet, sampleStop;
+var clock;
+var sampleSets;
+var currentSetIndex=0;
+var currentSet;
+var synth, sampleTrig, changeSet, sampleStop;
+var nextSampleSet, previousSampleSet;
 
-  changeSet = {|obj, set|
-    currentSet = set;
+nextSampleSet = {|obj|
+  var nextSet;
+
+  if (sampleSets.size > (currentSetIndex + 1)) {
+    nextSet = sampleSets[currentSetIndex + 1];
+    changeSet(obj, nextSet);
+  }
+};
+
+previousSampleSet = {|obj|
+  var nextSet;
+
+  if ((currentSetIndex - 1) != -1) {
+    nextSet = sampleSets[currentSetIndex - 1];
+    changeSet(obj, nextSet);
+  }
+};
+
+changeSet = {|obj, set|
+  currentSet.do {|sample|
+    if (sample.playingSynth.isPlaying) { sample.kill };
   };
 
-  sampleTrig = {|obj, index|
-    var offset = (clock.beats - clock.beats.round) * clock.beatDur; // negative if before beat
-    var sample = currentSet[index];
+  currentSet = set;
+};
 
-    if (offset < 0.0) { fork {
-      offset.abs.wait;
-      startSampleSynth.value(sample);
-    }} {
-      startSampleSynth.value(sample, offset);
-    };
+sampleTrig = {|obj, index|
+  var offset = (clock.beats - clock.beats.round) * clock.beatDur; // negative if before beat
+  var sample = currentSet[index];
+
+  sample.commandQueue = sample.commandQueue.add(
+    (
+      name: \start,
+      arguments: [max(offset, 0), clock]
+    )
+  );
+
+  if (sample.beatSynced && sample.queued.not && (offset < 0) && sample.looping.not) { fork{
+    sample.queued = true;
+    offset.abs.wait;
+    sample.queued = false;
+    sample.execute;
+  }} {
+    sample.execute;
   };
+};
 
-  sampleStop = {|obj, index|
-    sample = currentSet[index];
-    sample.kill;
-    postln("stopped sample: " ++ sample.name);
-  }
+sampleStop = {|obj, index|
+  var sample = currentSet[index];
 
-  privateStartSampleSynth = {|sample, offset=0|
-    var sample = currentSet[sample, index];
+  sample.commandQueue = sample.commandQueue.add(
+    (
+      name: \kill,
+      arguments: []
+    )
+  );
 
-    if (sample[\loopable]) {
-      sample[\looping] = true;
-      clock.schedAbs(sample.duration, {this.});
-    };
-
-    Server.default.makeBundle(0.005, {
-      synth = Synth(\playbuf_mono,
-        [ \outbus,   playBus,
-          \amp,      1,
-          \buf,      sample.buffer,
-          \dur,      sample.duration,
-          \startpos, offset * Server.default.sampleRate],
-        playGroup, \addToTail);
-    });
-    postln("playing " ++ sample.name);
-  }
+  sample.execute;
+  postln("stopped sample: " ++ sample.name);
+};
 
 {arg ...args;
-  #playBus, playGroup, clock = args;
+  #clock, sampleSets = args;
+
+  currentSet = sampleSets[currentSetIndex];
+
   (
     changeSet: changeSet,
     sampleTrig: sampleTrig,
-    sampleStop: sampleStop
+    sampleStop: sampleStop,
+    nextSampleSet: nextSampleSet,
+    previousSampleSet: previousSampleSet
   )
 };
