@@ -94,6 +94,7 @@ sampleFrom = {|name, loopable, beatSynced|
     ]
   ];
 
+  // TODO consolidate the setlist
   [
     \jon1
   ].collect {|setName| sampleSets[setName] };
