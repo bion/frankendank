@@ -20,6 +20,8 @@ recordBtn, playerBtn, recordStart, recordEnd, recordBuf, recordedBuf,
 stopPlaying, playerRouteSynth, recordSynth, playerSynth, playRecordedBuf,
 multiRecorder,
 
+sampleSets,
+
 metronome,
 metronomeAmp,
 
@@ -373,6 +375,18 @@ afterBoot = {
     "".postln;
     s.sync;
   };
+
+  sampleSets = loadRelative("./instr/com_sample_map.scd")[0].value(
+    ~clock,
+    ~playbuf_g,
+    ~buss[\sample]
+  );
+  ~samplesController = loadRelative("./lib/her_sample_controller.scd")[0].value(
+    ~clock,
+    sampleSets
+  );
+
+  s.sync(Condition(true));
 
   // * * * * * * * * * * * * * * * * * * * * * * RECORDING
 
