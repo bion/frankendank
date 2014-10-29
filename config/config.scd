@@ -7,8 +7,8 @@
 
 ~andrew_midi_map = "../doc/dk_10_midi_info.yml".resolveRelative.parseYAMLFile;
 
-loadRelative("./chord_schema.scd");
-if (~chordSchema.isNil) { Error("~chordSchema not loaded!").throw };
+loadRelative("./chord_sets.scd");
+if (~chordSets.isNil) { Error("~chordSets not loaded!").throw };
 
 ~spoof_horns = false;
 ~do_bus_map_overrides = false;
