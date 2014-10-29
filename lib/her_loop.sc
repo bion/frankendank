@@ -115,7 +115,7 @@ HerLoop {
 
   record { |offset=0.0|
     if (offset < 0) {
-      fork {
+      fork { // TODO lock this fork
         offset.abs.wait;
         this.addRecordSynth;
       }
