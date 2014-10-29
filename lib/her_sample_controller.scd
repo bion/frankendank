@@ -34,6 +34,7 @@ changeSet = {|obj, set|
 sampleTrig = {|obj, index|
   var offset = (clock.beats - clock.beats.round) * clock.beatDur; // negative if before beat
   var sample = currentSet[index];
+  var delayExecution;
 
   sample.commandQueue = sample.commandQueue.add(
     (
@@ -42,12 +43,20 @@ sampleTrig = {|obj, index|
     )
   );
 
-  if (sample.beatSynced && sample.queued.not && (offset < 0) && sample.looping.not) { fork{
-    sample.queued = true;
-    offset.abs.wait;
-    sample.queued = false;
-    sample.execute;
-  }} {
+  delayExecution =
+    sample.beatSynced &&
+    sample.looping.not &&
+    sample.queued.not &&
+    (offset < 0);
+
+  if (delayExecution) {
+    fork {
+      sample.queued = true; // lock
+      offset.abs.wait;
+      sample.queued = false;
+      sample.execute;
+    }
+  } {
     sample.execute;
   };
 };
