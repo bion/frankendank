@@ -1,8 +1,5 @@
 * Thing that need to be done
 
 ** Bion
-*** TODO why does the dandan synth sound different when recorded?
 *** TODO level adjustment for playback
-*** TODO chord set changing busted wtf?
 *** TODO loops as separate recording tracks
-*** TODO fix sample playback
