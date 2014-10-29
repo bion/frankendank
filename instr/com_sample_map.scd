@@ -1,15 +1,100 @@
-var com_sample_dir = "../samples/com/".resolveRelative,
-com_sample_paths = (com_sample_dir ++ "*").pathMatch;
+var mainPath = "../samples/com/".resolveRelative,
+    playBus,
+    playGroup,
+    clock,
+    sampleFrom,
+    startFunc,
+    killFunc,
+    playAgainIfLoopingFunc,
+    execute;
 
-"Loading com samples...".post;
+"Loading com sample map...".post;
 
-~com_bufs = IdentityDictionary[];
+playAgainIfLoopingFunc = {|obj|
+  {
+    if (obj.looping) {
+      startFunc.value(obj, 0);
+    };
+  };
+};
 
-com_sample_paths.do {|path|
-  var name = path.findRegexp("([0-9a-zA-Z\_]+)\.aiff")[1][1];
-  ~com_bufs.add( name.asSymbol -> Buffer.read(s, path) );
+execute = {|obj|
+  var hasKill = obj.commandQueue.any({|item| item.name == \kill});
+  var hasStart = obj.commandQueue.any({|item| item.name == \start});
+
+  if (hasKill && hasStart) {
+    if (obj.playingSynth.isPlaying) { obj.kill };
+  } {
+    obj.commandQueue.do {|command|
+      obj.perform(command.name, *(command.arguments));
+    };
+  };
+
+  obj.commandQueue = [];
+};
+
+startFunc = {|obj, offset=0|
+  Server.default.makeBundle(0.005, {
+    obj.playingSynth = Synth(\playbuf_mono,
+      [ \outbus,   playBus,
+        \amp,      1,
+        \buf,      obj.buffer,
+        \dur,      obj.buffer.duration - offset,
+        \startpos, offset * Server.default.sampleRate ],
+      playGroup, \addToTail);
+  });
+
+  NodeWatcher.register(obj.playingSynth, true);
+
+  if (obj.loopable) {
+    fork {
+      obj.looping = true;
+      wait(obj.buffer.duration - offset);
+      if (obj.looping) { startFunc.value(obj, 0) };
+    };
+  };
+
+  postln("playing " ++ obj.name);
+};
+
+killFunc = {|obj|
+  obj.playingSynth.free;
+  if (obj.loopable) { obj.looping = false };
+};
+
+sampleFrom = {|name, loopable, beatSynced|
+  (
+    name: name,
+    commandQueue: [],
+    loopable: loopable,
+    looping: false,
+    playingSynth: nil,
+    start: startFunc,
+    kill: killFunc,
+    execute: execute,
+    buffer: Buffer.read(s, (mainPath ++ name ++ ".aiff")),
+    beatSynced: beatSynced,
+    queued: false
+  )
 };
 
 "done".postln;
 
-postln("Loaded " ++ ~com_bufs.size ++ " com samples");
+{arg ...args;
+  var sampleSets;
+  #clock, playGroup, playBus = args;
+
+  sampleSets = IdentityDictionary[
+    \jon1 -> [
+      sampleFrom.value("HER1JONSample1", false, false),
+      sampleFrom.value("HER1JONSample1wPickup", false, true),
+      sampleFrom.value("HER1JONSample2", false, true),
+      sampleFrom.value("HER1JONSample3", true, true),
+      sampleFrom.value("HER1JONSample4", false, true)
+    ]
+  ];
+
+  [
+    \jon1
+  ].collect {|setName| sampleSets[setName] };
+};
