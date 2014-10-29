@@ -10,14 +10,6 @@ var mainPath = "../samples/com/".resolveRelative,
 
 "Loading com sample map...".post;
 
-playAgainIfLoopingFunc = {|obj|
-  {
-    if (obj.looping) {
-      startFunc.value(obj, 0);
-    };
-  };
-};
-
 execute = {|obj|
   var hasKill = obj.commandQueue.any({|item| item.name == \kill});
   var hasStart = obj.commandQueue.any({|item| item.name == \start});
