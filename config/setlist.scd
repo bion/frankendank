@@ -1,9 +1,8 @@
 [
-  "com_sample_sets",
   "chord_sets"
 ].do {|file|
-  post("Loading " ++ name);
-  loadRelative("./" ++ name ++ ".scd");
+  post("Loading " ++ file);
+  loadRelative("./" ++ file ++ ".scd");
   "done".postln;
 };
 
