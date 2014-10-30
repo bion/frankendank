@@ -1,34 +1,15 @@
 var clock;
 var sampleSets;
-var currentSetIndex=0;
-var currentSet;
-var synth, sampleTrig, changeSet, sampleStop;
+var currentSet=[];
+var synth, sampleTrig, changeSampleSet, sampleStop;
 var nextSampleSet, previousSampleSet;
 
-nextSampleSet = {|obj|
-  var nextSet;
-
-  if (sampleSets.size > (currentSetIndex + 1)) {
-    nextSet = sampleSets[currentSetIndex + 1];
-    changeSet(obj, nextSet);
-  }
-};
-
-previousSampleSet = {|obj|
-  var nextSet;
-
-  if ((currentSetIndex - 1) != -1) {
-    nextSet = sampleSets[currentSetIndex - 1];
-    changeSet(obj, nextSet);
-  }
-};
-
-changeSet = {|obj, set|
+changeSampleSet = {|obj, pieceName|
   currentSet.do {|sample|
     if (sample.playingSynth.isPlaying) { sample.kill };
   };
 
-  currentSet = set;
+  currentSet = sampleSets[pieceName];
 };
 
 sampleTrig = {|obj, index|
@@ -42,7 +23,6 @@ sampleTrig = {|obj, index|
       arguments: [max(offset, 0), clock]
     )
   );
-
   delayExecution =
     sample.beatSynced &&
     sample.looping.not &&
@@ -78,13 +58,9 @@ sampleStop = {|obj, index|
 {arg ...args;
   #clock, sampleSets = args;
 
-  currentSet = sampleSets[currentSetIndex];
-
   (
-    changeSet: changeSet,
+    changeSampleSet: changeSampleSet,
     sampleTrig: sampleTrig,
-    sampleStop: sampleStop,
-    nextSampleSet: nextSampleSet,
-    previousSampleSet: previousSampleSet
+    sampleStop: sampleStop
   )
 };
