@@ -1,8 +1,16 @@
 HerLoop {
   var <instr, <server, <clock, <recordBus, <recordGroup,
-  <playBus, <playGroup, <maxDur=60;
-  var buffer, nextAction, duration, recording, <synth, responder, lastTouchBeat;
-  classvar resetBools, loops, persistentSynths;
+      <playBus, <playGroup, <maxDur=60;
+  classvar resetBools, <loops, persistentSynths;
+  var buffer,
+      nextAction,
+      duration,
+      recording,
+      <synth,
+      responder,
+      delayLocked,
+      cancelRecord,
+      lastTouchBeat;
 
   *initClass {
     loops = IdentityDictionary.new;
@@ -75,9 +83,9 @@ HerLoop {
     var offset = (clock.beats - clock.beats.round) * clock.beatDur;
     var doubleTap;
 
-    postln("loop touch " ++ instr);
+    postln("loop touch " ++ instr ++ " initial offset " ++ offset);
 
-    doubleTap = (clock.beats - lastTouchBeat) < 1.5;
+    doubleTap = (clock.beats - lastTouchBeat) < 1;
 
     if (this.resetBool || doubleTap) {
       this.reset;
@@ -93,13 +101,15 @@ HerLoop {
   // ****************************** private
 
   init {
-    buffer        =  Buffer.alloc(server, maxDur * server.sampleRate, 1);
-    nextAction    =  \record;
-    duration      =  0.0; // loop dur or record touch time
-    recording     =  false;
-    synth         =  nil;
-    responder     =  false;
-    lastTouchBeat =  clock.beats;
+    buffer        = Buffer.alloc(server, maxDur * server.sampleRate, 1);
+    nextAction    = \record;
+    duration      = 0.0; // loop dur or record touch time
+    recording     = false;
+    synth         = nil;
+    responder     = false;
+    lastTouchBeat = clock.beats;
+    delayLocked   = false;
+    cancelRecord  = false;
   }
 
   resetBool {
@@ -114,14 +124,29 @@ HerLoop {
   }
 
   record { |offset=0.0|
-    if (offset < 0) {
-      fork { // TODO lock this fork
-        offset.abs.wait;
-        this.addRecordSynth;
+    block { |break|
+      if (delayLocked) {
+        cancelRecord = true;
+        break.value;
+      };
+
+      if (offset < 0) {
+        fork {
+          delayLocked = true;
+          offset.abs.wait;
+          delayLocked = false;
+
+          if (cancelRecord) {
+            cancelRecord = false;
+            break.value
+          };
+
+          this.addRecordSynth;
+        }
+      } {
+        this.addRecordSynth(offset);
       }
-    } {
-      this.addRecordSynth(offset);
-    }
+    };
   }
 
   addRecordSynth { |offset=0.0|
