@@ -2,7 +2,7 @@ var run, afterBoot,
 activatedInstr = [], instrButtons = IdentityDictionary[],
 instruments = [ \sax, \tuba, \drums, \com ],
 
-guiHeight = 700, guiLength = 900,
+guiHeight = 700, guiLength = 260,
 mainRect = Rect(250, 250, guiLength, guiHeight),
 mainWindow = View(nil, mainRect),
 
@@ -14,11 +14,13 @@ loadBtn, startBtn,
 
 instrBtnLeft = 10, instrBtnTop = 10,
 
-tempoBox, chordIndexBox,
+tempoBox,
 
 recordBtn, playerBtn, recordStart, recordEnd, recordBuf, recordedBuf,
 stopPlaying, playerRouteSynth, recordSynth, playerSynth, playRecordedBuf,
 multiRecorder,
+
+sampleSets,
 
 metronome,
 metronomeAmp,
@@ -82,6 +84,8 @@ thisPath = thisProcess.nowExecutingPath;
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 // end of unfortunate hack
 
+mainWindow.name_("her");
+
 3.do { "".postln; };
 
 "================================================================".postln;
@@ -96,19 +100,12 @@ thisPath = thisProcess.nowExecutingPath;
 // * * * * * * * * * * * * * * * * * * * * * * CHORD INDICATOR
 
 ~tempo = 96/60;
-StaticText(mainWindow, Rect(guiLength * 0.2, guiHeight * 0.65 - 40, 50, 50)).string_("Tempo");
-tempoBox = NumberBox(mainWindow, Rect(guiLength * 0.2, guiHeight * 0.65, 50, 50))
+StaticText(mainWindow, Rect(instrBtnLeft + btnLength * 1.5, guiHeight * 0.65 - 40, 50, 50)).string_("Tempo");
+tempoBox = NumberBox(mainWindow, Rect(instrBtnLeft + btnLength * 1.5, guiHeight * 0.65, 50, 50))
 .decimals_(0).value_((~tempo * 60).round).align_(\center).action_({
   |box|
   ~tempo = box.value / 60;
   if (~clock.notNil) { ~clock.tempo_(~tempo) };
-});
-
-StaticText(mainWindow, Rect(guiLength * 0.2 + 60, guiHeight * 0.65 - 40, 50, 50)).string_("Chord");
-chordIndexBox = NumberBox(mainWindow, Rect(guiLength * 0.2 + 60, guiHeight * 0.65, 50, 50))
-.value_(0).align_(\center).action_({
-  |box|
-  ~chordSelector.setChordSlot(box.value);
 });
 
 // * * * * * * * * * * * * * * * * * * * * * * MONITORING WINDOWS
@@ -120,7 +117,7 @@ chordIndexBox = NumberBox(mainWindow, Rect(guiLength * 0.2 + 60, guiHeight * 0.6
   .string_(instr.asString);
 
   monWindows[instr] = thisWindow = Window(instr ++ " monitor",
-    Rect(300, 300, guiLength + 150, guiHeight/2));
+    Rect(300, 300, 1000, 350));
 
   [ \main, \met, \sax, \tub, \drum, \com, \sample, \met ].do {|input, j|
     makeLabeledSlider.(thisWindow, 100 + (j * 120), 120, -60, 48, input, {|val|
@@ -222,7 +219,7 @@ MIDIClient.sources.do {|source|
 };
 
 metronomeAmp = 1;
-makeLabeledSlider.(mainWindow, guiLength * 0.065, guiHeight * 0.65,
+makeLabeledSlider.(mainWindow, instrBtnLeft + 50, guiHeight * 0.65,
   -60, 0,
   "met amp", {|val|
     metronomeAmp = val.dbamp;
@@ -231,14 +228,14 @@ makeLabeledSlider.(mainWindow, guiLength * 0.065, guiHeight * 0.65,
   0
 );
 
-startBtn = Button(mainWindow, Rect(guiLength * 0.5, guiHeight - 100, btnLength * 1.5, btnHeight * 1.5) )
+startBtn = Button(mainWindow, Rect(instrBtnLeft + btnLength * 1.5, guiHeight - 160 - btnHeight, btnLength * 1.5, btnHeight * 1.5) )
 .states_([["BOOM", Color.black, Color.red]])
 .mouseDownAction_({ run.() });
 
 // * * * * * * * * * * * * * * * * * * * * * * RECORDING
 
 recordBtn = Button(mainWindow,
-  Rect(guiLength * 0.5 + (btnLength * 1.5) + 20, guiHeight - 100, btnLength * 1.5, btnHeight * 1.5) )
+  Rect(instrBtnLeft + btnLength * 1.5, guiHeight - 130, btnLength * 1.5, btnHeight * 1.5) )
 .states_([["inactive"], Color.black])
 .mouseDownAction_({"server not booted".postln});
 
@@ -284,8 +281,8 @@ recordEnd = {
 
 };
 
-playerBtn = Button(mainWindow, Rect(guiLength * 0.5 + (btnLength * 1.5 * 2) + 20,
-  guiHeight - 100, btnLength * 1.5, btnHeight * 1.5) )
+playerBtn = Button(mainWindow, Rect(instrBtnLeft + btnLength * 1.5,
+  guiHeight - 80, btnLength * 1.5, btnHeight * 1.5) )
 .states_([["inactive"], Color.black])
 .mouseDownAction_({"server not booted".postln});
 
@@ -364,17 +361,24 @@ afterBoot = {
     "groups",
     "buffers",
     "horn_control",
-    "com_sample_bootstrapper",
     "instr/drums",
     "persistent_synths",
-    "instr/com_sample_map",
   ].do {|file|
     loadRelative("./" ++ file ++ ".scd");
     "".postln;
     s.sync;
   };
 
-  // * * * * * * * * * * * * * * * * * * * * * * RECORDING
+  sampleSets = loadRelative("./com_samples.scd")[0].value(
+    ~playbuf_g,
+    ~buss[\sample]
+  );
+  ~samplesController = loadRelative("./lib/her_sample_controller.scd")[0].value(
+    ~clock,
+    sampleSets
+  );
+
+  s.sync(Condition(true));
 
   if (~mSrc[\breath].notNil) {
     var breathSynthCond = Condition(true);
@@ -388,18 +392,19 @@ afterBoot = {
 
     s.sync(breathSynthCond);
 
-    ~harmonyController = HerHarmonyController(~comSynths, ~chordSchema, ~clock.beatDur);
-
-    ~chordSelector = HerChordSelector(
-      mainWindow,
-      ~chordNumberText,
-      ~chordSchema,
-      ~harmonyController
+    ~harmonyController = HerHarmonyController(
+      ~comSynths,
+      ~chordSets,
+      ~clock.beatDur
     );
+
     "Done loading breath synths".postln;
   };
 
-  // * * * * * * * * * * * * * * * * * * * * * * RECORDING
+  ~pieceController = loadRelative("./lib/her_piece_controller.scd")[0].value(
+    ~samplesController,
+    ~harmonyController
+  );
 
   multiRecorder = HerMultiTrackRecorder(
     ~record_g,
@@ -440,7 +445,6 @@ afterBoot = {
     metronome = nil;
     ~clock.clear.stop;
     ~clock = nil;
-    ~chordSelector = nil;
     ~buss.keysValuesDo {|key, value| value.free; ~buss[key] = nil; };
     postln("busses freed");
     OSCFunc.allEnabled.do {|func| func.free};

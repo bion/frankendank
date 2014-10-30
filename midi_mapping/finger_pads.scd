@@ -45,7 +45,7 @@ MIDIdef.noteOn(\comLoopToggleReset,
 ].do {|num, index|
   MIDIdef.noteOn(asSymbol("chordSetSelector_" ++ index),
     {
-      ~chordSelector.setChordSlot(index);
+      ~harmonyController.setChordAtIndex(index);
     },
     num,
     0,
@@ -70,18 +70,18 @@ MIDIdef.noteOn(\decrementComSynth,
   ~mSrc[\fingerPads]
 );
 
-MIDIdef.noteOn(\incrementChordGroup,
+MIDIdef.noteOn(\incrementPiece,
   {
-    ~chordSelector.nextGroup;
+    ~pieceController.nextPiece;
   },
   49,
   0,
   ~mSrc[\fingerPads]
 );
 
-MIDIdef.noteOn(\decrementChordGroup,
+MIDIdef.noteOn(\decrementPiece,
   {
-    ~chordSelector.previousGroup;
+    ~pieceController.previousPiece;
   },
   46,
   0,
