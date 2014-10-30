@@ -361,18 +361,15 @@ afterBoot = {
     "groups",
     "buffers",
     "horn_control",
-    "config/setlist",
     "instr/drums",
     "persistent_synths",
-    "instr/com_sample_map",
   ].do {|file|
     loadRelative("./" ++ file ++ ".scd");
     "".postln;
     s.sync;
   };
 
-  sampleSets = loadRelative("./instr/com_sample_map.scd")[0].value(
-    ~clock,
+  sampleSets = loadRelative("./com_samples.scd")[0].value(
     ~playbuf_g,
     ~buss[\sample]
   );
@@ -382,8 +379,6 @@ afterBoot = {
   );
 
   s.sync(Condition(true));
-
-  // * * * * * * * * * * * * * * * * * * * * * * RECORDING
 
   if (~mSrc[\breath].notNil) {
     var breathSynthCond = Condition(true);
@@ -397,18 +392,19 @@ afterBoot = {
 
     s.sync(breathSynthCond);
 
-    ~harmonyController = HerHarmonyController(~comSynths, ~chordSchema, ~clock.beatDur);
-
-    ~chordSelector = HerChordSelector(
-      mainWindow,
-      ~chordNumberText,
-      ~chordSchema,
-      ~harmonyController
+    ~harmonyController = HerHarmonyController(
+      ~comSynths,
+      ~chordSets,
+      ~clock.beatDur
     );
+
     "Done loading breath synths".postln;
   };
 
-  // * * * * * * * * * * * * * * * * * * * * * * RECORDING
+  ~pieceController = loadRelative("./lib/her_piece_controller.scd")[0].value(
+    ~samplesController,
+    ~harmonyController
+  );
 
   multiRecorder = HerMultiTrackRecorder(
     ~record_g,
@@ -449,7 +445,6 @@ afterBoot = {
     metronome = nil;
     ~clock.clear.stop;
     ~clock = nil;
-    ~chordSelector = nil;
     ~buss.keysValuesDo {|key, value| value.free; ~buss[key] = nil; };
     postln("busses freed");
     OSCFunc.allEnabled.do {|func| func.free};
