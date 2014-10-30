@@ -18,7 +18,7 @@ execute = {|obj|
     if (obj.playingSynth.isPlaying) { obj.kill };
   } {
     obj.commandQueue.do {|command|
-      obj.perform(command.name, *(command.arguments));
+      obj.performList(command.name, command.arguments);
     };
   };
 
