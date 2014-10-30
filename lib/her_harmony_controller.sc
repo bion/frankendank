@@ -1,16 +1,16 @@
 HerHarmonyController {
-  var <synths, <chordSchema, <beatDur;
+  var <synths, <chordSets, <beatDur;
   var <>amp=0, <currentChord, <currentSynthIndex=0, freqLag=0.01, currentSynth;
+  var <currentChordSet;
 
-  *new { |synths, chordSchema, beatDur|
-    ^super.newCopyArgs(synths, chordSchema, beatDur).init;
+  *new { |synths, chordSets, beatDur|
+    ^super.newCopyArgs(synths, chordSets, beatDur).init;
   }
 
   init {
     // initialize to first chord in first chord group of schema
     currentSynth = synths[0];
     currentSynth.start;
-    this.setChord(chordSchema[0][0]);
     this.setFreqLag(freqLag);
   }
 
@@ -48,6 +48,18 @@ HerHarmonyController {
     currentSynth.start;
 
     postln("current synth now: " ++ currentSynth.class);
+  }
+
+  changeChordSet { |pieceName|
+    var chordSet = chordSets[pieceName];
+    currentChordSet = chordSet;
+    this.setChordAtIndex(0);
+  }
+
+  setChordAtIndex { |index|
+    if (currentChordSet.size > index) {
+      this.setChord(currentChordSet[index]);
+    };
   }
 
   setChord { |chord|
