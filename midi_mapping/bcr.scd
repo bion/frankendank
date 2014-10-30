@@ -15,7 +15,6 @@ var loopFilters = (
 
 "loading midi config for bcr...".post;
 
-// TODO wire up with HerSynthDanDan
 // #setBright
 // #setIndexPosition
 
