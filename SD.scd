@@ -446,6 +446,30 @@ loadRelative("./sd_support.scd");
     Out.ar(bus, out * Linen.kr(gate, 0.05, releaseTime: 0.05, doneAction: 2));
   }),
 
+  SynthDef(\tub_simple_synth, {
+    arg hornDataBus, pedal_amp_bus, bus, gate=1;
+    var pitch, hasPitch, amp, onset, synth, out_amp, out;
+    var sawControl, decBitControl, controlAmp, delayControl;
+    var mod, boostAttack;
+    var synthOne, synthTwo, synthThree, synthFour;
+
+    #pitch, hasPitch, amp, onset = In.kr(hornDataBus, 4);
+    controlAmp = amp.lag3(0.01);
+
+    mod = SinOsc.ar(pitch, 0, pitch * 1);
+
+    synth = SinOsc.ar(pitch + mod) + SinOsc.ar(pitch / 2);
+
+    synth = MoogVCF.ar(synth, 80, 1, controlAmp.lag(0.1));
+    synthTwo = LPF.ar(synth, 200);
+    synth = Resonz.ar(synthTwo, 375, 0.16) + Resonz.ar(synth, 5000, 0.18);
+
+    synth = synth * (amp > 0).lag3(~horn_gate_lag);
+
+    out = synth * In.kr(pedal_amp_bus, 1) * 1.5;
+    Out.ar(bus, out * Linen.kr(gate, 0.05, releaseTime: 0.05, doneAction: 2));
+  }),
+
   /* ------------------------------- tuba filters --------------------------------- */
 
   SynthDef(\tub_comp, {
