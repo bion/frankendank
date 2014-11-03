@@ -78,5 +78,5 @@
     \jon_song1_hat2,
     \jon_song1_kick, // kick
     \jon_song1_kick // hat
-  ],
+  ]
 ];
