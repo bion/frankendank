@@ -1,6 +1,10 @@
 [
+  \nuggz_1_1,
+  \nuggz_1_2,
+  \nuggz_2,
+  \jon1,
   \peas_1,
-  \peas_2,
+  \peas_2
   \bion1,
-  \jon1
+  \bion2
 ];
