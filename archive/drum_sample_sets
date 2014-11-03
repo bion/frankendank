@@ -1,63 +1,91 @@
 var o, p;
 o = [
-	Array.prNew(4),  IdentityDictionary.prNew,  Array.prNew(32),  IdentityDictionary.prNew,  
+	Array.prNew(6),  IdentityDictionary.prNew,  Array.prNew(32),  IdentityDictionary.prNew,  
+	Array.prNew(32),  IdentityDictionary.prNew,  Array.prNew(32),  IdentityDictionary.prNew,  
 	Array.prNew(32),  IdentityDictionary.prNew,  Array.prNew(32),  IdentityDictionary.prNew,  
 	Array.prNew(32)
 ];
 p = [
 	// Array
-	0, [ o[1],  o[3],  o[5],  o[7] ],  
+	0, [ o[1],  o[3],  o[5],  o[7],  
+		o[9],  o[11] ],  
 	// IdentityDictionary
 	1, [ array: o[2],  size: 8,  
 		proto: nil,  parent: nil,  
 		know: false ],  
 	// Array
 	2, [ nil,  nil,  nil,  nil,  
-		nil,  nil,  'drum_7',  'Kick2',  
-		nil,  nil,  'drum_3',  'Kick1',  
-		'drum_4',  'Whip',  nil,  nil,  
-		'drum_5',  'blip_clap1',  'drum_2',  'Snare1',  
+		nil,  nil,  'drum_7',  'nuggs_song1_snare',  
+		nil,  nil,  'drum_3',  'nuggs_song1_heavy_snare',  
+		'drum_4',  'nuggs_song1_hiss_hat',  nil,  nil,  
+		'drum_5',  'nuggs_song1_kick1',  'drum_2',  'nuggs_song1_hat',  
 		nil,  nil,  nil,  nil,  
-		nil,  nil,  'drum_0',  'Hat2',  
-		'drum_1',  'Hat1',  'drum_6',  'clap_1' ],  
+		nil,  nil,  'drum_0',  'nuggs_song1_blip',  
+		'drum_1',  'nuggs_song1_click',  'drum_6',  'nuggs_song1_kick2' ],  
 	// IdentityDictionary
 	3, [ array: o[4],  size: 9,  
 		proto: nil,  parent: nil,  
 		know: false ],  
 	// Array
 	4, [ nil,  nil,  nil,  nil,  
-		nil,  nil,  'drum_7',  'Kick4',  
-		nil,  nil,  'drum_3',  'Kick3',  
-		'drum_4',  'Clap2',  nil,  nil,  
-		'drum_5',  'fly_lo_clap_01reverb_reverse',  'drum_2',  'rimshot_1',  
+		nil,  nil,  'drum_7',  'nuggs_song2_snare',  
+		nil,  nil,  'drum_3',  'nuggs_song2_click2',  
+		'drum_4',  'nuggs_song2_click_hat',  nil,  nil,  
+		'drum_5',  'nuggs_song2_kick2',  'drum_2',  'nuggs_song2_click1',  
 		'drum_8',  'Kick4',  nil,  nil,  
-		nil,  nil,  'drum_0',  'Clap1',  
-		'drum_1',  'fly_lo_clap_01reverb',  'drum_6',  'rimshot_mettalic' ],  
+		nil,  nil,  'drum_0',  'nuggs_song2_clap',  
+		'drum_1',  'nuggs_song2_clave',  'drum_6',  'nuggs_song2_kick2' ],  
 	// IdentityDictionary
 	5, [ array: o[6],  size: 8,  
 		proto: nil,  parent: nil,  
 		know: false ],  
 	// Array
 	6, [ nil,  nil,  nil,  nil,  
-		nil,  nil,  'drum_7',  'MKV1_Kick_006reverse180bpm',  
-		nil,  nil,  'drum_3',  'BigKick1',  
-		'drum_4',  'pop_1',  nil,  nil,  
-		'drum_5',  'blip_clap1',  'drum_2',  'reverb_snare1',  
+		nil,  nil,  'drum_7',  'bion_song1_kick3',  
+		nil,  nil,  'drum_3',  'bion_song1_kick2',  
+		'drum_4',  'bion_song1_hat_e',  nil,  nil,  
+		'drum_5',  'bion_song1_hat_down',  'drum_2',  'bion_song1_kick1',  
 		nil,  nil,  nil,  nil,  
-		nil,  nil,  'drum_0',  'snick_2',  
-		'drum_1',  'Hat3',  'drum_6',  'snare31reverse' ],  
+		nil,  nil,  'drum_0',  'bion_song1_snare',  
+		'drum_1',  'bion_song1_snare',  'drum_6',  'bion_song1_hat_reg' ],  
 	// IdentityDictionary
 	7, [ array: o[8],  size: 8,  
 		proto: nil,  parent: nil,  
 		know: false ],  
 	// Array
 	8, [ nil,  nil,  nil,  nil,  
-		nil,  nil,  'drum_7',  'kick_boom1',  
-		nil,  nil,  'drum_3',  'garage_door_2',  
-		'drum_4',  'klapp_snare_reverse',  nil,  nil,  
-		'drum_5',  'fly_lo_clap_01_reverse',  'drum_2',  'klapp_tom',  
+		nil,  nil,  'drum_7',  'bion_song2_kick2',  
+		nil,  nil,  'drum_3',  'bion_song2_kick1',  
+		'drum_4',  'bion_song2_rimshot',  nil,  nil,  
+		'drum_5',  'bion_song2_7snick_snap2',  'drum_2',  'bion_song2_7snick_snap3',  
 		nil,  nil,  nil,  nil,  
-		nil,  nil,  'drum_0',  'klapp_snare',  
-		'drum_1',  'fly_lo_clap_01',  'drum_6',  'klapp_tom_reverse' ]
+		nil,  nil,  'drum_0',  'bion_song2_clap',  
+		'drum_1',  'bion_song2_7snick_snap1',  'drum_6',  'bion_song2_7snick_snap4' ],  
+	// IdentityDictionary
+	9, [ array: o[10],  size: 8,  
+		proto: nil,  parent: nil,  
+		know: false ],  
+	// Array
+	10, [ nil,  nil,  nil,  nil,  
+		nil,  nil,  'drum_7',  'jon_song1_kick',  
+		nil,  nil,  'drum_3',  'jon_song1_kick',  
+		'drum_4',  'jon_song1_snare',  nil,  nil,  
+		'drum_5',  'jon_song1_clap',  'drum_2',  'jon_song1_hat1',  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  'drum_0',  'jon_song1_clap',  
+		'drum_1',  'basic_1',  'drum_6',  'jon_song1_hat2' ],  
+	// IdentityDictionary
+	11, [ array: o[12],  size: 8,  
+		proto: nil,  parent: nil,  
+		know: false ],  
+	// Array
+	12, [ nil,  nil,  nil,  nil,  
+		nil,  nil,  'drum_7',  'mars_song1_kick',  
+		nil,  nil,  'drum_3',  'mars_song1_hat',  
+		'drum_4',  'mars_song1_clap2',  nil,  nil,  
+		'drum_5',  'fly_lo_clap_01reverb',  'drum_2',  'fly_lo_clap_01',  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  'drum_0',  'mars_song1_clap1',  
+		'drum_1',  'mars_song1_tom_reverse',  'drum_6',  'mars_song1_hat' ]
 ];
 prUnarchive(o,p);
