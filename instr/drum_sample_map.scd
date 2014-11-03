@@ -12,7 +12,7 @@ count=0;
 [low_sample_paths, med_sample_paths, hi_sample_paths].do {|paths, i|
   var register = (0: \low, 1: \med, 2: \hi);
   paths.do {|path|
-    var name = path.findRegexp("([0-9a-zA-Z\_]+)\.aiff")[1][1],
+    var name = path.findRegexp("([0-9a-zA-Z\_]+)\.aiff?")[1][1],
     playFunction, sample;
 
     sample = (
