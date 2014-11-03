@@ -38,8 +38,13 @@ reversed_sample = {|action, val|
 
 ~drum_trig = {|pad_midi_number, val, set|
   var action_id, action;
-  action_id = ~mars_sample_sets[~current_set][pad_midi_number];
-  action = ~drum_samples[action_id];
 
+  if (set == \mars) {
+    action_id = ~mars_sample_sets[~current_set][pad_midi_number];
+  } {
+    action_id = ~andrew_sample_sets[~current_set][pad_midi_number];
+  };
+
+  action = ~drum_samples[action_id];
   ~drum_funcs[action.playFunction].(action, val);
 };

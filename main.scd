@@ -399,10 +399,12 @@ afterBoot = {
     "Done loading breath synths".postln;
   };
 
-  ~pieceController = loadRelative("./lib/her_piece_controller.scd")[0].value(
-    ~samplesController,
-    ~harmonyController
-  );
+  if (~harmonyController.notNil) {
+    ~pieceController = loadRelative("./lib/her_piece_controller.scd")[0].value(
+      ~samplesController,
+      ~harmonyController
+    );
+  };
 
   multiRecorder = HerMultiTrackRecorder(
     ~record_g,
