@@ -6,7 +6,7 @@
     \nuggs_song1_rev_clap,
     \nuggs_song1_heavy_snare, // 2
     \nuggs_song1_blip,
-    \nuggs_song1_blip // 4
+    \nuggs_song1_blip, // 4
     \nuggs_song1_kick1,
     \nuggs_song1_snare, // 6
     \nuggs_song1_heavy_snare,
@@ -22,7 +22,7 @@
     \nuggs_song1_kick2,
     \nuggs_song2_snare, // 2
     \nuggs_song2_snare,
-    \nuggs_song2_snick // 4
+    \nuggs_song2_snick, // 4
     \nuggs_song2_click_hat,
     \nuggs_song2_snare, // 6
     \nuggs_song2_click1,
@@ -38,7 +38,7 @@
     \bion_song1_kick3,
     \bion_song1_snare, // 2
     \bion_song1_snare,
-    \bion_song1_hat_down // 4
+    \bion_song1_hat_down, // 4
     \bion_song1_hat_up,
     \bion_song1_hat_down, // 6
     \bion_song1_hat_up,
@@ -81,7 +81,7 @@
   ],
 
   [
-    //mars_song1
+    // mars_song1
     \mars_song1_clap1, // 0
     \mars_song1_kick,
     \mars_song1_clap2, // 2
