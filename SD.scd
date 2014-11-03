@@ -260,7 +260,7 @@ loadRelative("./sd_support.scd");
         pan: 0,
         envbufnum: envBuf,
         maxGrains: 128,
-        mul: harmAmps[i] * silencers[i]
+        mul: harmAmps * silencers[i]
       ).sum;
     }).mean * 0.0125;
 
