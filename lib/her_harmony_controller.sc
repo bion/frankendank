@@ -69,7 +69,7 @@ HerHarmonyController {
       currentChord = HerChords.at(chord.voicing, chord.pitchClass);
     };
 
-    (5 - currentChord.size).do {|val|
+    (10 - currentChord.size).do {|val|
       currentChord = currentChord.add(1);
     };
 

@@ -229,7 +229,7 @@ loadRelative("./sd_support.scd");
 
     freqLag = freqLagParam * beatDur;
 
-    freqs = \freqs.kr([1, 1, 1, 1, 1]).lag(freqLag);
+    freqs = \freqs.kr([1, 1, 1, 1, 1, 1, 1, 1, 1, 1]).lag(freqLag);
     silencers = freqs.collect { |freq| freq > 9.0; };
 
     vibosc = SinOsc.kr(vibeRate + LFDNoise3.kr(2).range(0.9, 1.1), 0, vibwth);
@@ -277,7 +277,7 @@ loadRelative("./sd_support.scd");
     // TODO wire up controller for this
     // freq_lag = 0.1;
 
-    freqs = \freqs.kr([1, 1, 1, 1, 1]).lag(freq_lag);
+    freqs = \freqs.kr([1, 1, 1, 1, 1, 1, 1, 1, 1, 1]).lag(freq_lag);
 
     silencers = freqs.collect { |freq| freq > 9.0; };
 
@@ -313,7 +313,7 @@ loadRelative("./sd_support.scd");
 
     freq_lag = beatDur * freqLagParam;
 
-    freqs = \freqs.kr([1, 1, 1, 1, 1]).lag(freq_lag);
+    freqs = \freqs.kr([1, 1, 1, 1, 1, 1, 1, 1, 1, 1]).lag(freq_lag);
 
     silencers = freqs.collect { |freq| freq > 9.0; };
 
