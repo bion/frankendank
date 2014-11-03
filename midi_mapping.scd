@@ -28,7 +28,8 @@ keyFileMap = (
   drum_pad: "mars_drums",
   andrew: "andrew_drums",
   breath: "breath",
-  fingerPads: "finger_pads"
+  samples: "com_samples",
+  chords: "com_chords"
 );
 
 keyFileMap.keysValuesDo { |sourceId, fileName|

@@ -27,7 +27,7 @@ metronomeAmp,
 
 midiListener,
 makeMidiListener = {|instr|
-  if (instr == \andrew) {
+  if ([\andrew, \samples, \chords].includes(instr)) {
     midiListener = MIDIdef.noteOn(instr,
       func: { |num, chan, something, source|
         ~mSrc[instr] = source;
@@ -100,8 +100,8 @@ mainWindow.name_("her");
 // * * * * * * * * * * * * * * * * * * * * * * CHORD INDICATOR
 
 ~tempo = 96/60;
-StaticText(mainWindow, Rect(instrBtnLeft + btnLength * 1.5, guiHeight * 0.65 - 40, 50, 50)).string_("Tempo");
-tempoBox = NumberBox(mainWindow, Rect(instrBtnLeft + btnLength * 1.5, guiHeight * 0.65, 50, 50))
+StaticText(mainWindow, Rect(instrBtnLeft + btnLength * 1.5, 415, 50, 50)).string_("Tempo");
+tempoBox = NumberBox(mainWindow, Rect(instrBtnLeft + btnLength * 1.5, 455, 50, 50))
 .decimals_(0).value_((~tempo * 60).round).align_(\center).action_({
   |box|
   ~tempo = box.value / 60;
@@ -169,8 +169,6 @@ MIDIIn.connectAll;
 
 MIDIClient.sources.do {|source|
   case
-  { source.device == "nanoPAD-nanoPAD MIDI 1" }
-    { ~mSrc[\fingerPads] = source.uid }
   { source.device == "Breath Controller-Breath Controller MIDI 1" }
     { ~mSrc[\breath] = source.uid }
   { source.device == "BCR2000" }
@@ -185,7 +183,7 @@ MIDIClient.sources.do {|source|
 
 // * * * * * * * * * * * * * * * * * * * * * * UI
 
-[ \sax, \tuba, \drums_switch, \andrew ].do {|instr, i|
+[ \sax, \tuba, \drums_switch, \andrew, \samples, \chords ].do {|instr, i|
   StaticText(mainWindow, Rect(instrBtnLeft, instrBtnTop + 20 + (i*(btnHeight + 40)), btnLength, 10))
   .string_(instr.asString);
 
@@ -219,7 +217,7 @@ MIDIClient.sources.do {|source|
 };
 
 metronomeAmp = 1;
-makeLabeledSlider.(mainWindow, instrBtnLeft + 50, guiHeight * 0.65,
+makeLabeledSlider.(mainWindow, instrBtnLeft + 50, 500,
   -60, 0,
   "met amp", {|val|
     metronomeAmp = val.dbamp;
