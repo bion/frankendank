@@ -2,7 +2,7 @@ var saxLoops;
 
 "loading midi config sax".post;
 
-saxLoopos = 4.collect {|i|
+saxLoops = 4.collect {|i|
   HerLoop(
     \sax,
     s,
