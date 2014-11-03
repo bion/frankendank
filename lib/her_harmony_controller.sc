@@ -63,10 +63,16 @@ HerHarmonyController {
   }
 
   setChord { |chord|
-    currentChord = HerChords.at(chord.voicing, chord.pitchClass);
+    if (chord.type == \literal) {
+      currentChord = chord.pitches.collect {|pitchClass| pitchClass.freq};
+    } {
+      currentChord = HerChords.at(chord.voicing, chord.pitchClass);
+    };
+
     (5 - currentChord.size).do {|val|
       currentChord = currentChord.add(1);
     };
+
     currentSynth.setFreqs(currentChord);
   }
 
