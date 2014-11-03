@@ -1,7 +1,7 @@
 ~andrew_sample_sets = [
 
   [
-	// nuggs_song1
+    // nuggs_song1
     \nuggs_song1_snare, // 0
     \nuggs_song1_rev_clap,
     \nuggs_song1_heavy_snare, // 2
@@ -17,8 +17,8 @@
   ],
 
   [
-	// nuggs_song2
-	\nuggs_song2_click1, // 0
+    // nuggs_song2
+    \nuggs_song2_click1, // 0
     \nuggs_song1_kick2,
     \nuggs_song2_snare, // 2
     \nuggs_song2_snare,
@@ -33,8 +33,8 @@
   ],
 
   [
-	// bion_song1
-	\bion_song1_snare, // 0
+    // bion_song1
+    \bion_song1_snare, // 0
     \bion_song1_kick3,
     \bion_song1_snare, // 2
     \bion_song1_snare,
@@ -49,8 +49,8 @@
   ],
 
   [
-	// bion_song2
-	\bion_song2_clap, // 0
+    // bion_song2
+    \bion_song2_clap, // 0
     \bion_song2_kick2,
     \bion_song2_rimshot, // 2
     \bion_song2_clap,
@@ -65,8 +65,8 @@
   ],
 
   [
-	// jon_song1
-	\jon_song1_clap, // 0
+    // jon_song1
+    \jon_song1_clap, // 0
     \jon_song1_kick,
     \jon_song1_snare, // 2
     \basic_1,
