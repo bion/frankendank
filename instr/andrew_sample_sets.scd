@@ -78,5 +78,21 @@
     \jon_song1_hat2,
     \jon_song1_kick, // kick
     \jon_song1_kick // hat
+  ],
+
+  [
+    //mars_song1
+    \mars_song1_clap1, // 0
+    \mars_song1_kick,
+    \mars_song1_clap2, // 2
+    \fly_lo_clap_01,
+    \mars_song1_hat, // 4
+    \mars_song1_tom_reverse,
+    \fly_lo_clap_01reverb, // 6
+    \mars_song1_clap,
+    \mars_song1_hat, // 8
+    \mars_song1_tom_reverse,
+    \mars_song1_kick, // kick
+    \mars_song1_hat // hat
   ]
 ];
