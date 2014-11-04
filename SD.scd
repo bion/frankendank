@@ -164,12 +164,12 @@ loadRelative("./sd_support.scd");
 
   SynthDef(\agg, {
     arg drums_low_record_bus, drums_med_record_bus, drums_hi_record_bus,
-    computer_record_bus, sax_record_bus, tuba_record_bus,
-    sax_bus, tub_bus, com_bus, d_low_bus, d_med_bus, d_hi_bus, sample_bus,
-    outbus, monitor_bus;
+        computer_record_bus, sax_record_bus, tuba_record_bus, sample_record_bus,
+        sax_bus, tub_bus, com_bus, d_low_bus, d_med_bus, d_hi_bus, sample_bus,
+        outbus, monitor_bus;
 
     var sax, tuba, com, out, sample,
-      d_low, d_med, d_hi;
+        d_low, d_med, d_hi;
 
     sax = In.ar(sax_bus, 1);
     tuba = In.ar(tub_bus, 1);
@@ -385,11 +385,9 @@ loadRelative("./sd_support.scd");
     control = LinExp.kr(amp.ampdb, -52, -20, pitch * 1.2, 15000).max(160);
 
     synth = MoogFF.ar(synth, control, 0.25);
-
     synth = LeakDC.ar(synth);
 
     out = Compander.ar(synth, synth, -42.dbamp, 1, 1/6, 0.002, 0.02);
-
     out = synth * In.kr(pedal_amp_bus, 1);
 
     Out.ar(bus, out * Linen.kr(gate, 0.05, releaseTime: 0.05, doneAction: 2));
@@ -410,13 +408,14 @@ loadRelative("./sd_support.scd");
     synth = Integrator.ar(synth, 0.72, -16.dbamp);
 
     out = synth * In.kr(pedal_amp_bus, 1) * 1.5;
+    out = out * Slew.kr(amp, 10000, 1000);
     Out.ar(bus, out * Linen.kr(gate, 0.05, releaseTime: 0.05, doneAction: 2));
   }),
 
   SynthDef(\tub_s3, {
     arg hornDataBus, pedal_amp_bus, bus, gate=1;
     var signal, filtC1, filtC2, attackTime = 0.2, amp, out,
-    modFreqEnv, mod, controlAmp, onset, pitch, hasPitch,
+    modFreqEnv, mod, onset, pitch, hasPitch,
     fadeEnv, att, cancel;
 
     #pitch, hasPitch, amp, onset = In.kr(hornDataBus, 4);
@@ -428,20 +427,14 @@ loadRelative("./sd_support.scd");
 
     att = Decay.kr(onset, 0.25);
 
-    controlAmp = amp.lag3(0.02);
-
     signal = VarSaw.ar(
         [1.00432123, 1, 1.001231, 0.99123, 0.9992131] * pitch,
         0,
         [0.3, 0.7]
     ).mean;
 
-    out = signal;
-
     out = signal * Slew.kr(amp, 10000, 1000);
-
     out = AudioMSG.ar(out, 0.453245/3);
-
     out = Compander.ar(out, out, 0.0575, 1, 1/10, 0.002, 0.05) * 16;
 
     Out.ar(bus, out * Linen.kr(gate, 0.05, releaseTime: 0.05, doneAction: 2));
