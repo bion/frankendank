@@ -119,12 +119,12 @@ tempoBox = NumberBox(mainWindow, Rect(instrBtnLeft + btnLength * 1.5, 455, 50, 5
   monWindows[instr] = thisWindow = Window(instr ++ " monitor",
     Rect(300, 300, 1000, 350));
 
-  [ \main, \met, \sax, \tub, \drum, \com, \sample, \met ].do {|input, j|
+  [ \main, \sax, \tub, \drum, \com, \sample, \met ].do {|input, j|
     makeLabeledSlider.(thisWindow, 100 + (j * 120), 120, -60, 48, input, {|val|
       ~monitorLevels[instr][input] = val.dbamp;
       if (s.serverRunning) {
         var synth = ~pSynths[asSymbol(instr ++ "_mon")];
-        synth.set(asSymbol(input ++ "Scale"), val.dbamp);
+        synth.set(asSymbol(input ++ "_scale"), val.dbamp);
       };
     },
       ~monitorLevels[instr][input].ampdb

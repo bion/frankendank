@@ -1,4 +1,4 @@
-~horn_gate_lag = 0.001;
+~horn_gate_lag = 0.01;
 ~freq_lag_dur = 0.005;
 ~sax_gate_thresh = -66.dbamp;
 ~tuba_gate_thresh = -26.dbamp;

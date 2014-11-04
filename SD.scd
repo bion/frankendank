@@ -466,7 +466,7 @@ loadRelative("./sd_support.scd");
 
     synth = synth * (amp > 0).lag3(~horn_gate_lag);
 
-    out = synth * In.kr(pedal_amp_bus, 1) * 1.5;
+    out = synth * In.kr(pedal_amp_bus, 1) * 12.5;
     Out.ar(bus, out * Linen.kr(gate, 0.05, releaseTime: 0.05, doneAction: 2));
   }),
 
