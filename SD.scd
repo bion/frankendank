@@ -182,7 +182,7 @@ loadRelative("./sd_support.scd");
     sample = In.ar(sample_bus, 1);
 
     tuba = Compander.ar(tuba, tuba, -50.dbamp, 1, 1/6, 0.002, \tub_relax.kr(0.1, 0.03)) * 6.dbamp;
-    tuba = Compander.ar(tuba, d_low, -36.dbamp, 1, 1/2.5, 0.002, \tub_relax.kr(0.1, 0.03));
+    tuba = Compander.ar(tuba, d_low, -36.dbamp, 1, 1/2.5, 0.002, \tub_relax.kr(0.1, 0.03)) * 40.dbamp;
 
     Out.ar(outbus, [tuba, sax, com, d_low, d_med, d_hi, sample].sum);
 
