@@ -69,8 +69,9 @@
 
       \monitor_bus,   ~buss[\monitor],
 
-      \tuba_record_bus,      ~multi_record_buss[\tuba],
       \sax_record_bus,       ~multi_record_buss[\sax],
+      \tuba_record_bus,      ~multi_record_buss[\tuba],
+      \sample_record_bus,    ~multi_record_buss[\sample],
       \computer_record_bus,  ~multi_record_buss[\computer],
       \drums_hi_record_bus,  ~multi_record_buss[\drums_hi],
       \drums_med_record_bus, ~multi_record_buss[\drums_med],
