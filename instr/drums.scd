@@ -1,4 +1,5 @@
-var basic_sample, reversed_sample;
+var record_sample, play_sample,
+    basic_sample, reversed_sample;
 
 ~current_set = 0;
 
@@ -18,21 +19,39 @@ basic_sample = {|action, val|
         \outbus, ~buss[busName] ],
       ~playbuf_g );
   });
-
 };
 
-reversed_sample = {|action, val|
+record_sample = {|action, val, action_id|
+  var scale = val.linexp(0, 128, -22.dbamp, 1);
+  var busName = asSymbol("d_" ++ action.register ++ "_bus");
+
+  s.makeBundle(0.0, {
+    Synth(\playbuf_record,
+      [ \buf, action.buffer,
+        \amp, 0.25 * scale,
+        \outbus, ~buss[busName]
+        \record_bus, ~drum_record_buss[action_id] ],
+      ~playbuf_g );
+  });
+};
+
+if (~mode == \perform) {
+  play_sample = basic_sample;
+} {
+  play_sample = record_sample;
+};
+
+reversed_sample = {|action, val, action_id|
   var offset = ~clock.beatDur - action.buffer.duration;
 
   fork {
     offset.wait;
     basic_sample.(action, val);
   };
-
 };
 
 ~drum_funcs = IdentityDictionary[
-  \basic_sample -> basic_sample,
+  \play_sample -> play_sample,
   \reversed_sample -> reversed_sample
 ];
 
@@ -46,5 +65,5 @@ reversed_sample = {|action, val|
   };
 
   action = ~drum_samples[action_id];
-  ~drum_funcs[action.playFunction].(action, val);
+  ~drum_funcs[action.playFunction].(action, val, action_id);
 };
