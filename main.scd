@@ -331,7 +331,7 @@ run = {
 
   Server.default = s = Server.local;
   s.latency = 0.005;
-  if (~devMode.not) {
+  if (~mode != \dev) {
     s.options = ServerOptions.new.hardwareBufferSize_(128).threads_(4);
   };
 
@@ -495,7 +495,7 @@ afterBoot = {
 
 mainWindow.onClose = {
   CmdPeriod.run;
-  if (~devMode.not) { 0.exit };
+  if (~mode != \dev) { 0.exit };
 };
 
 currentEnvironment.do {_.free};

@@ -13,9 +13,10 @@ if (~chordSets.isNil) { Error("~chordSets not loaded!").throw };
 ~spoof_horns = false;
 ~do_bus_map_overrides = false;
 
-~devMode = false;
+// dev, practice, perform
+~mode = \dev;
 
-if (~devMode) {
+if (~mode == \dev) {
   ~spoof_horns = true;
   ~do_bus_map_overrides = true;
 
