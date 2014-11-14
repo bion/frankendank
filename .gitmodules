@@ -1,0 +1,3 @@
+[submodule "nrt_rendering"]
+	path = nrt_rendering
+	url = git@github.com:bion/nrt.git
