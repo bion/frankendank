@@ -16,9 +16,10 @@ count=0;
     playFunction, sample;
 
     sample = (
+      name: name,
       playFunction: playFunction,
       buffer: Buffer.read(s, path),
-      register: register[i],
+      register: register[i]
     );
 
     if ("reverse".matchRegexp(name)) {
