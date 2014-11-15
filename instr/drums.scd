@@ -19,7 +19,7 @@ loadRelative("./andrew_sample_sets.scd");
       ~playbuf_g );
   });
 
-   ~drum_recording.record(action, scale);
+   ~drum_recorder.record(action, scale);
 };
 
 reversed_sample = {|action, val|
