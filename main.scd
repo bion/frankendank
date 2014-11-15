@@ -237,9 +237,12 @@ recordBtn = Button(mainWindow,
 .states_([["inactive"], Color.black])
 .mouseDownAction_({"server not booted".postln});
 
+~drums_recorder = loadRelative("./lib/drums_recorder.scd")[0];
+
 recordStart = {
   recordBtn.mouseDownAction_(recordEnd);
 
+  ~drums_recorder.startRecording;
   multiRecorder.start;
 
   AppClock.sched(0, {
@@ -253,11 +256,15 @@ recordStart = {
 };
 
 recordEnd = {
-  var path = thisPath.dirname ++ "/recordings/" ++ Date.getDate ++ ".aiff";
+  var basePath = thisPath.dirname ++ "/recordings/" ++ Date.getDate;
+  var path = basePath ++ ".aiff";
 
   postln("WRITING TO: " ++ path);
+  basePath.mkdir;
 
+  ~drums_recorder.stopRecording;
   multiRecorder.stop;
+  ~drums_recorder.render(basePath ++ "/");
 
   recordSynth.free;
   recordBuf.write(
@@ -276,7 +283,6 @@ recordEnd = {
     updateButton.(playerBtn, "play last", Color.green);
     playerBtn.mouseDownAction_(playRecordedBuf);
   });
-
 };
 
 playerBtn = Button(mainWindow, Rect(instrBtnLeft + btnLength * 1.5,
