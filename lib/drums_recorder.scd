@@ -56,12 +56,16 @@ renderTrackForEvents = {|path, events|
 };
 
 render = {|basePath|
-  var drumsPath = basePath ++ "drums/";
-  drumsPath.mkdir;
+  block {|break|
+    var drumsPath = basePath ++ "drums/";
+    if (tracks.size == 0) { break.value };
 
-  tracks.keysValuesDo {|sampleName, events|
-    var trackPath = basePath ++ sampleName ++ ".aiff";
-    renderTrackForEvents.value(trackPath, events);
+    drumsPath.mkdir;
+
+    tracks.keysValuesDo {|sampleName, events|
+      var trackPath = basePath ++ sampleName ++ ".aiff";
+      renderTrackForEvents.value(trackPath, events);
+    };
   };
 };
 
