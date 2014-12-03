@@ -20,13 +20,12 @@ start = {
   "multi track recording started".postln;
 };
 
-stop = {
+stop = {|outputDirName|
   var outputDirName;
 
   recordSynths.do(_.free);
   "multi track recording stopped".postln;
 
-  outputDirName = path ++ "/" ++ Date.getDate.asString.replace(" ", "_");
   post("Writing multitracks to " ++ outputDirName ++ "...");
 
   outputDirName.mkdir;

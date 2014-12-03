@@ -7,7 +7,7 @@ loadRelative("./andrew_sample_sets.scd");
 
 ~mars_sample_sets = Object.readArchive("../archive/drum_sample_sets".resolveRelative);
 
- basic_sample = {|action, val|
+basic_sample = {|action, val|
   var scale = val.linexp(0, 128, -22.dbamp, 1) * 0.25;
   var busName = asSymbol("d_" ++ action.register ++ "_bus");
 

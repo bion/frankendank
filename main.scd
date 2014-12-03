@@ -250,14 +250,14 @@ recordStart = {
 };
 
 recordEnd = {
-  var basePath = thisPath.dirname ++ "/recordings/" ++ Date.getDate;
+  var basePath = thisPath.dirname ++ "/recordings/" ++ Date.getDate.asString.replace(" ", "_");
 
   postln("WRITING TO: " ++ basePath);
   basePath.mkdir;
 
   ~drums_recorder.stopRecording;
-  multiRecorder.stop;
-  ~drums_recorder.render(basePath ++ "/");
+  multiRecorder.stop(basePath);
+  ~drums_recorder.render(basePath);
 
   AppClock.sched(0, {
     updateButton.(recordBtn, "record", Color.red);
