@@ -357,9 +357,8 @@ afterBoot = {
     );
   };
 
-  multiRecorder = HerMultiTrackRecorder(
+  multiRecorder = loadRelative("./lib/her_multi_track_recorder.scd")[0].value(
     ~record_g,
-    thisPath.dirname ++ "/recordings",
     ~multi_record_buss
   );
 

@@ -1,6 +1,9 @@
 var group, busses;
 var bufDur = 12;
 var startTime;
+var start;
+var allocBuffers;
+var stop;
 var recordingsDir = "../recordings".resolveRelative;
 var recordSynths = IdentityDictionary[];
 var buffers = IdentityDictionary[];
@@ -21,8 +24,6 @@ start = {
 };
 
 stop = {|outputDirName|
-  var outputDirName;
-
   recordSynths.do(_.free);
   "multi track recording stopped".postln;
 
