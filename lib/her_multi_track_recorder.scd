@@ -1,5 +1,5 @@
 var group, busses;
-var bufDur = 12;
+var bufDur = 12; // in minutes
 var startTime;
 var start;
 var allocBuffers;
@@ -23,7 +23,7 @@ start = {
   "multi track recording started".postln;
 };
 
-stop = {|outputDirName|
+stop = {|self, outputDirName|
   recordSynths.do(_.free);
   "multi track recording stopped".postln;
 

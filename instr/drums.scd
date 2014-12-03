@@ -19,7 +19,7 @@ basic_sample = {|action, val|
       ~playbuf_g );
   });
 
-   ~drum_recorder.record(action, scale);
+   ~drums_recorder.record(action, scale);
 };
 
 reversed_sample = {|action, val|

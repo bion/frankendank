@@ -256,8 +256,8 @@ recordEnd = {
   basePath.mkdir;
 
   ~drums_recorder.stopRecording;
-  multiRecorder.stop(basePath);
-  ~drums_recorder.render(basePath);
+  // multiRecorder.stop(basePath);
+  ~drums_recorder.archive(basePath);
 
   AppClock.sched(0, {
     updateButton.(recordBtn, "record", Color.red);

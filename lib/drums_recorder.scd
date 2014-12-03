@@ -1,6 +1,6 @@
 var startRecording;
 var stopRecording;
-var render;
+var archive;
 var record;
 var tracks;
 var recording = false;
@@ -19,24 +19,27 @@ stopRecording = {
   recording = false;
 };
 
-render = {|basePath|
+archive = {|self, basePath|
   block {|break|
     var drumsPath = basePath ++ "/drums";
     if (tracks.size == 0) { break.value };
 
-    tracks.keysValuesChange {|sampleName, event|
-      event[\time] = event[\time] - startTime;
-      event;
+    tracks.keysValuesDo {|sampleName, events|
+      events.do {|event|
+        event[\time] = event[\time] - startTime;
+      };
     };
 
     tracks.writeArchive(drumsPath);
   };
 };
 
-record = {|action, scale|
+record = {|self, action, scale|
   block {|break|
     var name = action.name;
     var event;
+
+    ("action: " ++ action).postln;
 
     if (recording.not) { break.value };
 
@@ -46,7 +49,10 @@ record = {|action, scale|
       \time -> SystemClock.seconds
     ];
 
+    tracks.postln;
+
     if (tracks[name].isNil) { tracks[name] = [] };
+
     tracks[name] = tracks[name].add(event);
   }
 };
@@ -54,6 +60,7 @@ record = {|action, scale|
 (
   startRecording: startRecording,
   stopRecording: stopRecording,
-  render: render,
-  record: record
+  archive: archive,
+  record: record,
+  buttz: "HIIIIIIIIIIIIIIIIIIIIIII"
 )
