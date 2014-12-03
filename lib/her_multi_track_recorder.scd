@@ -62,7 +62,7 @@ allocBuffers = {
   allocBuffers.value;
 
   (
-    start: start,
-    stop: stop;
+    startRecording: start,
+    stopRecordingAndRender: stop;
   );
 };

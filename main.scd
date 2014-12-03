@@ -242,7 +242,7 @@ recordStart = {
   recordBtn.mouseDownAction_(recordEnd);
 
   ~drums_recorder.startRecording;
-  multiRecorder.start;
+  multiRecorder.startRecording;
 
   AppClock.sched(0, {
     updateButton.(recordBtn, "stop recording", Color.green);
@@ -256,7 +256,7 @@ recordEnd = {
   basePath.mkdir;
 
   ~drums_recorder.stopRecording;
-  // multiRecorder.stop(basePath);
+  multiRecorder.stopRecordingAndRender(basePath);
   ~drums_recorder.archive(basePath);
 
   AppClock.sched(0, {
