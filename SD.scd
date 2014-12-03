@@ -163,8 +163,7 @@ loadRelative("./sd_support.scd");
   }),
 
   SynthDef(\agg, {
-    arg drums_low_record_bus, drums_med_record_bus, drums_hi_record_bus,
-        computer_record_bus, sax_record_bus, tuba_record_bus, sample_record_bus,
+    arg computer_record_bus, sax_record_bus, tuba_record_bus, sample_record_bus,
         sax_bus, tub_bus, com_bus, d_low_bus, d_med_bus, d_hi_bus, sample_bus,
         outbus, monitor_bus;
 
@@ -192,9 +191,6 @@ loadRelative("./sd_support.scd");
     Out.ar(sax_record_bus, sax);
     Out.ar(computer_record_bus, com);
     Out.ar(sample_record_bus, sample);
-    Out.ar(drums_hi_record_bus, d_hi);
-    Out.ar(drums_med_record_bus, d_med);
-    Out.ar(drums_low_record_bus, d_low);
   }),
 
   SynthDef(\mon, {

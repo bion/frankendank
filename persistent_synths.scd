@@ -73,9 +73,6 @@
       \tuba_record_bus,      ~multi_record_buss[\tuba],
       \sample_record_bus,    ~multi_record_buss[\sample],
       \computer_record_bus,  ~multi_record_buss[\computer],
-      \drums_hi_record_bus,  ~multi_record_buss[\drums_hi],
-      \drums_med_record_bus, ~multi_record_buss[\drums_med],
-      \drums_low_record_bus, ~multi_record_buss[\drums_low],
 
       \sample_bus,    ~buss[\sample],
 
