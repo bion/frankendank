@@ -24,8 +24,8 @@ archive = {|self, basePath|
     var drumsPath = basePath ++ "/drums";
     if (tracks.size == 0) { break.value };
 
-    tracks.keysValuesDo {|sampleName, events|
-      events.do {|event|
+    tracks.keysValuesDo {|sampleName, recordCollection|
+      recordCollection[\events].do {|event|
         event[\time] = event[\time] - startTime;
       };
     };
@@ -42,15 +42,29 @@ record = {|self, action, scale|
     if (recording.not) { break.value };
 
     event = IdentityDictionary[
-      \action -> action,
       \scale -> scale,
       \time -> SystemClock.seconds
     ];
 
-    if (tracks[name].isNil) { tracks[name] = [] };
+    if (tracks[name].isNil) { addRecordCollectionForAction.value(action) };
 
-    tracks[name] = tracks[name].add(event);
+    tracks[name][\events] = tracks[name][\events].add(event);
   }
+};
+
+addRecordCollectionForAction = {|action|
+  var relativePath = [
+    "samples/drum/",
+    action.register,
+    "/",
+    action.name,
+    ".aiff"
+  ].join;
+
+  tracks[action.name] = IdentityDictionary[
+    \events -> [],
+    \relativePath -> relativePath
+  ];
 };
 
 (
