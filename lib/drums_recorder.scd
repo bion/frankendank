@@ -30,7 +30,7 @@ archive = {|self, basePath|
       };
     };
 
-    File.use(drumsPath, "w", {|f| f.write(tracks)});
+    File.use(drumsPath, "w", {|f| f.write(tracks.asCompileString)});
   };
 };
 
