@@ -1,11 +1,22 @@
 #! /usr/bin/env sclang
 
-var drumArchive = thisProcess.argv[0];
-var drumSamplesPath = "../samples/drums".resolveRelative;
+// lib/drums_recorder.scd defines the schema for the drum archive
+var drumArchivePath = thisProcess.argv[0].absolutePath;
+var renderDrumArchive = requireRelative("../nrt_rendering/drum_archive_renderer.scd")[0];
 
-drumArchive.postln;
-path.postln;
+if (("stat " ++ drumArchivePath).unixCmd != 0) {
+  "****************************************************************".postln;
+  ("Cannot stat drum archive file at " ++ drumArchivePath).postln;
+  "Are you sure it exists?".postln;
+  "Exiting...".postln;
+  "****************************************************************".postln;
+  1.exit;
+};
 
-IdentityDictionary[  ("nuggs_song1_blip" -> [ IdentityDictionary[ ('scale' -> 0.21339783482284), ('action' -> ( 'register': 'med', 'name': "nuggs_song1_blip", 'buffer': Buffer.new, 'playFunction': 'basic_sample' )), ('time' -> 2.4331479072571) ], IdentityDictionary[ ('scale' -> 0.21339783482284), ('action' -> ( 'register': 'med', 'name': "nuggs_song1_blip", 'buffer': Buffer.new, 'playFunction': 'basic_sample' )), ('time' -> 3.2451269626617) ], IdentityDictionary[ ('scale' -> 0.21339783482284), ('action' -> ( 'register': 'med', 'name': "nuggs_song1_blip", 'buffer': Buffer.new, 'playFunction': 'basic_sample' )), ('time' -> 3.7734200954437) ] ]) ]
+drumArchive.keysValuesDo {|name, recordCollection|
+  var samplePath = ("../" ++ recordCollection[\relativePath]).resolveRelative;
+
+  renderDrumArchive.value(name, samplePath, noteRecords);
+};
 
 0.exit;
