@@ -39,8 +39,6 @@ record = {|self, action, scale|
     var name = action.name;
     var event;
 
-    ("action: " ++ action).postln;
-
     if (recording.not) { break.value };
 
     event = IdentityDictionary[
@@ -48,8 +46,6 @@ record = {|self, action, scale|
       \scale -> scale,
       \time -> SystemClock.seconds
     ];
-
-    tracks.postln;
 
     if (tracks[name].isNil) { tracks[name] = [] };
 
