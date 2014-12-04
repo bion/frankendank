@@ -30,7 +30,7 @@ archive = {|self, basePath|
       };
     };
 
-    tracks.writeArchive(drumsPath);
+    File.use(drumsPath, "w", {|f| f.write(tracks)});
   };
 };
 
@@ -61,6 +61,5 @@ record = {|self, action, scale|
   startRecording: startRecording,
   stopRecording: stopRecording,
   archive: archive,
-  record: record,
-  buttz: "HIIIIIIIIIIIIIIIIIIIIIII"
+  record: record
 )
