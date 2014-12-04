@@ -1,0 +1,11 @@
+#! /usr/bin/env sclang
+
+var drumArchive = thisProcess.argv[0];
+var drumSamplesPath = "../samples/drums".resolveRelative;
+
+drumArchive.postln;
+path.postln;
+
+IdentityDictionary[  ("nuggs_song1_blip" -> [ IdentityDictionary[ ('scale' -> 0.21339783482284), ('action' -> ( 'register': 'med', 'name': "nuggs_song1_blip", 'buffer': Buffer.new, 'playFunction': 'basic_sample' )), ('time' -> 2.4331479072571) ], IdentityDictionary[ ('scale' -> 0.21339783482284), ('action' -> ( 'register': 'med', 'name': "nuggs_song1_blip", 'buffer': Buffer.new, 'playFunction': 'basic_sample' )), ('time' -> 3.2451269626617) ], IdentityDictionary[ ('scale' -> 0.21339783482284), ('action' -> ( 'register': 'med', 'name': "nuggs_song1_blip", 'buffer': Buffer.new, 'playFunction': 'basic_sample' )), ('time' -> 3.7734200954437) ] ]) ]
+
+0.exit;
