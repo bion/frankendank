@@ -2,7 +2,8 @@
 
 // lib/drums_recorder.scd defines the schema for the drum archive
 var drumArchivePath = thisProcess.argv[0].absolutePath;
-var renderDrumArchive = requireRelative("../nrt_rendering/drum_archive_renderer.scd")[0];
+var renderDrumArchive = requireRelative("../lib/render_drum_archive.scd")[0];
+var drumArchive;
 
 if (("stat " ++ drumArchivePath).unixCmd != 0) {
   "****************************************************************".postln;
@@ -13,10 +14,12 @@ if (("stat " ++ drumArchivePath).unixCmd != 0) {
   1.exit;
 };
 
+drumArchive = drumArchivePath.load;
+
 drumArchive.keysValuesDo {|name, recordCollection|
   var samplePath = ("../" ++ recordCollection[\relativePath]).resolveRelative;
 
-  renderDrumArchive.value(name, samplePath, noteRecords);
+  renderDrumArchive.value(name, samplePath, recordCollection[\events], drumArchivePath);
 };
 
 0.exit;
