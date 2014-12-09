@@ -1,7 +1,6 @@
 var addNotesToScore;
 var loadBuffer;
 var def;
-var addNotesToScore;
 var serverOptions;
 
 serverOptions = ServerOptions()
@@ -40,14 +39,15 @@ addNotesToScore = {|noteRecords, buffer, score|
   };
 };
 
-{|name, samplePath, noteRecords, drumArchivePath|
+{|sampleName, samplePath, noteRecords, drumArchivePath|
   var score = CtkScore.new;
   var buffer = loadBuffer.value(samplePath, score);
+  var writePath = drumArchivePath.dirname ++ "/" ++ sampleName ++ ".aiff";
 
   addNotesToScore.value(noteRecords, buffer, score);
 
   score.write(
-    path: (drumArchivePath ++ ".aiff"),
+    path: writePath,
     sampleRate: 44100,
     sampleFormat: \float,
     options: serverOptions
