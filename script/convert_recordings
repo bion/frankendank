@@ -1,18 +1,30 @@
 #!/bin/bash -e
 
 OUTPUT_DIR_NAME=~/Desktop/rehearsal_multitracks_$(date +"%m-%d-%y")
-mkdir $OUTPUT_DIR_NAME
 
-printf "\nconverting all aiff files in recordings to flac on desktop...\n"
+printf "\narchiving rehearsal recordings to $OUTPUT_DIR_NAME...\n\n"
 
-IFS=$(printf "\n\b")
-find ./recordings -iname "*.aiff" -print0 |
-while read -d $'\0' file
+for session_dir in ./recordings/*
 do
-    name=$(basename -s .aiff $file | sed 's/ /_/g')
-    printf "converting "$name"..."
-    sox $file "$OUTPUT_DIR_NAME/$name.flac"
-    printf " done\n"
+    session_output_dir="$OUTPUT_DIR_NAME/$(basename $session_dir)"
+    mkdir -p $session_output_dir
+
+    printf "copying drum archive file if present..."
+    if [ -f "$session_dir/drums" ]; then
+        cp "$session_dir/drums" "$session_output_dir/drums"
+    fi
+    printf "done\n"
+
+    IFS=$(printf "\n\b")
+    find $session_dir -iname "*.aiff" -print0 |
+    while read -d $'\0' file
+    do
+        name=$(basename -s .aiff $file | sed 's/ /_/g')
+        printf "converting "$name"..."
+        sox $file "$session_output_dir/$name.flac"
+        printf " done\n"
+    done
+    printf "finished converting $session_dir\n\n"
 done
 
 printf "\ncompressing converted files...\n"
