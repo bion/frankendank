@@ -16,8 +16,7 @@ instrBtnLeft = 10, instrBtnTop = 10,
 
 tempoBox,
 
-recordBtn, playerBtn, recordStart, recordEnd, recordBuf, recordedBuf,
-stopPlaying, playerRouteSynth, recordSynth, playerSynth, playRecordedBuf,
+recordBtn, recordStart, recordEnd,
 multiRecorder,
 
 sampleSets,
@@ -237,80 +236,32 @@ recordBtn = Button(mainWindow,
 .states_([["inactive"], Color.black])
 .mouseDownAction_({"server not booted".postln});
 
+~drums_recorder = loadRelative("./lib/drums_recorder.scd")[0];
+
 recordStart = {
   recordBtn.mouseDownAction_(recordEnd);
 
-  multiRecorder.start;
+  ~drums_recorder.startRecording;
+  multiRecorder.startRecording;
 
   AppClock.sched(0, {
     updateButton.(recordBtn, "stop recording", Color.green);
   });
-
-  recordSynth = Synth(\recordbuf_mono,
-    [\inbus, ~buss[\com_mon_out], \buf, recordBuf, \startpos, 0],
-    ~record_g
-  );
 };
 
 recordEnd = {
-  var path = thisPath.dirname ++ "/recordings/" ++ Date.getDate ++ ".aiff";
+  var basePath = thisPath.dirname ++ "/recordings/" ++ Date.getDate.asString.replace(" ", "_");
 
-  postln("WRITING TO: " ++ path);
+  postln("WRITING TO: " ++ basePath);
+  basePath.mkdir;
 
-  multiRecorder.stop;
-
-  recordSynth.free;
-  recordBuf.write(
-    path,
-    sampleFormat: "float"
-  );
-
-  recordedBuf = recordBuf;
-
-  recordBuf = Buffer.alloc(s, 10 * 60 * s.sampleRate);
+  ~drums_recorder.stopRecording;
+  multiRecorder.stopRecordingAndRender(basePath);
+  ~drums_recorder.archive(basePath);
 
   AppClock.sched(0, {
     updateButton.(recordBtn, "record", Color.red);
     recordBtn.mouseDownAction_(recordStart);
-
-    updateButton.(playerBtn, "play last", Color.green);
-    playerBtn.mouseDownAction_(playRecordedBuf);
-  });
-
-};
-
-playerBtn = Button(mainWindow, Rect(instrBtnLeft + btnLength * 1.5,
-  guiHeight - 80, btnLength * 1.5, btnHeight * 1.5) )
-.states_([["inactive"], Color.black])
-.mouseDownAction_({"server not booted".postln});
-
-playRecordedBuf = {
-  playerRouteSynth = Synth(\route_mono_to_6,
-    [
-      \inbus, ~buss[\all_monitors],
-      \outbusses,
-      [\drums_mon, \nugs_mon, \tub_mon, \sax_mon, \com_mon, \one_out]
-      .collect {|bus| ~buss[bus] }
-    ],
-    ~agg_g
-  );
-
-  playerSynth = Synth(\playbuf_simple,
-    [\buf, recordedBuf, \outbus, ~buss[\all_monitors]], ~playbuf_g
-  );
-
-  playerBtn.mouseDownAction_(stopPlaying);
-  AppClock.sched(0, {
-    updateButton.(playerBtn, "stop", Color.green);
-  });
-};
-
-stopPlaying = {
-  playerSynth.free;
-  playerRouteSynth.free;
-  playerBtn.mouseDownAction_(playRecordedBuf);
-  AppClock.sched(0, {
-    updateButton.(playerBtn, "play last", Color.red);
   });
 };
 
@@ -406,13 +357,10 @@ afterBoot = {
     );
   };
 
-  multiRecorder = HerMultiTrackRecorder(
+  multiRecorder = loadRelative("./lib/her_multi_track_recorder.scd")[0].value(
     ~record_g,
-    thisPath.dirname ++ "/recordings",
     ~multi_record_buss
   );
-
-  recordBuf = Buffer.alloc(Server.default, 10 * 60 * Server.default.sampleRate);
 
   AppClock.sched(0, {
     updateButton.(recordBtn, "record", Color.red);
@@ -453,9 +401,7 @@ afterBoot = {
 
     AppClock.sched(0, {
       updateButton.(recordBtn, "disabled", nil);
-      updateButton.(playerBtn, "disabled", nil);
       recordBtn.mouseDownAction_({"server not started".postln});
-      playerBtn.mouseDownAction_({"server not started".postln});
     });
 
     postln("loop freed");

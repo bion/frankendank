@@ -39,10 +39,7 @@ if (~do_bus_map_overrides) {
   \tuba -> Bus.audio(s, 1),
   \sax -> Bus.audio(s, 1),
   \computer -> Bus.audio(s, 1),
-  \sample -> Bus.audio(s, 1),
-  \drums_hi -> Bus.audio(s, 1),
-  \drums_med -> Bus.audio(s, 1),
-  \drums_low -> Bus.audio(s, 1)
+  \sample -> Bus.audio(s, 1)
 ];
 
 [
