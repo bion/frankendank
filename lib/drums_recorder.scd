@@ -8,6 +8,7 @@ var serverOptions;
 var def;
 var startTime;
 var time;
+var addRecordCollectionForAction;
 
 startRecording = {
   recording = true;
