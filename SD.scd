@@ -173,7 +173,7 @@ loadRelative("./sd_support.scd");
 
     Out.ar(outbus, [bass, sax, com, d_low, d_med, d_hi, sample].sum);
 
-    Out.ar(monitor_bus, [sax, com, sample, d_low + d_med + d_hi]);
+    Out.ar(monitor_bus, [bass, sax, com, sample, d_low + d_med + d_hi]);
 
     Out.ar(bass_record_bus, bass);
     Out.ar(sax_record_bus, sax);
