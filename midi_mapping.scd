@@ -22,7 +22,6 @@ var keyFileMap;
 
 keyFileMap = (
   sax: "sax",
-  tuba: "tuba",
   bcr: "bcr",
   drums_switch: "drums_shared",
   drum_pad: "mars_drums",

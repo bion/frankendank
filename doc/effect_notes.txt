@@ -3,11 +3,5 @@ sax:
   sax_comp -> sax_shaper -> sax_chorus
   cynk_broad [give scott param for decay length]
 
-tuba:
-  gain 2.5
-  default pitch shift suuuuuuuuuuuuper mudddy
-  s1 not low at all
-  s2 just a high pitch squeeeeeeeee
-
 horns:
   volume pedal less extreme (higher low)

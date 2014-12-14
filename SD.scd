@@ -45,10 +45,10 @@ loadRelative("./sd_support.scd");
   }),
 
   SynthDef(\playbuf_stereo_to_mono_to_mons, {
-    arg buf, sax_mon, tub_mon, drums_mon, nugs_mon, com_mon, amp;
+    arg buf, sax_mon, drums_mon, nugs_mon, com_mon, amp;
     var out;
     out = PlayBuf.ar(2, buf, BufRateScale.ir(buf), loop: 1) * amp;
-    [sax_mon, tub_mon, drums_mon, nugs_mon, com_mon].do {|bus|
+    [sax_mon, drums_mon, nugs_mon, com_mon].do {|bus|
       Out.ar(bus, out);
     };
   }),
@@ -129,18 +129,6 @@ loadRelative("./sd_support.scd");
     Out.kr(outbus, [pitch.lag3(lag), hasPitch, amp.lag3(0.015) * 0.5, onset]);
   }),
 
-  SynthDef(\tuba_info, {
-    arg inbus, outbus, lag=0.0001;
-    var in, pitch, hasPitch, amp, onset;
-    in = In.ar(inbus, 1);
-    #pitch, hasPitch = Tartini.kr(in);
-    amp = Amplitude.kr(in);
-
-    amp = amp * (amp > ~tuba_gate_thresh).lag3(~horn_gate_lag);
-    onset = Coyote.kr(in);
-    Out.kr(outbus, [pitch.lag3(0.001), hasPitch, amp.lag3(0.025) * 0.5, onset]);
-  }),
-
   SynthDef(\sax_eq, {
     arg inbus, outbus;
     var in, out;
@@ -148,7 +136,7 @@ loadRelative("./sd_support.scd");
     Out.ar(outbus, in);
   }),
 
-  SynthDef(\tub_eq, {
+  SynthDef(\bass_eq, {
     arg inbus, outbus, vbus;
     var in, out;
     in = In.ar(inbus, 1);
@@ -163,15 +151,15 @@ loadRelative("./sd_support.scd");
   }),
 
   SynthDef(\agg, {
-    arg computer_record_bus, sax_record_bus, tuba_record_bus, sample_record_bus,
-        sax_bus, tub_bus, com_bus, d_low_bus, d_med_bus, d_hi_bus, sample_bus,
+    arg computer_record_bus, sax_record_bus, bass_record_bus, sample_record_bus,
+        sax_bus, bass_bus, com_bus, d_low_bus, d_med_bus, d_hi_bus, sample_bus,
         outbus, monitor_bus;
 
-    var sax, tuba, com, out, sample,
+    var sax, bass, com, out, sample,
         d_low, d_med, d_hi;
 
     sax = In.ar(sax_bus, 1);
-    tuba = In.ar(tub_bus, 1);
+    bass = In.ar(bass_bus, 1);
     com = In.ar(com_bus, 1);
 
     d_low = In.ar(d_low_bus, 1);
@@ -180,14 +168,14 @@ loadRelative("./sd_support.scd");
 
     sample = In.ar(sample_bus, 1);
 
-    tuba = Compander.ar(tuba, tuba, -50.dbamp, 1, 1/6, 0.002, \tub_relax.kr(0.1, 0.03)) * 6.dbamp;
-    tuba = Compander.ar(tuba, d_low, -36.dbamp, 1, 1/2.5, 0.002, \tub_relax.kr(0.1, 0.03)) * 40.dbamp;
+    bass = Compander.ar(bass, bass, -50.dbamp, 1, 1/6, 0.002, \bass_relax.kr(0.1, 0.03)) * 6.dbamp;
+    bass = Compander.ar(bass, d_low, -36.dbamp, 1, 1/2.5, 0.002, \bass_relax.kr(0.1, 0.03)) * 40.dbamp;
 
-    Out.ar(outbus, [tuba, sax, com, d_low, d_med, d_hi, sample].sum);
+    Out.ar(outbus, [bass, sax, com, d_low, d_med, d_hi, sample].sum);
 
-    Out.ar(monitor_bus, [tuba, sax, com, sample, d_low + d_med + d_hi]);
+    Out.ar(monitor_bus, [sax, com, sample, d_low + d_med + d_hi]);
 
-    Out.ar(tuba_record_bus, tuba);
+    Out.ar(bass_record_bus, bass);
     Out.ar(sax_record_bus, sax);
     Out.ar(computer_record_bus, com);
     Out.ar(sample_record_bus, sample);
@@ -195,16 +183,16 @@ loadRelative("./sd_support.scd");
 
   SynthDef(\mon, {
     arg inbus, outbus, metronome_bus, main_scale, sample_scale=1,
-      drum_scale=1, sax_scale=1, tub_scale=1, com_scale=1, met_scale=1;
-    var drums, sax, tuba, com, out, sample,
+      drum_scale=1, sax_scale=1, bass_scale=1, com_scale=1, met_scale=1;
+    var drums, sax, bass, com, out, sample,
       instr, metronome;
 
-    #tuba, sax, com, sample, drums = In.ar(inbus, 5);
+    #bass, sax, com, sample, drums = In.ar(inbus, 5);
     metronome = In.ar(metronome_bus, 1) * met_scale;
 
     instr = (drums * drum_scale)
       + (sample * sample_scale)
-      + (tuba * tub_scale)
+      + (bass * bass_scale)
       + (sax * sax_scale)
       + (com * com_scale);
 
@@ -342,17 +330,9 @@ loadRelative("./sd_support.scd");
     Out.ar(bus, sig.softclip * Linen.kr(gate, 0.05, releaseTime: 0.05, doneAction: 2));
   }),
 
-  /* ------------------------ tuba --------------------------- */
+  /* ------------------------ bass --------------------------- */
 
-  SynthDef(\tuba_in, {
-    arg inbus, outbus, amp=1;
-    var out = In.ar(inbus, 1);
-    out = LPF.ar(out, 400);
-    out = Compander.ar(out, out, -24.dbamp, 1, 0.25, 0.05, 0.05, 1);
-    Out.ar(outbus, amp * out);
-  }),
-
-  SynthDef(\tub_subbass, {
+  SynthDef(\subbass, {
     arg hornDataBus, pedal_amp_bus, bus, gate=1;
     var pitch, hasPitch, amp, onset, control, synth, out;
     #pitch, hasPitch, amp, onset = In.kr(hornDataBus, 4);
@@ -365,7 +345,7 @@ loadRelative("./sd_support.scd");
     Out.ar(bus, out * Linen.kr(gate, 0.05, releaseTime: 0.05, doneAction: 2));
   }),
 
-  SynthDef(\tub_s1, {
+  SynthDef(\bass_s1, {
     arg hornDataBus, pedal_amp_bus, bus, gate=1;
     var pitch, hasPitch, amp, onset, control, synth, out;
     #pitch, hasPitch, amp, onset = In.kr(hornDataBus, 4);
@@ -389,7 +369,7 @@ loadRelative("./sd_support.scd");
     Out.ar(bus, out * Linen.kr(gate, 0.05, releaseTime: 0.05, doneAction: 2));
   }),
 
-  SynthDef(\tub_s2, {
+  SynthDef(\bass_s2, {
     arg hornDataBus, pedal_amp_bus, bus, gate=1;
     var pitch, hasPitch, amp, onset, synth, out_amp, out, lowpass_control;
     var sawControl, decBitControl, controlAmp, delayControl;
@@ -408,7 +388,7 @@ loadRelative("./sd_support.scd");
     Out.ar(bus, out * Linen.kr(gate, 0.05, releaseTime: 0.05, doneAction: 2));
   }),
 
-  SynthDef(\tub_s3, {
+  SynthDef(\bass_s3, {
     arg hornDataBus, pedal_amp_bus, bus, gate=1;
     var signal, filtC1, filtC2, attackTime = 0.2, amp, out,
     modFreqEnv, mod, onset, pitch, hasPitch,
@@ -436,7 +416,7 @@ loadRelative("./sd_support.scd");
     Out.ar(bus, out * Linen.kr(gate, 0.05, releaseTime: 0.05, doneAction: 2));
   }),
 
-  SynthDef(\tub_simple_synth, {
+  SynthDef(\bass_simple_synth, {
     arg hornDataBus, pedal_amp_bus, bus, gate=1;
     var pitch, hasPitch, amp, onset, synth, out_amp, out;
     var sawControl, decBitControl, controlAmp, delayControl;
@@ -460,9 +440,9 @@ loadRelative("./sd_support.scd");
     Out.ar(bus, out * Linen.kr(gate, 0.05, releaseTime: 0.05, doneAction: 2));
   }),
 
-  /* ------------------------------- tuba filters --------------------------------- */
+  /* ------------------------------- bass filters --------------------------------- */
 
-  SynthDef(\tub_comp, {
+  SynthDef(\bass_comp, {
     arg bus, gate=1;
     var chain = In.ar(bus, 1);
     chain = Compander.ar(chain, chain,

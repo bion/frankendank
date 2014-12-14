@@ -1,6 +1,6 @@
 var run, afterBoot,
 activatedInstr = [], instrButtons = IdentityDictionary[],
-instruments = [ \sax, \tuba, \drums, \com ],
+instruments = [ \sax, \drums, \com ],
 
 guiHeight = 700, guiLength = 260,
 mainRect = Rect(250, 250, guiLength, guiHeight),
@@ -109,7 +109,7 @@ tempoBox = NumberBox(mainWindow, Rect(instrBtnLeft + btnLength * 1.5, 455, 50, 5
 
 // * * * * * * * * * * * * * * * * * * * * * * MONITORING WINDOWS
 
-[ \sax, \tub, \drums, \nugs, \com ].do {|instr, i|
+[ \sax, \drums, \nugs, \com ].do {|instr, i|
   var thisWindow;
 
   StaticText(mainWindow, Rect(instrBtnLeft + btnLength * 1.5, instrBtnTop + 15 + (i*(btnHeight + 40)), btnLength, 20))
@@ -118,7 +118,7 @@ tempoBox = NumberBox(mainWindow, Rect(instrBtnLeft + btnLength * 1.5, 455, 50, 5
   monWindows[instr] = thisWindow = Window(instr ++ " monitor",
     Rect(300, 300, 1000, 350));
 
-  [ \main, \sax, \tub, \drum, \com, \sample, \met ].do {|input, j|
+  [ \main, \sax, \bass, \drum, \com, \sample, \met ].do {|input, j|
     makeLabeledSlider.(thisWindow, 100 + (j * 120), 120, -60, 48, input, {|val|
       ~monitorLevels[instr][input] = val.dbamp;
       if (s.serverRunning) {
@@ -182,7 +182,7 @@ MIDIClient.sources.do {|source|
 
 // * * * * * * * * * * * * * * * * * * * * * * UI
 
-[ \sax, \tuba, \drums_switch, \andrew, \samples, \chords ].do {|instr, i|
+[ \sax, \drums_switch, \andrew, \samples, \chords ].do {|instr, i|
   StaticText(mainWindow, Rect(instrBtnLeft, instrBtnTop + 20 + (i*(btnHeight + 40)), btnLength, 10))
   .string_(instr.asString);
 

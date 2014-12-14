@@ -1,7 +1,7 @@
 "Loading persistent synths...".postln;
 {
-  var outputChannelNames = [\sax, \tub, \drums, \nugs, \com];
-  var inputChannelNames = [\main, \met, \sax, \tub, \drum, \com];
+  var outputChannelNames = [\sax, \drums, \nugs, \com];
+  var inputChannelNames = [\main, \met, \bass, \sax, \drum, \com];
 
   "Loading Monitor synths...".post;
 
@@ -37,21 +37,11 @@
 
   \sax_info, Synth(\sax_info, [\inbus, ~id_bus_map[\sax], \outbus, ~buss[\sax_info] ], ~in_g),
 
-  \tub_info, Synth(\tuba_info, [\inbus, ~id_bus_map[\tub], \outbus, ~buss[\tub_info] ], ~in_g),
-
   \sax_in, Synth(\sax_in, [\inbus, ~id_bus_map[\sax], \contactGateBus, ~id_bus_map[\sax_contact_in], \outbus, ~buss[\sax_eq] ], ~in_g),
-
-  \tub_in, Synth(\tuba_in, [\inbus, ~id_bus_map[\tub], \outbus, ~buss[\tub_eq] ], ~in_g),
 
   \sax_eq, Synth(\sax_eq, [\inbus, ~buss[\sax_eq], \outbus, ~buss[\sax_agg] ], ~eq_g),
 
-  \tub_eq, Synth(\tub_eq, [\inbus, ~buss[\tub_eq], \outbus, ~buss[\tub_agg]], ~eq_g),
-
-  \tub_v, Synth(\v_control, [\outbus, ~buss[\tub_v], \amp, 127], ~in_g),
-
   \sax_v, Synth(\v_control, [\outbus, ~buss[\sax_v], \amp, 0], ~in_g),
-
-  \tub_p, Synth(\p_control_lag, [\outbus, ~buss[\tub_p], \param, 0], ~in_g),
 
   \sax_p, Synth(\p_control_lag, [\outbus, ~buss[\sax_p], \param, 0], ~in_g),
 
@@ -60,7 +50,7 @@
   \agg, Synth(\agg,
     [
       \sax_bus,       ~buss[\sax_agg],
-      \tub_bus,       ~buss[\tub_agg],
+      \bass_bus,       ~buss[\bass_agg],
       \com_bus,       ~buss[\com_agg],
 
       \d_low_bus,     ~buss[\d_low_bus],
@@ -70,7 +60,7 @@
       \monitor_bus,   ~buss[\monitor],
 
       \sax_record_bus,       ~multi_record_buss[\sax],
-      \tuba_record_bus,      ~multi_record_buss[\tuba],
+      \bass_record_bus,      ~multi_record_buss[\bass],
       \sample_record_bus,    ~multi_record_buss[\sample],
       \computer_record_bus,  ~multi_record_buss[\computer],
 
@@ -91,11 +81,6 @@
     [\inbusses, ~loop_filt_buss[\sax], \outbus, ~loop_filt_buss[\sax_loops]],
     ~sum_loop_g),
 
-  \tub_loop_sum,
-  Synth(\route_4_chans_to_mono,
-    [\inbusses, ~loop_filt_buss[\tub], \outbus, ~loop_filt_buss[\tub_loops]],
-    ~sum_loop_g),
-
   // only one com loop
   \com_loop_sum,
   Synth(\route_mono_amp,
@@ -105,11 +90,6 @@
   \sax_loops_route,
   Synth(\route_mono_amp,
     [\inbus, ~loop_filt_buss[\sax_loops], \outbus, ~buss[\sax_agg]],
-    ~route_loop_g),
-
-  \tub_loops_route,
-  Synth(\route_mono_amp,
-    [\inbus, ~loop_filt_buss[\tub_loops], \outbus, ~buss[\tub_agg]],
     ~route_loop_g),
 
   \com_loops_route,

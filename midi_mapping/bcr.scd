@@ -4,12 +4,6 @@ var loopFilters = (
     \DFM1_hi,
     \DFM1_lo,
     \decimator
-  ],
-  tub: [
-    \amp_filt,
-    \DFM1_hi,
-    \DFM1_lo,
-    \decimator
   ]
 ), comDandanSynth;
 
@@ -44,7 +38,6 @@ MIDIdef.cc(\dandan_vibrato_width,
   ~mSrc[\bcr]
 );
 
-
 ~loop_filt_controllers = IdentityDictionary[];
 
 [(1..32), (33..64)].flop.do {|pair, i|
@@ -55,6 +48,7 @@ MIDIdef.cc(\dandan_vibrato_width,
   var filtNum = i % 4;
 
   if ((i % 8) < 4) { instr = "sax" } { instr = "tub" };
+
   // e.g. sax_loop_0_filt_0
   name = instr ++ "_loop_" ++ loopNum ++ "_filt_" ++ filtNum;
 

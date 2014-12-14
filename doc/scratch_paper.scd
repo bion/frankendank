@@ -20,9 +20,7 @@ Platform.userConfigDir;
 /* ___________________________________________ horn MIDI spoof */
 
 (
-  ~h_synth.(\tub_s2);
   ~h_filt.(\sax_cynk_broad);
-  ~pSynths[\tub_v].set(\amp, 127);
   s.queryAllNodes;
   s.boot
   s.quit

@@ -46,7 +46,6 @@
       Synth(\sax_info, [\inbus, parent_bus, \outbus, horn_data_bus], synth_group);
 
       // Synth(\cynk_lo, [\bus, stereo_bus], filt_group, \addToTail);
-      // Synth(\tub_sin, [\bus, stereo_bus, \hornDataBus, horn_data_bus], filt_group, \addToTail);
 
       Synth(\sax_8vdown, [\bus, stereo_bus, \info_bus, horn_data_bus], filt_group, \addToTail);
 
