@@ -1,1 +1,1 @@
-Realtime performance framework for five musicians.
+Realtime performance framework for four musicians.
