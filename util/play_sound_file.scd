@@ -28,7 +28,6 @@ addPlaySynth = {
       \amp, 0.5,
       \buf, buffer,
       \sax_mon, ~id_bus_map[\sax_mon_out],
-      \tub_mon, ~id_bus_map[\tub_mon_out],
       \drums_mon, ~id_bus_map[\drums_mon_out],
       \nugs_mon, ~id_bus_map[\nugs_mon_out],
       \com_mon, ~id_bus_map[\com_mon_out]

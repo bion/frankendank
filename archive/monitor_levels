@@ -2,26 +2,26 @@ var o, p;
 o = [
 	IdentityDictionary.prNew,  Array.prNew(16),  IdentityDictionary.prNew,  Array.prNew(32),  
 	IdentityDictionary.prNew,  Array.prNew(32),  IdentityDictionary.prNew,  Array.prNew(32),  
-	IdentityDictionary.prNew,  Array.prNew(32),  IdentityDictionary.prNew,  Array.prNew(32)
+	IdentityDictionary.prNew,  Array.prNew(32)
 ];
 p = [
 	// IdentityDictionary
-	0, [ array: o[1],  size: 5,  
+	0, [ array: o[1],  size: 4,  
 		proto: nil,  parent: nil,  
 		know: false ],  
 	// Array
-	1, [ 'tub',  o[2],  nil,  nil,  
-		nil,  nil,  'sax',  o[4],  
-		'nugs',  o[6],  'drums',  o[8],  
-		nil,  nil,  'com',  o[10] ],  
+	1, [ nil,  nil,  nil,  nil,  
+		nil,  nil,  'sax',  o[2],  
+		'nugs',  o[4],  'drums',  o[6],  
+		nil,  nil,  'com',  o[8] ],  
 	// IdentityDictionary
 	2, [ array: o[3],  size: 7,  
 		proto: nil,  parent: nil,  
 		know: false ],  
 	// Array
-	3, [ 'tub',  100.000000,  'met',  1.778279,  
-		'drum',  3.162278,  'sax',  2.511886,  
-		nil,  nil,  nil,  nil,  
+	3, [ nil,  nil,  'met',  1.000000,  
+		'drum',  1.584893,  'sax',  1.584893,  
+		'bass',  25.118864,  nil,  nil,  
 		'sample',  0.316228,  'main',  0.316228,  
 		nil,  nil,  nil,  nil,  
 		nil,  nil,  nil,  nil,  
@@ -32,48 +32,35 @@ p = [
 		proto: nil,  parent: nil,  
 		know: false ],  
 	// Array
-	5, [ 'tub',  25.118864,  'met',  1.000000,  
-		'drum',  1.584893,  'sax',  1.584893,  
-		nil,  nil,  nil,  nil,  
-		'sample',  0.316228,  'main',  0.316228,  
-		nil,  nil,  nil,  nil,  
-		nil,  nil,  nil,  nil,  
-		nil,  nil,  nil,  nil,  
-		nil,  nil,  'com',  0.891251 ],  
-	// IdentityDictionary
-	6, [ array: o[7],  size: 7,  
-		proto: nil,  parent: nil,  
-		know: false ],  
-	// Array
-	7, [ 'tub',  19.952623,  'met',  1.122018,  
+	5, [ nil,  nil,  'met',  1.122018,  
 		'drum',  1.995262,  'sax',  0.891251,  
-		nil,  nil,  nil,  nil,  
+		'bass',  19.952623,  nil,  nil,  
 		'sample',  0.316228,  'main',  0.707946,  
 		nil,  nil,  nil,  nil,  
 		nil,  nil,  nil,  nil,  
 		nil,  nil,  nil,  nil,  
 		nil,  nil,  'com',  0.158489 ],  
 	// IdentityDictionary
-	8, [ array: o[9],  size: 7,  
+	6, [ array: o[7],  size: 7,  
 		proto: nil,  parent: nil,  
 		know: false ],  
 	// Array
-	9, [ 'tub',  44.668359,  'met',  3.162278,  
+	7, [ nil,  nil,  'met',  3.162278,  
 		'drum',  6.309573,  'sax',  2.238721,  
-		nil,  nil,  nil,  nil,  
+		'bass',  44.668359,  nil,  nil,  
 		'sample',  0.281838,  'main',  0.141254,  
 		nil,  nil,  nil,  nil,  
 		nil,  nil,  nil,  nil,  
 		nil,  nil,  nil,  nil,  
 		nil,  nil,  'com',  0.707946 ],  
 	// IdentityDictionary
-	10, [ array: o[11],  size: 7,  
+	8, [ array: o[9],  size: 7,  
 		proto: nil,  parent: nil,  
 		know: false ],  
 	// Array
-	11, [ 'tub',  19.952623,  'met',  0.794328,  
+	9, [ nil,  nil,  'met',  0.794328,  
 		'drum',  1.995262,  'sax',  1.258925,  
-		nil,  nil,  nil,  nil,  
+		'bass',  19.952623,  nil,  nil,  
 		'sample',  0.316228,  'main',  0.223872,  
 		nil,  nil,  nil,  nil,  
 		nil,  nil,  nil,  nil,  

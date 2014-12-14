@@ -30,5 +30,4 @@ LoopFilterController {
     synth = nil;
     postln(name ++ " deactivated");
   }
-
 }

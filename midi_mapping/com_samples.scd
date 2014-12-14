@@ -45,4 +45,3 @@ MIDIdef.noteOn(\decrementPiece,
 );
 
 "done".postln;
-p
