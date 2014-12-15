@@ -1,10 +1,8 @@
 [
+  \nuggs3,
+  \mits,
   \nuggz_1_1,
   \nuggz_1_2,
   \nuggz_2,
-  \jon1,
-  \peas_1,
-  \peas_2,
-  \bion1,
   \bion2
 ];

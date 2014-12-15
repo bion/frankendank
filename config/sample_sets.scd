@@ -5,12 +5,11 @@ IdentityDictionary[
     [ "bion_2_2",              false, true ],
     [ "bion_2_3",              false, true ]
   ],
-  \jon1 -> [
-    [ "HER1JONSample1",        false, true ],
-    [ "HER1JONSample1wPickup", false, true ],
-    [ "HER1JONSample2",        false, true ],
-    [ "HER1JONSample3",        false, true ],
-    [ "HER1JONSample4",        false, true ],
-    [ "HER1JONOrgan",          true,  true ]
+  \nuggs1 -> [
+    [ "nuggs_song3_bass1",     true, true],
+    [ "nuggs_song3_bass2",     true, true]
+  ],
+  \mits -> [
+    [ "mits_bass",             true, true]
   ]
 ];
