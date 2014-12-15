@@ -94,5 +94,21 @@
     \mars_song1_tom_reverse,
     \mars_song1_kick, // kick
     \mars_song1_hat // hat
+  ],
+
+  [
+	// nuggs_song3
+	\nuggs_song3_snare, // 0
+	\nuggs_song3_kick,
+	\nuggs_song3_snare, // 2
+	\nuggs_song3_clap_snare,
+	\nuggs_song3_hat,  // 4
+	\nuggs_song3_kick,
+	\nuggs_song3_knock_high, // 6
+	\nuggs_song3_knock_high,
+	\nuggs_song3_shaker_hat, // 8
+	\nuggs_song3_shaker_hat,
+	\nuggs_song3_kick, // kick
+	\nuggs_song3_hat // hat
   ]
 ];
