@@ -1,6 +1,5 @@
 var run, afterBoot,
 activatedInstr = [], instrButtons = IdentityDictionary[],
-instruments = [ \sax, \drums, \com ],
 
 guiHeight = 700, guiLength = 260,
 mainRect = Rect(250, 250, guiLength, guiHeight),
@@ -334,9 +333,9 @@ afterBoot = {
     "Loading breath synths...".postln;
 
     ~comSynths = [
-      HerSynthDanDan(~synth_g, ~buss[\com_agg]),
       HerSynthFank(~synth_g, ~buss[\com_agg]),
-      HerSynthDirtRhode(~synth_g, ~buss[\com_agg])
+      HerSynthDirtRhode(~synth_g, ~buss[\com_agg]),
+      HerSynthDanDan(~synth_g, ~buss[\com_agg])
     ];
 
     s.sync(breathSynthCond);
