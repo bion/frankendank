@@ -32,9 +32,9 @@
   \nuggs3 -> [
     (type: \literal, pitches: [PC(\c, 2), PC(\d, 3), PC(\ds, 3), PC(\f, 3), PC(\g, 3), PC(\as, 3)]),
     (type: \literal, pitches: [PC(\d, 2), PC(\e, 3), PC(\f, 3), PC(\f, 3), PC(\g, 3), PC(\a, 3), PC(\c, 4)]),
-    (type: \literal, pitches: [PC(\as, 1), PC(\c, 3), PC(\cs, 3), PC(\ds, 3), PC(\f, 3), PC(\gs, 4)]),
+    (type: \literal, pitches: [PC(\as, 1), PC(\c, 3), PC(\cs, 3), PC(\ds, 3), PC(\f, 3), PC(\gs, 3)]),
 
-    (type: \literal, pitches: [PC(\e, 3), PC(\fs, 4), PC(\g, 4), PC(\a, 4), PC(\b, 4), PC(\d, 5)]),
+    (type: \literal, pitches: [PC(\e, 3), PC(\fs, 3), PC(\g, 3), PC(\a, 3), PC(\b, 3), PC(\d, 3)]),
     (type: \literal, pitches: [PC(\a, 1), PC(\b, 2), PC(\c, 3), PC(\d, 3), PC(\e, 3), PC(\g, 3)]),
     (type: \literal, pitches: [PC(\c, 2), PC(\c, 3), PC(\cs, 3), PC(\ds, 3), PC(\f, 3), PC(\gs, 3)])
   ],

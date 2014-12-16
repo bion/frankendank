@@ -1,14 +1,14 @@
 var o, p;
 o = [
-	Array.prNew(6),  IdentityDictionary.prNew,  Array.prNew(32),  IdentityDictionary.prNew,  
+	Array.prNew(7),  IdentityDictionary.prNew,  Array.prNew(32),  IdentityDictionary.prNew,  
 	Array.prNew(32),  IdentityDictionary.prNew,  Array.prNew(32),  IdentityDictionary.prNew,  
 	Array.prNew(32),  IdentityDictionary.prNew,  Array.prNew(32),  IdentityDictionary.prNew,  
-	Array.prNew(32)
+	Array.prNew(32),  IdentityDictionary.prNew,  Array.prNew(32)
 ];
 p = [
 	// Array
 	0, [ o[1],  o[3],  o[5],  o[7],  
-		o[9],  o[11] ],  
+		o[9],  o[11],  o[13] ],  
 	// IdentityDictionary
 	1, [ array: o[2],  size: 8,  
 		proto: nil,  parent: nil,  
@@ -86,6 +86,19 @@ p = [
 		'drum_5',  'fly_lo_clap_01reverb',  'drum_2',  'fly_lo_clap_01',  
 		nil,  nil,  nil,  nil,  
 		nil,  nil,  'drum_0',  'mars_song1_clap1',  
-		'drum_1',  'mars_song1_tom_reverse',  'drum_6',  'mars_song1_hat' ]
+		'drum_1',  'mars_song1_tom_reverse',  'drum_6',  'mars_song1_hat' ],  
+	// IdentityDictionary
+	13, [ array: o[14],  size: 8,  
+		proto: nil,  parent: nil,  
+		know: false ],  
+	// Array
+	14, [ nil,  nil,  nil,  nil,  
+		nil,  nil,  'drum_7',  'nuggs_song3_shaker_hat',  
+		nil,  nil,  'drum_3',  'nuggs_song3_kick',  
+		'drum_4',  'nuggs_song3_knock_high',  nil,  nil,  
+		'drum_5',  'nuggs_song3_kick',  'drum_2',  'nuggs_song3_hat',  
+		nil,  nil,  nil,  nil,  
+		nil,  nil,  'drum_0',  'nuggs_song3_clap_snare',  
+		'drum_1',  'nuggs_song3_snare',  'drum_6',  'nuggs_song3_snare' ]
 ];
 prUnarchive(o,p);
