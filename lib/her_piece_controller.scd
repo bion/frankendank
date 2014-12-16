@@ -22,6 +22,7 @@ previousPiece = {
 setPieceAtIndex = { |index|
   var pieceName = setList[index];
   currentIndex = index;
+  postln("Setting piece to " ++ pieceName);
   sampleController.changeSampleSet(pieceName);
   harmonyController.changeChordSet(pieceName);
 };
