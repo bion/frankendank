@@ -351,8 +351,10 @@ afterBoot = {
 
   if (~harmonyController.notNil) {
     ~pieceController = loadRelative("./lib/her_piece_controller.scd")[0].value(
-      ~samplesController,
-      ~harmonyController
+      [
+        ~samplesController,
+        ~harmonyController
+      ]
     );
   };
 

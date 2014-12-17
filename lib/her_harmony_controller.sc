@@ -50,7 +50,7 @@ HerHarmonyController {
     postln("current synth now: " ++ currentSynth.class);
   }
 
-  changeChordSet { |pieceName|
+  update { |pieceName|
     var chordSet = chordSets[pieceName];
     currentChordSet = chordSet;
     this.setChordAtIndex(0);

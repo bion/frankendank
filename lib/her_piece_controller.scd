@@ -1,5 +1,5 @@
 var setList = loadRelative("../config/setlist.scd")[0];
-var sampleController, harmonyController;
+var controllers;
 var currentIndex;
 var nextPiece;
 var previousPiece;
@@ -23,13 +23,14 @@ setPieceAtIndex = { |index|
   var pieceName = setList[index];
   currentIndex = index;
   postln("Setting piece to " ++ pieceName);
-  sampleController.changeSampleSet(pieceName);
-  harmonyController.changeChordSet(pieceName);
+  controllers.do {|controller|
+    controller.update(pieceName);
+  };
 };
 
 {
   arg ...args;
-  #sampleController, harmonyController = args;
+  #controllers = args;
 
   currentIndex = 0;
   setPieceAtIndex.value(currentIndex);

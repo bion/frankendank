@@ -59,7 +59,7 @@ sampleStop = {|obj, index|
   #clock, sampleSets = args;
 
   (
-    changeSampleSet: changeSampleSet,
+    update: changeSampleSet,
     sampleTrig: sampleTrig,
     sampleStop: sampleStop
   )
