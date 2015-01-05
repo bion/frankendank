@@ -1,4 +1,4 @@
-var gestureSpecStrategyLibrary = ~dirToEvent.value("./gesture_specs".absolutePath);
+var gestureSpecStrategyLibrary;
 var convenienceArgExpander = "./convenience_arg_expander.scd".loadRelative[0];
 var sortGesture;
 var sort;
@@ -10,6 +10,9 @@ var cascadeDefaults;
 
 sort = { |self, piece|
   var sortedGestures = initializeGestureContainer.value(piece.schema);
+
+  /* this is nil when evaluated in a var dec in the top scope... fml */
+  gestureSpecStrategyLibrary = ~dirToEvent.value(~baseDir ++ "/lib/gesture_specs");
 
   piece.gestures.do { |gesture|
     sortGesture.value(gesture, sortedGestures);

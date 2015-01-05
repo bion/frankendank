@@ -8,6 +8,7 @@ var top = (
 );
 
 (
+  name: \parent,
   noteProto: (
     parent: top,
     duration: 1

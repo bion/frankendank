@@ -1,4 +1,4 @@
-var gestureLibrary = ~dirToEvent.value("./gestures".absolutePath);
+var gestureLibrary = ~dirToEvent.value(~baseDir ++ "./gestures");
 var scheduleEvents;
 var stopScheduler;
 var clock;
@@ -6,7 +6,7 @@ var update;
 var pieces;
 var currentPiece;
 var setPiece;
-var nextPiece;
+var nextPieceName;
 var baseBar;
 var beatInForm;
 var currentBeatIsEndOfForm;
@@ -16,9 +16,10 @@ var baseBeat = 0;
 var playing = false;
 var proceed = false;
 
-updatePiece = { |pieceName|
+updatePiece = { |self, pieceName|
+  ("updating piece to "  ++ pieceName).postln;
   if (playing) {
-    nextPiece = pieceName;
+    nextPieceName = pieceName;
     proceed = true;
   } {
     setPiece.value(pieceName);
@@ -49,7 +50,7 @@ stopScheduler = {
 };
 
 setPiece = { |pieceName|
-  var newMeter = currentPiece.schema.beatsPerbar;
+  var newMeter = currentPiece !? {currentPiece.schema.beatsPerbar} ? 4;
   var nextBeat = clock.beats.ceil;
   ("Setting current piece to " ++ pieceName).postln;
   currentPiece = pieces[pieceName];
@@ -75,24 +76,21 @@ beatInForm = {
   % (schema.barsInForm * schema.beatsPerBar)
 };
 
-currentBeatIsEndOfForm = {
-  beatInForm.value == 0;
-};
-
 scheduleEvents = {
   var currentBar;
   var timeToNextBeat = clock.timeToNextBeat;
   var updateToNextPiece =
     proceed // flag to move on
-    && (nextPiece != currentPiece.name) // next piece is different
-    && currentBeatIsEndOfForm.value;
+    && (nextPieceName != currentPiece.name) // next piece is different
+    &&  beatInForm.value == 0;
 
   if (updateToNextPiece) {
-    setPiece.value(nextPiece)
+    setPiece.value(nextPieceName);
   };
 
   currentBar = (beatInForm.value / currentPiece.schema.beatsPerBar).floor;
   currentPiece.sortedGestures[currentBar][clock.beatInBar.ceil].do { |gesture|
+    // TODO TODO one of these is evaling to nil
     var offset = timeToNextBeat + gesture.timeInBeat;
 
     gestureLibrary[gesture.action].value(offset, gesture);
@@ -105,7 +103,7 @@ scheduleEvents = {
   #clock, pieces = args;
 
   (
-    update: updatePiece,
+    updatePiece: updatePiece,
     startOnNextBar: startOnNextBar,
     stopScheduler: stopScheduler
   );

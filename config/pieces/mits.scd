@@ -1,4 +1,4 @@
-var protos = "./protos.scd".loadRelative[0];
+var protos = "../protos.scd".loadRelative[0];
 var schema;
 var bassline;
 
