@@ -34,4 +34,5 @@ if (~mode == \dev) {
   ]);
 };
 
+"../lib/util/*".pathMatch.do (_.loadRelative);
 ~config_loaded_flag = true;
