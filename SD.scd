@@ -14,10 +14,10 @@ loadRelative("./sd_support.scd");
   SynthDef(\p_control, {arg outbus, param; Out.kr(outbus, param )}),
 
   SynthDef(\metronome_sine, {
-    arg outbus, amp;
+    arg outbus, amp, freq=1800;
     var out, env;
     env = EnvGen.kr(Env.perc(0.001, 0.05, amp, -4), doneAction: 2);
-    out = SinOsc.ar(1800, 0, env);
+    out = SinOsc.ar(freq, 0, env);
     Out.ar(outbus, out);
   }),
 
