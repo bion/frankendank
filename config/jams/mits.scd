@@ -1,28 +1,29 @@
-~top = (
-  parent: currentEnvironment,
-  linkNotes: {|self|
-    self.notes.collect {|note|
-      note.parent = self;
-    }
-  }
+var protos = "./protos.scd".loadRelative[0];
+var schema;
+var bassline;
+
+schema = (
+  barsInForm: 4,
+  beatsPerBar: 4
 );
 
-~noteProto = (
-  parent: ~top,
-  duration: 1
-);
-
-~bassline = (
-  parent: ~noteProto,
-  action: \basicSynth,
-  synth: \bass_s1,
-  curve: -3,
+bassline = (
+  parent: protos.noteProto,
+  action: \basic_synth,
+  synthName: \bass_s1,
+  envCurve: -3,
+  cutOffFreq: 200,
   notes: [
     (
       pitch: PC(\a, 4),
-      beats: [2, 2.5]
+      times: [(bars: [1, 2, 3, 4], beats: [2, 2.5])]
     )
   ]
 );
+bassline.linkNotes;
 
-~bassline.linkNotes;
+(
+  name: \mits,
+  gestures: [bassline],
+  schema: schema
+);
