@@ -33,11 +33,11 @@ sortGesture = { |gesture, sortedGestures|
 
   gesture.notes.do { |note|
     var noteTimes = resolveNoteTimes.value(note);
-    var expandednote = expandNote.value(note, gesture, gestureSpecStrategy);
+    var expandedNote = expandNote.value(note, gesture, gestureSpecStrategy);
 
     noteTimes.do { |time|
-      var gestureRecord = expandednote.copy;
-      gestureRecord.timeinbeat = time.beat % 1;
+      var gestureRecord = expandedNote.copy;
+      gestureRecord.timeInBeat = time.beat % 1;
 
       sortedGestures[time.bar - 1][time.beat.floor - 1] =
         sortedGestures[time.bar - 1][time.beat - 1].add(gestureRecord);
