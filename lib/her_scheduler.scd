@@ -90,7 +90,6 @@ scheduleEvents = {
 
   currentBar = (beatInForm.value / currentPiece.schema.beatsPerBar).floor;
   currentPiece.sortedGestures[currentBar][clock.beatInBar.ceil].do { |gesture|
-    // TODO TODO one of these is evaling to nil
     var offset = timeToNextBeat + gesture.timeInBeat;
 
     gestureLibrary[gesture.action].value(offset, gesture);
