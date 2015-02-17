@@ -1,4 +1,4 @@
-var gestureLibrary = ~dirToEvent.value(~baseDir ++ "./gestures");
+var gestureLibrary = ~dirToEvent.value(~baseDir ++ "/lib/gestures");
 var scheduleEvents;
 var stopScheduler;
 var clock;
@@ -86,13 +86,23 @@ scheduleEvents = {
 
   if (updateToNextPiece) {
     setPiece.value(nextPieceName);
+    ("Updated piece to " ++ nextPieceName).postln;
   };
 
   currentBar = (beatInForm.value / currentPiece.schema.beatsPerBar).floor;
   currentPiece.sortedGestures[currentBar][clock.beatInBar.ceil].do { |gesture|
     var offset = timeToNextBeat + gesture.timeInBeat;
+    var action = gestureLibrary[gesture.action];
 
-    gestureLibrary[gesture.action].value(offset, gesture);
+    if (action.isNil) {
+      "****************************************************************".postln;
+      "unfound action".postln;
+      ("gesture: " ++ gesture).postln;
+      ("gestureLibrary: " ++ gestureLibrary).postln;
+      "****************************************************************".postln;
+    } {
+      action.value(offset, gesture);
+    };
   };
 
   1; // every beat

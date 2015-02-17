@@ -5,6 +5,11 @@
   };
   var event = ();
 
+  if (matchPaths.size == 0) {
+    var msg = "No files found for path " ++ dirPath;
+    Error(msg).throw;
+  };
+
   matchPaths.do {|path|
     var name = path.basename.replace("\.scd", "");
     var value = path.load;
