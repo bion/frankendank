@@ -82,6 +82,7 @@ expandNote = { |note, gesture, gestureSpec|
   expandedNote.addAction = cascadeDefaults.value(\addAction, argSources);
   expandedNote.synthName = cascadeDefaults.value(\synthName, argSources);
   expandedNote.target = cascadeDefaults.value(\target, argSources);
+  expandedNote.action = cascadeDefaults.value(\action, argSources);
   /* /strategy for basic_synth */
 
   expandedNote;

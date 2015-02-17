@@ -3,6 +3,7 @@
 (
   target: ~synth_g,
   addAction: \addToTail,
+  action: \basic_synth,
   synthArgs: (
     outbus: ~buss[\bass_eq],
     freq: 110,
