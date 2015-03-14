@@ -223,9 +223,9 @@ loadRelative("./sd_support.scd");
 
     harmAmps = \harmAmpArray.kr(7.collect { 0 }).lag(harm_amp_lag);
 
-    sig = freqs.collect({
-      arg freq, i;
+    sig = freqs.collect({ |freq, i|
       var trig;
+      var modFreq = freq * vib * (1 .. 7);
 
       trig = Impulse.kr(
         (gp.reciprocal * trigOverlap) * (
@@ -239,8 +239,8 @@ loadRelative("./sd_support.scd");
         numChannels: 1,
         trigger: trig,
         dur: gp,
-        carfreq: freq * vib * (1 .. 7),
-        modfreq: freq * vib * (1 .. 7),
+        carfreq: modFreq,
+        modfreq: modFreq,
         index: index,
         pan: 0,
         envbufnum: envBuf,

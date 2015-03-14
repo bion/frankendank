@@ -290,7 +290,10 @@ run = {
   Server.default = s = Server.local;
   s.latency = 0.005;
   if (~mode != \dev) {
-    s.options = ServerOptions.new.hardwareBufferSize_(128).threads_(4);
+    s.options = ServerOptions.new
+      .hardwareBufferSize_(128)
+      .threads_(4)
+      .memSize(2**20);
   };
 
   s.waitForBoot({ afterBoot.() });
