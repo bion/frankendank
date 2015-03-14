@@ -1,4 +1,7 @@
 var run, afterBoot,
+scheduler,
+gestureSorter = "./lib/gesture_sorter.scd".loadRelative[0],
+
 activatedInstr = [], instrButtons = IdentityDictionary[],
 
 guiHeight = 700, guiLength = 260,
@@ -81,6 +84,8 @@ updateButton = {|b, string, color=nil|
 thisPath = thisProcess.nowExecutingPath;
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 // end of unfortunate hack
+~baseDir = "pwd".unixCmdGetStdOut.replace("\n", "");
+(~baseDir ++ "/lib/util_functions/*").pathMatch.do (_.load);
 
 mainWindow.name_("her");
 
@@ -273,6 +278,9 @@ run = {
   thisProcess.nowExecutingPath_(thisPath);
   // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
   // end of unfortunate hack
+
+  ~clock = TempoClock(~tempo, queueSize: 2**10);
+
   3.do { "".postln; };
   "================================================================".postln;
   "Booting server...".postln;
@@ -282,13 +290,17 @@ run = {
   Server.default = s = Server.local;
   s.latency = 0.005;
   if (~mode != \dev) {
-    s.options = ServerOptions.new.hardwareBufferSize_(128).threads_(4);
+    s.options = ServerOptions.new
+      .hardwareBufferSize_(128)
+      .threads_(4)
+      .memSize(2**20);
   };
 
   s.waitForBoot({ afterBoot.() });
 };
 
 afterBoot = {
+  var pieces;
   var cond = Condition.new(true);
   "".postln;
   "================================================================".postln;
@@ -297,7 +309,6 @@ afterBoot = {
   "================================================================".postln;
   "".postln;
 
-  ~clock = TempoClock(~tempo, queueSize: 2**10);
   ~pSynths = IdentityDictionary[];
   HerLoop.setPersistentSynths(~pSynths);
 
@@ -316,6 +327,18 @@ afterBoot = {
     "".postln;
     s.sync;
   };
+
+  pieces = ~dirToEvent.value(~baseDir ++ "/config/pieces");
+  "================================================================".postln;
+  ("Pieces: " ++ pieces.keys.asArray).postln;
+  "================================================================".postln;
+  pieces.values.do { |piece| gestureSorter.sort(piece) };
+
+  scheduler = "./lib/her_scheduler.scd".loadRelative[0].value(
+    ~clock,
+    pieces
+  );
+  ~sched = scheduler;
 
   sampleSets = loadRelative("./com_samples.scd")[0].value(
     ~playbuf_g,

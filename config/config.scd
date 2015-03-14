@@ -3,9 +3,7 @@
 ~sax_gate_thresh = -66.dbamp;
 
 ~monitorLevels = Object.readArchive("../archive/monitor_levels".resolveRelative);
-
 ~andrew_midi_map = "../doc/dk_10_midi_info.yml".resolveRelative.parseYAMLFile;
-
 loadRelative("./chord_sets.scd");
 if (~chordSets.isNil) { Error("~chordSets not loaded!").throw };
 

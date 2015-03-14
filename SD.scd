@@ -14,10 +14,10 @@ loadRelative("./sd_support.scd");
   SynthDef(\p_control, {arg outbus, param; Out.kr(outbus, param )}),
 
   SynthDef(\metronome_sine, {
-    arg outbus, amp;
+    arg outbus, amp, freq=1800;
     var out, env;
     env = EnvGen.kr(Env.perc(0.001, 0.05, amp, -4), doneAction: 2);
-    out = SinOsc.ar(1800, 0, env);
+    out = SinOsc.ar(freq, 0, env);
     Out.ar(outbus, out);
   }),
 
@@ -223,9 +223,9 @@ loadRelative("./sd_support.scd");
 
     harmAmps = \harmAmpArray.kr(7.collect { 0 }).lag(harm_amp_lag);
 
-    sig = freqs.collect({
-      arg freq, i;
+    sig = freqs.collect({ |freq, i|
       var trig;
+      var modFreq = freq * vib * (1 .. 7);
 
       trig = Impulse.kr(
         (gp.reciprocal * trigOverlap) * (
@@ -239,8 +239,8 @@ loadRelative("./sd_support.scd");
         numChannels: 1,
         trigger: trig,
         dur: gp,
-        carfreq: freq * vib * (1 .. 7),
-        modfreq: freq * vib * (1 .. 7),
+        carfreq: modFreq,
+        modfreq: modFreq,
         index: index,
         pan: 0,
         envbufnum: envBuf,
@@ -346,6 +346,28 @@ loadRelative("./sd_support.scd");
   }),
 
   SynthDef(\bass_s1, {
+    arg outbus, freq, amp, cutOffFreq, duration, envCurve=3;
+    var control, synth, out, env, cutOffEnv;
+
+    synth = Pulse.ar(
+      freq * [1, 1.0008564, 0.998432, 2] * 0.5,
+        SinOsc.kr(0.1).range(0.3, 0.7),
+        [1, 0.5, 0.5, 0.125]
+    ).mean + SinOsc.ar(freq / 2, 0, 0.5);
+
+    cutOffEnv = Env([cutOffFreq, 1000], [0.1, duration - 0.1]);
+    synth = MoogFF.ar(synth, EnvGen.kr(cutOffEnv), 0.25);
+    synth = LeakDC.ar(synth);
+
+    out = Compander.ar(synth, synth, -42.dbamp, 1, 1/6, 0.002, 0.02);
+
+    env = Env([0, 1, 0], [0.05, duration - 0.05], [\sin, envCurve]);
+    out = out * EnvGen.kr(env, doneAction: 2);
+
+    Out.ar([0, 1], out * amp);
+  }),
+
+  SynthDef(\bass_s1_live, {
     arg hornDataBus, pedal_amp_bus, bus, gate=1;
     var pitch, hasPitch, amp, onset, control, synth, out;
     #pitch, hasPitch, amp, onset = In.kr(hornDataBus, 4);

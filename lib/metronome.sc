@@ -3,7 +3,6 @@ Metronome {
   var beatSched;
 
   *new {|clock, server, outbus, group, synthdef, amp|
-
     ^super.newCopyArgs(
       clock, server, outbus, group, synthdef, amp
     ).init;
@@ -18,7 +17,17 @@ Metronome {
   start {
     beatSched.qsched(1.0,
       {
-        Synth(synthdef, [\outbus, outbus, \amp, amp], group);
+        var onDownbeat = clock.beatInBar.round == 0,
+            freq = if (onDownbeat) {3600} {1800};
+
+        s.makeBundle(0.0, {
+          Synth(synthdef, [
+            \outbus, outbus,
+            \amp, amp,
+            \freq, freq
+          ], group);
+        });
+
         1.0;
       }
     );
@@ -27,5 +36,4 @@ Metronome {
   stop {
     beatSched.clear;
   }
-
 }
